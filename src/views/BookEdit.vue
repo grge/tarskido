@@ -4,9 +4,11 @@
     <div class="book-content">
       <h2>Editing book</h2>
       <table class='edit-table'>
+        <tbody>
         <tr><th>Title</th><td><input type='text' v-model="book.title"/></td></tr>
         <tr><th>Author</th><td><input type='text' v-model="book.author"/></td></tr>
         <tr><th>Preface</th><td><MdEditor v-model='book.preface' language="en-US"></MdEditor></td></tr>
+        </tbody>
       </table>
       <div class='listoflinks'>
         <router-link class='navigatelink navbacklink' :to="{name:'Book', params:{bookid: book.id}}">Back to book view</router-link>

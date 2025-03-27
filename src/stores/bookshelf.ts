@@ -2,6 +2,13 @@ import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
 import Graph from '@/graphlib_ext.js'
 
+
+/* Currently I am storing the bookshelf as a simple JSON object. each book has
+ * a list of nodes, and each node knows the id of its parent and its references.
+ * Then, if we want to display or navigate the book as a graph, we have to convert
+ * it to a Graph object. Not sure if there's any simple way around this...
+ */
+
 export interface Book {
     id: string,
     title: string,
@@ -122,23 +129,33 @@ export const useBookshelfStore = defineStore({
         },
         getBookGraph: (state) => (id: string) => {
             var book = state.books[id];
-            var g = new Graph({directed: true, compound: true}).setGraph({})
-            g.setNode("ROOT", {})
+            var g = new Graph({directed: true, compound: true})
+            g.setGraph({label: "", rankDir: 'LR'});
+            // g.setGraph({label: "asdf"});
+            // g.setDefaultEdgeLabel(function() { return {}; })
+            g.setNode("ROOT", {label: "blah"});
             Object.values(book.nodes).forEach((node) => {
-                g.setNode(node.id, {
-                    id: node.id,
-                    name:node.name,
-                    label:node.subtype + " " + node.reference + (node.name ? "\n" + node.name : ""),
-                    reference:node.reference,
-                    type:node.nodetype
-                })
-                node.references.forEach((ref) => {g.setEdge(ref, node.id, {label: ""})})
-                node.proof_lines.forEach((line) => {line.references.forEach((ref) => {g.setEdge(ref, node.id, {label: ""})})})
-                if (node.chapter) {
-                    g.setParent(node.id, node.chapter)
-                } else {
-                    g.setParent(node.id, "ROOT")
-                }
+              g.setNode(node.id, {
+                 id: node.id,
+                 name:node.name,
+                 label: node.nodetype.secondary + " " + node.reference + (node.name ? "\n" + node.name : ""),
+                 reference:node.reference,
+                 type:node.nodetype
+              })
+              node.references.forEach((ref) => {g.setEdge(ref, node.id, {label: ""})})
+              node.proof_lines.forEach((line) => {
+                  line.references.forEach(
+                    (ref) => {
+                      g.setEdge(ref, node.id, {label: ""})
+                    }
+                  )
+              })
+              console.log(node.chapter)
+              if (node.chapter) {
+                g.setParent(node.id, node.chapter)
+              } else {
+                g.setParent(node.id, "ROOT")
+              }
             })
             return g
         },
@@ -146,6 +163,5 @@ export const useBookshelfStore = defineStore({
             console.log(this)
             return node_id
         }
-
     }
 })

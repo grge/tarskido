@@ -4,6 +4,7 @@
     <div class="book-content">
       <h2>Editing node</h2>
       <table class='edit-table'>
+        <tbody>
         <tr><th>Reference</th><td><input type='text' v-model="node.reference"></td></tr>
         <tr><th>Name</th><td><input type='text' v-model="node.name"/></td></tr>
 
@@ -58,6 +59,7 @@
             </table>
           </td>
         </tr>
+        </tbody>
       </table>
       <div class='listoflinks'>
         <router-link class='navigatelink navbacklink' :to="{name:'Node', params:{bookid: book.id, nodeid: node.id}}">Back to node view</router-link>

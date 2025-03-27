@@ -45,7 +45,7 @@ export default {
 
 
         <!-- <BookOverviewGraph /> -->
-        <LargeTableOfContents />
+        <!-- <LargeTableOfContents /> -->
       </div>
   </div>
 </template>

@@ -1,0 +1,14 @@
+Graph view design
+
+
+Principles:
+- Always live / interactive
+- Use of colour/value to indicate context
+- Fast, and lightweight
+- Never show too much. Don't let the user expand too many nodes.
+
+
+Details:
+- Shows local context only by default: Whether on book, chapter, or node view, the process is as follows: Show the current node, and expand it to show all child nodes. Recursively find all relationships among decendents of child nodes and use these to draw relationships among child nodes, possibly bringing in sibling chapters. Highlight the current node Orange, and and children of the selected node a lighter orange.  
+- Double clicking does two things: expand the selected node, and bring in all of its neighbours.
+- Can explore graph by clicking around, but the current node is always shown.

@@ -1,0 +1,10 @@
+- 20m, HP: add links to the graph view so that it can be used to navigate the book
+- 1h, HP: make the graph view local to the chapter / node view
+- 5m, LP: on front page, need more h-space between "create new book" and "import book"
+- 10m, LP: download this book link is ugly
+- 30m, LP: hamburger button color inconsistent. need color scheme revisit.
+- 2h, LP: Remove nodes list from main book page. Make contents smarter (show list of orphaned nodes maybe).
+- 30m, MP: going up from a chapter leads to ROOT node view, but this doesn't render. should redirect to book view?
+- 2d, LP: move to a vue-native rendering of the graph, instead of dagred3
+- 2h, HP: deleting nodes needs to remove any references to it in the graph.
+- 2h, LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.

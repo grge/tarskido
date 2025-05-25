@@ -1,7 +1,7 @@
 <template>
   <ul class='reference-list'>
     <li v-for='nodeid in nodeids' :key='nodeid'>
-      <NodeReference v-if="nodeid in book.nodes" :node='book.nodes[nodeid]' />
+      <NodeReference v-if="nodeid in book.nodes" :nodeId='nodeid' />
       <span v-if="!(nodeid in book.nodes)">[{{nodeid}}]</span>
     </li>
   </ul>
@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import NodeReference from '@/components/NodeReference.vue'
-import { useBookshelfStore } from '@/stores/bookshelf';
+import { useBookStore } from '@/stores/bookshelf';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -17,9 +17,8 @@ import { useRoute } from 'vue-router';
 export default {
   name: 'ReferenceList',
   setup() {
-    const store = useBookshelfStore();
-    const book_id = useRoute().params.bookid;
-    const book = computed(() => store.getBookById(book_id))
+    const store = useBookStore();
+    const book = store.rawBook;
     return { book, store }
   },
   props: {

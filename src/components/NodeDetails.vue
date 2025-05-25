@@ -5,23 +5,23 @@
           {{node.name == "" ? node.nodetype.secondary + " " + node.reference : node.name}}
         </component>
         <div class='editlinks listoflinks'>
-          <NodeReference :node="node"/>
+          <NodeReference :nodeId="node.id"/>
           <router-link class='editlink' :to="{ name: 'NodeEdit', params: {bookid: book.id, nodeid: node.id}}">Edit node</router-link>
-          <a class='editlink' @click='store.createGroupChildNode(book.id, node.id)' v-if='level == 1 && node.nodetype.primary == "Group"'>Create child node</a>
+          <a class='editlink' @click='createChildNode()' v-if='level == 1 && node.nodetype.primary == "Group"'>Create child node</a>
         </div>
         <div class='navlinks listoflinks' v-if='level == 1'>
           <!-- <a class='navlink navpreviouslink'>Previous</a> -->
           <a class='navlink navpreviouslink'>Previous</a>
-          <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: node.chapter} }" class='navlink navuplink' v-if="node.chapter">Up</router-link>
-          <router-link :to="{ name: 'Book', params: {bookid:book.id} }" class='navlink navuplink' v-if="! node.chapter">Up</router-link>
+          <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: node.chapter} }" class='navlink navuplink' v-if="node.chapter && node.chapter != 'ROOT'">Up</router-link>
+          <router-link :to="{ name: 'Book', params: {bookid:book.id} }" class='navlink navuplink' v-if="! node.chapter || node.chapter == 'ROOT'">Up</router-link>
           <a class='navlink navnextlink'>Next</a>
           <a class='navlink navtoclink'>Show contents</a>
         </div>
       </div>
 
-      <!-- <Dagre v-if='level==1' :graph='nodeContextGraph' /> -->
-
-      <MdEditor v-model="node.statement" previewOnly />
+      <div class='node-body'>
+        <MdEditor v-model="node.statement" previewOnly />
+      </div>
 
       <ReferenceList v-if='node.references.length' :nodeids='node.references' />
 
@@ -31,9 +31,10 @@
   </div>
 </template> 
 <script lang="ts">
-import { useBookshelfStore } from '@/stores/bookshelf';
+import { useBookStore } from '@/stores/bookshelf';
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { v4 as uuidv4 } from 'uuid';
 import MdEditor from 'md-editor-v3';
 import NodeProof from '@/components/NodeProof.vue'
 import NodeReference from '@/components/NodeReference.vue'
@@ -50,12 +51,30 @@ export default {
     MdEditor,
   },
   setup(props) {
-    const store = useBookshelfStore();
-    const book_id = useRoute().params.bookid;
-    const book = computed(() => store.getBookById(book_id))
-    const node = computed(() => book.value.nodes[props.nodeid])
+    const router = useRouter();
+    const store = useBookStore();
+    const book = store.rawBook;
 
-    return { book, store, node };
+    const nodeId = props.nodeid;
+    const node = book.nodes[nodeId];
+
+    function createChildNode() {
+      const childId = uuidv4();
+      const child = {
+        id: childId,
+        reference: '',
+        name: '',
+        nodetype: { primary: '', secondary: '' },
+        statement: '',
+        references: [],
+        chapter: nodeId,
+        proof_lines: []
+      };
+      store.upsertNode(child);
+      router.push({ name: 'NodeEdit', params: { bookid: store.rawBook.id, nodeid: childId }}); 
+    }
+
+    return { book, store, node, createChildNode };
   },
   props: {
     nodeid: String,
@@ -65,6 +84,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+
+.node-body
+  text-align left
 
 .node-detail-header
   margin-top 1.15em

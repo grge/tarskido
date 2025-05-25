@@ -1,5 +1,10 @@
 import { Graph } from '@dagrejs/graphlib'
 
+
+Graph.prototype.descendants = function(n) {
+    return this.children(n).flatMap((child) => [child, ...this.descendants(child)]);
+};
+
 Graph.prototype.getSortFunction = function(sortBy) {
     function sortByProperty(a, b) {
         var pa = this.node(a)[sortBy];

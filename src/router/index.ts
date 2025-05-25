@@ -4,6 +4,7 @@ import Book from '@/views/Book.vue'
 import BookEdit from '@/views/BookEdit.vue'
 import Node from '@/views/Node.vue'
 import NodeEdit from '@/views/NodeEdit.vue'
+import { useBookStore } from '@/stores/bookshelf'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,5 +36,15 @@ const router = createRouter({
     }
   ]
 })
+
+router.beforeEach(async (to, from) => {
+  const bookId = (to.params.bookid as string|undefined)
+  if (bookId) {
+    const store = useBookStore()
+    if (store.rawBook.id !== bookId) {
+      await store.loadFromLocalStorage(bookId)
+    }
+  }
+});
 
 export default router

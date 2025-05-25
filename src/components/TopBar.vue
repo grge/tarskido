@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import downloadjs from 'downloadjs';
-import { useBookshelfStore } from '@/stores/bookshelf'
+import { useBookStore } from '@/stores/bookshelf'
 import HamburgerMenu from '@/components/HamburgerMenu.vue'
 
-const books = useBookshelfStore()
-const book = books.getBookById(useRoute().params.bookid)
+const bookStore = useBookStore()
+const book = bookStore.rawBook
 
 // download this book using downloadjs
 const downloadBook = () => {

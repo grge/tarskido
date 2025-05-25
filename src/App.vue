@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div>
-      <RouterView />
+      <router-view :key="$route.fullPath" />
     </div>
   </div>
 </template>
@@ -89,5 +89,6 @@ a:hover
 
 #md-editor-v3-preview-wrapper
   padding 0 0 0 0
+
 
 </style>

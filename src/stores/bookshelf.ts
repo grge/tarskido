@@ -1,12 +1,23 @@
 import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
-import Graph from '@/graphlib_ext.js'
+import { ref, watch, markRaw } from 'vue';
 
+import Graph from '@/graphlib_ext.js'
 
 /* Currently I am storing the bookshelf as a simple JSON object. each book has
  * a list of nodes, and each node knows the id of its parent and its references.
  * Then, if we want to display or navigate the book as a graph, we have to convert
  * it to a Graph object. Not sure if there's any simple way around this...
+ *
+ * Update 2025-05-22: After reviewing many options, I think the best approach is actually
+ * to keep both data structures, but keep the graph inside the store so that we don't rebuild
+ * it every time we need it. Instead, we rebuild it a) on a hard page load, b) whenever we
+ * make an edit to the book. This rebuilding is debounced to avoid unnecessary
+ * actions. 
+ *
+ * One alternative would be to update BOTH data structures (raw and graph) whenever we
+ * make an edit. But my theory is that building the graph will always be cheap enough
+ * that we can do it every edit.
  */
 
 export interface Book {
@@ -50,118 +61,125 @@ export interface Node {
     proof_lines: string[]
 }
 
+function nodeRefs(node: Node): string[] {
+  // return a list of all references from this node
+  const base = node.references ?? [];
+  if (node.nodetype?.primary !== 'Proposition') {
+    return base;
+  }
 
-export interface BookShelf {
-    books: Record<string, Book>
+  const extra = Object.values(node.proof_lines ?? {}).flatMap(
+    line => line?.references ?? []
+  );
+  return Array.from(new Set([...base, ...extra]));
 }
 
-// the initial state is loaded from localStorage if available, otherwise it is
-// an empty bookshelf.
-function loadState(): BookShelf {
-    const state = localStorage.getItem('tarskido-state')
-    if (state) {
-        return JSON.parse(state)['bookshelf']
-    }
-    return {
-        books: {1: {id: '1', title: 'Book 1', author: 'Author 1', nodes: {}}}
-    }
+export function deleteBook(bookId: string) {
+  // delete book from localStorage
+  if (localStorage.getItem('tarskido-book-' + bookId)) {
+    localStorage.removeItem('tarskido-book-' + bookId);
+  }
 }
 
-export const useBookshelfStore = defineStore({
-    id: 'bookshelf',
-    state: () => loadState(),
-    actions: {
-        addBook(book: Book) {
-            this.books[book.id] = book
-        },
-        importBook(book: Book) {
-            // check if ID is already in use, if so, generate a new one
-            if (book.id in this.books) {
-                book.id = uuidv4()
-            }
-            this.addBook(book)
-            return book.id
-        },
-        createNewBook() {
-            const blank_book = {
-                id: uuidv4(),
-                title: 'Book Title',
-                author: 'Anonymous',
-                preface: '',
-                nodes: {}
-            }
-            this.addBook(blank_book)
-            return blank_book.id
-        },
-        createNewNode(book_id : string) {
-            const blank_node = {
-                id: uuidv4(),
-                reference: '',
-                name: '',
-                nodetype: {primary: 'Comment', secondary: 'Comment'},
-                statement: '',
-                references: [],
-                chapter: '',
-                proof_lines: []
-            }
-            this.books[book_id].nodes[blank_node.id] = blank_node
-            return blank_node.id
-        },
-        createGroupChildNode(book_id: string, parent_id: string) {
-            const book = this.books[book_id]
-            if (book.nodes[parent_id].nodetype.primary !== 'Group') {
-                throw new Error('Parent node is not a group')
-            }
-            const node_id = this.createNewNode(book_id)
-            book.nodes[node_id].chapter = parent_id
-            return node_id
-        },
-        deleteBook(book_id: string) {
-            delete this.books[book_id]
-        },
-        deleteNode(book_id: string, node_id: string) {
-            delete this.books[book_id].nodes[node_id]
-        }
-    },
-    getters: {
-        getBookById: (state) => (id: string) => {
-            return state.books[id]
-        },
-        getBookGraph: (state) => (id: string) => {
-            var book = state.books[id];
-            var g = new Graph({directed: true, compound: true})
-            g.setGraph({label: "", rankDir: 'LR'});
-            // g.setGraph({label: "asdf"});
-            // g.setDefaultEdgeLabel(function() { return {}; })
-            g.setNode("ROOT", {label: "blah"});
-            Object.values(book.nodes).forEach((node) => {
-              g.setNode(node.id, {
-                 id: node.id,
-                 name:node.name,
-                 label: node.nodetype.secondary + " " + node.reference + (node.name ? "\n" + node.name : ""),
-                 reference:node.reference,
-                 type:node.nodetype
-              })
-              node.references.forEach((ref) => {g.setEdge(ref, node.id, {label: ""})})
-              node.proof_lines.forEach((line) => {
-                  line.references.forEach(
-                    (ref) => {
-                      g.setEdge(ref, node.id, {label: ""})
-                    }
-                  )
-              })
-              console.log(node.chapter)
-              if (node.chapter) {
-                g.setParent(node.id, node.chapter)
-              } else {
-                g.setParent(node.id, "ROOT")
-              }
-            })
-            return g
-        },
-        getLeftSibling: (state) => (book_id: string, node_id: string) => {
-            console.log(this)
-            return node_id
-        }
+export const useBookStore = defineStore('book', () => {
+  // persistence key for localStorage. Should be the book id generally.
+  const storageKey = ref<string | null>(null);
+
+  // the single source of truth for the book data we are editing/viewing
+  const rawBook = ref<Book>({id: '', title: '', author: '', preface: '', nodes: {}});
+
+  // the in-memory graph representation of the book exposed as a reactive ref
+  const graph = ref(markRaw(new Graph({directed: true, compound: true})));
+
+  // debounce timer helper for rebuilding the graph
+  let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function rebuildAndPersist() {
+    if (storageKey.value) {
+      localStorage.setItem('tarskido-book-' + storageKey.value, JSON.stringify(rawBook.value));
+    };
+    const g = markRaw(new Graph({directed: true, compound: true}));
+    g.setGraph({label: "", rankDir: 'LR'});
+    g.setNode("ROOT", {label: "ROOT"})
+    Object.values(rawBook.value.nodes).forEach((node) => {
+      g.setNode(node.id, {...node, ...{label:
+          node.nodetype.secondary + " " + node.reference + (node.name ? "\n" + node.name : "")}});
+      nodeRefs(node).forEach((ref) => g.setEdge(ref, node.id, {label: ""}));
+      g.setParent(node.id, node.chapter || 'ROOT');
+    });
+    graph.value = g;
+  }
+
+  watch(rawBook, (data) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(rebuildAndPersist, 50);
+  }, { deep: true });
+
+  function loadFromJSON(data: RawBook, key?: string) {
+    storageKey.value = key || null;
+    rawBook.value = data;
+    rebuildAndPersist();
+  }
+
+  function loadFromLocalStorage(key: string) {
+    const data = localStorage.getItem('tarskido-book-' + key);
+    if (data) {
+      loadFromJSON(JSON.parse(data), key);
+    } else {
+      console.error('No book found in localStorage with key:', key);
     }
+  }
+
+  function createNewBook() {
+    const newBook: Book = {
+      id: uuidv4(),
+      name: 'New Book',
+      author: '',
+      preface: '',
+      nodes: {},
+    };
+    loadFromJSON(newBook, newBook.id);
+  }
+
+  function upsertNode(node: Node) {
+    rawBook.value.nodes[node.id] = node;
+  }
+
+  function removeRels(nodeId: string) {
+    // helper function to remove all in-edges and parent rels involving a given node
+    const inNodeIds = graph.value.predecessors(nodeId);
+
+    if (inNodeIds) {
+      inNodeIds.forEach((inNodeId) => {
+        const inNode = rawBook.value.nodes[inNodeId];
+        inNode.references = inNode.references.filter((ref) => ref !== nodeId);
+        inNode.proof_lines.forEach((line) => {
+          line.references = line.references.filter((ref) => ref !== nodeId);
+        });
+      });
+    }
+    const children = graph.value.children(nodeId);
+    if (children) {
+      children.forEach((childId) => {
+        const childNode = rawBook.value.nodes[childId];
+        childNode.chapter = '';
+      })
+    }
+  };
+        
+  function deleteNode(nodeId: string) {
+    removeRels(nodeId);
+    delete rawBook.value.nodes[nodeId];
+  }
+
+  return {
+    rawBook,
+    graph,
+    storageKey,
+    loadFromJSON,
+    loadFromLocalStorage,
+    createNewBook,
+    upsertNode,
+    deleteNode,
+  }
 })

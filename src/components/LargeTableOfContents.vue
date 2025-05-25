@@ -1,121 +1,166 @@
 <template>
-  <div>
-    <h3>Contents</h3>
-    <table>
-      <tr :key='node_lvl0.id' v-for="node_lvl0 in toc_data">
-        <td>
-          <div class='level-0'>
-            <router-link
-              :to="{name: 'Node', params: {bookid: book.id, nodeid: node_lvl0.id}}">
-            {{node_lvl0.subtype}} {{node_lvl0.reference}}.
-            </router-link>
-          </div>
-        </td>
-        <td>
-          <div class='level-0'>
-            <router-link
-              :to="{name: 'Node', params: {bookid: book.id, nodeid: node_lvl0.id}}"
-              v-if='node_lvl0.name != ""'>
-              {{node_lvl0.name}}
-            </router-link>
-            <router-link
-              :to="{name: 'Node', params: {bookid: book.id, nodeid: node_lvl0.id}}"
-              v-if='node_lvl0.name == ""'>
-              Unnamed
-            </router-link>
-            <div class='level-1' :key='child_lvl1.id' v-for='child_lvl1 in node_lvl0.children'>
-              <router-link
-                :to="{name: 'Node', params: {bookid: book.id, nodeid: child_lvl1.id}}">
-                {{child_lvl1.reference}}&emsp;&emsp;{{child_lvl1.name}}
-              </router-link>
-              <div :key='child_lvl2.id' v-for='child_lvl2 in child_lvl1.children' class='level-2'>
-                <router-link
-                  :to="{name: 'Node', params: {bookid: book.id, nodeid: child_lvl2.id}}">
-                  {{child_lvl2.reference}}&emsp;{{child_lvl2.name}}
+  <div class="contents">
+    <h3>Table of Contents</h3>
+    <ul>
+      <li v-for="chap in toc" :key="chap.id" class="toc-l1-li">
+        <span class="toc-l1-margin">{{ chap.ref }}</span>
+        <div class="toc-l1-content">
+          <router-link :to="{ name: 'Node', params: { bookid: book.id, nodeid: chap.id } }">
+            <span class="toc-l1-title">{{ chap.title }}</span>
+          </router-link>
+          <ul>
+            <li v-for="sec in chap.children" :key="sec.id" class='toc-l2-li'>
+              <div class='toc-l2-line'>
+                <router-link :to="{ name: 'Node', params: { bookid: book.id, nodeid: sec.id } }">
+                  <span class='toc-l2-label'>{{ sec.ref }}</span>
+                  <span class='toc-l2-title'>{{ sec.title }}</span>
                 </router-link>
               </div>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </table>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="toc-l1-li">
+        <span class="toc-l1-margin">-</span>
+        <div class="toc-l1-content">
+          <span class="toc-l1-title">Orphaned Nodes</span>
+          <ul>
+            <li v-for="node in orphaned" :key="node.id" class='toc-l2-li'>
+              <div class='toc-l2-line'>
+                <router-link :to="{ name: 'Node', params: { bookid: book.id, nodeid: node.id } }">
+                  <span class='toc-l2-label'>{{ node.ref }}</span>
+                  <span class='toc-l2-title'>{{ node.title }}</span>
+                </router-link>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { useBookshelfStore } from '@/stores/bookshelf';
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed } from 'vue'
+import { useBookStore } from '@/stores/bookshelf'
+
+/** A generic TOC node */
+interface TocEntry {
+  id: string
+  ref: string
+  type: string
+  title: string
+  children: TocEntry[]
+}
 
 export default {
   setup() {
-    const store = useBookshelfStore();
-    const book_id = useRoute().params.bookid;
-    const book = computed(() => store.getBookById(book_id))
-    const graph = computed(() => store.getBookGraph(book_id))
-    return { store, book, graph }
+    const store = useBookStore();
 
-  },
-  computed: {
-    toc_data() {
-      const book = this.book;
-      function tree_nodes(tree) {
-        var chapter_nodes = tree.filter((n) => { return book.nodes[n.id].nodetype.secondary == 'Chapter'})
-        
-        return chapter_nodes.map((n) => {
+    // shorthand to the raw JSON + graphlib Graph instance
+    const book = computed(() => store.rawBook);
+    const graph = computed(() => store.graph);
+
+    // if you have a known “root” container, use it; otherwise null means top-level
+    const rootId = 'ROOT';
+
+    function buildToc(ids: string[]): TocEntry[] {
+      return ids.filter(id => {
+        const data = book.value.nodes[id];
+        return (data && data.nodetype.primary == 'Group')
+      }).map(id => {
+        const data = book.value.nodes[id];
+        return {
+          id: id,
+          ref: data.reference,
+          type: data.nodetype.secondary,
+          title: data.name || (data.nodetype.secondary + " " + data.reference),
+          children: buildToc(graph.value.children(id) || [])
+        }
+      });
+    };
+
+    function collectOrphans() {
+      const nodes = book.value.nodes;
+      const ids = graph.value.nodes().filter(id => {
+        if (id == rootId) return false;
+        const node = nodes[id];
+        return ((!node) || ((node.chapter == rootId) && (node.nodetype.primary != "Group")))
+      });
+      return ids.map(id => {
+        const data = nodes[id];
+        if (!data) {
           return {
-            id: n.id,
-            children: tree_nodes(n.children),
-            ... book.nodes[n.id]
+            id: id,
+            ref: "Unknown",
+            type: "Unknown",
+            title: "Unknown Node",
+            children: []
           }
-        })
-      }
-
-      var tree = this.graph.getSubgraphTree('ROOT')
-      return tree_nodes(tree)
+        }
+        return {
+          id: id,
+          ref: data.reference,
+          type: data.nodetype.secondary,
+          title: data.name || (data.nodetype.secondary + " " + data.reference),
+          children: []
+        }
+      });
     }
+        // Top‐level chapters
+    const toc = computed<TocEntry[]>(() => {
+      const topIds = graph.value.children(rootId) ?? []
+      return buildToc(topIds)
+    });
+
+    const orphaned = computed<TocEntry[]>(() => {
+      return collectOrphans()
+    });
+
+    return { book, toc, orphaned }
   }
 }
 </script>
 
-<style scoped lang="stylus">
-table
- width 80%
- margin 0 auto
+<style scoped>
+.contents {
+  padding: 1rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-table a
- text-decoration none
- color black
+.toc-l1-margin {
+  margin-left: 0.5rem;
+  display: inline-block;
+  font-size: 1.3rem;
+}
 
-table a:hover
- text-decoration underline
+.toc-l1-content {
+  display: inline; 
+}
 
-table tr td:first-child
- vertical-align top
- text-align right
- padding-right 2em
- width 15em
+.toc-l1-title {
+  font-weight: bold;
+  padding-left: 2rem;
+}
 
-table td
- padding-bottom 1em
+.toc-l1-li {
+  margin: 0.5rem 0;
+  list-style: none;
+}
 
-table tr td:nth-child(2)
- vertical-align top
- text-align left
- width 50em
+.toc-l2-li {
+  margin: 0.2rem 0;
+  list-style: none;
+}
 
-.level-0 > a
- line-height 2em
- font-weight bold
+.toc-l2-line {
+  
+}
 
-.level-1 > a
- line-height 1.5em
- margin-top 2em
-
-.level-2 > a
- font-style italic
-
-.level-2 
-  margin-left 1.15em
+.toc-l2-label {
+  font-size: 1.1rem;
+  padding: 0 0.9rem 0 0.6rem;
+}
 
 </style>

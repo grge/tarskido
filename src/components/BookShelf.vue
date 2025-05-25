@@ -1,7 +1,22 @@
 <script lang="ts" setup>
-import { useBookshelfStore } from '@/stores/bookshelf';
-const store = useBookshelfStore();
-const books = store.books;
+import { useBookStore } from '@/stores/bookshelf';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+const bookStore = useBookStore();
+const router = useRouter();
+
+function getLocalStorageBooks() {
+  // all books should have be keyed by tarkido-book-%id%
+  var books = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('tarskido-book-')) {
+      const book = JSON.parse(localStorage.getItem(key));
+      books.push(book);
+    }
+  }
+  return books
+}
 
 const importFromFile = () => {
   // open a native file dialog, and then read the file as JSON
@@ -12,28 +27,38 @@ const importFromFile = () => {
     const file = fileInput.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      console.log(reader.result)
       const data = JSON.parse(reader.result)
-      store.importBook(data);
+      //bookStore.load(data);
     };
     reader.readAsText(file);
   };
   fileInput.click();
 }
+
+function createNewBook() {
+  bookStore.createNewBook();
+  // redirect to the new book front page
+  const bookId = bookStore.rawBook.id;
+  router.push({ name: 'BookEdit', params: { bookid: bookId }}); 
+}
+
+var books = getLocalStorageBooks()
 </script>
 
 <template>
   <div class="bookshelf">
     <div class='bookgrid'>
-        <div class='bookgridbook' :key='id' v-for='(book, id) in books'>
+        <div class='bookgridbook' v-for='book in books'>
             <router-link :to="{name: 'Book', params: {bookid: book.id}}">
               <p class='bookshelf-title'>{{ book.title }}</p>
               <p class='bookshelf-author'>by {{ book.author }}</p>
             </router-link>
         </div>
     </div> 
-    <a class='editlink newbooklink' @click="store.createNewBook()">Create new book</a>
-    <a class='editlink newbooklink' @click="importFromFile()">Import book</a>
+    <div class='listoflinks'>
+      <a class='editlink newbooklink' @click="createNewBook()">Create new book</a>
+      <a class='editlink newbooklink' @click="importFromFile()">Import book</a>
+    </div>
   </div>
 </template>
 

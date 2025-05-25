@@ -9,16 +9,15 @@
 <script lang="ts">
 import ReferenceList from '@/components/ReferenceList.vue'
 import MdEditor from 'md-editor-v3'
-import { useBookshelfStore } from '@/stores/bookshelf';
+import { useBookStore } from '@/stores/bookshelf';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default {
   setup() {
-    const store = useBookshelfStore();
-    const book_id = useRoute().params.bookid;
-    const book = computed(() => store.getBookById(book_id))
-    const node = computed(() => book.value.nodes[useRoute().params.nodeid])
+    const store = useBookStore();
+    const book = store.rawBook;
+    const node = book.nodes[useRoute().params.nodeid]
     return { book, store, node };
   },
   props: {

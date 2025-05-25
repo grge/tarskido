@@ -73,21 +73,26 @@
 import TopBar from '@/components/TopBar.vue'
 // import constants from '@/constants.js' // eslint-disable-line no-unused-vars 
 import Multiselect from '@vueform/multiselect'
-import { useBookshelfStore, type Node, VALID_NODE_TYPE } from '@/stores/bookshelf';
+import { useBookStore, type Node, VALID_NODE_TYPE } from '@/stores/bookshelf';
 import { useRoute } from 'vue-router';
 
 export default {
   name: 'NodeEdit',
   setup() {
-    const store = useBookshelfStore();
-    const book = store.books[useRoute().params.bookid];
+    const store = useBookStore();
+    const book = store.rawBook;
     const node = book.nodes[useRoute().params.nodeid];
     return { book, node, store };
   },
   methods: {
     deleteThisNode() {
-      this.store.deleteNode(this.book.id, this.node.id);
-      this.$router.push({name:'Book', params:{bookid: this.book.id}});
+      const parent = this.node.chapter;
+      this.store.deleteNode(this.node.id);
+      if (parent && parent != 'ROOT') {
+        this.$router.push({name:'Node', params:{bookid: this.book.id, nodeid: parent}});
+      } else {
+        this.$router.push({name:'Book', params:{bookid: this.book.id}});
+      }
     },
     createProofLine() {
       this.node.proof_lines.push({statement: '', references: []});

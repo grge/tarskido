@@ -21,23 +21,22 @@
 <script lang="ts">
 import MdEditor from 'md-editor-v3';
 import TopBar from '@/components/TopBar.vue';
-import { useBookshelfStore } from '@/stores/bookshelf';
+import { useBookStore, deleteBook } from '@/stores/bookshelf';
 import { useRoute } from 'vue-router';
 import 'md-editor-v3/lib/style.css';
 import BookShelf from '@/components/BookShelf.vue';
 
 export default {
   setup() {
-    const books = useBookshelfStore();
-    const bookid = useRoute().params.bookid;
-    const book = books.getBookById(bookid);
+    const bookStore = useBookStore()
+    const book = bookStore.rawBook
     return {
-      books, book,
+      book
     }
   },
   methods: {
     deleteThisBook() {
-      this.books.deleteBook(this.book.id);
+      deleteBook(this.book.id)
       this.$router.push({name: 'Home'});
     }
   },

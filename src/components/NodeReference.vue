@@ -5,21 +5,24 @@
 </template>
 
 <script lang="ts">
-import { useBookshelfStore } from '../stores/bookshelf.ts';
+import { useBookStore } from '../stores/bookshelf.ts';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 
 export default {
   name: 'NodeReference',
-  setup() {
-    const store = useBookshelfStore();
-    const book_id = useRoute().params.bookid;
-    const book = computed(() => store.getBookById(book_id))
-    const node = computed(() => book.value.nodes[useRoute().params.nodeid])
+  setup(props) {
+    const store = useBookStore();
+    const route = useRoute()
+    const book_id = computed(() => route.params.bookid);
+    const nodeId = computed(() => props.nodeId);
+    const book = computed(() => store.rawBook);
+    const node = computed(() => book.value.nodes[nodeId.value]);
+
     return { book, store, node };
   },
   props: {
-      node: Object
+      nodeId: String
   },
 }
 </script>

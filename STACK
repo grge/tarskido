@@ -1,11 +1,16 @@
+- HP: The graph doesn't display any nodes unless there are edges involved
+- MP: The graph should show the context node's full parent context
+- MP: The graph shouls always show the predecessors and successors of the context node (currently it only shows an anchor of these)
+- HP: Graph should measure it's own bbox and adjust accordingly?
 - MP: Next/Prev links don't work
+- MP: Contents page should sort elements by reference, same as I do in the Node view.
 - 10m, LP: download this book link is ugly
 - 30m, LP: hamburger button color inconsistent. need color scheme revisit. Maybe just delete top bar.
 - 2h, LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.
-- HP: Graph should measure it's own bbox and adjust accordingly?
 - LP: TOC links look ugly
 - LP: Fix word breaking in the markdown preview.
 - MP: pass node's into components wherever possible, instead of passing the nodeId and looking it up in the store.
 - LP: Graph animations? 
 - MP: Arrows on graph
 - MP: Cluster labels on graph
+- MP: Revisit markdown library. markdown-it is faster?

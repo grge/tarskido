@@ -70,10 +70,6 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
   const nodeAnchorMap = {};
   const anchoredEdges = [];
 
-  console.log("Relevant Nodes:", relevantNodes);
-  console.log("Relevant Edges:", relevantEdges);
-  console.log("Anchors", anchors);
-
   for (const [v, w] of relevantEdges) {
     const seen = new Set();
     for (const orig of [v, w]) {
@@ -90,10 +86,9 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
     const key = anchoredEdge.join('-');
     if (seen.has(key)) continue;
     seen.add(key);
+    if (anchoredEdge[0] === anchoredEdge[1]) continue; // skip self-loops
     anchoredEdges.push(anchoredEdge);
   }
-
-  console.log("Anchored Edges:", anchoredEdges);
 
   // now we build the graph
   const subGraph = new Graph({ directed: true, compound: true });
@@ -102,8 +97,11 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
     console.log("Adding context node:", n);
     if (graph.hasNode(n) && !subGraph.hasNode(n)) {
       subGraph.setNode(n, graph.nodes(n));
+      subGraph.setParent(n, graph.parent(n));
     }
   }
+  // delete the ROOT node if it exists
+
   for (const [v, w] of anchoredEdges) {
     // add the nodes if they are not already present
     if (!subGraph.hasNode(v)) {
@@ -116,6 +114,7 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
     }
     subGraph.setEdge(v, w, {label: ""});
   }
+  subGraph.removeNode('ROOT');
   return subGraph;
 }
 
@@ -123,7 +122,7 @@ const subGraph = ref(new Graph({directed:true, compound:true}));
 
 function prepareGraph(graph: Graph){
   graph.nodes().forEach((n) => {
-    graph.setNode(n, { width: 140, height: 30 });
+    graph.setNode(n, { width: 160, height: 30 });
   });
 }
 

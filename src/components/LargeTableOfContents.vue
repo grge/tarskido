@@ -85,7 +85,7 @@ export default {
       const ids = graph.value.nodes().filter(id => {
         if (id == rootId) return false;
         const node = nodes[id];
-        return ((!node) || ((node.chapter == rootId) && (node.nodetype.primary != "Group")))
+        return ((!node) || (((node.chapter == "") || (node.chapter == rootId)) && (node.nodetype.primary != "Group")))
       });
       return ids.map(id => {
         const data = nodes[id];

@@ -3,7 +3,6 @@
       <TopBar />
       <div class='book-content'>
         <NodeDetails :nodeid='node.id' :level='1' />
-        <ContextGraph :contextIds='[node.id]' />
         <div v-if='node.nodetype.secondary == "Chapter"'>
           <NodeDetails :nodeid='childId' :key='childId' v-for="childId in children" :level='2'/>
         </div>
@@ -14,7 +13,6 @@
 <script lang="ts">
 import TopBar from '@/components/TopBar.vue';
 import NodeDetails from '@/components/NodeDetails.vue';
-import ContextGraph from '@/components/ContextGraph.vue';
 import { useBookStore } from '@/stores/bookshelf';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -31,8 +29,7 @@ export default {
   },
   components: {
     TopBar,
-    NodeDetails,
-    ContextGraph
+    NodeDetails
   },
 }
 </script>

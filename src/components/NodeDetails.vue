@@ -17,6 +17,7 @@
           <a class='navlink navnextlink'>Next</a>
           <a class='navlink navtoclink'>Show contents</a>
         </div>
+        <ContextGraph :contextIds='[node.id]' v-if='level == 1' />
       </div>
 
       <div class='node-body'>
@@ -40,6 +41,7 @@ import NodeProof from '@/components/NodeProof.vue'
 import NodeReference from '@/components/NodeReference.vue'
 // import MultipartNodeDetails from '@/components/MultipartNodeDetails.vue'
 import ReferenceList from '@/components/ReferenceList.vue'
+import ContextGraph from '@/components/ContextGraph.vue';
 
 export default {
   name: 'NodeDetails',
@@ -49,6 +51,7 @@ export default {
     ReferenceList,
     // MultipartNodeDetails,
     MdEditor,
+    ContextGraph
   },
   setup(props) {
     const router = useRouter();
@@ -97,6 +100,9 @@ export default {
   margin-left 0.5em
 
 .editlinks.navlinks
+  margin-top 1.5em
+
+.context-graph
   margin-top 1.5em
 
 .node-detail

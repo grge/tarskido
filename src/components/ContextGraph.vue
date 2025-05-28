@@ -14,7 +14,7 @@
             <!-- Use a gaussian blur to create the soft blurriness of the glow -->
             <feGaussianBlur in="thicken" stdDeviation="10" result="blurred" />
             <!-- Change the colour -->
-            <feFlood flood-color="rgb(255,255,100)" result="glowColor" />
+            <feFlood flood-color="rgb(255,229,153)" result="glowColor" />
             <!-- Color in the glows -->
             <feComposite in="glowColor" in2="blurred" operator="in" result="softGlow_colored" />
             <!--	Layer the effects together -->
@@ -23,7 +23,13 @@
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
+          
+          <marker id="arrowhead" markerWidth="8" markerHeight="8"
+                  refX="8" refY="4" orient="auto">
+            <path d="M 0 0 L 8 4 L 0 7 z" fill="#444"/>
+          </marker>
         </defs>
+
 
         <g class="cluster"
            v-for="id in clusters"
@@ -59,10 +65,8 @@
         <g class="edgePath" stroke='#444' fill="none">
           <path v-for="({ v, w }) in edges"
               :key="`${v}-${w}`"
-              :d="(() => {
-                  const pts = subGraph.edge(v, w).points;
-                  return 'M' + pts.map(p => `${p.x},${p.y}`).join('L');
-                  })()"
+              :d="edgeD(v, w)"
+              marker-end="url(#arrowhead)"
               />
         </g>
       </svg>
@@ -80,6 +84,14 @@ const props = defineProps<{ contextIds: string[] }>();
 const store = useBookStore();
 
 const fullGraph = computed(() => store.graph);
+
+
+function edgeD(v:string, w:string) {
+  const edge = subGraph.value.edge(v, w);
+  if (!edge) return '';
+  const pts = edge.points;
+  return 'M' + pts.map(p => `${p.x},${p.y}`).join('L');
+};
 
 /** compute the min/max extents of all nodes (plus their own width/height) */
 const bbox = computed(() => {

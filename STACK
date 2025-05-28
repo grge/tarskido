@@ -5,7 +5,6 @@ LP: Want to fix, but could release without it
 
 Graph:
 - MP: The graph doesn't display any nodes unless there are edges involved
-- MP: Arrows on graph
 - MP: The graph should show the context node's full ancestor context (maybe?)
 - MP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
 - MP: Clusters consistently coloured
@@ -16,7 +15,6 @@ Graph:
 - LP: Clusters can be collapsed/expanded
 
 Other:
-- HP: Move the graph on the node page to render above the node content, below the nav links
 - MP: hamburger button color inconsistent. need color scheme revisit. Maybe just delete top bar.
 - MP: toggle to enable/disable editing mode
 - MP: download this book link is ugly. Remove it and replace with a secret url?

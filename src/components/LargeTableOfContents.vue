@@ -65,17 +65,21 @@ export default {
     const rootId = 'ROOT';
 
     function buildToc(ids: string[]): TocEntry[] {
-      return ids.filter(id => {
+      ids = ids.filter(id => {
         const data = book.value.nodes[id];
-        return (data && data.nodetype.primary == 'Group')
-      }).map(id => {
+        return (data && data?.nodetype.primary == 'Group')
+      })
+
+      ids = store.sortNodesByReference(ids) || [];
+
+      return ids.map(id => {
         const data = book.value.nodes[id];
         return {
           id: id,
           ref: data.reference,
           type: data.nodetype.secondary,
           title: data.name || (data.nodetype.secondary + " " + data.reference),
-          children: buildToc(graph.value.children(id) || [])
+          children: buildToc(store.sortNodesByReference(graph.value.children(id)) || [])
         }
       });
     };

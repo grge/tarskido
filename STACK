@@ -5,8 +5,6 @@ LP: Want to fix, but could release without it
 
 Graph:
 - MP: The graph doesn't display any nodes unless there are edges involved
-- MP: Cluster labels on graph
-- MP: Context node should be highlighted in the graph
 - MP: Arrows on graph
 - MP: The graph should show the context node's full ancestor context (maybe?)
 - MP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
@@ -18,7 +16,6 @@ Graph:
 - LP: Clusters can be collapsed/expanded
 
 Other:
-- HP: Contents page should sort elements by reference, same as I do in the Node view.
 - HP: Move the graph on the node page to render above the node content, below the nav links
 - MP: hamburger button color inconsistent. need color scheme revisit. Maybe just delete top bar.
 - MP: toggle to enable/disable editing mode

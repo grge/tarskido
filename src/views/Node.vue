@@ -24,22 +24,9 @@ export default {
   setup() {
     const route = useRoute();
     const store = useBookStore();
-
     const book = computed(() => store.rawBook);
     const node = computed(() => book.value.nodes[route.params.nodeid]);
-
-    const cmp = new Intl.Collator(undefined, {
-      numeric: true, 
-      sensitivity: 'base'
-    }).compare;
-
-    const children = computed(() => {
-      return store.graph.children(node.value.id)
-                  .map((id) => [id, book.value.nodes[id].reference])
-                  .sort(([,v1], [,v2]) => cmp(v1, v2))
-                  .map(([id,]) => id);
-    });
-
+    const children = computed(() => store.sortNodesByReference(store.graph.children(node.value.id)));
     return { book, store, node, children };
   },
   components: {

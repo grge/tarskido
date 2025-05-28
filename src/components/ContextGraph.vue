@@ -7,21 +7,47 @@
         preserveAspectRatio="xMidYMid meet"
         class="graph-svg">
 
+        <defs>
+          <filter id="sofGlow" height="300%" width="300%" x="-75%" y="-75%">
+            <!-- Thicken out the original shape -->
+            <feMorphology operator="dilate" radius="4" in="SourceAlpha" result="thicken" />
+            <!-- Use a gaussian blur to create the soft blurriness of the glow -->
+            <feGaussianBlur in="thicken" stdDeviation="10" result="blurred" />
+            <!-- Change the colour -->
+            <feFlood flood-color="rgb(255,255,100)" result="glowColor" />
+            <!-- Color in the glows -->
+            <feComposite in="glowColor" in2="blurred" operator="in" result="softGlow_colored" />
+            <!--	Layer the effects together -->
+            <feMerge>
+              <feMergeNode in="softGlow_colored"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
         <g class="cluster"
            v-for="id in clusters"
            :key="id"
            :transform="`translate(${subGraph.node(id).x - subGraph.node(id).width/2}, ${subGraph.node(id).y - subGraph.node(id).height/2})`">
           <rect :width="`${subGraph.node(id).width}`"
                 :height="`${subGraph.node(id).height}`"
+                :filter="contextIds.includes(id) ? 'url(#sofGlow)' : ''"
                 fill="#eee">
           </rect>
+          <foreignObject :width="`${subGraph.node(id).width}`" :height="`${subGraph.node(id).height}`">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="cluster-reference">
+              <NodeReference :nodeId="id" />
+            </div>
+          </foreignObject>
         </g>
 
         <g class="node"
            v-for="id in leaves"
            :key="id"
            :transform="`translate(${subGraph.node(id).x - subGraph.node(id).width/2}, ${subGraph.node(id).y - subGraph.node(id).height/2})`">
-        <rect :height="`${subGraph.node(id).height}`" :width="`${subGraph.node(id).width}`"> 
+        <rect :height="`${subGraph.node(id).height}`"
+              :width="`${subGraph.node(id).width}`"
+              :filter="(contextIds.includes(id) ? 'url(#sofGlow)' : '')"
         </rect>
         <foreignObject :width="`${subGraph.node(id).width}`" :height="`${subGraph.node(id).height}`">
           <div xmlns="http://www.w3.org/1999/xhtml" class="node-content">
@@ -66,9 +92,9 @@ const bbox = computed(() => {
 
   ids.forEach(id => {
     const { x, y, width, height } = sg.node(id)!
-    const left   = x - width  / 2
-    const right  = x + width  / 2
-    const top    = y - height / 2
+    const left   = x - width  / 2 - 20
+    const right  = x + width  / 2 + 20
+    const top    = y - height / 2 - 20
     const bottom = y + height / 2 + 20
 
     minX = Math.min(minX, left)
@@ -135,8 +161,6 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
       subGraph.setParent(n, graph.parent(n));
     }
   }
-  // delete the ROOT node if it exists
-
   for (const [v, w] of anchoredEdges) {
     // add the nodes if they are not already present
     if (!subGraph.hasNode(v)) {
@@ -181,6 +205,7 @@ const leaves = computed(() => nodes.value.filter((n) => (subGraph.value.children
 </script>
 
 <style>
+
 .context-graph {
   display: flex;
   justify-content: center;
@@ -216,4 +241,11 @@ g.cluster rect {
     stroke: #333;
     stroke-width: 1.5px;
 }
+
+.cluster-reference {
+  font-size: 0.8em;
+  padding: 0.4em 1em;
+  color: #333;
+}
+
 </style>

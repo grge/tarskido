@@ -172,12 +172,20 @@ export const useBookStore = defineStore('book', () => {
     delete rawBook.value.nodes[nodeId];
   }
 
+  function sortNodesByReference(nodeIds: string[]): Node[] {
+    const cmp = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare;
+    return nodeIds.map((id) => [id, rawBook.value.nodes[id].reference])
+                  .sort(([ida, refa], [idb, refb]) => cmp(refa, refb))
+                  .map(([id,]) => id);
+  }
+
   return {
     rawBook,
     graph,
     storageKey,
     loadFromJSON,
     loadFromLocalStorage,
+    sortNodesByReference,
     createNewBook,
     upsertNode,
     deleteNode,

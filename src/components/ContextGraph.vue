@@ -1,6 +1,11 @@
 <template>
   <div class='context-graph'>
-      <svg width="800" height="280">
+      <svg
+        :viewBox="`${bbox.minX} ${bbox.minY} ${bbox.width} ${bbox.height}`"
+          :width="`${bbox.width}`"
+          :height="`${bbox.height}`"
+        preserveAspectRatio="xMidYMid meet"
+        class="graph-svg">
 
         <g class="cluster"
            v-for="id in clusters"
@@ -49,6 +54,36 @@ const props = defineProps<{ contextIds: string[] }>();
 const store = useBookStore();
 
 const fullGraph = computed(() => store.graph);
+
+/** compute the min/max extents of all nodes (plus their own width/height) */
+const bbox = computed(() => {
+  const sg = subGraph.value
+  const ids = sg.nodes()
+  if (!ids.length) {
+    return { minX: 0, minY: 0, width: 0, height: 0 }
+  }
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
+
+  ids.forEach(id => {
+    const { x, y, width, height } = sg.node(id)!
+    const left   = x - width  / 2
+    const right  = x + width  / 2
+    const top    = y - height / 2
+    const bottom = y + height / 2 + 20
+
+    minX = Math.min(minX, left)
+    maxX = Math.max(maxX, right)
+    minY = Math.min(minY, top)
+    maxY = Math.max(maxY, bottom)
+  })
+
+  return {
+    minX,
+    minY,
+    width:  maxX - minX,
+    height: maxY - minY
+  }
+})
 
 function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
   // our context sub graph will show all of the relationships involving "relevant" nodes
@@ -146,6 +181,18 @@ const leaves = computed(() => nodes.value.filter((n) => (subGraph.value.children
 </script>
 
 <style>
+.context-graph {
+  display: flex;
+  justify-content: center;
+  overflow-x: display;
+}
+
+.graph-svg {
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
+}
+
 g.node rect {
     rx: 5px;
     ry: 5px;

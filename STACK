@@ -1,16 +1,33 @@
-- HP: The graph doesn't display any nodes unless there are edges involved
-- MP: The graph should show the context node's full parent context
-- MP: The graph shouls always show the predecessors and successors of the context node (currently it only shows an anchor of these)
-- HP: Graph should measure it's own bbox and adjust accordingly?
-- MP: Next/Prev links don't work
-- MP: Contents page should sort elements by reference, same as I do in the Node view.
-- 10m, LP: download this book link is ugly
-- 30m, LP: hamburger button color inconsistent. need color scheme revisit. Maybe just delete top bar.
-- 2h, LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.
-- LP: TOC links look ugly
-- LP: Fix word breaking in the markdown preview.
-- MP: pass node's into components wherever possible, instead of passing the nodeId and looking it up in the store.
-- LP: Graph animations? 
-- MP: Arrows on graph
+HP: Completely broken or incredibly annoying unless fixed
+MP: Must fix before releasing MVP
+LP: Want to fix, but could release without it
+
+
+Graph:
+- MP: The graph doesn't display any nodes unless there are edges involved
 - MP: Cluster labels on graph
-- MP: Revisit markdown library. markdown-it is faster?
+- MP: Context node should be highlighted in the graph
+- MP: Arrows on graph
+- MP: The graph should show the context node's full ancestor context (maybe?)
+- MP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
+- MP: Clusters consistently coloured
+- MP: Dynamically sized nodes. Render nodes -> compute sizes -> graph layout -> render nodes again
+- LP: Curvy arrows on graph
+- LP: Graph animations? 
+- LP: optimize subgraph generation
+- LP: Clusters can be collapsed/expanded
+
+Other:
+- HP: Contents page should sort elements by reference, same as I do in the Node view.
+- HP: Move the graph on the node page to render above the node content, below the nav links
+- MP: hamburger button color inconsistent. need color scheme revisit. Maybe just delete top bar.
+- MP: toggle to enable/disable editing mode
+- MP: download this book link is ugly. Remove it and replace with a secret url?
+- MP: Fix word breaking in the markdown preview.
+- MP: TOC links look ugly
+- MP: Next/Prev links don't work
+- MP: Wide three-column typographical layout
+- LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.
+- LP: pass nodes into components wherever possible, instead of passing the nodeId and looking it up in the store.
+- LP: Revisit markdown library. markdown-it is faster?
+- LP: Redesign reference glyphs

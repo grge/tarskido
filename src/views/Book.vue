@@ -59,7 +59,7 @@ export default {
   <div>
       <TopBar />
       <div class='book-content'>
-        <h2 class='book-front-title'>{{book.title}}</h2>
+        <h1 class='book-front-title'>{{book.title}}</h1>
         <div class='book-front-author'>by {{book.author}}</div>
         <div class='listoflinks'>
           <router-link class='editlink' :to="{ name: 'BookEdit', params: {bookid: book.id}}">Edit book attributes</router-link>

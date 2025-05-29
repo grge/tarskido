@@ -105,6 +105,16 @@ export default {
 .node-detail-header-l1 .reference-link
   display none
 
+.md-editor-content .md-editor-preview 
+  word-break break-word
+  font-size 16pt
+  font-family serif
+
+.md-editor-content .md-editor-preview p:first-child
+  margin-top 0
+  padding-top 0
+
+
 @container book-content (min-width: 65em)
   .node-detail
     display grid
@@ -167,15 +177,6 @@ export default {
   .node-detail-header .node-name
     font-weight normal 
     margin-left 0.5em
-
-.md-editor-content .md-editor-preview 
-  word-break break-word
-  font-size 16pt
-  font-family serif
-
-.md-editor-content .md-editor-preview p:first-child
-  margin-top 0
-  padding-top 0
 
 
 </style>

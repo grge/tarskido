@@ -16,7 +16,6 @@ Other:
 - MP: hamburger button color inconsistent. need color scheme revisit. Maybe just delete top bar.
 - MP: toggle to enable/disable editing mode
 - MP: download this book link is ugly. Remove it and replace with a secret url?
-- MP: TOC links look ugly
 - MP: Next/Prev links don't work
 - MP: Clean up low screen width css 
 - MP: Full audit of typography and style details

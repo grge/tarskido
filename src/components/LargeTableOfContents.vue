@@ -1,6 +1,6 @@
 <template>
   <div class="contents">
-    <h3>Table of Contents</h3>
+    <h2>Table of Contents</h2>
     <ul>
       <li v-for="chap in toc" :key="chap.id" class="toc-l1-li">
         <span class="toc-l1-margin">{{ chap.ref }}</span>
@@ -129,14 +129,27 @@ export default {
 <style scoped>
 .contents {
   padding: 1rem 2rem;
-  max-width: 800px;
+  max-width: 25em;
   margin: 0 auto;
+  font-size: 18pt;
+}
+
+h2 {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .toc-l1-margin {
-  margin-left: 0.5rem;
+  margin-left: 0.2rem;
   display: inline-block;
-  font-size: 1.3rem;
 }
 
 .toc-l1-content {
@@ -144,26 +157,21 @@ export default {
 }
 
 .toc-l1-title {
-  font-weight: bold;
   padding-left: 2rem;
 }
 
 .toc-l1-li {
+  margin: 1.1rem 0;
+  list-style: none;
+
+}
+
+.toc-l2-li {
   margin: 0.5rem 0;
   list-style: none;
 }
 
-.toc-l2-li {
-  margin: 0.2rem 0;
-  list-style: none;
-}
-
-.toc-l2-line {
-  
-}
-
 .toc-l2-label {
-  font-size: 1.1rem;
   padding: 0 0.9rem 0 0.6rem;
 }
 

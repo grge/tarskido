@@ -1,9 +1,11 @@
 <template>
     <h4 class='proof-heading'>Proof:</h4>
-    <div class="proof-line" :key='ix' v-for='(line, ix) in node.proof_lines'> 
-      <MdEditor v-model="line.statement" previewOnly />
+    <template key='ix' v-for='(line, ix) in node.proof_lines'> 
+      <div class='proof-line'>
+        <MdEditor v-model="line.statement" previewOnly />
+      </div>
       <ReferenceList :nodeids="line.references" v-if='line.references.length' />
-    </div>
+    </template>
 </template> 
 
 <script lang="ts">
@@ -40,7 +42,6 @@ export default {
 .proof-line
   font-size 18px
   padding-left 1em
-  width 45em
   border-left 10px solid #dddddd
 
 

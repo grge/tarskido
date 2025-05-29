@@ -38,7 +38,7 @@
           <rect :width="`${subGraph.node(id).width}`"
                 :height="`${subGraph.node(id).height}`"
                 :filter="contextIds.includes(id) ? 'url(#sofGlow)' : ''"
-                fill="#eee">
+                fill="#eaeaea">
           </rect>
           <foreignObject :width="`${subGraph.node(id).width}`" :height="`${subGraph.node(id).height}`">
             <div xmlns="http://www.w3.org/1999/xhtml" class="cluster-reference">
@@ -54,6 +54,7 @@
         <rect :height="`${subGraph.node(id).height}`"
               :width="`${subGraph.node(id).width}`"
               :filter="(contextIds.includes(id) ? 'url(#sofGlow)' : '')"
+              :class="`${book.nodes[id].nodetype.secondary == 'Chapter' ? 'chapter' : ''}`"
         </rect>
         <foreignObject :width="`${subGraph.node(id).width}`" :height="`${subGraph.node(id).height}`">
           <div xmlns="http://www.w3.org/1999/xhtml" class="node-content">
@@ -84,6 +85,7 @@ const props = defineProps<{ contextIds: string[] }>();
 const store = useBookStore();
 
 const fullGraph = computed(() => store.graph);
+const book = computed(() => store.rawBook);
 
 
 function edgeD(v:string, w:string) {
@@ -238,6 +240,12 @@ g.node rect {
     stroke-width:1.5px;
 }
 
+g.node rect.chapter {
+    fill: #f8f8f8;
+    stroke: #ff9900;
+    stroke-width: 2px;
+}
+
 g.node div {
   padding-left: 0.5em;
   padding-top: 0.1em;
@@ -245,8 +253,8 @@ g.node div {
 
 g.cluster rect {
     fill: #f8f8f8;
-    stroke: #808080;
-    stroke-width: 1.5px;
+    stroke: #ff9900;
+    stroke-width: 2px;
 }
 
 .edgePath {

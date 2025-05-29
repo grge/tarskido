@@ -35,4 +35,7 @@ export default {
 </script>
 
 <style scoped lang='stylus'>
+.book-content
+  container-type: inline-size
+  container-name: book-content
 </style>

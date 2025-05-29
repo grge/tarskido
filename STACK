@@ -2,12 +2,10 @@ HP: Completely broken or incredibly annoying unless fixed
 MP: Must fix before releasing MVP
 LP: Want to fix, but could release without it
 
-
 Graph:
-- MP: The graph doesn't display any nodes unless there are edges involved
+- MP: The graph doesn't display nodes that aren't involved in an edge
 - MP: The graph should show the context node's full ancestor context (maybe?)
 - MP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
-- MP: Clusters consistently coloured
 - MP: Dynamically sized nodes. Render nodes -> compute sizes -> graph layout -> render nodes again
 - LP: Curvy arrows on graph
 - LP: Graph animations? 
@@ -16,12 +14,14 @@ Graph:
 
 Other:
 - MP: hamburger button color inconsistent. need color scheme revisit. Maybe just delete top bar.
+- MP: NodeReference should optionally use say "4.1 Node Name" instead of "Theorem 4.1"
 - MP: toggle to enable/disable editing mode
 - MP: download this book link is ugly. Remove it and replace with a secret url?
-- MP: Fix word breaking in the markdown preview.
 - MP: TOC links look ugly
 - MP: Next/Prev links don't work
-- MP: Wide three-column typographical layout
+- MP: Clean up low screen width css 
+- MP: Full audit of typography and style details
+- LP: Table of contents sidebar
 - LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.
 - LP: pass nodes into components wherever possible, instead of passing the nodeId and looking it up in the store.
 - LP: Revisit markdown library. markdown-it is faster?

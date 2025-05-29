@@ -83,10 +83,6 @@ a:hover
 .listoflinks a
   margin-right 2em
 
-.book-content
-  width 40em
-  margin 0 auto 0 auto
-
 #md-editor-v3-preview-wrapper
   padding 0 0 0 0
 

@@ -1,7 +1,7 @@
 <template>
   <ul class='reference-list'>
     <li v-for='nodeid in nodeids' :key='nodeid'>
-      <NodeReference v-if="nodeid in book.nodes" :nodeId='nodeid' />
+      <NodeReference v-if="nodeid in book.nodes" :nodeId='nodeid' :useName="true" />
       <span v-if="!(nodeid in book.nodes)">[{{nodeid}}]</span>
     </li>
   </ul>

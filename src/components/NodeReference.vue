@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{name: 'Node', params: {bookid: book.id, nodeid: node.id}}" class='reference-link'>
-    <span :class='"reference-subtype-" + node.nodetype.secondary'>{{node.nodetype.secondary}} {{node.reference}}</span>
+    <span :class='"reference-subtype-" + node.nodetype.secondary'>{{label}}</span>
   </router-link>
 </template>
 
@@ -19,10 +19,21 @@ export default {
     const book = computed(() => store.rawBook);
     const node = computed(() => book.value.nodes[nodeId.value]);
 
-    return { book, store, node };
+    const label = computed(() => {
+      const n = node.value;
+      if (n.name && props.useName) {
+        return n.reference + " " + n.name;
+      }
+      else {
+        return n.nodetype.secondary + " " + n.reference;
+      }
+    });
+
+    return { book, store, node, label };
   },
   props: {
-      nodeId: String
+      nodeId: String,
+      useName: Boolean,
   },
 }
 </script>

@@ -14,7 +14,6 @@ Graph:
 
 Other:
 - MP: hamburger button color inconsistent. need color scheme revisit. Maybe just delete top bar.
-- MP: NodeReference should optionally use say "4.1 Node Name" instead of "Theorem 4.1"
 - MP: toggle to enable/disable editing mode
 - MP: download this book link is ugly. Remove it and replace with a secret url?
 - MP: TOC links look ugly

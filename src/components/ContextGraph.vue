@@ -42,7 +42,7 @@
           </rect>
           <foreignObject :width="`${subGraph.node(id).width}`" :height="`${subGraph.node(id).height}`">
             <div xmlns="http://www.w3.org/1999/xhtml" class="cluster-reference">
-              <NodeReference :nodeId="id" />
+              <NodeReference :nodeId="id" :useName="true"/>
             </div>
           </foreignObject>
         </g>
@@ -58,7 +58,7 @@
         </rect>
         <foreignObject :width="`${subGraph.node(id).width}`" :height="`${subGraph.node(id).height}`">
           <div xmlns="http://www.w3.org/1999/xhtml" class="node-content">
-            <NodeReference :nodeId="id" />
+            <NodeReference :nodeId="id" :useName="true" />
           </div>
         </foreignObject>
         </g>

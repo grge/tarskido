@@ -13,7 +13,6 @@ Graph:
 - LP: Clusters can be collapsed/expanded
 
 Other:
-- MP: Next/Prev links don't work
 - MP: Clean up low screen width css 
 - MP: Full audit of typography and style details
 - LP: Prevent self-links when editing parent or reference links

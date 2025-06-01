@@ -20,11 +20,10 @@
         <h2>{{node.name == "" ? node.nodetype.secondary + " " + node.reference : node.name}} </h2>
         <div class='navlinks listoflinks' v-if='level == 1'>
           <!-- <a class='navlink navpreviouslink'>Previous</a> -->
-          <a class='navlink navpreviouslink'>Previous</a>
+          <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: prevNodeId} }" class='navlink navpreviouslink' v-if="prevNodeId != 'ROOT'">Previous</router-link>
           <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: node.chapter} }" class='navlink navuplink' v-if="node.chapter && node.chapter != 'ROOT'">Up</router-link>
           <router-link :to="{ name: 'Book', params: {bookid:book.id} }" class='navlink navuplink' v-if="! node.chapter || node.chapter == 'ROOT'">Up</router-link>
-          <a class='navlink navnextlink'>Next</a>
-          <a class='navlink navtoclink'>Show contents</a>
+          <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: nextNodeId} }" class='navlink navnextlink' v-if="nextNodeId != 'ROOT'">Next</router-link>
         </div>
       </div>
 
@@ -73,6 +72,9 @@ export default {
     const node = computed(() => book.nodes[nodeId.value]);
     const hasName = computed(() => node.value.name && node.value.name.trim() !== '');
 
+    const nextNodeId = computed(() => store.nextNodeId(nodeId.value));
+    const prevNodeId = computed(() => store.prevNodeId(nodeId.value));
+
     function createChildNode() {
       const childId = uuidv4();
       const child = {
@@ -88,7 +90,7 @@ export default {
       store.upsertNode(child);
       router.push({ name: 'NodeEdit', params: { bookid: store.rawBook.id, nodeid: childId }}); 
     }
-    return { book, store, node, createChildNode };
+    return { book, store, node, createChildNode, nextNodeId, prevNodeId, hasName };
   },
 
   props: {

@@ -2,7 +2,7 @@
     <h4 class='proof-heading'>Proof:</h4>
     <template key='ix' v-for='(line, ix) in node.proof_lines'> 
       <div class='proof-line'>
-        <MdEditor v-model="line.statement" previewOnly />
+        <MarkdownRenderer :markdown="line.statement" />
       </div>
       <ReferenceList :nodeids="line.references" v-if='line.references.length' />
     </template>
@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import ReferenceList from '@/components/ReferenceList.vue'
-import MdEditor from 'md-editor-v3'
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import { useBookStore } from '@/stores/bookshelf';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -27,7 +27,7 @@ export default {
   },
   components: {
     ReferenceList,
-    MdEditor
+    MarkdownRenderer,
   }
 }
 </script>

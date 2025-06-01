@@ -180,6 +180,34 @@ export const useBookStore = defineStore('book', () => {
                   .sort(([ida, refa], [idb, refb]) => cmp(refa, refb))
                   .map(([id,]) => id);
   }
+
+  function nextNodeId(nodeId : string) {
+    if (nodeId === 'ROOT') {
+      return nodeId
+    }
+    const siblingIds = graph.value.children(graph.value.parent(nodeId) || 'ROOT') || [];
+    const sortedSiblings = sortNodesByReference(siblingIds);
+    const nextIndex = sortedSiblings.indexOf(nodeId) + 1
+    if (nextIndex >= sortedSiblings.length) {
+      // return the next on the parent level
+      return nextNodeId(graph.value.parent(nodeId) || 'ROOT');
+    }
+    return sortedSiblings[nextIndex];
+  }
+
+  function prevNodeId(nodeId : string) {
+    if (nodeId === 'ROOT') {
+      return nodeId
+    }
+    const siblingIds = graph.value.children(graph.value.parent(nodeId) || 'ROOT') || [];
+    const sortedSiblings = sortNodesByReference(siblingIds);
+    const prevIndex = sortedSiblings.indexOf(nodeId) - 1
+    if (prevIndex < 0) {
+      // return the previous on the parent level
+      return prevNodeId(graph.value.parent(nodeId) || 'ROOT');
+    }
+    return sortedSiblings[prevIndex];
+  }
    
   function toggleEditMode() {
     editMode.value = !editMode.value;
@@ -194,6 +222,8 @@ export const useBookStore = defineStore('book', () => {
     loadFromLocalStorage,
     sortNodesByReference,
     createNewBook,
+    nextNodeId,
+    prevNodeId,
     upsertNode,
     deleteNode,
   }

@@ -1,5 +1,11 @@
 <template>
   <div class='context-graph'>
+
+      <div class="measure-container" ref="measureRoot">
+        <div v-for="id in allNodeIds" :key="id" :data-id="id" class="measure-node">
+          <NodeReference :nodeId="id" :useName="true" />
+        </div>
+      </div>
       <svg
         :viewBox="`${bbox.minX} ${bbox.minY} ${bbox.width} ${bbox.height}`"
           :width="`${bbox.width}`"
@@ -29,7 +35,6 @@
             <path d="M 0 0 L 8 4 L 0 7 z" fill="#444"/>
           </marker>
         </defs>
-
 
         <g class="cluster"
            v-for="id in clusters"
@@ -76,7 +81,7 @@
 
 <script setup lang="ts">
 import { useBookStore } from '@/stores/bookshelf';
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 import NodeReference from '@/components/NodeReference.vue'
 import dagre from 'dagre';
 import Graph from '@/graphlib_ext.js'
@@ -86,7 +91,28 @@ const store = useBookStore();
 
 const fullGraph = computed(() => store.graph);
 const book = computed(() => store.rawBook);
+const rawSubGraph = computed(() => buildContextSubGraph(fullGraph.value, props.contextIds));
+const readyForLayout = ref(false);
+const nodeSizes = ref<{ [key: string]: { width: number, height: number } }>({});
 
+const allNodeIds = computed(() => rawSubGraph.value.nodes());
+
+
+const measureRoot = ref<HTMLElement | null>(null);
+async function measureNodeSizes() {
+  await nextTick();
+
+  const divs = measureRoot.value!.querySelectorAll('.measure-node');
+  const newSizes: typeof nodeSizes.value = {};
+  divs.forEach(div => {
+    const id = div.getAttribute('data-id');
+    if (!id) return;
+    const rect = div.getBoundingClientRect();
+    newSizes[id] = { width: rect.width, height: rect.height };
+  })
+  nodeSizes.value = newSizes;
+  readyForLayout.value = true;
+}
 
 function edgeD(v:string, w:string) {
   const edge = subGraph.value.edge(v, w);
@@ -94,36 +120,6 @@ function edgeD(v:string, w:string) {
   const pts = edge.points;
   return 'M' + pts.map(p => `${p.x},${p.y}`).join('L');
 };
-
-/** compute the min/max extents of all nodes (plus their own width/height) */
-const bbox = computed(() => {
-  const sg = subGraph.value
-  const ids = sg.nodes()
-  if (!ids.length) {
-    return { minX: 0, minY: 0, width: 0, height: 0 }
-  }
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
-
-  ids.forEach(id => {
-    const { x, y, width, height } = sg.node(id)!
-    const left   = x - width  / 2 - 20
-    const right  = x + width  / 2 + 20
-    const top    = y - height / 2 - 20
-    const bottom = y + height / 2 + 20
-
-    minX = Math.min(minX, left)
-    maxX = Math.max(maxX, right)
-    minY = Math.min(minY, top)
-    maxY = Math.max(maxY, bottom)
-  })
-
-  return {
-    minX,
-    minY,
-    width:  maxX - minX,
-    height: maxY - minY
-  }
-})
 
 function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
   // our context sub graph will show all of the relationships involving "relevant" nodes
@@ -168,7 +164,7 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
   // now we build the graph
   const subGraph = new Graph({ directed: true, compound: true });
   subGraph.setGraph({ rankdir: 'LR' });
-  for (const n in contextIds) {
+  for (const n of contextIds) {
     console.log("Adding context node:", n);
     if (graph.hasNode(n) && !subGraph.hasNode(n)) {
       subGraph.setNode(n, graph.nodes(n));
@@ -191,25 +187,60 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
   return subGraph;
 }
 
-const subGraph = ref(new Graph({directed:true, compound:true}));
+watch(rawSubGraph, (sg) => {
+  readyForLayout.value = false;
+  measureNodeSizes();
+}, {
+  immediate: true,
+})
 
-function prepareGraph(graph: Graph){
-  graph.nodes().forEach((n) => {
-    graph.setNode(n, { width: 160, height: 30 });
-  });
-}
+const subGraph = ref(new Graph({ directed: true, compound: true }));
+subGraph.value.setGraph({ rankdir: 'LR' });
 
-watch(
-  [ fullGraph, () => props.contextIds ],
-  ([ fg, ids ]) => {
-    if (!fg || !ids) return;
-    const cg = buildContextSubGraph(fg, ids);
-    prepareGraph(cg);
-    dagre.layout(cg);
-    subGraph.value = cg;
-  },
-  { immediate: true }
-)
+watch(readyForLayout, (ready) => {
+  if (!ready) return
+  console.log(nodeSizes.value)
+  const g = rawSubGraph.value
+  g.nodes().forEach( id => {
+    const size = nodeSizes.value[id];
+    console.log(id, size)
+    if (size) {
+      g.setNode(id, { width: size.width + 20, height: size.height });
+    }
+  })
+  dagre.layout(g)
+  subGraph.value = g
+})
+
+
+const bbox = computed(() => {
+  const sg = subGraph.value
+  const ids = sg.nodes()
+  if (!ids.length) {
+    return { minX: 0, minY: 0, width: 0, height: 0 }
+  }
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
+
+  ids.forEach(id => {
+    const { x, y, width, height } = sg.node(id)!
+    const left   = x - width  / 2 - 20
+    const right  = x + width  / 2 + 20
+    const top    = y - height / 2 - 20
+    const bottom = y + height / 2 + 20
+
+    minX = Math.min(minX, left)
+    maxX = Math.max(maxX, right)
+    minY = Math.min(minY, top)
+    maxY = Math.max(maxY, bottom)
+  })
+
+  return {
+    minX,
+    minY,
+    width:  maxX - minX,
+    height: maxY - minY
+  }
+})
 
 const nodes = computed(() => subGraph.value.nodes())
 const edges = computed(() => subGraph.value.edges())
@@ -219,6 +250,24 @@ const leaves = computed(() => nodes.value.filter((n) => (subGraph.value.children
 </script>
 
 <style>
+
+.measure-container {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 1;
+  width: max-content;
+  height: auto;
+}
+
+.measure-node {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  padding: 7px;
+  height: auto;
+  box-sizing: border-box;
+}
 
 .context-graph {
   display: flex;
@@ -247,8 +296,8 @@ g.node rect.chapter {
 }
 
 g.node div {
-  padding-left: 0.5em;
-  padding-top: 0.1em;
+  padding: 6px;
+  padding-left: 10px;
 }
 
 g.cluster rect {

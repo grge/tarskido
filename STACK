@@ -6,7 +6,6 @@ Graph:
 - MP: The graph doesn't display nodes that aren't involved in an edge
 - MP: The graph should show the context node's full ancestor context (maybe?)
 - MP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
-- MP: Dynamically sized nodes. Render nodes -> compute sizes -> graph layout -> render nodes again
 - LP: Curvy arrows on graph
 - LP: Graph animations? 
 - LP: optimize subgraph generation

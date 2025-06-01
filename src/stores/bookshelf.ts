@@ -91,6 +91,8 @@ export const useBookStore = defineStore('book', () => {
   // the in-memory graph representation of the book exposed as a reactive ref
   const graph = ref(markRaw(new Graph({directed: true, compound: true})));
 
+  const editMode = ref(false);
+
   // debounce timer helper for rebuilding the graph
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -178,11 +180,16 @@ export const useBookStore = defineStore('book', () => {
                   .sort(([ida, refa], [idb, refb]) => cmp(refa, refb))
                   .map(([id,]) => id);
   }
+   
+  function toggleEditMode() {
+    editMode.value = !editMode.value;
+  }
 
   return {
     rawBook,
     graph,
     storageKey,
+    editMode,
     loadFromJSON,
     loadFromLocalStorage,
     sortNodesByReference,

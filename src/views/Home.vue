@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import HamburgerMenu from '../components/HamburgerMenu.vue'
 import BookShelf from '../components/BookShelf.vue'
 </script>
 
 <template>
   <div class="home">
-      <HamburgerMenu :dark='false'/>
       <h1>Tarskido</h1>
       <BookShelf />
   </div>

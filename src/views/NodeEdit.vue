@@ -1,6 +1,5 @@
 <template>
   <div>
-    <TopBar />
     <div class="book-content">
       <h2>Editing node</h2>
       <table class='edit-table'>
@@ -70,8 +69,6 @@
 </template>
 
 <script lang="ts">
-import TopBar from '@/components/TopBar.vue'
-// import constants from '@/constants.js' // eslint-disable-line no-unused-vars 
 import Multiselect from '@vueform/multiselect'
 import { useBookStore, type Node, VALID_NODE_TYPE } from '@/stores/bookshelf';
 import { useRoute } from 'vue-router';
@@ -145,7 +142,6 @@ export default {
 
   },
   components: {
-    TopBar,
     Multiselect
   }
 }

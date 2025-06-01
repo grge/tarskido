@@ -1,6 +1,5 @@
 <template>
   <div>
-    <TopBar />
     <div class="book-content">
       <h2>Editing book</h2>
       <table class='edit-table'>
@@ -20,7 +19,6 @@
 
 <script lang="ts">
 import MdEditor from 'md-editor-v3';
-import TopBar from '@/components/TopBar.vue';
 import { useBookStore, deleteBook } from '@/stores/bookshelf';
 import { useRoute } from 'vue-router';
 import 'md-editor-v3/lib/style.css';
@@ -42,7 +40,6 @@ export default {
   },
   components: {
     MdEditor,
-    TopBar,
   }
 }
 </script>

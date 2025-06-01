@@ -4,15 +4,11 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+import 'katex/dist/katex.min.css'
+
 const app = createApp(App)
 
 const pinia = createPinia()
-
-watch (
-    pinia.state,
-    (state) => {localStorage.setItem('tarskido-state', JSON.stringify(state))},
-    {deep: true}
-)
 
 app.use(pinia)
 app.use(router)

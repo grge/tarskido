@@ -8,7 +8,7 @@
         <h3 v-if='level==2' class='node-h-name'>
           {{node.name == "" ? node.nodetype.secondary + " " + node.reference : node.name}}
         </h3>
-        <div class='editlinks listoflinks'>
+        <div class='editlinks listoflinks' v-if='store.editMode'>
           <NodeReference :nodeId="node.id" v-if='level > 1'/>
           <router-link class='editlink' :to="{ name: 'NodeEdit', params: {bookid: book.id, nodeid: node.id}}">Edit node</router-link>
           <a class='editlink' @click='createChildNode()' v-if='level == 1 && node.nodetype.primary == "Group"'>Create child node</a>
@@ -31,7 +31,8 @@
       <ContextGraph :contextIds='[node.id]' v-if='level == 1' />
 
       <div class='node-body'>
-        <MdEditor v-model="node.statement" previewOnly />
+        <MarkdownRenderer :markdown="node.statement" />
+        <!--<MdEditor v-model="node.statement" previewOnly /> -->
       </div>
 
       <ReferenceList v-if='node.references.length' :nodeids='node.references' />
@@ -46,7 +47,7 @@ import { useBookStore } from '@/stores/bookshelf';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { v4 as uuidv4 } from 'uuid';
-import MdEditor from 'md-editor-v3';
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import NodeProof from '@/components/NodeProof.vue'
 import NodeReference from '@/components/NodeReference.vue'
 // import MultipartNodeDetails from '@/components/MultipartNodeDetails.vue'
@@ -60,7 +61,7 @@ export default {
     NodeProof,
     ReferenceList,
     // MultipartNodeDetails,
-    MdEditor,
+    MarkdownRenderer,
     ContextGraph
   },
   setup(props) {
@@ -105,16 +106,6 @@ export default {
 .node-detail-header-l1 .reference-link
   display none
 
-.md-editor-content .md-editor-preview 
-  word-break break-word
-  font-size 16pt
-  font-family serif
-
-.md-editor-content .md-editor-preview p:first-child
-  margin-top 0
-  padding-top 0
-
-
 @container book-content (min-width: 65em)
   .node-detail
     display grid
@@ -131,6 +122,10 @@ export default {
     grid-row 1
     text-align right
     margin-top 0
+
+  .node-body p:first-child
+    margin-top 0
+    padding-top 0
 
   .node-detail-header h3
     font-weight bold

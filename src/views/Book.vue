@@ -1,23 +1,22 @@
 <script lang="ts">
-import TopBar from '@/components/TopBar.vue';
 import LargeTableOfContents from '@/components/LargeTableOfContents.vue';
 import ContextGraph from '@/components/ContextGraph.vue';
+import CorenerMenu from '@/components/CornerMenu.vue';
 import { useBookStore } from '@/stores/bookshelf';
-import MdEditor from 'md-editor-v3'
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'vue-router';
 
 export default {
   components: {
-    TopBar,
-    MdEditor,
-    // BookOverviewGraph,
+    MarkdownRenderer,
+    CorenerMenu,
     LargeTableOfContents,
     ContextGraph,
   },
   setup() {
-    const bookStore = useBookStore();
-    const book = bookStore.rawBook;
+    const store = useBookStore();
+    const book = store.rawBook;
     const router = useRouter();
 
     function createNewNode() {
@@ -32,8 +31,8 @@ export default {
         chapter: '',
         proof_lines: []
       };
-      bookStore.upsertNode(node);
-      router.push({ name: 'NodeEdit', params: { bookid: bookStore.rawBook.id, nodeid: nodeId }}); 
+      store.upsertNode(node);
+      router.push({ name: 'NodeEdit', params: { bookid: store.rawBook.id, nodeid: nodeId }}); 
     }
 
 
@@ -50,24 +49,28 @@ export default {
       }
     }
 
-    return { book, createNewNode, cleanBrokenRefs };
+    return { book, createNewNode, cleanBrokenRefs, store };
   },
 }
 </script>
 
 <template>
   <div>
-      <TopBar />
+    <CorenerMenu />
       <div class='book-content'>
         <h1 class='book-front-title'>{{book.title}}</h1>
         <div class='book-front-author'>by {{book.author}}</div>
-        <div class='listoflinks'>
+        <div class='listoflinks' v-if="store.editMode">
           <router-link class='editlink' :to="{ name: 'BookEdit', params: {bookid: book.id}}">Edit book attributes</router-link>
           <a class='editlink' @click="createNewNode()">Create a new node</a>
           <a class='editlink' @click="cleanBrokenRefs()">Clean broken references</a>
         </div>
         <ContextGraph :contextIds='["ROOT"]'/>
-        <MdEditor v-model="book.preface" previewOnly />
+        <div class='book-preface'>
+        <MarkdownRenderer :markdown="book.preface" />
+        </div>
+
+        <!-- <MdEditor v-model="book.preface" previewOnly /> -->
         <LargeTableOfContents />
       </div>
   </div>
@@ -91,6 +94,8 @@ export default {
 
 .book-preface
   text-align left
+  max-width 40em
+  margin 0 auto
 
 .listoflinks
   margin-bottom 1.5em

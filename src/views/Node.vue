@@ -1,6 +1,6 @@
 <template>
+  <CornerMenu />
   <div>
-      <TopBar />
       <div class='book-content'>
         <NodeDetails :nodeid='node.id' :level='1' />
         <div v-if='node.nodetype.secondary == "Chapter"'>
@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts">
-import TopBar from '@/components/TopBar.vue';
 import NodeDetails from '@/components/NodeDetails.vue';
+import CornerMenu from '@/components/CornerMenu.vue';
 import { useBookStore } from '@/stores/bookshelf';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -28,8 +28,8 @@ export default {
     return { book, store, node, children };
   },
   components: {
-    TopBar,
-    NodeDetails
+    NodeDetails,
+    CornerMenu,
   },
 }
 </script>

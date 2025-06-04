@@ -31,14 +31,12 @@
 
       <div class='node-body'>
         <MarkdownRenderer :markdown="node.statement" />
-        <!--<MdEditor v-model="node.statement" previewOnly /> -->
       </div>
 
       <ReferenceList v-if='node.references.length' :nodeids='node.references' />
 
       <NodeProof v-if='node.nodetype.primary == "Proposition"' :node='node'/>
 
-      <!-- <MultipartNodeDetails v-if='node.subtype == "Multi-part"' :node='node'/> -->
   </div>
 </template> 
 <script lang="ts">

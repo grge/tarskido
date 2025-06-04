@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@dagrejs/graphlib": "^2.1.12",
+    "@vscode/markdown-it-katex": "^1.1.1",
     "@vueform/multiselect": "^2.6.1",
     "dagre": "^0.8.5",
     "dagre-d3": "^0.6.4",
     "downloadjs": "^1.4.7",
     "markdown-it": "^14.1.0",
-    "markdown-it-katex": "^2.0.3",
     "md-editor-v3": "^2.11.2",
     "pinia": "^2.0.32",
     "stylus": "^0.59.0",

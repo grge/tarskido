@@ -5,7 +5,7 @@
 <script setup lang="ts">
   import { computed } from 'vue';
   import MarkdownIt from 'markdown-it';
-  import markdownItKatex from 'markdown-it-katex';
+  import markdownItKatex from '@vscode/markdown-it-katex';
 
   const props = defineProps({
     markdown: {

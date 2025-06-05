@@ -1,0 +1,1088 @@
+{
+  "id": "123",
+  "name": "New Book",
+  "author": "James and Liebeck",
+  "preface": "This book is a demonstration of the Tarskido system, and is not intended for distribution.",
+  "nodes": {
+    "62754a34-9254-4981-98dc-c4f05e849c60": {
+      "id": "62754a34-9254-4981-98dc-c4f05e849c60",
+      "reference": "8.1",
+      "name": "Maschke's Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "Let $G$ be a finite group, let $F$ be $\\mathbb{R}$ or $\\mathbb{C}$, and let $V$ be an $FG$-module. If $U$ is an $FG$-submodule of $V$, then there is an $FG$-submodule $W$ of $V$ such that\n\n$$ V = U \\oplus W$$",
+      "references": [
+        "759a3fb9-ad21-41c6-8fb8-8a733c283838"
+      ],
+      "chapter": "ROOT",
+      "proof_lines": [
+        {
+          "statement": "",
+          "references": [
+            "8fe5ca1a-10dd-4e68-9f54-e47888a355dc",
+            "96db5569-453f-4f01-b7f4-787399af147a",
+            "2fc526be-de38-4a19-8eee-a4a0760da1a5"
+          ]
+        }
+      ]
+    },
+    "8fe5ca1a-10dd-4e68-9f54-e47888a355dc": {
+      "id": "8fe5ca1a-10dd-4e68-9f54-e47888a355dc",
+      "reference": "2.32",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Suppose that $\\pi$ is a projection of a vector space $V$. Then \n\n$$ V = \\text{Im } \\pi \\oplus \\text{Ker }\\pi $$",
+      "references": [
+        "b02264e7-52e8-4451-b700-86ba23a79e61"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": [
+        {
+          "statement": "If $v \\in V$ then $v = v\\pi + (v - v\\pi)$. This first term $v\\pi$ belongs to $\\text{Im }\\pi$, and the second term $v - v\\pi$ lies in $\\text{Ker } \\pi$, since\n\n$$(v - v\\pi)\\pi = v\\pi - v\\pi^2 = v\\pi - v\\pi = 0.$$\n\nThis establishes that $V = \\text{Im }\\pi + \\text{Ker }\\pi$. Now suppose that $v$ lies in $\\text{Im }\\pi \\cap \\text{Ker }\\pi$. As $v \\in \\text{Im } \\pi$, we have $v = u\\pi$ for some $u \\in V$. Therefore\n\n$$ v \\pi = u \\pi^2 = u \\pi = v.$$\n\nSince $v \\in \\text{Ker }\\pi$, it follows that $v = v\\pi = 0.$ Thus\n\n$$ \\text{Im }\\pi \\cap \\text{Ker } \\pi = {0},$$\nand (2.9) now shows that $V = \\text{Im }\\pi \\oplus \\text{Ker }\\pi$.",
+          "references": [
+            "8eb65c5c-6740-4424-b4cd-37303259a99c"
+          ]
+        }
+      ]
+    },
+    "0f208637-d64d-4e14-9c48-928856f33c3e": {
+      "id": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "reference": "1",
+      "name": "Group Theory",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": []
+    },
+    "b835d307-4658-4ff5-89b5-f48930afd1d3": {
+      "id": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "reference": "2",
+      "name": "Vector Spaces and Linear Transformations",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "An attractive feature of representation theory is that it combines two strands of mainstream mathematics, namely group theory and linear algebra. For reference purposes, we gather results from linear algebra concerning vector spaces, linear transformations and matrices which we shall use later. Most of the material will be familiar to you if you have taken a first course on linear algebra, so we omit the proofs. An exception occurs in the last section, where we deal with projections; here we explain in detail how the results work, in case you have not come across projections before.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": []
+    },
+    "96db5569-453f-4f01-b7f4-787399af147a": {
+      "id": "96db5569-453f-4f01-b7f4-787399af147a",
+      "reference": "7.2",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Let $V$ and $W$ be $FG$-modules and let $\\vartheta : V \\to W$ be an $FG$-homomorphism. Then $\\text{Ker }\\vartheta$ is an $FG$-submodule of $V$ and $\\text{Im }\\vartheta$ is an $FG$-submodule of $W$.",
+      "references": [
+        "a82c2e34-cf0c-4251-9e30-748f099c9c6f",
+        "759a3fb9-ad21-41c6-8fb8-8a733c283838"
+      ],
+      "chapter": "bd7362de-3ca8-4ea1-b207-d45fbe99349a",
+      "proof_lines": []
+    },
+    "2fc526be-de38-4a19-8eee-a4a0760da1a5": {
+      "id": "2fc526be-de38-4a19-8eee-a4a0760da1a5",
+      "reference": "2.29",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Suppose that $V = U \\oplus W$. Define $\\pi : V \\to V$ by \n\n$$ ( u + w) \\pi = u \\quad \\text{for all } u \\in U, w \\in W.$$\n\nThen $\\pi$ is a projection of $V$ with $\\text{Im }\\pi = U$ and $\\text{Ker } \\pi = W$.",
+      "references": [
+        "5f2e2005-cd35-4819-a041-7a225f6f0310",
+        "b02264e7-52e8-4451-b700-86ba23a79e61"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "7d059e3a-a76e-4173-8119-c4c618c6186d": {
+      "id": "7d059e3a-a76e-4173-8119-c4c618c6186d",
+      "reference": "4.2",
+      "name": "FG-module",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $V$ be a vector space over $F$ and let $G$ be a group. Then $V$ is an **$FG$-module** if a multiplication $vg$ ($v \\in V, g \\in G$) is defined, satisfying the following conditions for all $u, v \\in V, \\lambda \\in F$, and $g, h \\in G$.\n\n1. $vg \\in V$;\n2. $v(gh) = (vg)h$;\n3. $v1 = v$;\n4. $(\\lambda v)g = \\lambda (v g)$;\n5. $(u + v)g = ug + vg$;",
+      "references": [],
+      "chapter": "9824c64b-a718-4e25-bea0-23adf5f09714",
+      "proof_lines": []
+    },
+    "759a3fb9-ad21-41c6-8fb8-8a733c283838": {
+      "id": "759a3fb9-ad21-41c6-8fb8-8a733c283838",
+      "reference": "5.1",
+      "name": "FG-submodule",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $V$ be an $FG$-module. A subset $W$ of $V$ is said to be an **$FG$-submodule** of $V$ if $W$ is a subspace and $wg \\in W$ for all $w \\in W$ and all $g \\in G$.",
+      "references": [
+        "7d059e3a-a76e-4173-8119-c4c618c6186d"
+      ],
+      "chapter": "ad2ed4d5-e885-4b63-9283-cbd2faa567cc",
+      "proof_lines": []
+    },
+    "a82c2e34-cf0c-4251-9e30-748f099c9c6f": {
+      "id": "a82c2e34-cf0c-4251-9e30-748f099c9c6f",
+      "reference": "7.1",
+      "name": "FG-homomorphism",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $V$ and $W$ be $FG$-modules. A function $\\vartheta : V \\to W$ is said  to be an **$FG$-homomorphism** if $\\vartheta$ is a linear transformation and\n\n$$ (vg)\\vartheta = (v\\vartheta)g \\quad \\text{for all }v \\in V, g \\in G$$\n\nIn other words, if $\\vartheta$ sends $v$ to $w$, then it sends $vg$ to $wg$.\n\n\n",
+      "references": [
+        "7d059e3a-a76e-4173-8119-c4c618c6186d"
+      ],
+      "chapter": "bd7362de-3ca8-4ea1-b207-d45fbe99349a",
+      "proof_lines": []
+    },
+    "8eb65c5c-6740-4424-b4cd-37303259a99c": {
+      "id": "8eb65c5c-6740-4424-b4cd-37303259a99c",
+      "reference": "2.9",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Suppose that $V = U + W$, that $u_1, \\ldots, u_r$ is a basis of $U$ and that $w_1, \\ldots, w_s$ is a basis of $W$. Then the following three conditions are equivalent:\n\n1. $V = U \\oplus W$,\n2. $u_1, \\ldots, u_r, w_1, \\ldots, w_s$ is a basis of $V$,\n3. $U \\cap W = \\{0\\}$.",
+      "references": [
+        "5f2e2005-cd35-4819-a041-7a225f6f0310",
+        "09657059-9b56-40bc-a23f-0068278c0d6b"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": [
+        {
+          "statement": "**$2 \\Longrightarrow 1$**\n\nSince $u_1, \\ldots, u_r, w_1, \\ldots, w_s$ is a basis for $V$ the elements of $V$ can be written uniquely in this basis (this follows directly from the definition of linear indpendence.) But this unique representation means $V = U \\oplus W$.\n\n**$1 \\Longrightarrow 3$**\n\nIf we assume $V = U \\oplus W$, then by the definition of the direct sum, each element $v \\in V$ can be written uniquely as $v = u + w$, with $u \\in U, w \\in W$. Suppose $x \\in U \\cap W$. Then $x \\in U$ and $x \\in W$, so $x = x + 0 = 0 + x$, but by the uniqueness of representation in the direct sum we must have $x = 0$, so $U \\cap W = \\{ 0\\}$",
+          "references": [
+            "5f2e2005-cd35-4819-a041-7a225f6f0310"
+          ]
+        },
+        {
+          "statement": "**$3 \\Longrightarrow 2$**\n\nAssuming $U \\cap W = \\{ 0 \\}$. We let $u_1, \\dots, u_r$ be a basis of $U$, and $w_1, \\ldots, w_s$ be a basis of $W$. Then $u_1, \\ldots, u_r, w_1, \\ldots, w_s$ spans $V$ (since $V = U + W$). We need to show that this set of vectors is linearly independent.\n\nSuppose:\n\n$$\\sum_{i=1}^r \\alpha_i u_i + \\sum_{j=1}^s \\beta_j w_j = 0.$$\n\nThen then we have found a $u + w = 0$, so $u = -w \\in U \\cap W$. But since $U \\cap W = \\{ 0 \\}$ so $u = w = 0$ implying that all $\\alpha_i = 0$ and $\\beta_i = 0$.",
+          "references": [
+            "09657059-9b56-40bc-a23f-0068278c0d6b"
+          ]
+        }
+      ]
+    },
+    "b02264e7-52e8-4451-b700-86ba23a79e61": {
+      "id": "b02264e7-52e8-4451-b700-86ba23a79e61",
+      "reference": "2.30",
+      "name": "Projection",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "And endomorphism $\\pi$ of a vector space $V$ which satisfies $\\pi^2 = \\pi$ is called a **projection** of $V$.",
+      "references": [
+        "652a9551-bad7-45f3-a13c-7471df58cda7"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "f1ecd495-ddc9-4077-a425-67e2cf8daa4a": {
+      "id": "f1ecd495-ddc9-4077-a425-67e2cf8daa4a",
+      "reference": "9.1",
+      "name": "Schur's Lemma",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Lemma"
+      },
+      "statement": "Let $V$ and $W$ be irreducible $\\mathbb{C}G$-modules.\n\n1. If $\\vartheta: V \\to W$ is a $\\mathbb{C}G$-homomorphism, then either $\\vartheta$ is a $\\mathbb{C}G$-isomorphism or $v\\vartheta = 0$ for all $v \\in V$.\n\n2. If $\\vartheta: V \\to V$ is a $\\mathbb{C}G$-isomorphism, then $\\vartheta$ is a scalar multiple of the identity endomorphism $1_V$.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [
+        {
+          "statement": "",
+          "references": [
+            "96db5569-453f-4f01-b7f4-787399af147a",
+            "6faec6ef-05b0-4010-b021-055e01ecebe0"
+          ]
+        }
+      ]
+    },
+    "6faec6ef-05b0-4010-b021-055e01ecebe0": {
+      "id": "6faec6ef-05b0-4010-b021-055e01ecebe0",
+      "reference": "2.26",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Let $V$ be a non-zero vector space over $\\mathbb{C}$, and let $\\vartheta$ be an endomorphism of $V$. Then $\\vartheta$ has an eigenvalue.",
+      "references": [
+        "dfdbdd9a-766b-428d-9b7b-8ad5b2687e15"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "bd7362de-3ca8-4ea1-b207-d45fbe99349a": {
+      "id": "bd7362de-3ca8-4ea1-b207-d45fbe99349a",
+      "reference": "7",
+      "name": "FG-homomorphisms",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": []
+    },
+    "9824c64b-a718-4e25-bea0-23adf5f09714": {
+      "id": "9824c64b-a718-4e25-bea0-23adf5f09714",
+      "reference": "4",
+      "name": "FG-modules",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": []
+    },
+    "924e371c-4b86-40b6-9fc5-93cc313fec58": {
+      "id": "924e371c-4b86-40b6-9fc5-93cc313fec58",
+      "reference": "4.3",
+      "name": "Matrix of a group element",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $V$ be an $FG$-module, and let $\\mathscr{B}$ be a basis of $V$. For each $g \\in G$ let \n\n$$[g]_\\mathscr{B}$$\n\ndenote the matrix of the endomorphism $v \\to vg$ of $V$, relative to the basis $\\mathscr{B}$.",
+      "references": [
+        "7d059e3a-a76e-4173-8119-c4c618c6186d",
+        "7471da3b-ab7b-432b-879d-2a84583d9bc6"
+      ],
+      "chapter": "9824c64b-a718-4e25-bea0-23adf5f09714",
+      "proof_lines": []
+    },
+    "ca543eae-83ff-4503-9a1e-417dfb71fc78": {
+      "id": "ca543eae-83ff-4503-9a1e-417dfb71fc78",
+      "reference": "4.4",
+      "name": "FG-modules are representations",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "1. If $\\rho : G \\to GL(n, F)$ is a representation of $G$ over $F$, and $V = F^n$, then $V$ becomes an $FG$-module if we define the multiplication $vg$ by $vg = v(g \\rho ) \\, (v \\in V, g \\in G).$ Moreover, there is a basis $\\mathscr{B}$ of $V$ such that $g\\rho = [g]_\\mathscr{B}$ for all $g \\in G.$\n\n2. Assume that $V$ is an $FG$-module and let $\\mathscr{B}$ be a basis of $V$. Then the function $g \\to [g]_\\mathscr{B} \\, (g \\in G)$ is a representation of $G$ over $F$.",
+      "references": [
+        "7d059e3a-a76e-4173-8119-c4c618c6186d",
+        "924e371c-4b86-40b6-9fc5-93cc313fec58",
+        "2794d1c0-a37f-44b0-8b6d-db7af38738e6"
+      ],
+      "chapter": "9824c64b-a718-4e25-bea0-23adf5f09714",
+      "proof_lines": []
+    },
+    "2794d1c0-a37f-44b0-8b6d-db7af38738e6": {
+      "id": "2794d1c0-a37f-44b0-8b6d-db7af38738e6",
+      "reference": "3.1",
+      "name": "Representation",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A **representation** of $G$ over $F$ is a homomorphism $\\rho$ from $G$ to $GL(n, F)$, for some $n$. The *degree* of $\\rho$ is the integer $n$.",
+      "references": [],
+      "chapter": "436f3ad1-d478-45ca-8dc2-138fcf1f9b66",
+      "proof_lines": []
+    },
+    "436f3ad1-d478-45ca-8dc2-138fcf1f9b66": {
+      "id": "436f3ad1-d478-45ca-8dc2-138fcf1f9b66",
+      "reference": "3",
+      "name": "Group Representations",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": []
+    },
+    "15efadc7-f7b3-44bf-a19a-46dc3dde6c2b": {
+      "id": "15efadc7-f7b3-44bf-a19a-46dc3dde6c2b",
+      "reference": "3.3",
+      "name": "Equivalent Representations",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $\\rho : G \\to GL(m, F)$ and $\\sigma : G \\to GL(n, F)$ be representations of $G$ over $F$. We say that $\\rho$ is **equivalent** to $\\sigma$ if $n=m$ and there exists an invertible $n \\times n$ matrix $T$ such that for all $g \\in G$,\n\n$$ g\\sigma = T^{-1}(g \\rho)T$$",
+      "references": [
+        "2794d1c0-a37f-44b0-8b6d-db7af38738e6",
+        "7471da3b-ab7b-432b-879d-2a84583d9bc6"
+      ],
+      "chapter": "436f3ad1-d478-45ca-8dc2-138fcf1f9b66",
+      "proof_lines": []
+    },
+    "7304c2da-a734-4097-bad6-f195a27f1472": {
+      "id": "7304c2da-a734-4097-bad6-f195a27f1472",
+      "reference": "3.5",
+      "name": "Trivial Representation",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "The representation $\\rho : G \\to GL(1, F)$ which is defined by \n\n$$ g\\rho = (1) \\quad \\text{for all } g \\in G,$$\n\nis called the **trivial representation** of $G$.",
+      "references": [
+        "2794d1c0-a37f-44b0-8b6d-db7af38738e6"
+      ],
+      "chapter": "436f3ad1-d478-45ca-8dc2-138fcf1f9b66",
+      "proof_lines": []
+    },
+    "78c6a0f2-ff5d-448f-9522-c71b92cfae79": {
+      "id": "78c6a0f2-ff5d-448f-9522-c71b92cfae79",
+      "reference": "3.6",
+      "name": "Faithful Representation",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A representation $\\rho : G \\to GL(n, F)$ is said to be **faithful** if $\\text{Ker }\\rho = \\{1\\}$; that is, if the identity element of $G$ is the only element $g$ for which $g\\rho = I_n$.",
+      "references": [
+        "2794d1c0-a37f-44b0-8b6d-db7af38738e6"
+      ],
+      "chapter": "436f3ad1-d478-45ca-8dc2-138fcf1f9b66",
+      "proof_lines": []
+    },
+    "fc46144c-dec4-4c38-b92c-4e9a09c77cf8": {
+      "id": "fc46144c-dec4-4c38-b92c-4e9a09c77cf8",
+      "reference": "3.7",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "A representation $\\rho$ of a finite group $G$ is faithful if and only if $\\text{Im }\\rho$ is isomorphic to $G$.",
+      "references": [
+        "78c6a0f2-ff5d-448f-9522-c71b92cfae79"
+      ],
+      "chapter": "436f3ad1-d478-45ca-8dc2-138fcf1f9b66",
+      "proof_lines": [
+        {
+          "statement": "We know that $\\text{Ker } \\rho \\triangleleft G$ and by Theorem 1.10, the factor group $G/\\text{Ker }\\rho$ is isomorphic to $\\text{Im }\\rho$. Therefore if $\\text{Ker }\\rho = \\{1\\}$ then $G \\cong \\text{Im }\\rho$. Conversely if $G \\cong \\text{Im }\\rho$ then these two groups have the same (finite) order, and so $|\\text{Ker }\\rho| = 1$; that is, $\\rho$ is faithful.",
+          "references": [
+            "f2b1f8c3-be00-456f-a300-2eba37160bc7"
+          ]
+        }
+      ]
+    },
+    "c3ac0002-d185-49b5-9283-5429236cfda3": {
+      "id": "c3ac0002-d185-49b5-9283-5429236cfda3",
+      "reference": "4.6",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Assume that $v_1, \\ldots, v_n$ is a basis of a vector space $V$ over $F$. Suppose that we have a multiplication $vg$ for all $v \\in V$ and $g \\in G$ which satisfied the following conditions for all $i$ with $1\\leq i \\leq n$, for all $g, h \\in G$ and for all $\\lambda_1, \\ldots, \\lambda_n \\in F$.\n\n1) $v_i g \\in V$,\n2) $v_i (g h) = (v_i g) h$\n3) $v_i 1 = v_i$;\n4) $(\\lambda_1 v_1 + \\cdots + \\lambda_n v_n) g = \\lambda_1 (v_1 g) + \\cdots + \\lambda_n (v_n g)$.\n\nThen $V$ is an $FG$-module.",
+      "references": [
+        "7d059e3a-a76e-4173-8119-c4c618c6186d"
+      ],
+      "chapter": "9824c64b-a718-4e25-bea0-23adf5f09714",
+      "proof_lines": []
+    },
+    "51ee6f46-1a01-4368-8bb3-bfc5ddea8faf": {
+      "id": "51ee6f46-1a01-4368-8bb3-bfc5ddea8faf",
+      "reference": "4.8",
+      "name": "Faithful and Trivial FG-Modules",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "7d059e3a-a76e-4173-8119-c4c618c6186d"
+      ],
+      "chapter": "9824c64b-a718-4e25-bea0-23adf5f09714",
+      "proof_lines": []
+    },
+    "82928098-1a30-4f6a-aa1d-81c2e3de0798": {
+      "id": "82928098-1a30-4f6a-aa1d-81c2e3de0798",
+      "reference": "4.10",
+      "name": "Permutation Module",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $G$ be a subgroup of $S_n$. The $FG$-module $V$ with basis $v_1, \\ldots v_n$ such that\n\n$$ v_i g = v_{ig} \\quad \\text{for all } i, \\text{ and all } g \\in G,$$\n\nis called the **permutation module** for $G$ over $F$. We call $v_1, \\ldots, v_n$ the *natural basis* of $V$.",
+      "references": [
+        "c3ac0002-d185-49b5-9283-5429236cfda3"
+      ],
+      "chapter": "9824c64b-a718-4e25-bea0-23adf5f09714",
+      "proof_lines": []
+    },
+    "a24f3b03-3fc9-44fd-8148-20007778126e": {
+      "id": "a24f3b03-3fc9-44fd-8148-20007778126e",
+      "reference": "4.12",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "Suppose that $V$ is an $FG$-module with basis $\\mathscr{B}$, and let $\\rho$ be the representation of $G$ over $F$ defined by\n\n$$ \\rho : g \\to [g]_\\mathscr{B} \\quad g\\in G$$\n\n(1) if $\\mathscr{B}'$ is a basis of $V$, then the representation\n\n$$\\phi : g \\to [g]_\\mathscr{B'} \\quad g \\in G$$\n\nof $G$ is equivalent to $\\rho$.\n\n(2) If $\\sigma$ is a representation of $G$ which is equivalent to $\\rho$, then there is a basis $\\mathscr{B''}$ of $V$ such that\n\n$$\\sigma : g \\to [g]_\\mathscr{B''} \\quad g \\in G$$",
+      "references": [
+        "ca543eae-83ff-4503-9a1e-417dfb71fc78",
+        "15efadc7-f7b3-44bf-a19a-46dc3dde6c2b",
+        "18788184-b7ff-45a1-81c0-bc737a37f4bb"
+      ],
+      "chapter": "9824c64b-a718-4e25-bea0-23adf5f09714",
+      "proof_lines": []
+    },
+    "ad2ed4d5-e885-4b63-9283-cbd2faa567cc": {
+      "id": "ad2ed4d5-e885-4b63-9283-cbd2faa567cc",
+      "reference": "5",
+      "name": "FG-submodules and reducibility",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": []
+    },
+    "927c2f1d-0f64-4301-ade6-0f4a615008db": {
+      "id": "927c2f1d-0f64-4301-ade6-0f4a615008db",
+      "reference": "5.3",
+      "name": "Irreducible FG-modules",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "An $FG$-module $V$ is said to be **irreducible** if it is non-zero and it has no $FG$-submodules apart from $\\{0\\}$ and $V$.\n\nIf $V$ has an $FG$-submodule $W$ with $W$ not equal to $\\{0\\}$ or $V$, then $V$ is **reducible**.\n\nSimilarly, a representation is irreducible if the corresponding $FG$-module (see Theorem 4.4) is irreducible, and is otherwise reducible.",
+      "references": [
+        "759a3fb9-ad21-41c6-8fb8-8a733c283838",
+        "ca543eae-83ff-4503-9a1e-417dfb71fc78"
+      ],
+      "chapter": "ad2ed4d5-e885-4b63-9283-cbd2faa567cc",
+      "proof_lines": []
+    },
+    "81a569e0-da98-4b72-9708-a851beb8a81d": {
+      "id": "81a569e0-da98-4b72-9708-a851beb8a81d",
+      "reference": "6",
+      "name": "Group Algebras",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": []
+    },
+    "20632cd5-130e-46d8-ab36-ee546e82fd5b": {
+      "id": "20632cd5-130e-46d8-ab36-ee546e82fd5b",
+      "reference": "6.3",
+      "name": "Group Algebra",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $G$ be a finite group whose elements are $g_1, \\ldots, g_n$ and let $F$ be $\\mathbb{R}$ or $\\mathbb{C}$. We define a vector space over $F$ with $g_1, \\ldots, g_n$ as a basis, and we call this vector space $FG$. Take as the elements of $FG$ all expressions of the form\n\n$$ \\lambda_1 g_1 + \\cdots + \\lambda_n g_n \\quad (\\lambda_i \\in F)$$\n\nThe rules for vector space addition and scalar multiplication in $FG$ are the natural ones.\n\nWhen we add to $FG$ a multiplication operation defined by  \n\n$$ \\left( \\sum_{g \\in G} \\lambda_g g\\right)\\left( \\sum_{h\\in G} \\mu_h h\\right) = \\sum_{g, h \\in G} \\lambda_g \\mu_h (gh) $$\n\n$(\\lambda_g, \\mu_h \\in F)$, \n\nwe call the resulting algebra the **group algebra** of $G$ over $F$.",
+      "references": [],
+      "chapter": "81a569e0-da98-4b72-9708-a851beb8a81d",
+      "proof_lines": []
+    },
+    "a19c4587-9421-4d04-9526-b33fcf8432dd": {
+      "id": "a19c4587-9421-4d04-9526-b33fcf8432dd",
+      "reference": "6.4",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Multiplication in $FG$ satisfies the following properties.\n\n1. $rs \\in FG$;\n2. $r(st) = (rs)t$;\n3. $r1 = 1r = r$;\n4. $(\\lambda r)s = \\lambda (rs) = r(\\lambda s)$;\n5. $(r + s)t = rt + st$;\n6. $r(s + t) = rs + rt$;\n7. $r0 = 0r = 0$.",
+      "references": [
+        "20632cd5-130e-46d8-ab36-ee546e82fd5b"
+      ],
+      "chapter": "81a569e0-da98-4b72-9708-a851beb8a81d",
+      "proof_lines": [
+        {
+          "statement": "omitted.",
+          "references": []
+        }
+      ]
+    },
+    "9ce62a80-c452-457f-bd0a-1a7c97b9a189": {
+      "id": "9ce62a80-c452-457f-bd0a-1a7c97b9a189",
+      "reference": "6.5",
+      "name": "Regular Representation",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $G$ be a finite group and $F$ be $\\mathbb{R}$ or $\\mathbb{C}$. The vector space $FG$ with the natural multiplication $vg$ with $v \\in FG, g \\in G$ is called the **regular $FG$-module**.\n\nThe representation $g \\to [g]_\\mathscr{B}$ obtained by taking $\\mathscr{B}$ to be the natural basis of $FG$ is called the **regular representation** of $G$ over $F$.",
+      "references": [
+        "a19c4587-9421-4d04-9526-b33fcf8432dd",
+        "ca543eae-83ff-4503-9a1e-417dfb71fc78"
+      ],
+      "chapter": "81a569e0-da98-4b72-9708-a851beb8a81d",
+      "proof_lines": []
+    },
+    "36771ec9-ab29-497b-b2e0-5e2ac8152760": {
+      "id": "36771ec9-ab29-497b-b2e0-5e2ac8152760",
+      "reference": "6.6",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "The regular $FG$-module is faithful.",
+      "references": [
+        "51ee6f46-1a01-4368-8bb3-bfc5ddea8faf",
+        "9ce62a80-c452-457f-bd0a-1a7c97b9a189"
+      ],
+      "chapter": "81a569e0-da98-4b72-9708-a851beb8a81d",
+      "proof_lines": [
+        {
+          "statement": "Suppose that $g \\in G$ and $v g = v$ for all $v \\in FG$. Then $1 g = 1$, so $g = 1$.",
+          "references": []
+        }
+      ]
+    },
+    "f2b1f8c3-be00-456f-a300-2eba37160bc7": {
+      "id": "f2b1f8c3-be00-456f-a300-2eba37160bc7",
+      "reference": "1.10",
+      "name": "First Isomorphism Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "Suppose that $G$ and $H$ are groups and let $\\vartheta : G \\to H$ be a homomorphism. Then \n\n$$ G / \\text{Ker }\\vartheta \\cong \\text{Im }\\vartheta .$$\n\nAn isomorphism is given by the function $\\phi: G/ K \\to \\text{Im }\\vartheta$ defined by $\\phi(Kg) = g \\vartheta$ for $g \\in G$, where $K = \\text{Ker } \\vartheta$.",
+      "references": [
+        "7d27dc6f-599b-454c-a849-6cdc7c767ca4",
+        "81636cda-3d8e-44de-914d-ff3c52066a58"
+      ],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": [
+        {
+          "statement": "$\\phi$ is **well defined**, since if $gK = g'K$ then $g^{-1}g' \\in K = \\text{Ker }\\vartheta$, so\n\n$$\\vartheta(g^{-1}g') = e \\Longrightarrow \\vartheta(g)^{-1}\\vartheta(g') = e \\Longrightarrow \\vartheta(g) = \\vartheta(g')$$",
+          "references": []
+        },
+        {
+          "statement": "$\\phi$ is a **homomorphism**, since\n\n$$\\phi(gK \\cdot hK) = \\phi(ghK) = \\vartheta(gh) = \\vartheta(g)\\vartheta(h) = \\phi(gK)\\cdot\\phi(hK).$$",
+          "references": []
+        },
+        {
+          "statement": "$\\phi$ is **injective**, since if $\\phi(gK) = e \\in \\text{Im }\\vartheta$ then $\\vartheta(g) = e$. But that means $g \\in K$, i.e., $gK =K$. So the kernel of $\\phi$ is trivial.\n\n$\\phi$ is **surjective**. Take $\\vartheta(g) \\in \\text{Im }\\vartheta$. Then $\\phi(Kg) = \\vartheta(g)$.",
+          "references": []
+        },
+        {
+          "statement": "We have shown that $\\phi$ is a bijective homomorphism, i.e., an isomorphism.",
+          "references": []
+        }
+      ]
+    },
+    "1f44003e-8e2a-4f0c-9ada-dee31fb554e3": {
+      "id": "1f44003e-8e2a-4f0c-9ada-dee31fb554e3",
+      "reference": "2.1",
+      "name": "Vector Space",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $F$ be either $\\mathbb{R}$ or $\\mathbb{C}$. A **vector space** over $F$ is a set $V$ together with a rule for adding any two elements $u, v \\in F$ to form an element $u  +v \\in F$, and a rule for multiplying any element $v \\in V$ by any element $\\lambda \\in F$ to form an element $\\lambda v \\in V$. The latter rule is called *scalar multiplication. Moreover, the rules must satisfy:\n\n1. $V$ is an abelian group under addition\n2. for all $u, v \\in V$ and all $\\lambda, \\mu \\in F$\n    a. $\\lambda (u + v) = \\lambda u + \\lambda v$\n    b. $(\\lambda + \\mu)v = \\lambda v + \\mu v$\n    c. $(\\lambda \\mu)v = \\lambda (\\mu v)$\n    d. $1v = v$.\n\nThe elements of $V$ are called *vectors* and those of $F$ are called *scalars*. We write $0$ for the identity element of the abelian group $V$ under addition.",
+      "references": [],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "390ff1a2-1fbd-413f-a7e1-9ba7d36f3829": {
+      "id": "390ff1a2-1fbd-413f-a7e1-9ba7d36f3829",
+      "reference": "1.1",
+      "name": "Group",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A group consists of a set $G$ together with a rule for combining any two elements $g, h$ of $G$ to form another element of $G$, written $gh$. This rule must satisfy the following axioms\n\n1. $(gh)k = g(hk)$ for all $g, h, k \\in G$\n2. There exists an element $e \\in G$ such that $eg = ge = g$ for all $g \\in G$.\n3. For all $g \\in G$ there exists an element $g^{-1} \\in G$ such that $gg^{-1} = g^{-1}g = 1$.\n\nWe call $e$ the *identity* element, and $g^{-1}$ the *inverse* of $g$. Usually we write $1$ or the identity element instead of $e$.\n\nA group $G$ is said to be *abelian* if $gh = hg$ for all $g, h \\in G$. For abelian groups we typically use $+$ to denote the group operation, and call the identity element $0$.",
+      "references": [],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": []
+    },
+    "86ea5d47-0208-47f3-b1fa-a623a97d7a54": {
+      "id": "86ea5d47-0208-47f3-b1fa-a623a97d7a54",
+      "reference": "1.2",
+      "name": "Subgroup",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $G$ be a group. A subset $H$ of $G$ is said to be a **subgroup** if $H$ is itself a group under the group operation inherited from $G$. We use the notation $H \\leq G$ to indicate that $H$ is a subgroup of $G$.\n\nIt is easy to see that a subset $H$ of a group $G$ is a subgroup if and only iff $1 \\in H$ and $hk^{-1} \\in H$ whenever $h, k \\in H$.",
+      "references": [
+        "390ff1a2-1fbd-413f-a7e1-9ba7d36f3829"
+      ],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": []
+    },
+    "0dc0da83-97db-4a6e-b5a2-55b45a0247d1": {
+      "id": "0dc0da83-97db-4a6e-b5a2-55b45a0247d1",
+      "reference": "1.3",
+      "name": "Direct Product",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $G$ and $H$ be groups, and consider\n\n$$ G \\times H = \\{(g, h) : g \\in G, h \\in H\\}. $$\n\nDefine a product operation on $G \\times H$ by\n\n$$ (g, h)(g', h') = (gg', hh')$$\n\nfor all $g, g' \\in G$ and $h, h' \\in H$. With this product operation, $G \\times H$ is a group, called the **direct product** of $G$ and $H$.",
+      "references": [
+        "390ff1a2-1fbd-413f-a7e1-9ba7d36f3829"
+      ],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": []
+    },
+    "81636cda-3d8e-44de-914d-ff3c52066a58": {
+      "id": "81636cda-3d8e-44de-914d-ff3c52066a58",
+      "reference": "1.4",
+      "name": "Homomorphism; Isomorphism",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Given groups $G$ and $H$, a **homomorphism** from $G$ to $H$ is a function $\\vartheta : G \\to H$ which satisfies $(g_1 g_2)\\vartheta = (g_1 \\vartheta) (g_2 \\vartheta)$ for all $g_1, g_2 \\in G$.\n\nAn invertible homomorphism is called an **isomorphism**. If there is an isomorphism $\\vartheta$ from $G$ to $H$, then we say that $G$ and $H$ are *isomorphic* groups, and we write $G \\cong H$.",
+      "references": [
+        "390ff1a2-1fbd-413f-a7e1-9ba7d36f3829"
+      ],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": []
+    },
+    "53956783-7fc7-4bd1-9980-26d9ecdaf564": {
+      "id": "53956783-7fc7-4bd1-9980-26d9ecdaf564",
+      "reference": "1.5",
+      "name": "Cosets; Index of a subgroup",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $G$ be a group and let $H$ be a subgroup of $G$. For $x$ in $G$, the subset\n\n$$ Hx = \\{ hx : h \\in H \\}$$\n\nis called a **right coset** of $H$ in $G$. The distinct right cosets of $H$ in $G$ form a partition of $G$ (that is, every element of $G$ is in precisely one of the cosets). \n\nThe number of distinct right cosets of $H$ in $G$ is called the **index** of $H$ in $G$, and is written $|G:H|$.",
+      "references": [
+        "86ea5d47-0208-47f3-b1fa-a623a97d7a54"
+      ],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": []
+    },
+    "02fee083-a2cf-4103-a52e-e16508500fc7": {
+      "id": "02fee083-a2cf-4103-a52e-e16508500fc7",
+      "reference": "1.6",
+      "name": "Lagrange's Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "If $G$ is a finite group and $H$ is a subgroup of $G$, then $|H|$ divides $|G|$, i.e., \n\n$$ |G:H| = |G|/|H| $$",
+      "references": [
+        "53956783-7fc7-4bd1-9980-26d9ecdaf564"
+      ],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": [
+        {
+          "statement": "Let $Hx_1, \\ldots Hx_r$ be all the distinct right cosets of $H$ in $G$. For all $i$, the function\n\n$$ h \\to hx_i \\quad (h \\in H)$$\n\nis a bijection from $H$ to $Hx_i$ and so $|Hx_i| = H$. Since $G = Hx_1 \\cup \\cdots \\cup Hx_r$, and $Hx_i \\cap Hx_j$ is empty if $i \\neq j$, we deduce that $|G| = r|H|$.\n",
+          "references": []
+        }
+      ]
+    },
+    "add5fa49-9197-4bb9-a2e5-02c10287bde0": {
+      "id": "add5fa49-9197-4bb9-a2e5-02c10287bde0",
+      "reference": "1.7",
+      "name": "Normal Subgroup; Factor Group",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A subgroup $N$ of $G$ is said to be a **normal** subgroup if  $g^{-1} N g = N$ for all $g \\in G$. We write $N \\triangleleft G$.\n\nSuppose that $N \\triangleleft G$ and let $G/N$ be the set of right cosets of $N$ in $G$. Then for all $g, h \\in G$ we have\n\n$$ \\{ x y : x \\in Ng, y \\in Nh \\} = Ngh.$$\n\nHence we can define a product operation on $G/N$ by\n\n$$ (Ng)(Nh) = Ngh \\quad \\text{for all } g, h \\in G.$$\n\nThis makes $G/N$ into a group, called the **factor group** of $G$ by $N$.",
+      "references": [
+        "53956783-7fc7-4bd1-9980-26d9ecdaf564"
+      ],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": []
+    },
+    "e128499c-7f9f-4e20-aed1-c0e74eefe704": {
+      "id": "e128499c-7f9f-4e20-aed1-c0e74eefe704",
+      "reference": "1.8",
+      "name": "Simple Group",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A group $G$ is said to be **simple** if $G \\neq \\{1\\}$ and the only normal subgroups of $G$ are $\\{1\\}$ and $G$.",
+      "references": [
+        "add5fa49-9197-4bb9-a2e5-02c10287bde0"
+      ],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": []
+    },
+    "7d27dc6f-599b-454c-a849-6cdc7c767ca4": {
+      "id": "7d27dc6f-599b-454c-a849-6cdc7c767ca4",
+      "reference": "1.9",
+      "name": "Kernel; Image",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $G$ and $H$ be groups and suppose that $\\vartheta : G \\to H$ is a homomorphism. We define the **kernel** of $\\vartheta$ by\n\n$$ \\text{Ker }\\vartheta = \\{g \\in G : g \\vartheta = 1\\}. $$\n\nThen $\\text{Ker }\\vartheta$ is a normal subgroup of $G$. Also, the **image** of $\\vartheta$ is\n\n$$ \\text{Im }\\vartheta = \\{g\\vartheta : g \\in G\\}, $$\n\nand $\\text{Im }\\vartheta$ is a subgroup of $H$.\n",
+      "references": [
+        "81636cda-3d8e-44de-914d-ff3c52066a58",
+        "add5fa49-9197-4bb9-a2e5-02c10287bde0"
+      ],
+      "chapter": "0f208637-d64d-4e14-9c48-928856f33c3e",
+      "proof_lines": []
+    },
+    "09657059-9b56-40bc-a23f-0068278c0d6b": {
+      "id": "09657059-9b56-40bc-a23f-0068278c0d6b",
+      "reference": "2.2",
+      "name": "linearly independent; basis",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $v_1, \\ldots, v_n$ be vectors in a vector space $V$ over $F$. A vector $v$ is a *linear combination* of $v_1, \\ldots, v_n$ if $v = \\lambda_1 v_1 + \\cdots + \\lambda_n v_n$ for some $\\lambda_1, \\ldots, \\lambda_n \\in F$. The vectors $v_1, \\ldots, v_n$ are said to *span* $V$ if every vector in $V$ is a linear combination of $v_1, \\ldots, v_n$.\n\nWe say that $v_1, \\ldots, v_n$ are *linearly dependent* if $\\lambda_1 v_1 + \\cdots + \\lambda_n v_n  =0$ for some $\\lambda_1, \\ldots, \\lambda_n \\in F$, not all of which are zero; otherwise we say that $v_1, \\ldots, v_n$ are **linearly independent**.\n\nThe vectors $v_1, \\ldots, v_n$ form a **basis** of $V$ if they span $V$ and are linearly independent.\n\nIt turns out that any two bases of $V$ have the same number of vactors. The number of vectors in a basis of $V$ is called the *dimension* of $V$, and is written as $\\dim V$.",
+      "references": [
+        "1f44003e-8e2a-4f0c-9ada-dee31fb554e3"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "2034bdd2-fffb-431f-a150-b50f5cc8d643": {
+      "id": "2034bdd2-fffb-431f-a150-b50f5cc8d643",
+      "reference": "2.4",
+      "name": "Extending to a basis",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "If $v_1, \\ldots, v_k$ are linearly independent vectors in $V$, then there exist $v_{k+1}, \\ldots, v_n$ in $V$ such that $v_1, \\ldots, v_n$ form a basis of $V$.",
+      "references": [
+        "09657059-9b56-40bc-a23f-0068278c0d6b"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "e8eab3e7-94c8-4894-a4bb-4ca3115d1e4c": {
+      "id": "e8eab3e7-94c8-4894-a4bb-4ca3115d1e4c",
+      "reference": "2.5",
+      "name": "Subspace",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A subspace of a vector space $V$ over $F$ is a subset of $V$ which is itself a vector space under the addition and scalar multiplication inherited from $V$. For a subset $U$ of $V$ to be a subspace, it is necessary and sufficient that all the following conditions hold:\n\n1. $0 \\in U$\n2. if $u, v, \\in U$ then $u + v \\in U$.\n3. if $\\lambda \\in F$ and $u \\in U$ then $\\lambda u \\in U$.",
+      "references": [
+        "1f44003e-8e2a-4f0c-9ada-dee31fb554e3"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "eb925e38-d0d5-4464-bbbb-caa19f7b292d": {
+      "id": "eb925e38-d0d5-4464-bbbb-caa19f7b292d",
+      "reference": "2.7",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Suppose that $U$ is a subspace of the vector space $V$, then $\\dim U \\leq \\dim V$. Also, $\\dim U = \\dim V$ if and only if $U = V$.",
+      "references": [
+        "e8eab3e7-94c8-4894-a4bb-4ca3115d1e4c"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": [
+        {
+          "statement": "This is a direct consequence of Proposition 2.4.",
+          "references": [
+            "2034bdd2-fffb-431f-a150-b50f5cc8d643"
+          ]
+        }
+      ]
+    },
+    "5f2e2005-cd35-4819-a041-7a225f6f0310": {
+      "id": "5f2e2005-cd35-4819-a041-7a225f6f0310",
+      "reference": "2.8",
+      "name": "Direct sums of subspaces",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "If $U_1, \\ldots, U_r$ are subspaces of a vector space $V$, then their *sum* is defined by\n\n$$ U_1 + \\cdots + U_r = \\{ u_1 + \\cdots + u_r : u_i \\in U_i \\text{ for } 1 \\leq i \\leq r \\}.$$\n\nNote that by the conditions set out in 2.5, $U_1 + \\cdots + U_r$ is a subspace of $V\n\nWe say that a sum of subspaces is a **direct sum** if every element of the sum can be written in a *unique* way as $u_1 + \\cdots + u_r$ with $u_i \\in U_i$ for $1 \\leq i \\leq r$. If the sum is direct, we write it as\n\n$$U_1 \\oplus \\cdots \\oplus U_r.$$",
+      "references": [
+        "e8eab3e7-94c8-4894-a4bb-4ca3115d1e4c"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "53f8e8b0-de29-4884-b44a-05a3a7eac948": {
+      "id": "53f8e8b0-de29-4884-b44a-05a3a7eac948",
+      "reference": "2.10",
+      "name": "Linear Transformation",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $V$ and $W$ be vector spaces over $F$. A **linear transformation** from $V$ to $W$ is a function $\\vartheta : V \\to W$ which satisfies\n\n* $(u + v)\\vartheta = u\\vartheta + v\\vartheta$ for all $u, v \\in V$, and\n* $(\\lambda v)\\vartheta = \\lambda(v \\vartheta)$ for all $\\lambda \\in F$ and $v \\in V$.",
+      "references": [
+        "1f44003e-8e2a-4f0c-9ada-dee31fb554e3"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "4f775d6f-0201-4f57-84bd-83a7f6b887e7": {
+      "id": "4f775d6f-0201-4f57-84bd-83a7f6b887e7",
+      "reference": "2.11",
+      "name": "Linear Kernel; Image",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "If $\\vartheta : V \\to W$ is a linear transformation, then the **kernel** of $\\vartheta$ is $\\text{Ker }\\vartheta = \\{ v \\in V: v\\vartheta = 0\\}$, and the **image** of $\\vartheta$ is $\\text{Im }\\vartheta = \\{ v\\vartheta : v \\in V\\}.$",
+      "references": [
+        "53f8e8b0-de29-4884-b44a-05a3a7eac948"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "b75fce34-8307-410e-b822-6b140e2d1c6d": {
+      "id": "b75fce34-8307-410e-b822-6b140e2d1c6d",
+      "reference": "2.12",
+      "name": "Rank-Nullity Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "If $\\vartheta : V \\to W$ is a linear transformation then $\\text{Ker }\\vartheta$ is a subspace of $V$ and $\\text{Im }\\vartheta$ is a subspace of $W$, and $\\dim(V) = \\dim(\\text{Ker }\\vartheta) + \\dim(\\text{Im }\\vartheta)$.",
+      "references": [
+        "4f775d6f-0201-4f57-84bd-83a7f6b887e7",
+        "e8eab3e7-94c8-4894-a4bb-4ca3115d1e4c"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": [
+        {
+          "statement": "Incomplete",
+          "references": []
+        }
+      ]
+    },
+    "87b285ed-79a3-4512-b7ee-412e0576f004": {
+      "id": "87b285ed-79a3-4512-b7ee-412e0576f004",
+      "reference": "2.13",
+      "name": "Isomorphic vector spaces",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $V$ and $W$ be vector spaces over $F$. A linear transformation $\\vartheta$ from $V$ to $W$ is injective if and only if $\\text{Ker }\\vartheta = \\{0\\}$, and hence $\\vartheta$ is invertible precisely when $\\vartheta$ is surjective and $\\text{Ker }\\vartheta = \\{ 0 \\}$. If there exists an invertible linear transformation from $V$ to $W$ then $V$ and $W$ are said to be **isomorphic**.",
+      "references": [
+        "4f775d6f-0201-4f57-84bd-83a7f6b887e7"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "d716951a-9ada-4d18-923d-0bb8ce87001c": {
+      "id": "d716951a-9ada-4d18-923d-0bb8ce87001c",
+      "reference": "2.14",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Let $\\vartheta$ be a linear transformation from $V$ to itself. Then the following three conditions are equivalent\n\n1. $\\vartheta$ is invertible;\n2. $\\text{Ker }\\vartheta = \\{ 0 \\}$;\n3. $\\text{Im }\\vartheta = V$.",
+      "references": [
+        "87b285ed-79a3-4512-b7ee-412e0576f004"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": [
+        {
+          "statement": "$1 \\Longleftrightarrow 2$ is immediate from our definition of isomorphic vector spaces, while $2 \\Longleftrightarrow 3$ follows from Proposition 2.7",
+          "references": [
+            "eb925e38-d0d5-4464-bbbb-caa19f7b292d"
+          ]
+        }
+      ]
+    },
+    "652a9551-bad7-45f3-a13c-7471df58cda7": {
+      "id": "652a9551-bad7-45f3-a13c-7471df58cda7",
+      "reference": "2.15",
+      "name": "Endomorphisms",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A linear transformation from a vector space $V$ to itself is called an **endomorphism** of $V$. Suppose that $\\theta$ and $\\phi$ are endomorphisms of $V$ and $\\lambda \\in F$. We define the functions $\\theta + \\phi$ and $\\lambda \\theta$ from $V$ to $V$ by\n\n* $v ( \\theta + \\phi) = v\\theta + v\\phi$,\n* $v (\\theta\\phi) = (v\\theta)\\phi$,\n* $v (\\lambda\\theta) = \\lambda (v\\theta)$.",
+      "references": [
+        "53f8e8b0-de29-4884-b44a-05a3a7eac948"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "7471da3b-ab7b-432b-879d-2a84583d9bc6": {
+      "id": "7471da3b-ab7b-432b-879d-2a84583d9bc6",
+      "reference": "2.17",
+      "name": "Matrix",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $V$ be a vector space over $F$, and let $\\vartheta$ be an endomorphism of $V$. Suppose that $v_1, \\ldots, v_n$ is a basis of $V$ and call it $\\mathscr{B}$. Then there are scalars $a_{ij}$ in $F$ such that for all $i$,\n\n$$v_i \\vartheta = a_{i1} v_1 + \\cdots + a_{in} v_n $$\n\nThe $n \\times n$ matrix $(a_{ij})$ is called the **matrix of $\\vartheta$ relative to the basis $\\mathscr{B}$** and is denoted $[\\vartheta]_\\mathscr{B}$.",
+      "references": [
+        "652a9551-bad7-45f3-a13c-7471df58cda7",
+        "09657059-9b56-40bc-a23f-0068278c0d6b"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "8d03a064-d017-4280-aee2-c76b567cabe1": {
+      "id": "8d03a064-d017-4280-aee2-c76b567cabe1",
+      "reference": "2.21",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Matrix multiplication is an endomorphism. I.e., if $A$ is an $n \\times n$ matrix over $F$ then the function $v \\to vA$ where $v \\in F^n$ is an endomorphism of $F^n$.",
+      "references": [
+        "7471da3b-ab7b-432b-879d-2a84583d9bc6",
+        "652a9551-bad7-45f3-a13c-7471df58cda7"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "17fb05b6-a401-4ebf-8535-dea2fcf24333": {
+      "id": "17fb05b6-a401-4ebf-8535-dea2fcf24333",
+      "reference": "2.23",
+      "name": "Change of Basis Matrix",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $v_1, \\ldots, v_n$ be a basis $\\mathscr{B}$ of the the vector space $V$, and let $v'_1, \\ldots, v'_n$ be a basis $\\mathscr{B}'$ of $V$. Then for $1 \\leq i \\leq n$,\n\n$$ v'_i = t_{i1}v_1 + \\cdots + t_{in}v_n$$\n\nfor certain scalars $t_{ij}$. The $n \\times n$ matrix $T = (t_{ij})$ is invertible, and is called the **change of basis matrix** from $\\mathscr{B}$ to $\\mathscr{B}'$. ",
+      "references": [
+        "7471da3b-ab7b-432b-879d-2a84583d9bc6"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "18788184-b7ff-45a1-81c0-bc737a37f4bb": {
+      "id": "18788184-b7ff-45a1-81c0-bc737a37f4bb",
+      "reference": "2.24",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "If $\\mathscr{B}$ and $\\mathscr{B}'$ are bases of $V$ and $\\vartheta$ is an endomorphism of $V$, then $[\\vartheta]_\\mathscr{B} = T^{-1} [\\vartheta]_\\mathscr{B} T$ where $T$ is the change of basis matrix from $\\mathscr{B}$ to $\\mathscr{B}'$.",
+      "references": [
+        "17fb05b6-a401-4ebf-8535-dea2fcf24333"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "dfdbdd9a-766b-428d-9b7b-8ad5b2687e15": {
+      "id": "dfdbdd9a-766b-428d-9b7b-8ad5b2687e15",
+      "reference": "2.25",
+      "name": "Eigenvalue; Eigenvector",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A scalar $\\lambda$ is said to be an **eigenvalue** of the endomorphism $\\vartheta : V \\to V$ if $v\\vartheta = \\lambda v$ for some non-zero vector $v$. Such a vector is called an **eigenvector** of $\\vartheta$.",
+      "references": [
+        "652a9551-bad7-45f3-a13c-7471df58cda7"
+      ],
+      "chapter": "b835d307-4658-4ff5-89b5-f48930afd1d3",
+      "proof_lines": []
+    },
+    "e464c8fb-c8d2-4623-ab85-9bb4e4ec6b7f": {
+      "id": "e464c8fb-c8d2-4623-ab85-9bb4e4ec6b7f",
+      "reference": "5.4",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "A representation of degree $n$ of a group $G$ is reducible if and only if it is equivalent to a representation of the form \n\n$$\n\\left(\n\\begin{array}{c|c}\nX_g & 0 \\\\ \\hline\nY_g & Z_g\n\\end{array} \\right)\n$$\n\nwhere for all $g \\in G$, and where $X_g$ is an $k \\times k$ matrix for $ 1 \\leq k < n $",
+      "references": [
+        "927c2f1d-0f64-4301-ade6-0f4a615008db",
+        "15efadc7-f7b3-44bf-a19a-46dc3dde6c2b"
+      ],
+      "chapter": "ad2ed4d5-e885-4b63-9283-cbd2faa567cc",
+      "proof_lines": []
+    },
+    "131c22dc-d8e5-4e34-be50-61db26502a04": {
+      "id": "131c22dc-d8e5-4e34-be50-61db26502a04",
+      "reference": "5.5",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "If $\\rho$ is representation equivalent to $\\sigma$, and $\\rho$ is reducible, then $\\sigma$ is also reducible.\n\n*(Exercise 5.2 in the original text.)*",
+      "references": [
+        "15efadc7-f7b3-44bf-a19a-46dc3dde6c2b",
+        "927c2f1d-0f64-4301-ade6-0f4a615008db"
+      ],
+      "chapter": "ad2ed4d5-e885-4b63-9283-cbd2faa567cc",
+      "proof_lines": [
+        {
+          "statement": "A representation is reducible iff it is equivalent to a lower triangular block matrix representation. Therefore the result follows from transitivity of equivalence.",
+          "references": [
+            "e464c8fb-c8d2-4623-ab85-9bb4e4ec6b7f"
+          ]
+        }
+      ]
+    },
+    "25b3c2ac-6261-4eea-ba4b-ad0a16c98e98": {
+      "id": "25b3c2ac-6261-4eea-ba4b-ad0a16c98e98",
+      "reference": "6.8",
+      "name": "Action of FG on an FG-module",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Suppose that $V$ is an $FG$-module, and that $v \\in V$ and $r \\in FG$. I.e., suppose that \n\n$$ r = \\sum_{g\\in G} \\mu_g g \\quad (\\mu_g \\in F).$$\n\nThen we define\n\n$$vr := \\sum_{g \\in G} \\mu_g (v g).$$",
+      "references": [
+        "20632cd5-130e-46d8-ab36-ee546e82fd5b",
+        "7d059e3a-a76e-4173-8119-c4c618c6186d"
+      ],
+      "chapter": "81a569e0-da98-4b72-9708-a851beb8a81d",
+      "proof_lines": []
+    },
+    "0155e5c9-3805-442c-9221-4df42e45db6b": {
+      "id": "0155e5c9-3805-442c-9221-4df42e45db6b",
+      "reference": "6.10",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Up until this point we've been using the term $FG$-module without any real justification. Below we perform the tedious confirmation that the action of $FG$ on an $FG$-module really satisfies the definition of a module.\n\nSuppose $V$ is an $FG$-module. Then the following properties hold for all $u, v \\in V$, all $\\lambda \\in F$, and all $r, s \\in FG$.\n\n1. $vr \\in V$;\n2. $v(rs) \\in (vr)s$;\n3. $v1 = v$;\n4. $(\\lambda v)r = \\lambda ( vr) = v (\\lambda r)$;\n5. $(u + v) r = ur + vr$;\n6. $v(r + s) = vr + vs$;\n7. $v0 = 0r = 0$;",
+      "references": [
+        "25b3c2ac-6261-4eea-ba4b-ad0a16c98e98"
+      ],
+      "chapter": "81a569e0-da98-4b72-9708-a851beb8a81d",
+      "proof_lines": [
+        {
+          "statement": "Omitted.",
+          "references": []
+        }
+      ]
+    }
+  },
+  "title": "Representation Theory",
+  "schemaVersion": 0.1,
+  "version": "2025-06-05T01:33:39.103Z",
+  "source": "local"
+}

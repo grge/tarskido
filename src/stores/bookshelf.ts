@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ref, watch, markRaw } from 'vue';
 
 import Graph from '@/graphlib_ext.js'
+import { migrateBook } from '@/utils/migration';
 
 /* Currently I am storing the bookshelf as a simple JSON object. each book has
  * a list of nodes, and each node knows the id of its parent and its references.
@@ -21,6 +22,9 @@ import Graph from '@/graphlib_ext.js'
  */
 
 export interface Book {
+    schemaVersion?: number,
+    source?: string,
+    version?: string,
     id: string,
     title: string,
     author: string,
@@ -126,7 +130,9 @@ export const useBookStore = defineStore('book', () => {
   function loadFromLocalStorage(key: string) {
     const data = localStorage.getItem('tarskido-book-' + key);
     if (data) {
-      loadFromJSON(JSON.parse(data), key);
+      const raw = JSON.parse(data);
+      const migratedRaw = migrateBook(raw);
+      loadFromJSON(migratedRaw, key);
     } else {
       console.error('No book found in localStorage with key:', key);
     }

@@ -14,6 +14,7 @@ Graph:
 - LP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
 
 Other:
+- HP: Demo bookshelf list, loading from GitHub, fallback to local, etc.
 - MP: Clean up low screen width css 
 - MP: Full audit of typography and style details
 - MP: Download this book link doesn't work

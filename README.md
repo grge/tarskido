@@ -1,28 +1,24 @@
 # Tarskido
 
-A markdown editor for math notes. 
+**Tarskido** is an experimental platform for authoring and reading mathematics books or notes as a directed graph of definitions and propositions. It aims to make the natural graph structure of mathematical knowledge an explicit part of learning and reading. I've built this as a personal project, and have found it a useful way to organise my notes while study new topics. If you find it useful, or if you have any feedback or suggestions, I'd love to hear from you!
 
-##
+![Tarskido screenshot](screenshot.png)
 
-Tarskido is an app for building math books using markdown and $\LaTeX$. Each book
-in Tarskido is a directed graph of nodes representing definitions and propositions,
-where edges in the graph indicate logical precedence. The graph is also overlayed
-with a heirarchy indicating the chapter and section structure.
+## Features
+- **Graph-based navigation** of mathematical content, with visualisations powered by the wonderful [dagre](https://github.com/dagrejs/dagre) layout engine.
+- **Structural references** between nodes.
+- **Dependency-away layout**: For example, view the prerequisites of a definition or theorem in a natural ordered on a single page.
+- **In-browser editing**, with content rendered via [markdown-it](https://github.com/markdown-it/markdown-it) and [katex](https://katex.org/).
+- **Local-first**: Books live in local storage and can be edited and viewed offline, or exported as JSON and shared with others.
+- **Live demo** with example books coming soon.
 
-Tarksido has been built using Vue 3 and Vite.
+## Installation
 
-This project has been created to help me keep notes while studying, and will not
-be supported.
+You can run Tarskido locally:
 
-## Project Setup
-
-```sh
+```bash
+git clone https://github.com/grge/tarskido.git
+cd tarskido
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
-

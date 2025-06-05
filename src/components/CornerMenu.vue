@@ -9,8 +9,8 @@
     <ul>
       <li><router-link :to="{ name: 'Home' }">Tarskido</router-link></li>
       <hr/>
-      <li>Download this book</li>
-      <li><a @click="toggleEditMode()">Edit Mode</a><span class="tick">{{ store.editMode ? "✓" : ""}}</span></li>
+      <li><a @click="downloadBook()">Download this book</a></li>
+      <li><a @click="toggleEditMode()">Edit mode</a><span class="tick">{{ store.editMode ? "✓" : ""}}</span></li>
       <li>Github</li>
     </ul>
   </div>
@@ -29,6 +29,19 @@
 
   function toggleEditMode() {
     store.editMode = !store.editMode;
+  }
+
+  function downloadBook() {
+    const bookData = JSON.stringify(store.rawBook, null, 2);
+    const blob = new Blob([bookData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${store.rawBook.id}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 </script>
 

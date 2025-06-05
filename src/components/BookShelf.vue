@@ -1,16 +1,19 @@
 <script lang="ts" setup>
 import { useBookStore } from '@/stores/bookshelf';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 const bookStore = useBookStore();
 const router = useRouter();
 
 function getLocalStorageBooks() {
-  // all books should have be keyed by tarkido-book-%id%
+  // all books should be keyed by tarkido-book-%id%
   var books = [];
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if (key.startsWith('tarskido-book-')) {
+      // we currently just read the whole book in to get
+      // the metadata we need. In the future we might want to
+      // localstore some metadata separately
       const book = JSON.parse(localStorage.getItem(key));
       books.push(book);
     }
@@ -27,8 +30,10 @@ const importFromFile = () => {
     const file = fileInput.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      const data = JSON.parse(reader.result)
-      //bookStore.load(data);
+      const data = JSON.parse(reader.result as string);
+      console.log('Importing book from file:', data);
+      bookStore.loadFromJSON(data, data.id);
+      router.push({ name: 'Book', params: { bookid: data.id }});
     };
     reader.readAsText(file);
   };
@@ -42,7 +47,7 @@ function createNewBook() {
   router.push({ name: 'BookEdit', params: { bookid: bookId }}); 
 }
 
-var books = getLocalStorageBooks()
+const books = computed(() => getLocalStorageBooks())
 </script>
 
 <template>

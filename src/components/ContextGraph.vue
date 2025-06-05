@@ -97,7 +97,6 @@ const nodeSizes = ref<{ [key: string]: { width: number, height: number } }>({});
 
 const allNodeIds = computed(() => rawSubGraph.value.nodes());
 
-
 const measureRoot = ref<HTMLElement | null>(null);
 async function measureNodeSizes() {
   await nextTick();
@@ -128,10 +127,23 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
     return [n, ...graph.children(n).flatMap((child) => [...graph.descendants(child), child])];
   }
 
+  // relevant nodes are those that are either in the contextIds or are descendants of a contextId
   const relevantNodes = [... new Set(contextIds.map(descendants).flat())];
   const relevantEdges = relevantNodes.flatMap((n) => graph.nodeEdges(n)).map((obj) => [obj.v, obj.w]);
 
+  // Their may be extra edges that connect nodes that are incident to a relevantEdge but are not themselves
+  // relevantNodes, so we need to do a bit of extra work to include those.
+  const newNodes = relevantEdges.flatMap(([v, w]) => [v, w]).filter((n) => !relevantNodes.includes(n));
+  const newEdges = newNodes.flatMap((n) => graph.nodeEdges(n))
+                           .map((obj) => [obj.v, obj.w])
+                           .filter(([v, w]) => (newNodes.includes(v) && newNodes.includes(w)));
+
+  const combinedEdges = relevantEdges.concat(newEdges);
+
   // To be displayed a node must be part of a relevant edge *and* be an anchor node
+  // an anchor is either a context node, or a child or a sibling of a context node
+  // This is the step that collapses clusters. I.e., each node incident to combinedEdges
+  // gets rolled up into an anchor node.
   const contextChildren = contextIds.flatMap((n) => graph.children(n));
   const contextSiblings = contextIds.flatMap((id) => graph.parent(id) ? graph.children(graph.parent(id)) : []);
   const anchors = [... new Set([...contextChildren, ...contextSiblings])];
@@ -141,7 +153,8 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
   const nodeAnchorMap = {};
   const anchoredEdges = [];
 
-  for (const [v, w] of relevantEdges) {
+  // Now we need to map all of the edges to be edges between anchors
+  for (const [v, w] of combinedEdges) {
     const seen = new Set();
     for (const orig of [v, w]) {
       let n = orig;
@@ -157,32 +170,29 @@ function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
     const key = anchoredEdge.join('-');
     if (seen.has(key)) continue;
     seen.add(key);
-    if (anchoredEdge[0] === anchoredEdge[1]) continue; // skip self-loops
+    // When we collapse a cluster, all of the cluster's internal edges become self-loops
+    // so we explicitly skip those.
+    if (anchoredEdge[0] === anchoredEdge[1]) continue; 
     anchoredEdges.push(anchoredEdge);
   }
 
   // now we build the graph
   const subGraph = new Graph({ directed: true, compound: true });
   subGraph.setGraph({ rankdir: 'LR' });
-  for (const n of contextIds) {
-    console.log("Adding context node:", n);
+  const addNode = (n : string) => {
     if (graph.hasNode(n) && !subGraph.hasNode(n)) {
       subGraph.setNode(n, graph.nodes(n));
       subGraph.setParent(n, graph.parent(n));
     }
   }
-  for (const [v, w] of anchoredEdges) {
-    // add the nodes if they are not already present
-    if (!subGraph.hasNode(v)) {
-      subGraph.setNode(v, graph.nodes(v));
-      subGraph.setParent(v, graph.parent(v));
-    }
-    if (!subGraph.hasNode(w)) {
-      subGraph.setNode(w, graph.nodes(w));
-      subGraph.setParent(w, graph.parent(w));
-    }
+
+  contextIds.forEach(addNode);
+  contextChildren.forEach(addNode);
+  anchoredEdges.forEach(([v, w]) => {
+    addNode(v);
+    addNode(w);
     subGraph.setEdge(v, w, {label: ""});
-  }
+  });
   subGraph.removeNode('ROOT');
   return subGraph;
 }
@@ -199,11 +209,9 @@ subGraph.value.setGraph({ rankdir: 'LR' });
 
 watch(readyForLayout, (ready) => {
   if (!ready) return
-  console.log(nodeSizes.value)
   const g = rawSubGraph.value
   g.nodes().forEach( id => {
     const size = nodeSizes.value[id];
-    console.log(id, size)
     if (size) {
       g.setNode(id, { width: size.width + 20, height: size.height });
     }

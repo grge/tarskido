@@ -3,25 +3,25 @@ MP: Must fix before releasing MVP
 LP: Want to fix, but could release without it
 
 Graph:
-- MP: Doesn't render edge-free children of context node
 - MP: Horizontal scroll bar if graph is too wide. 
 - MP: Toggle to show/hide graph?
 - LP: Curvy arrows on graph
 - LP: Graph animations? 
-- LP: optimize subgraph generation
 - LP: Clusters can be collapsed/expanded
 - LP: The graph should show the context node's full ancestor context (maybe?)
 - LP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
+- LP: Remove redundent edges from the graph (optionally). I.e., if A depends on B and C, and B also depends on C, don't show C -> A.
 
 Other:
-- HP: Demo bookshelf list, loading from GitHub, fallback to local, etc.
+- HP: Demo bookshelf list, loading from GitHub, fallback to local, etc. Revamp front page.
 - MP: Clean up low screen width css 
-- MP: Full audit of typography and style details
-- MP: Create new book and Import book should be hidden when not in edit mode
-- MP: Node view doesn't render leaf nodes when veiewing a section
+- MP: Audit consistency of type. Fonts, font sizes, margins, etc 
+- LP: Better chapter and section views. Perhaps show a mini TOC of each subsection when viewing a chapter node.
+- LP: "View dependencies" option when viewing a node. Shows the recursive predecessors of the node, and presents them in a topological order.
 - LP: Prevent self-links when editing parent or reference links
 - LP: Overhaul edit pages
 - LP: Table of contents sidebar
 - LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.
 - LP: pass nodes into components wherever possible, instead of passing the nodeId and looking it up in the store.
 - LP: Redesign reference glyphs
+- LP: Table of all nodes in the book, with search and filter options.

@@ -10,7 +10,10 @@
 - **Dependency-away layout**: For example, view the prerequisites of a definition or theorem in a natural ordered on a single page.
 - **In-browser editing**, with content rendered via [markdown-it](https://github.com/markdown-it/markdown-it) and [katex](https://katex.org/).
 - **Local-first**: Books live in local storage and can be edited and viewed offline, or exported as JSON and shared with others.
-- **Live demo** with example books coming soon.
+
+## Demo
+
+https://grge.github.io/tarskido/
 
 ## Installation
 

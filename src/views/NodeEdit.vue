@@ -137,7 +137,7 @@ export default {
     },
     reference_label(nodeid) {
       var n = this.book.nodes[nodeid];
-      return n.subtype + " " + n.reference + " " + n.name
+      return n.nodetype.secondary + " " + n.reference + " " + n.name
     }
 
   },

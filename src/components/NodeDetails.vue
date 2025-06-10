@@ -8,10 +8,10 @@
         <h3 v-if='level==2' class='node-h-name'>
           {{node.name == "" ? node.nodetype.secondary + " " + node.reference : node.name}}
         </h3>
-        <div class='editlinks listoflinks' v-if='store.editMode'>
+        <div class='editlinks listoflinks'>
           <NodeReference :nodeId="node.id" v-if='level > 1'/>
-          <router-link class='editlink' :to="{ name: 'NodeEdit', params: {bookid: book.id, nodeid: node.id}}">Edit node</router-link>
-          <a class='editlink' @click='createChildNode()' v-if='level == 1 && node.nodetype.primary == "Group"'>Create child node</a>
+          <router-link class='editlink' v-if="store.editMode" :to="{ name: 'NodeEdit', params: {bookid: book.id, nodeid: node.id}}">Edit node</router-link>
+          <a class='editlink' @click='createChildNode()' v-if='store.editMode && level == 1 && node.nodetype.primary == "Group"'>Create child node</a>
         </div>
       </div>
 
@@ -27,7 +27,9 @@
         </div>
       </div>
 
-      <ContextGraph :contextIds='[node.id]' v-if='level == 1' />
+      <div class='context-graph-wrapper' v-if='level == 1'>
+        <ContextGraph :contextIds='[node.id]' />
+      </div>
 
       <div class='node-body'>
         <MarkdownRenderer :markdown="node.statement" />
@@ -151,7 +153,7 @@ export default {
     margin-bottom 0.5em
     display block
 
-  .context-graph
+  .context-graph-wrapper
     grid-column 1 / span 3
 
   .node-body

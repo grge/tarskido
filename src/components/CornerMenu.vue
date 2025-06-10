@@ -93,4 +93,5 @@
    height 0
    overlfow hidden
    transition height 0ms 400ms, opacity 400ms 0ms
+   pointer-events none
 </style>

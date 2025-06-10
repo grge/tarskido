@@ -2,20 +2,13 @@ HP: Completely broken or incredibly annoying unless fixed
 MP: Must fix before releasing MVP
 LP: Want to fix, but could release without it
 
-Graph:
-- MP: Horizontal scroll bar if graph is too wide. 
-- MP: Toggle to show/hide graph?
-- LP: Curvy arrows on graph
-- LP: Graph animations? 
-- LP: Clusters can be collapsed/expanded
-- LP: The graph should show the context node's full ancestor context (maybe?)
-- LP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
-- LP: Remove redundent edges from the graph (optionally). I.e., if A depends on B and C, and B also depends on C, don't show C -> A.
 
-Other:
 - HP: Demo bookshelf list, loading from GitHub, fallback to local, etc. Revamp front page.
+- MP: Toggle to show/hide graph?
 - MP: Clean up low screen width css 
 - MP: Audit consistency of type. Fonts, font sizes, margins, etc 
+- MP: Better urls with book names and node names instead of uuids
+- MP: The BBOX calculation does not include edges, so in rare circumstances edges get cut off.
 - LP: Better chapter and section views. Perhaps show a mini TOC of each subsection when viewing a chapter node.
 - LP: "View dependencies" option when viewing a node. Shows the recursive predecessors of the node, and presents them in a topological order.
 - LP: Prevent self-links when editing parent or reference links
@@ -25,3 +18,9 @@ Other:
 - LP: pass nodes into components wherever possible, instead of passing the nodeId and looking it up in the store.
 - LP: Redesign reference glyphs
 - LP: Table of all nodes in the book, with search and filter options.
+- LP: Curvy arrows on graph
+- LP: Graph animations? 
+- LP: Clusters can be collapsed/expanded
+- LP: The graph should show the context node's full ancestor context (maybe?)
+- LP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
+- LP: Remove redundent edges from the graph (optionally). I.e., if A depends on B and C, and B also depends on C, don't show C -> A.

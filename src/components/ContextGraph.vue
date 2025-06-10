@@ -264,8 +264,9 @@ const leaves = computed(() => nodes.value.filter((n) => (subGraph.value.children
   visibility: hidden;
   pointer-events: none;
   z-index: 1;
-  width: max-content;
+  width: 80vw;
   height: auto;
+
 }
 
 .measure-node {
@@ -279,14 +280,19 @@ const leaves = computed(() => nodes.value.filter((n) => (subGraph.value.children
 
 .context-graph {
   display: flex;
-  justify-content: center;
-  overflow-x: display;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  overflow-x: scroll;
+  margin-top: 1em;
 }
 
 .graph-svg {
-  flex-shrink: 0;
-  width: auto;
   height: auto;
+  max-width: 90vw;
+  overflow: visible;
+  display: block;
+  justify-content: center;
 }
 
 g.node rect {

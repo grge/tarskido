@@ -82,6 +82,7 @@
 <script setup lang="ts">
 import { useBookStore } from '@/stores/bookshelf';
 import { ref, computed, watch, nextTick } from 'vue';
+import { buildContextGraph } from '@/utils/contextGraph.ts';
 import NodeReference from '@/components/NodeReference.vue'
 import dagre from 'dagre';
 import Graph from '@/graphlib_ext.js'
@@ -91,7 +92,11 @@ const store = useBookStore();
 
 const fullGraph = computed(() => store.graph);
 const book = computed(() => store.rawBook);
-const rawSubGraph = computed(() => buildContextSubGraph(fullGraph.value, props.contextIds));
+const rawSubGraph = computed(() => {
+  const g = buildContextGraph(fullGraph.value, props.contextIds);
+  g.removeNode("ROOT")
+  return g;
+});
 const readyForLayout = ref(false);
 const nodeSizes = ref<{ [key: string]: { width: number, height: number } }>({});
 
@@ -119,83 +124,6 @@ function edgeD(v:string, w:string) {
   const pts = edge.points;
   return 'M' + pts.map(p => `${p.x},${p.y}`).join('L');
 };
-
-function buildContextSubGraph(graph: Graph, contextIds: string[] = []){
-  // our context sub graph will show all of the relationships involving "relevant" nodes
-  // although some of those nodes may be collapsed clusters.
-  function descendants(n: string) {
-    return [n, ...graph.children(n).flatMap((child) => [...graph.descendants(child), child])];
-  }
-
-  // relevant nodes are those that are either in the contextIds or are descendants of a contextId
-  const relevantNodes = [... new Set(contextIds.map(descendants).flat())];
-  const relevantEdges = relevantNodes.flatMap((n) => graph.nodeEdges(n)).map((obj) => [obj.v, obj.w]);
-
-  // Their may be extra edges that connect nodes that are incident to a relevantEdge but are not themselves
-  // relevantNodes, so we need to do a bit of extra work to include those.
-  const newNodes = relevantEdges.flatMap(([v, w]) => [v, w]).filter((n) => !relevantNodes.includes(n));
-  const newEdges = newNodes.flatMap((n) => graph.nodeEdges(n))
-                           .map((obj) => [obj.v, obj.w])
-                           .filter(([v, w]) => (newNodes.includes(v) && newNodes.includes(w)));
-
-  const combinedEdges = relevantEdges.concat(newEdges);
-
-  // To be displayed a node must be part of a relevant edge *and* be an anchor node
-  // an anchor is either a context node, or a child or a sibling of a context node
-  // This is the step that collapses clusters. I.e., each node incident to combinedEdges
-  // gets rolled up into an anchor node.
-  const contextChildren = contextIds.flatMap((n) => graph.children(n));
-  const contextSiblings = contextIds.flatMap((id) => graph.parent(id) ? graph.children(graph.parent(id)) : []);
-  const anchors = [... new Set([...contextChildren, ...contextSiblings])];
-
-  // now we map each relevant edge's endpoints to the nearst anchor by tracing up the parent hierarchy
-  // for efficiency, we construct construct a node -> anchor map to use as a cache as we go
-  const nodeAnchorMap = {};
-  const anchoredEdges = [];
-
-  // Now we need to map all of the edges to be edges between anchors
-  for (const [v, w] of combinedEdges) {
-    const seen = new Set();
-    for (const orig of [v, w]) {
-      let n = orig;
-      if (!nodeAnchorMap[n]) {
-        while (n && !anchors.includes(n)) {
-          n = graph.parent(n);
-        }
-        // if we didn't find an anchor, just use the node itself
-        nodeAnchorMap[orig] = n || orig;
-      }
-    }
-    const anchoredEdge = [nodeAnchorMap[v], nodeAnchorMap[w]];
-    const key = anchoredEdge.join('-');
-    if (seen.has(key)) continue;
-    seen.add(key);
-    // When we collapse a cluster, all of the cluster's internal edges become self-loops
-    // so we explicitly skip those.
-    if (anchoredEdge[0] === anchoredEdge[1]) continue; 
-    anchoredEdges.push(anchoredEdge);
-  }
-
-  // now we build the graph
-  const subGraph = new Graph({ directed: true, compound: true });
-  subGraph.setGraph({ rankdir: 'LR' });
-  const addNode = (n : string) => {
-    if (graph.hasNode(n) && !subGraph.hasNode(n)) {
-      subGraph.setNode(n, graph.nodes(n));
-      subGraph.setParent(n, graph.parent(n));
-    }
-  }
-
-  contextIds.forEach(addNode);
-  contextChildren.forEach(addNode);
-  anchoredEdges.forEach(([v, w]) => {
-    addNode(v);
-    addNode(w);
-    subGraph.setEdge(v, w, {label: ""});
-  });
-  subGraph.removeNode('ROOT');
-  return subGraph;
-}
 
 watch(rawSubGraph, (sg) => {
   readyForLayout.value = false;

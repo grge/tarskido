@@ -19,8 +19,4 @@ LP: Want to fix, but could release without it
 - LP: Redesign reference glyphs
 - LP: Table of all nodes in the book, with search and filter options.
 - LP: Curvy arrows on graph
-- LP: Graph animations? 
 - LP: Clusters can be collapsed/expanded
-- LP: The graph should show the context node's full ancestor context (maybe?)
-- LP: The graph should always show the predecessors and successors of the context node (currently it only shows an anchor of these)
-- LP: Remove redundent edges from the graph (optionally). I.e., if A depends on B and C, and B also depends on C, don't show C -> A.

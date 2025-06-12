@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
   <div id="app">
     <div>
-      <router-view :key="$route.fullPath" />
+      <router-view />
     </div>
   </div>
 </template>

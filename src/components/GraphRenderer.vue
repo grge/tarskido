@@ -2,13 +2,13 @@
 <template>
   <svg
     :viewBox="`${bbox.minX} ${bbox.minY} ${bbox.width} ${bbox.height}`"
-      :width="`${bbox.width}`"
-      :height="`${bbox.height}`"
+    :width="`${bbox.width}`"
+    :height="`${bbox.height}`"
     preserveAspectRatio="xMidYMid meet"
     class="graph-svg">
 
     <defs>
-      <filter id="sofGlow" height="300%" width="300%" x="-75%" y="-75%">
+      <filter id="softGlow" height="300%" width="300%" x="-75%" y="-75%">
         <!-- Thicken out the original shape -->
         <feMorphology operator="dilate" radius="4" in="SourceAlpha" result="thicken" />
         <!-- Use a gaussian blur to create the soft blurriness of the glow -->
@@ -30,14 +30,14 @@
       </marker>
     </defs>
 
-    <TransitionGroup name="cluster" tag="g" class="clusters">
+    <TransitionGroup name="item" tag="g" class="items" :css="true">
       <g class="cluster"
           v-for="id in clusters"
           :key="id"
           :transform="nodeTransform(id)">
         <rect :width="`${graph.node(id).width}`"
               :height="`${graph.node(id).height}`"
-              :filter="highlightIds.includes(id) ? 'url(#sofGlow)' : ''"
+              :filter="highlightIds.includes(id) ? 'url(#softGlow)' : ''"
               fill="#eaeaea">
         </rect>
         <foreignObject :width="`${graph.node(id).width}`" :height="`${graph.node(id).height}`">
@@ -46,16 +46,13 @@
           </div>
         </foreignObject>
       </g>
-    </TransitionGroup>
-
-    <TransitionGroup name="node" tag="g" class="nodes">
       <g class="node"
           v-for="id in leaves"
           :key="id"
           :transform="nodeTransform(id)">
         <rect :height="`${graph.node(id).height}`"
               :width="`${graph.node(id).width}`"
-              :filter="(highlightIds.includes(id) ? 'url(#sofGlow)' : '')"
+              :filter="(highlightIds.includes(id) ? 'url(#softGlow)' : '')"
               :class="`${book.nodes[id].nodetype.secondary == 'Chapter' ? 'chapter' : ''}`"
         </rect>
         <foreignObject :width="`${graph.node(id).width}`" :height="`${graph.node(id).height}`">
@@ -66,18 +63,19 @@
       </g>
     </TransitionGroup>
 
-    <g class="edgePath" stroke='#444' fill="none">
+    <TransitionGroup name="edge" tag="g" class="edges" :css="true">
       <path v-for="({ v, w }) in edges"
           :key="`${v}-${w}`"
           :d="edgeD(v, w)"
+          class="edge"
           marker-end="url(#arrowhead)"
           />
-    </g>
+    </TransitionGroup>
   </svg>
 </template> 
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { Graph } from '@dagrejs/graphlib';
 import NodeReference from '@/components/NodeReference.vue';
 import { useBookStore } from '@/stores/bookshelf';
@@ -90,18 +88,25 @@ const props = defineProps<{
   highlightIds: string[];
 }>();
 
+import { line, curveBasis } from 'd3-shape';
+
+const pathGen = line<{ x: number; y: number }>()
+  .x(d => d.x)
+  .y(d => d.y)
+  .curve(curveBasis)
+
 function edgeD(v:string, w:string) {
-  const edge = props.graph.edge(v, w);
-  if (!edge) return '';
-  const pts = edge.points;
-  return 'M' + pts.map(p => `${p.x},${p.y}`).join('L');
+  const e = props.graph.edge(v, w);
+  if (!e) return '';
+  return pathGen(e.points) || ''
 };
 
 function nodeTransform(nodeId: string) {
   const n = props.graph.node(nodeId)!;
   const x = n.x - n.width / 2;
   const y = n.y - n.height / 2;
-  return `translate(${x} ${y})`;
+  const t = `translate(${x} ${y})`;
+  return t;
 }
 
 const nodes = computed(() => props.graph.nodes())
@@ -119,6 +124,7 @@ const leaves = computed(() => nodes.value.filter((n) => (props.graph.children(n)
   overflow: visible;
   display: block;
   justify-content: center;
+  transition: all 200ms ease;
 }
 
 g.node rect {
@@ -146,7 +152,8 @@ g.cluster rect {
     stroke-width: 2px;
 }
 
-.edgePath {
+.edges path {
+    fill: none;
     stroke: #333;
     stroke-width: 1.5px;
 }
@@ -157,17 +164,26 @@ g.cluster rect {
   color: #333;
 }
 
-.node-enter-active, .node-leave-active,
-.cluster-enter-active, .cluster-leave-active {
-  transition: transform 300ms ease, opacity 300ms ease;
+/* Move existing items (200ms - 500ms) */
+path.edge, g.node, g.cluster {
+  transition: all 200ms 400ms ease;
 }
 
-.node-enter, .node-leave-to, .cluster-enter, .cluster-leave-to {
+g.cluster rect, g.node rect {
+  transition: all 200ms 400ms ease;
+}
+
+g.node.item-enter-from, g.cluster.item-enter-from, path.edge.edge-enter-from,
+g.node.item-leave-to, g.cluster.item-leave-to, path.edge.edge-leave-to {
   opacity: 0;
 }
 
-.node-move, .cluster-move {
-  transition: transform 500ms ease;
+g.node.item-enter-active, g.cluster.item-enter-active, path.edge.edge-enter-active {
+  transition: opacity 200ms 400ms ease;
+}
+
+g.node.item-leave-active, path.edge.edge-leave-active {
+  transition: opacity 200ms ease;
 }
 
 </style>

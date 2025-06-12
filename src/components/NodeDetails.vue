@@ -24,10 +24,11 @@
           <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: node.chapter} }" class='navlink navuplink' v-if="node.chapter && node.chapter != 'ROOT'">Up</router-link>
           <router-link :to="{ name: 'Book', params: {bookid:book.id} }" class='navlink navuplink' v-if="! node.chapter || node.chapter == 'ROOT'">Up</router-link>
           <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: nextNodeId} }" class='navlink navnextlink' v-if="nextNodeId != 'ROOT'">Next</router-link>
+          <a class='navlink navtoclink' @click="toggleGraphVisibility()" >{{ graphHidden ? "Show" : "Hide" }} Graph</a>
         </div>
       </div>
 
-      <div class='context-graph-wrapper' v-if='level == 1'>
+      <div class='context-graph-wrapper' v-if='level == 1 && !graphHidden'>
         <ContextGraph :contextIds='[node.id]' />
       </div>
 
@@ -43,7 +44,7 @@
 </template> 
 <script lang="ts">
 import { useBookStore } from '@/stores/bookshelf';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { v4 as uuidv4 } from 'uuid';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
@@ -75,6 +76,12 @@ export default {
     const nextNodeId = computed(() => store.nextNodeId(nodeId.value));
     const prevNodeId = computed(() => store.prevNodeId(nodeId.value));
 
+    const graphHidden = ref(false);
+
+    function toggleGraphVisibility() {
+      graphHidden.value = !graphHidden.value;
+    }
+
     function createChildNode() {
       const childId = uuidv4();
       const child = {
@@ -90,7 +97,7 @@ export default {
       store.upsertNode(child);
       router.push({ name: 'NodeEdit', params: { bookid: store.rawBook.id, nodeid: childId }}); 
     }
-    return { book, store, node, createChildNode, nextNodeId, prevNodeId, hasName };
+    return { book, store, node, createChildNode, nextNodeId, prevNodeId, hasName, toggleGraphVisibility, graphHidden };
   },
 
   props: {

@@ -47,19 +47,20 @@ function removeSingleChildRoots(
   return graph;
 }
 
+export interface contextGraphOptions {
+  reduceEdges?: boolean;
+  contextCollapseLevel?: number;
+  outsideCollapseLevel?: number;
+  predecessorRadius?: number;
+  successorRadius?: number;
+  includeParents?: boolean;
+  prineSingleChildParents?: boolean;
+}
+
 export function buildContextGraph(
   graph: Graph,
   contextIds: string[] = [],
-  options: {
-    reduceEdges?: boolean;
-    contextCollapseLevel?: number;
-    outsideCollapseLevel?: number;
-    includePredecessors?: boolean;
-    includeSuccessors?: boolean;
-    radius?: number
-    includeParents?: boolean;
-    pruneParents?: boolean;
-  } = {}
+  options: contextGraphOptions = {}
 ) {
   const {
     reduceEdges = true,
@@ -67,7 +68,6 @@ export function buildContextGraph(
     outsideCollapseLevel = 0,
     predecessorRadius = 1,
     successorRadius = 1,
-    radius = 1,
     includeParents = true,
     pruneSingleChildParents = true
   } = options;

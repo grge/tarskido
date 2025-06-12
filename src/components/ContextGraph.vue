@@ -5,6 +5,7 @@
           <NodeReference :nodeId="id" :useName="true" />
         </div>
       </div>
+      <GraphOptionsMenu />
       <GraphRenderer
         :graph="graph"
         :bbox="bbox"
@@ -15,26 +16,34 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useBookStore } from '@/stores/bookshelf';
-import { buildContextGraph } from '@/utils/contextGraph.ts';
+import { buildContextGraph, type contextGraphOptions } from '@/utils/contextGraph.ts';
 import { useGraphLayout } from '@/composables/useGraphLayout';
+import GraphOptionsMenu from '@/components/GraphOptionsMenu.vue';
 import GraphRenderer from '@/components/GraphRenderer.vue';
 import NodeReference from '@/components/NodeReference.vue'
 
 const props = defineProps<{ contextIds: string[] }>();
 const store = useBookStore();
 
+const graphOptions = ref({
+  reduceEdge: true,
+  contextCollapseLevel: 1,
+  outsideCollapseLevel: 0,
+  predecessorRadius: 1,
+  successorRadius: 1,
+  includeParents: true,
+  pruneSingleChildParents: true
+});
+
 const fullGraph = computed(() => store.graph);
 const rawSubGraph = computed(() => {
-  const g = buildContextGraph(fullGraph.value, props.contextIds);
+  const g = buildContextGraph(fullGraph.value, props.contextIds, graphOptions);
   g.removeNode("ROOT")
   return g;
 });
 
 const measureRoot = ref<HTMLElement | null>(null);
 const { graph, bbox } = useGraphLayout(rawSubGraph, measureRoot, { padding: 20, nodeMargin: 20})
-
-const readyForLayout = ref(false);
-const nodeSizes = ref<{ [key: string]: { width: number, height: number } }>({});
 
 </script>
 
@@ -59,12 +68,24 @@ const nodeSizes = ref<{ [key: string]: { width: number, height: number } }>({});
 }
 
 .context-graph {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: auto;
-  overflow-x: scroll;
-  margin-top: 1em;
+  overflow-y: visible;
+  margin: 2em 0;
+  padding: 1em 0;
+  border-top:    2px solid transparent;
+  border-bottom: 2px solid transparent;
+  border-image: 
+    linear-gradient(to right,
+      transparent    10%,
+      #6aa84f       30%,
+      #6aa84f       70%,
+      transparent   90%)
+    1 / /* slice */ 1px 0 / /* widths: top/bottom 2px, left/right 0 */ 0 0;
 }
+
 
 </style>

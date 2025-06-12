@@ -6,8 +6,7 @@
 
 ## Features
 - **Graph-based navigation** of mathematical content, with visualisations powered by the wonderful [dagre](https://github.com/dagrejs/dagre) layout engine.
-- **Structural references** between nodes.
-- **Dependency-away layout**: For example, view the prerequisites of a definition or theorem in a natural ordered on a single page.
+- **Dependency-aware layout**: For example, view the prerequisites of a definition or theorem in a natural order on a single page.
 - **In-browser editing**, with content rendered via [markdown-it](https://github.com/markdown-it/markdown-it) and [katex](https://katex.org/).
 - **Local-first**: Books live in local storage and can be edited and viewed offline, or exported as JSON and shared with others.
 

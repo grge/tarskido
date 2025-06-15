@@ -14,7 +14,7 @@
         <!-- Use a gaussian blur to create the soft blurriness of the glow -->
         <feGaussianBlur in="thicken" stdDeviation="10" result="blurred" />
         <!-- Change the colour -->
-        <feFlood flood-color="rgb(255,229,153)" result="glowColor" />
+        <feFlood flood-color="rgb(230,255,200)" result="glowColor" />
         <!-- Color in the glows -->
         <feComposite in="glowColor" in2="blurred" operator="in" result="softGlow_colored" />
         <!--	Layer the effects together -->
@@ -34,10 +34,10 @@
       <g class="cluster"
           v-for="id in clusters"
           :key="id"
-          :transform="nodeTransform(id)">
+          :transform="nodeTransform(id)"
+          :class="`cluster ${highlightIds.includes(id) ? 'highlight' : ''}`">
         <rect :width="`${graph.node(id).width}`"
               :height="`${graph.node(id).height}`"
-              :filter="highlightIds.includes(id) ? 'url(#softGlow)' : ''"
               fill="#eaeaea">
         </rect>
         <foreignObject :width="`${graph.node(id).width}`" :height="`${graph.node(id).height}`">
@@ -49,10 +49,10 @@
       <g class="node"
           v-for="id in leaves"
           :key="id"
-          :transform="nodeTransform(id)">
+          :transform="nodeTransform(id)"
+          :class="`item ${highlightIds.includes(id) ? 'highlight' : ''}`">
         <rect :height="`${graph.node(id).height}`"
               :width="`${graph.node(id).width}`"
-              :filter="(highlightIds.includes(id) ? 'url(#softGlow)' : '')"
               :class="`${book.nodes[id].nodetype.secondary == 'Chapter' ? 'chapter' : ''}`"
         </rect>
         <foreignObject :width="`${graph.node(id).width}`" :height="`${graph.node(id).height}`">
@@ -136,8 +136,8 @@ g.node rect {
 }
 
 g.node rect.chapter {
-    fill: #f8f8f8;
-    stroke: #ff9900;
+    fill: #f6fff6;
+    stroke: #6aa84f;
     stroke-width: 2px;
 }
 
@@ -146,9 +146,19 @@ g.node div {
   padding-left: 10px;
 }
 
+g.highlight rect {
+  fill: #6aa84f;
+  filter: url(#softGlow);
+}
+
+.highlight a {
+  color: white;
+  
+}
+
 g.cluster rect {
-    fill: #f8f8f8;
-    stroke: #ff9900;
+    fill: #f6fff6;
+    stroke: #6aa84f;
     stroke-width: 2px;
 }
 

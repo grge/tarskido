@@ -4,13 +4,14 @@ LP: Want to fix, but could release without it
 
 
 - HP: Demo bookshelf list, loading from GitHub, fallback to local, etc. Revamp front page.
-- MP: Toggle to show/hide graph?
 - MP: Clean up low screen width css 
 - MP: Audit consistency of type. Fonts, font sizes, margins, etc 
 - MP: Better urls with book names and node names instead of uuids
 - MP: The BBOX calculation does not include edges, so in rare circumstances edges get cut off.
+- LP: New view: Graph fullscreen with side panel for content
+- LP: Clusters can be collapsed/expanded on the graph
 - LP: Better chapter and section views. Perhaps show a mini TOC of each subsection when viewing a chapter node.
-- LP: "View dependencies" option when viewing a node. Shows the recursive predecessors of the node, and presents them in a topological order.
+- LP: Full dependencies view. Shows the recursive predecessors of the node in topological order.
 - LP: Prevent self-links when editing parent or reference links
 - LP: Overhaul edit pages
 - LP: Table of contents sidebar
@@ -18,5 +19,3 @@ LP: Want to fix, but could release without it
 - LP: pass nodes into components wherever possible, instead of passing the nodeId and looking it up in the store.
 - LP: Redesign reference glyphs
 - LP: Table of all nodes in the book, with search and filter options.
-- LP: Curvy arrows on graph
-- LP: Clusters can be collapsed/expanded

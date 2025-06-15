@@ -5,7 +5,7 @@
           <NodeReference :nodeId="id" :useName="true" />
         </div>
       </div>
-      <GraphOptionsMenu />
+      <GraphOptionsMenu :graphOptions="graphOptions" />
       <GraphRenderer
         :graph="graph"
         :bbox="bbox"
@@ -26,7 +26,8 @@ const props = defineProps<{ contextIds: string[] }>();
 const store = useBookStore();
 
 const graphOptions = ref({
-  reduceEdge: true,
+  reduceEdges: true,
+  animate: true,
   contextCollapseLevel: 1,
   outsideCollapseLevel: 0,
   predecessorRadius: 1,
@@ -37,7 +38,7 @@ const graphOptions = ref({
 
 const fullGraph = computed(() => store.graph);
 const rawSubGraph = computed(() => {
-  const g = buildContextGraph(fullGraph.value, props.contextIds, graphOptions);
+  const g = buildContextGraph(fullGraph.value, props.contextIds, graphOptions.value);
   g.removeNode("ROOT")
   return g;
 });

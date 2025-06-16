@@ -5,31 +5,17 @@ import { ref, watch, markRaw } from 'vue';
 import Graph from '@/graphlib_ext.js'
 import { migrateBook } from '@/utils/migration';
 
-/* Currently I am storing the bookshelf as a simple JSON object. each book has
- * a list of nodes, and each node knows the id of its parent and its references.
- * Then, if we want to display or navigate the book as a graph, we have to convert
- * it to a Graph object. Not sure if there's any simple way around this...
- *
- * Update 2025-05-22: After reviewing many options, I think the best approach is actually
- * to keep both data structures, but keep the graph inside the store so that we don't rebuild
- * it every time we need it. Instead, we rebuild it a) on a hard page load, b) whenever we
- * make an edit to the book. This rebuilding is debounced to avoid unnecessary
- * actions. 
- *
- * One alternative would be to update BOTH data structures (raw and graph) whenever we
- * make an edit. But my theory is that building the graph will always be cheap enough
- * that we can do it every edit.
- */
-
 export interface Book {
     schemaVersion?: number,
     source?: string,
     version?: string,
+    slug?: string,
     id: string,
     title: string,
     author: string,
     preface: string,
-    nodes: Record<string, Node>
+    nodes: Record<string, Node>,
+    slugMap: Record<string, string>
 }
 
 const VALID_COMMENT_SUBTYPE = ['Comment', 'Note', 'Example'] as const
@@ -57,7 +43,9 @@ type NodeType =
 export interface Node {
     id: string,
     reference: string,
-    name: string
+    name: string,
+    slug?: string,
+    autoslug: boolean,
     nodetype: NodeType,
     statement: string,
     references: string[],
@@ -102,6 +90,7 @@ export const useBookStore = defineStore('book', () => {
 
   function rebuildAndPersist() {
     if (storageKey.value) {
+      rawBook.version = new Date().toISOString();
       localStorage.setItem('tarskido-book-' + storageKey.value, JSON.stringify(rawBook.value));
     };
     const g = markRaw(new Graph({directed: true, compound: true}));
@@ -120,6 +109,10 @@ export const useBookStore = defineStore('book', () => {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(rebuildAndPersist, 50);
   }, { deep: true });
+
+  function resolveNodeParam(slugOrId: string): string | null {
+    return rawBook.value.nodes[slugOrId] ? slugOrId : rawBook.value.slugMap[slugOrId]
+  }
 
   function loadFromJSON(data: RawBook, key?: string) {
     storageKey.value = key || null;
@@ -232,5 +225,7 @@ export const useBookStore = defineStore('book', () => {
     prevNodeId,
     upsertNode,
     deleteNode,
+    resolveNodeParam,
+    toggleEditMode
   }
 })

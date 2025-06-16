@@ -78,7 +78,7 @@
 import { computed, watch } from 'vue';
 import { Graph } from '@dagrejs/graphlib';
 import NodeReference from '@/components/NodeReference.vue';
-import { useBookStore } from '@/stores/bookshelf';
+import { useBookStore } from '@/stores/bookStore';
 
 const book = useBookStore().rawBook;
 
@@ -195,5 +195,4 @@ g.node.item-enter-active, g.cluster.item-enter-active, path.edge.edge-enter-acti
 g.node.item-leave-active, path.edge.edge-leave-active {
   transition: opacity 200ms ease;
 }
-
 </style>

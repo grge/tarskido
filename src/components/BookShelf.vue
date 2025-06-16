@@ -1,25 +1,11 @@
 <script lang="ts" setup>
-import { useBookStore } from '@/stores/bookshelf';
+import { useBookStore } from '@/stores/bookStore';
+import { useBookShelfStore } from '@/stores/bookShelfStore';
 import { useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
 const bookStore = useBookStore();
 const router = useRouter();
-
-function getLocalStorageBooks() {
-  // all books should be keyed by tarkido-book-%id%
-  var books = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.startsWith('tarskido-book-')) {
-      // we currently just read the whole book in to get
-      // the metadata we need. In the future we might want to
-      // localstore some metadata separately
-      const book = JSON.parse(localStorage.getItem(key));
-      books.push(book);
-    }
-  }
-  return books
-}
+const shelf = useBookShelfStore();
 
 const importFromFile = () => {
   // open a native file dialog, and then read the file as JSON
@@ -33,7 +19,7 @@ const importFromFile = () => {
       const data = JSON.parse(reader.result as string);
       console.log('Importing book from file:', data);
       bookStore.loadFromJSON(data, data.id);
-      router.push({ name: 'Book', params: { bookid: data.id }});
+      router.push({ name: 'Book', params: { bookParam: data.slug || data.id }});
     };
     reader.readAsText(file);
   };
@@ -44,17 +30,17 @@ function createNewBook() {
   bookStore.createNewBook();
   // redirect to the new book front page
   const bookId = bookStore.rawBook.id;
-  router.push({ name: 'BookEdit', params: { bookid: bookId }}); 
+  router.push({ name: 'BookEdit', params: { bookParam: bookId }}); 
 }
 
-const books = computed(() => getLocalStorageBooks())
+const books = shelf.available;
 </script>
 
 <template>
   <div class="bookshelf">
     <div class='bookgrid'>
         <div class='bookgridbook' v-for='book in books'>
-            <router-link :to="{name: 'Book', params: {bookid: book.id}}">
+            <router-link :to="{name: 'Book', params: {bookParam: book.slug || book.id}}">
               <p class='bookshelf-title'>{{ book.title }}</p>
               <p class='bookshelf-author'>by {{ book.author }}</p>
             </router-link>

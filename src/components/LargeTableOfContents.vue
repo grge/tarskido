@@ -5,13 +5,13 @@
       <li v-for="chap in toc" :key="chap.id" class="toc-l1-li">
         <span class="toc-l1-margin">{{ chap.ref }}</span>
         <div class="toc-l1-content">
-          <router-link :to="{ name: 'Node', params: { bookid: book.id, nodeid: chap.id } }">
+          <router-link :to="{ name: 'Node', params: { bookParam: book.slug || book.id, nodeParam: chap.slug || chap.id } }">
             <span class="toc-l1-title">{{ chap.title }}</span>
           </router-link>
           <ul>
             <li v-for="sec in chap.children" :key="sec.id" class='toc-l2-li'>
               <div class='toc-l2-line'>
-                <router-link :to="{ name: 'Node', params: { bookid: book.id, nodeid: sec.id } }">
+                <router-link :to="{ name: 'Node', params: { bookParam: book.slug || book.id, nodeParam: sec.slug || sec.id } }">
                   <span class='toc-l2-label'>{{ sec.ref }}</span>
                   <span class='toc-l2-title'>{{ sec.title }}</span>
                 </router-link>
@@ -27,7 +27,7 @@
           <ul>
             <li v-for="node in orphaned" :key="node.id" class='toc-l2-li'>
               <div class='toc-l2-line'>
-                <router-link :to="{ name: 'Node', params: { bookid: book.id, nodeid: node.id } }">
+                <router-link :to="{ name: 'Node', params: { bookParam: book.slug || book.id, nodeParam: node.slug || node.id } }">
                   <span class='toc-l2-label'>{{ node.ref }}</span>
                   <span class='toc-l2-title'>{{ node.title }}</span>
                 </router-link>
@@ -42,12 +42,13 @@
 
 <script lang="ts">
 import { computed } from 'vue'
-import { useBookStore } from '@/stores/bookshelf'
+import { useBookStore } from '@/stores/bookStore'
 
 /** A generic TOC node */
 interface TocEntry {
   id: string
   ref: string
+  slug: string
   type: string
   title: string
   children: TocEntry[]
@@ -77,6 +78,7 @@ export default {
         return {
           id: id,
           ref: data.reference,
+          slug: data.slug,
           type: data.nodetype.secondary,
           title: data.name || (data.nodetype.secondary + " " + data.reference),
           children: buildToc(store.sortNodesByReference(graph.value.children(id)) || [])
@@ -97,6 +99,7 @@ export default {
           return {
             id: id,
             ref: "Unknown",
+            slug: undefined,
             type: "Unknown",
             title: "Unknown Node",
             children: []
@@ -105,6 +108,7 @@ export default {
         return {
           id: id,
           ref: data.reference,
+          slug: data.slug,
           type: data.nodetype.secondary,
           title: data.name || (data.nodetype.secondary + " " + data.reference),
           children: []

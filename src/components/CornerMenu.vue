@@ -10,7 +10,7 @@
       <li><router-link :to="{ name: 'Home' }">Tarskido</router-link></li>
       <hr/>
       <li><a @click="downloadBook()">Download this book</a></li>
-      <li><a @click="toggleEditMode()">Edit mode</a><span class="tick">{{ store.editMode ? "✓" : ""}}</span></li>
+      <li><a @click="store.toggleEditMode()">Edit mode</a><span class="tick">{{ store.editMode ? "✓" : ""}}</span></li>
       <li>Github</li>
     </ul>
   </div>
@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import { useBookStore } from '@/stores/bookshelf';
+  import { useBookStore } from '@/stores/bookStore';
 
   const store = useBookStore();
   const menuOpen = ref(false);
@@ -52,7 +52,7 @@
    top 0
    margin 25px
    height 40px
-   z-index 1000
+   z-index 1002
 
 .corner-menu-content 
    position absolute
@@ -60,11 +60,12 @@
    top 0
    margin 35px
    width 250px
+   background-color rgba(255, 255, 255, 0.6)
    box-shadow 0 0 10px rgba(0, 0, 0, 0.1)
-   background-color white
+   backdrop-filter blur(5px)
    border-radius 8px
    border 1px solid #ccc
-   z-index 100
+   z-index 1001
    opacity 1
    transition height 0ms 0ms, opacity 400ms 0ms
 

@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import NodeReference from '@/components/NodeReference.vue'
-import { useBookStore } from '@/stores/bookshelf';
+import { useBookStore } from '@/stores/bookStore';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 

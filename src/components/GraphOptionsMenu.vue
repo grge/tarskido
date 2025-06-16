@@ -1,7 +1,7 @@
 
 <template>
 <div class='graph-options-menu-button' @click="toggleMenu">⚙</div>
-<div class='graph-options-menu' v-show="menuVisible">
+<div class='graph-options-menu' v-if="menuVisible">
   <el-form label-width="auto" class="menu-form" :model="graphOptions" size="small">
     <div class="menu-header">
       <span>Graph Options</span>
@@ -86,19 +86,18 @@ const props = defineProps<{ graphOptions: any }>()
   padding 2em
   z-index 999
   background-color rgba(255, 255, 255, 0.6)
+  box-shadow 0 0 10px rgba(0, 0, 0, 0.1)
   backdrop-filter blur(5px)
-  right calc(20% - 1px)
-  top -18px
+  right calc(20% - 4px)
+  top -19px
   border 1px solid #6aa84f
-  border-radius 5px
-  --el-color-primary: #6aa84f; /* Replace with your brand color */
+  border-radius 8px
+  --el-color-primary: #6aa84f;
+  transition all 0.3s ease-in-out
 
 .menu-form
   width 290px
 
 .menu-actions
   text-align right
-
 </style>
-
-

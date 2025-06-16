@@ -10,7 +10,7 @@
         </h3>
         <div class='editlinks listoflinks'>
           <NodeReference :nodeId="node.id" v-if='level > 1'/>
-          <router-link class='editlink' v-if="store.editMode" :to="{ name: 'NodeEdit', params: {bookid: book.id, nodeid: node.id}}">Edit node</router-link>
+          <router-link class='editlink' v-if="store.editMode" :to="{ name: 'NodeEdit', params: {bookParam: book.slug || book.id, nodeParam: node.slug || node.id}}">Edit node</router-link>
           <a class='editlink' @click='createChildNode()' v-if='store.editMode && level == 1 && node.nodetype.primary == "Group"'>Create child node</a>
         </div>
       </div>
@@ -20,10 +20,10 @@
         <h2>{{node.name == "" ? node.nodetype.secondary + " " + node.reference : node.name}} </h2>
         <div class='navlinks listoflinks' v-if='level == 1'>
           <!-- <a class='navlink navpreviouslink'>Previous</a> -->
-          <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: prevNodeId} }" class='navlink navpreviouslink' v-if="prevNodeId != 'ROOT'">Previous</router-link>
-          <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: node.chapter} }" class='navlink navuplink' v-if="node.chapter && node.chapter != 'ROOT'">Up</router-link>
-          <router-link :to="{ name: 'Book', params: {bookid:book.id} }" class='navlink navuplink' v-if="! node.chapter || node.chapter == 'ROOT'">Up</router-link>
-          <router-link :to="{ name: 'Node', params: {bookid:book.id, nodeid: nextNodeId} }" class='navlink navnextlink' v-if="nextNodeId != 'ROOT'">Next</router-link>
+          <router-link :to="{ name: 'Node', params: {bookParam: book.slug || book.id, nodeParam: prevNodeId} }" class='navlink navpreviouslink' v-if="prevNodeId != 'ROOT'">Previous</router-link>
+          <router-link :to="{ name: 'Node', params: {bookParam: book.slug || book.id, nodeParam: node.chapter} }" class='navlink navuplink' v-if="node.chapter && node.chapter != 'ROOT'">Up</router-link>
+          <router-link :to="{ name: 'Book', params: {bookParam: book.slug || book.id} }" class='navlink navuplink' v-if="! node.chapter || node.chapter == 'ROOT'">Up</router-link>
+          <router-link :to="{ name: 'Node', params: {bookParam: book.slug || book.id, nodeParam: nextNodeId} }" class='navlink navnextlink' v-if="nextNodeId != 'ROOT'">Next</router-link>
           <a class='navlink navtoclink' @click="toggleGraphVisibility()" >{{ graphHidden ? "Show" : "Hide" }} Graph</a>
         </div>
       </div>
@@ -43,7 +43,7 @@
   </div>
 </template> 
 <script lang="ts">
-import { useBookStore } from '@/stores/bookshelf';
+import { useBookStore } from '@/stores/bookStore';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { v4 as uuidv4 } from 'uuid';
@@ -69,12 +69,11 @@ export default {
     const store = useBookStore();
     const book = store.rawBook;
 
-    const nodeId = computed(() => props.nodeid);
-    const node = computed(() => book.nodes[nodeId.value]);
+    const node = computed(() => book.nodes[props.nodeId]);
     const hasName = computed(() => node.value.name && node.value.name.trim() !== '');
 
-    const nextNodeId = computed(() => store.nextNodeId(nodeId.value));
-    const prevNodeId = computed(() => store.prevNodeId(nodeId.value));
+    const nextNodeId = computed(() => store.nextNodeId(props.nodeId));
+    const prevNodeId = computed(() => store.prevNodeId(props.nodeId));
 
     const graphHidden = ref(false);
 
@@ -95,13 +94,13 @@ export default {
         proof_lines: []
       };
       store.upsertNode(child);
-      router.push({ name: 'NodeEdit', params: { bookid: store.rawBook.id, nodeid: childId }}); 
+      router.push({ name: 'NodeEdit', params: { bookId: store.rawBook.id, nodeId: childId }}); 
     }
     return { book, store, node, createChildNode, nextNodeId, prevNodeId, hasName, toggleGraphVisibility, graphHidden };
   },
 
   props: {
-    nodeid: String,
+    nodeId: String,
     level: Number
   },
 }

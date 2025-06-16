@@ -1,11 +1,11 @@
 <template>
-  <router-link :to="{name: 'Node', params: {bookid: book.id, nodeid: node.id}}" class='reference-link'>
+  <router-link :to="{name: 'Node', params: {bookParam: book.slug || book.id, nodeParam: node.slug || node.id}}" class='reference-link'>
     <span :class='"reference-subtype-" + node.nodetype.secondary'>{{label}}</span>
   </router-link>
 </template>
 
 <script lang="ts">
-import { useBookStore } from '../stores/bookshelf.ts';
+import { useBookStore } from '../stores/bookStore.ts';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 

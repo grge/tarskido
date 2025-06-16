@@ -4,10 +4,15 @@ LP: Want to fix, but could release without it
 
 
 - HP: Demo bookshelf list, loading from GitHub, fallback to local, etc. Revamp front page.
+- MP: Animate option in graph menu does nothing
 - MP: Clean up low screen width css 
 - MP: Audit consistency of type. Fonts, font sizes, margins, etc 
-- MP: Better urls with book names and node names instead of uuids
 - MP: The BBOX calculation does not include edges, so in rare circumstances edges get cut off.
+- MP: Horizontal line below graph sometimes disapears
+- MP: seperation of concerns in BookShelfStore and BookStore. Also, places like components/BookShelf.vue
+- MP: The Prev/Next links don't use slugs. I think I need a slug link component.
+- MP: Orphaned nodes section of ToC should disappears if empty
+- MP: Remove Clean Broken References link
 - LP: New view: Graph fullscreen with side panel for content
 - LP: Clusters can be collapsed/expanded on the graph
 - LP: Better chapter and section views. Perhaps show a mini TOC of each subsection when viewing a chapter node.

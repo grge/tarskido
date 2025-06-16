@@ -11,7 +11,7 @@
 <script lang="ts">
 import ReferenceList from '@/components/ReferenceList.vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import { useBookStore } from '@/stores/bookshelf';
+import { useBookStore } from '@/stores/bookStore';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 

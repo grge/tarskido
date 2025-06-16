@@ -11,12 +11,6 @@ interface LayoutOptions {
 /**
  * Encapsulates: measuring node dimensions, running dagre.layout,
  * and computing the SVG bounding box.
- *
- * @param rawGraph   A Ref to your Graphlib Graph that has nodes sized
- *                   but hasn’t been laid out yet.
- * @param measureRoot A Ref to the invisible DOM container holding
- *                    your .measure-node elements.
- * @param opts       LayoutOptions (padding, margins, etc.)
  */
 export function useGraphLayout(
   rawGraph: Ref<Graph>,
@@ -25,10 +19,8 @@ export function useGraphLayout(
 ) {
   const { padding = 20, nodeMargin = 20 } = opts
 
-  // 1️⃣ The laid‐out graph we'll render:
   const graph = ref<Graph>(new Graph({ directed: true, compound: true }))
 
-  // 2️⃣ Compute the bounding box for the rendered SVG:
   const bbox = computed(() => {
     const g = graph.value
     const ids = g.nodes()
@@ -48,28 +40,22 @@ export function useGraphLayout(
     return { minX, minY, width: maxX-minX, height: maxY-minY }
   })
 
-  // 3️⃣ Watch for changes to the rawGraph → re‐measure & re‐layout
   watch(rawGraph, async (g) => {
-    // a) Wait for the DOM to update measureRoot
     await nextTick()
     const root = measureRoot.value
     if (root) {
-      // b) Measure each .measure-node
       const sizes: Record<string,{width:number,height:number}> = {}
       root.querySelectorAll<HTMLElement>('.measure-node').forEach(el => {
         const id = el.dataset.id!
         const r = el.getBoundingClientRect()
         sizes[id] = { width: r.width + nodeMargin, height: r.height }
       })
-      // c) Clone & size nodes on a fresh graph
       const layoutGraph = g.copy().setGraph({ rankdir:'LR' })
       layoutGraph.nodes().forEach(id => {
         const s = sizes[id]
         if (s) layoutGraph.setNode(id, { width: s.width, height: s.height })
       })
-      // d) Run dagre
       dagre.layout(layoutGraph)
-      // e) Publish
       graph.value = layoutGraph
     }
   }, { immediate: true })

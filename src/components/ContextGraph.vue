@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { useBookStore } from '@/stores/bookshelf';
+import { useBookStore } from '@/stores/bookStore';
 import { buildContextGraph, type contextGraphOptions } from '@/utils/contextGraph.ts';
 import { useGraphLayout } from '@/composables/useGraphLayout';
 import GraphOptionsMenu from '@/components/GraphOptionsMenu.vue';
@@ -87,6 +87,4 @@ const { graph, bbox } = useGraphLayout(rawSubGraph, measureRoot, { padding: 20, 
       transparent   90%)
     1 / /* slice */ 1px 0 / /* widths: top/bottom 2px, left/right 0 */ 0 0;
 }
-
-
 </style>

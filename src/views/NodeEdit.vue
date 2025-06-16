@@ -23,6 +23,7 @@
             </select>
           </td>
         </tr>
+        <tr><th>Slug</th><td><input type='text' v-model="node.slug"/></td></tr>
         <tr><th>References</th>
           <td>
             <Multiselect placeholder='Add references...' mode="tags" v-model='node.references' :options='valid_references()'> -->
@@ -61,7 +62,7 @@
         </tbody>
       </table>
       <div class='listoflinks'>
-        <router-link class='navigatelink navbacklink' :to="{name:'Node', params:{bookid: book.id, nodeid: node.id}}">Back to node view</router-link>
+        <router-link class='navigatelink navbacklink' :to="{name:'Node', params:{bookParam: book.slug || book.id, nodeParam: node.slug || node.id}}">Back to node view</router-link>
         <a class='editlink deletelink' @click='deleteThisNode'>Delete this node</a>
       </div>
     </div>
@@ -70,7 +71,7 @@
 
 <script lang="ts">
 import Multiselect from '@vueform/multiselect'
-import { useBookStore, type Node, VALID_NODE_TYPE } from '@/stores/bookshelf';
+import { useBookStore, type Node, VALID_NODE_TYPE } from '@/stores/bookStore';
 import { useRoute } from 'vue-router';
 
 export default {
@@ -78,7 +79,7 @@ export default {
   setup() {
     const store = useBookStore();
     const book = store.rawBook;
-    const node = book.nodes[useRoute().params.nodeid];
+    const node = book.nodes[useRoute().params.nodeId];
     return { book, node, store };
   },
   methods: {
@@ -86,9 +87,10 @@ export default {
       const parent = this.node.chapter;
       this.store.deleteNode(this.node.id);
       if (parent && parent != 'ROOT') {
-        this.$router.push({name:'Node', params:{bookid: this.book.id, nodeid: parent}});
+        const parentNode = this.book.nodes[parent];
+        this.$router.push({name:'Node', params:{bookParam: this.book.slug || this.book.id, nodeParam: parentNode.slug || parentNode.id}});
       } else {
-        this.$router.push({name:'Book', params:{bookid: this.book.id}});
+        this.$router.push({name:'Book', params:{bookParam: this.book.slug || this.book.id}});
       }
     },
     createProofLine() {

@@ -7,7 +7,6 @@ LP: Want to fix, but could release without it
 - MP: Animate option in graph menu does nothing
 - MP: Clean up low screen width css 
 - MP: Audit consistency of type. Fonts, font sizes, margins, etc 
-- MP: When graph is hidden, there is not enough v-space before the book content
 - MP: The BBOX calculation does not include edges, so in rare circumstances edges get cut off.
 - MP: seperation of concerns in BookShelfStore and BookStore. Also, places like components/BookShelf.vue
 - MP: The Prev/Next links don't use slugs. I think I need a slug link component.

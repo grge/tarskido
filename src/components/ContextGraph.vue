@@ -75,7 +75,7 @@ const { graph, bbox } = useGraphLayout(rawSubGraph, measureRoot, { padding: 20, 
   align-items: center;
   height: auto;
   overflow-y: visible;
-  margin: 2em 0;
+  margin: 0 0;
   padding: 1em 0;
   border-top:    2px solid transparent;
   border-bottom: 2px solid transparent;

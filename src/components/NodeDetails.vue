@@ -160,9 +160,11 @@ export default {
     display block
 
   .context-graph-wrapper
+    margin-top 2em
     grid-column 1 / span 3
 
   .node-body
+    margin-top 2em
     grid-column 2
 
   .proof-heading, .proof-line, .navlinks

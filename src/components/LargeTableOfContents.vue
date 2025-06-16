@@ -20,7 +20,7 @@
           </ul>
         </div>
       </li>
-      <li class="toc-l1-li">
+      <li class="toc-l1-li" v-if="orphaned.length > 0">
         <span class="toc-l1-margin">-</span>
         <div class="toc-l1-content">
           <span class="toc-l1-title">Orphaned Nodes</span>

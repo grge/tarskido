@@ -114,6 +114,9 @@ export default {
 .node-detail-header-l1 .reference-link
   display none
 
+.node-extra-header h2
+    font-weight normal
+
 @container book-content (min-width: 65em)
   .node-detail
     display grid
@@ -131,7 +134,7 @@ export default {
     text-align right
     margin-top 0
 
-  .node-body p:first-child
+  .node-children .node-body p:first-child
     margin-top 0
     padding-top 0
 
@@ -145,7 +148,6 @@ export default {
     grid-row 1
 
   .node-extra-header h2
-    font-weight normal
     margin-top 0
 
   .editlinks
@@ -154,6 +156,7 @@ export default {
 
   .editlinks a
     margin-right 0
+    margin-left 1.5em
 
   .editlinks .reference-link
     margin-bottom 0.5em
@@ -164,7 +167,6 @@ export default {
     grid-column 1 / span 3
 
   .node-body
-    margin-top 2em
     grid-column 2
 
   .proof-heading, .proof-line, .navlinks
@@ -174,6 +176,10 @@ export default {
 @container book-content (max-width: 65em)
   .node-detail
     display block
+    margin 1em 2em
+
+  .node-children .node-detail
+    margin-top 5em
 
   .node-detail-header
     margin-top 1.15em
@@ -182,6 +188,17 @@ export default {
   .node-detail-header .node-name
     font-weight normal 
     margin-left 0.5em
+
+  .reference-list li
+    display inline
+
+  .node-extra-header h2
+    margin-top 0
+    padding-top 0
+
+  .context-graph-wrapper
+    margin-top 2em
+
 
 
 </style>

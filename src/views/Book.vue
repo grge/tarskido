@@ -63,7 +63,6 @@ export default {
         <div class='listoflinks' v-if="store.editMode">
           <router-link class='editlink' :to="{ name: 'BookEdit', params: {bookParam: book.slug || book.id}}">Edit book attributes</router-link>
           <a class='editlink' @click="createNewNode()">Create a new node</a>
-          <a class='editlink' @click="cleanBrokenRefs()">Clean broken references</a>
         </div>
         <ContextGraph :contextIds='["ROOT"]'/>
         <div class='book-preface'>
@@ -96,10 +95,6 @@ export default {
   text-align left
   max-width 40em
   margin 0 auto
-
-.listoflinks
-  margin-bottom 1.5em
-  text-align center
 
 p
   word-break break-word

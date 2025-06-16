@@ -41,9 +41,8 @@ export default {
   font-style italic
 
 .reference-list li
-  display block
   opacity 60%
   padding-right 2em
-  font-size 70%
+  font-size 85%
 
 </style>

@@ -3,7 +3,7 @@
   <div>
       <div class='book-content'>
         <NodeDetails :nodeId='node.id' :level='1' />
-        <div v-if='node.nodetype.primary == "Group"'>
+        <div v-if='node.nodetype.primary == "Group"' class='node-children'>
           <NodeDetails :nodeId='childId' :key='childId' v-for="childId in children" :level='2'/>
         </div>
       </div>

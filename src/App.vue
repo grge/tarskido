@@ -84,8 +84,4 @@ a:hover
 .listoflinks a
   margin-right 2em
 
-#md-editor-v3-preview-wrapper
-  padding 0 0 0 0
-
-
 </style>

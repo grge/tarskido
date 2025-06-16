@@ -10,11 +10,7 @@ import { useBookShelfStore } from '@/stores/bookShelfStore'
 const app = createApp(App)
 const pinia = createPinia()
 
-app.use(ElementPlus, {
-  theme: {
-    '--el-color-primary': '#6aa84f',
-  }
-})
+app.use(ElementPlus)
 
 app.use(pinia)
 app.use(router)

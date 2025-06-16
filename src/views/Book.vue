@@ -76,8 +76,14 @@ export default {
 </template>
 
 <style scoped lang='stylus'>
+.listoflinks
+  text-align center
+
 .book-content
   text-align left
+
+.context-graph
+  margin-top 1.5em
 
 .book-front-title 
   margin-bottom 0.15em

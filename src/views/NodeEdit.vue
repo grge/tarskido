@@ -73,6 +73,7 @@
 import Multiselect from '@vueform/multiselect'
 import { useBookStore, type Node, VALID_NODE_TYPE } from '@/stores/bookStore';
 import { useRoute } from 'vue-router';
+import { watch } from 'vue';
 
 export default {
   name: 'NodeEdit',
@@ -80,6 +81,13 @@ export default {
     const store = useBookStore();
     const book = store.rawBook;
     const node = book.nodes[useRoute().params.nodeId];
+
+    watch(() => node.slug, (newSlug, oldSlug) => {
+      if (newSlug) {
+        book.slugMap[oldSlug] = undefined;
+        book.slugMap[newSlug] = node.id;
+      }
+    }, { immediate: true });
     return { book, node, store };
   },
   methods: {

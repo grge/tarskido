@@ -81,7 +81,8 @@ export function collapseHierarchy(graph: Graph, anchorIds: Set<string>, includeP
     }
   }
 
-  const collapsedNodes = new Set<string>(Object.values(uf.parent))
+  // TODO: This is probably not what we really want...
+  const collapsedNodes = new Set<string>(uf.parent.values())
   for (const n of collapsedNodes) {
     if (!collapsedGraph.hasNode(n)) {
       addNode(n);

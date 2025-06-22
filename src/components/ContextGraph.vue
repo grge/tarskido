@@ -39,6 +39,7 @@ const graphOptions = ref({
 const fullGraph = computed(() => store.graph);
 const rawSubGraph = computed(() => {
   const g = buildContextGraph(fullGraph.value, props.contextIds, graphOptions.value);
+  console.log(g)
   g.removeNode("ROOT")
   return g;
 });

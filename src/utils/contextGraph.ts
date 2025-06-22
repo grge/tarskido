@@ -72,6 +72,7 @@ export function buildContextGraph(
     pruneSingleChildParents = true
   } = options;
 
+
   const contextSet = new Set(contextIds);
   // Step 1. Build set of seed nodes - all descendants of context nodes
   const seedNodes = depthLimitedTraversal(graph, contextSet, ['children']);

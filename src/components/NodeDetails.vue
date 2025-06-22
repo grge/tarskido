@@ -90,11 +90,11 @@ export default {
         nodetype: { primary: '', secondary: '' },
         statement: '',
         references: [],
-        chapter: nodeId,
+        chapter: node.id,
         proof_lines: []
       };
       store.upsertNode(child);
-      router.push({ name: 'NodeEdit', params: { bookId: store.rawBook.id, nodeId: childId }}); 
+      router.push({ name: 'NodeEdit', params: { bookParam: store.rawBook.id, nodeParam: childId }}); 
     }
     return { book, store, node, createChildNode, nextNodeId, prevNodeId, hasName, toggleGraphVisibility, graphHidden };
   },
@@ -198,7 +198,5 @@ export default {
 
   .context-graph-wrapper
     margin-top 2em
-
-
 
 </style>

@@ -10,7 +10,10 @@ LP: Want to fix, but could release without it
 - MP: The Prev/Next links don't use slugs. I think I need a slug link component.
 - MP: Graph child nodes don't appear if they don't have external links
 - MP: Fix animation of background colour for graph nodes that change colour
+- MP: Clusters containing other clusters don't show correctly in the graph. 
+- MP: Highlighted clusters' labels are not visible on the graph
 - LP: The BBOX calculation does not include edges, so in rare circumstances edges get cut off.
+- LP: Persist graph options, and add a "reset to defaults" button
 - LP: Horizontal line below graph sometimes disapears when browser zoom < 100%?
 - LP: New view: Graph fullscreen with side panel for content
 - LP: Clusters can be collapsed/expanded on the graph

@@ -57,13 +57,11 @@ export function collapseHierarchy(graph: Graph, anchorIds: Set<string>, includeP
   const collapsedGraph = new Graph({ directed: true, compound: true });
   collapsedGraph.setGraph(graph.graph());
   const addNode = (n : string) => {
-    if (graph.hasNode(n) && !collapsedGraph.hasNode(n)) {
-      collapsedGraph.setNode(n, graph.node(n));
-      if (includeParents) {
-        const p = graph.parent(n);
-        if (p) {
-          collapsedGraph.setParent(n, uf.find(p))
-        }
+    collapsedGraph.setNode(n, graph.node(n));
+    if (includeParents) {
+      const p = graph.parent(n);
+      if (p) {
+        collapsedGraph.setParent(n, uf.find(p))
       }
     }
   }
@@ -82,11 +80,11 @@ export function collapseHierarchy(graph: Graph, anchorIds: Set<string>, includeP
   }
 
   // TODO: This is probably not what we really want...
+  // But this ensures we get all the nodes in the graph,
+  // AND that we get their correct parent relationship.
   const collapsedNodes = new Set<string>(uf.parent.values())
   for (const n of collapsedNodes) {
-    if (!collapsedGraph.hasNode(n)) {
-      addNode(n);
-    }
+    addNode(n);
   }
   
   collapsedGraph.removeNode('ROOT');

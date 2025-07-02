@@ -10,7 +10,7 @@ function getAnchors(
   graph: Graph,
   contextIds: string[],
   options: { contextCollapseLevel?: number; outsideCollapseLevel?: number; }
-): string[] {
+): Set<string> {
   // This whole function is not very efficient... some of the traversals could be combined/avoided
   // The depth function should be a one-pass map, not a function, etc.
   function depth(n) { if (graph.parent(n)) return 1 + depth(graph.parent(n)); return 0; }
@@ -21,7 +21,7 @@ function getAnchors(
   // We could remove this stage if we were able to reach inside the above depthLimitedTraversal, so there's room for refactoring...
   const contextDescendants = depthLimitedTraversal(graph, contextIds, ['children']);
   const cleanedOutsideAnchors = Array.from(outsideAnchors).filter(n => !contextDescendants.has(n));
-  return new Set([...contextAnchors, ...cleanedOutsideAnchors])
+  return new Set([...contextIds, ...contextAnchors, ...cleanedOutsideAnchors])
 }
 
 function removeSingleChildRoots(
@@ -54,7 +54,7 @@ export interface contextGraphOptions {
   predecessorRadius?: number;
   successorRadius?: number;
   includeParents?: boolean;
-  prineSingleChildParents?: boolean;
+  pruneSingleChildParents?: boolean;
 }
 
 export function buildContextGraph(

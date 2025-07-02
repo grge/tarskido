@@ -111,6 +111,7 @@ function nodeTransform(nodeId: string) {
 
 const nodes = computed(() => props.graph.nodes())
 const edges = computed(() => props.graph.edges())
+// TODO: We could topo sort the clusters so that they get rendered in the correct order
 const clusters = computed(() => nodes.value.filter((n) => (props.graph.children(n).length > 0)))
 const leaves = computed(() => nodes.value.filter((n) => (props.graph.children(n).length == 0)))
 
@@ -136,7 +137,7 @@ g.node rect {
 }
 
 g.node rect.chapter {
-    fill: #f6fff6;
+    fill: #f6fffa;
     stroke: #6aa84f;
     stroke-width: 2px;
 }
@@ -153,11 +154,14 @@ g.highlight rect {
 
 .highlight a {
   color: white;
-  
+}
+
+g.cluster.highlight a {
+  color: #6aa84f;
 }
 
 g.cluster rect {
-    fill: #f6fff6;
+    fill: rgba(234, 234, 234, 0.1);
     stroke: #6aa84f;
     stroke-width: 2px;
 }

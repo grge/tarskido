@@ -4,20 +4,27 @@ LP: Want to fix, but could release without it
 
 
 - HP: Demo bookshelf list, loading from GitHub, fallback to local, etc. Revamp front page.
+- HP: Auto-slug doesn't wok. Also, slugs often clobber each other when manually editing. E.g., "defintion-1.10" clobbers "definition-1.1"
+
 - MP: Animate option in graph menu does nothing
-- MP: Audit consistency of type. Fonts, font sizes, margins, etc 
-- MP: seperation of concerns in BookShelfStore and BookStore. Also, places like components/BookShelf.vue
 - MP: The Prev/Next links don't use slugs. I think I need a slug link component.
-- MP: Graph child nodes don't appear if they don't have external links
+- MP: Better chapter and section views. Perhaps show a mini TOC of each subsection when viewing a chapter node.
 - MP: Fix animation of background colour for graph nodes that change colour
-- MP: Clusters containing other clusters don't show correctly in the graph. 
 - MP: Highlighted clusters' labels are not visible on the graph
-- LP: The BBOX calculation does not include edges, so in rare circumstances edges get cut off.
+
+- LP: Audit consistency of type. Fonts, font sizes, margins, etc 
+- LP: The graph BBOX calculation does not include edges, so in rare circumstances edges get clipped off.
+- LP: seperation of concerns in BookShelfStore and BookStore. Also, places like components/BookShelf.vue
+- LP: Node table: Search
+- LP: Node table: Topological sort
+  LP: Node table: Edit and Delete buttons
+  LP: Node table: Filters
+- LP: Graph clusters don't have correct z-ordering. Should topo sort before rendering.
 - LP: Persist graph options, and add a "reset to defaults" button
+- LP: Persist edit mode toggle
 - LP: Horizontal line below graph sometimes disapears when browser zoom < 100%?
 - LP: New view: Graph fullscreen with side panel for content
 - LP: Clusters can be collapsed/expanded on the graph
-- LP: Better chapter and section views. Perhaps show a mini TOC of each subsection when viewing a chapter node.
 - LP: Full dependencies view. Shows the recursive predecessors of the node in topological order.
 - LP: Prevent self-links when editing parent or reference links
 - LP: Overhaul edit pages
@@ -25,4 +32,3 @@ LP: Want to fix, but could release without it
 - LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.
 - LP: pass nodes into components wherever possible, instead of passing the nodeId and looking it up in the store.
 - LP: Redesign reference glyphs
-- LP: Table of all nodes in the book, with search and filter options.

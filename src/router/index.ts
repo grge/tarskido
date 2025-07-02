@@ -4,6 +4,7 @@ import Book from '@/views/Book.vue'
 import BookEdit from '@/views/BookEdit.vue'
 import Node from '@/views/Node.vue'
 import NodeEdit from '@/views/NodeEdit.vue'
+import NodeList from '@/views/NodeList.vue'
 import BookLayout from '@/layouts/BookLayout.vue'
 import NodeLayout from '@/layouts/NodeLayout.vue'
 import NotFound from '@/views/NotFound.vue'
@@ -26,6 +27,12 @@ const routes = [
         name: 'Book',
         component: Book,
         props: route => ({ bookId: route.params.bookId })
+      },
+      {
+        path: 'list',
+        name: 'NodeList',
+        component: NodeList,
+        prpos: route => ({ bookId: route.params.bookId }),
       },
       {
         path: 'edit',

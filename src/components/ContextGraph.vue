@@ -9,7 +9,8 @@
       <GraphRenderer
         :graph="graph"
         :bbox="bbox"
-        :highlightIds="contextIds" />
+        :highlightIds="contextIds"
+        :animate="graphOptions.animate" />
   </div>
 </template> 
 

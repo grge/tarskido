@@ -5,7 +5,8 @@
     :width="`${bbox.width}`"
     :height="`${bbox.height}`"
     preserveAspectRatio="xMidYMid meet"
-    class="graph-svg">
+    class="graph-svg"
+    :class="{ 'no-animate': !props.animate }">
 
     <defs>
       <filter id="softGlow" height="300%" width="300%" x="-75%" y="-75%">
@@ -86,6 +87,7 @@ const props = defineProps<{
   graph: Graph; 
   bbox: { minX: number; minY: number; width: number; height: number };
   highlightIds: string[];
+  animate: boolean;
 }>();
 
 import { line, curveBasis } from 'd3-shape';
@@ -198,5 +200,19 @@ g.node.item-enter-active, g.cluster.item-enter-active, path.edge.edge-enter-acti
 
 g.node.item-leave-active, path.edge.edge-leave-active {
   transition: opacity 200ms ease;
+}
+
+/* Disable all animations when no-animate class is applied */
+.no-animate path.edge, .no-animate g.node, .no-animate g.cluster {
+  transition: none !important;
+}
+
+.no-animate g.cluster rect, .no-animate g.node rect {
+  transition: none !important;
+}
+
+.no-animate g.node.item-enter-active, .no-animate g.cluster.item-enter-active, .no-animate path.edge.edge-enter-active,
+.no-animate g.node.item-leave-active, .no-animate path.edge.edge-leave-active {
+  transition: none !important;
 }
 </style>

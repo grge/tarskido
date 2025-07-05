@@ -32,3 +32,4 @@ LP: Want to fix, but could release without it
 - LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.
 - LP: pass nodes into components wherever possible, instead of passing the nodeId and looking it up in the store.
 - LP: Redesign reference glyphs
+- LP: Fix TypeScript type checking and ESLint errors throughout codebase

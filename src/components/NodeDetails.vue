@@ -10,7 +10,7 @@
         </h3>
         <div class='editlinks listoflinks'>
           <NodeReference :nodeId="node.id" v-if='level > 1'/>
-          <router-link class='editlink' v-if="store.editMode" :to="{ name: 'NodeEdit', params: {bookParam: book.slug || book.id, nodeParam: node.slug || node.id}}">Edit node</router-link>
+          <SlugLink v-if="store.editMode" :nodeId="node.id" routeName="NodeEdit" linkClass='editlink'>Edit node</SlugLink>
           <a class='editlink' @click='createChildNode()' v-if='store.editMode && level == 1 && node.nodetype.primary == "Group"'>Create child node</a>
         </div>
       </div>
@@ -20,10 +20,10 @@
         <h2>{{node.name == "" ? node.nodetype.secondary + " " + node.reference : node.name}} </h2>
         <div class='navlinks listoflinks' v-if='level == 1'>
           <!-- <a class='navlink navpreviouslink'>Previous</a> -->
-          <router-link :to="{ name: 'Node', params: {bookParam: book.slug || book.id, nodeParam: prevNodeId} }" class='navlink navpreviouslink' v-if="prevNodeId != 'ROOT'">Previous</router-link>
-          <router-link :to="{ name: 'Node', params: {bookParam: book.slug || book.id, nodeParam: node.chapter} }" class='navlink navuplink' v-if="node.chapter && node.chapter != 'ROOT'">Up</router-link>
-          <router-link :to="{ name: 'Book', params: {bookParam: book.slug || book.id} }" class='navlink navuplink' v-if="! node.chapter || node.chapter == 'ROOT'">Up</router-link>
-          <router-link :to="{ name: 'Node', params: {bookParam: book.slug || book.id, nodeParam: nextNodeId} }" class='navlink navnextlink' v-if="nextNodeId != 'ROOT'">Next</router-link>
+          <SlugLink :nodeId="prevNodeId" linkClass='navlink navpreviouslink' v-if="prevNodeId != 'ROOT'">Previous</SlugLink>
+          <SlugLink :nodeId="node.chapter" linkClass='navlink navuplink' v-if="node.chapter && node.chapter != 'ROOT'">Up</SlugLink>
+          <SlugLink :bookId="book.id" linkClass='navlink navuplink' v-if="! node.chapter || node.chapter == 'ROOT'">Up</SlugLink>
+          <SlugLink :nodeId="nextNodeId" linkClass='navlink navnextlink' v-if="nextNodeId != 'ROOT'">Next</SlugLink>
           <a class='navlink navtoclink' @click="toggleGraphVisibility()" >{{ graphHidden ? "Show" : "Hide" }} Graph</a>
         </div>
       </div>
@@ -53,6 +53,7 @@ import NodeReference from '@/components/NodeReference.vue'
 // import MultipartNodeDetails from '@/components/MultipartNodeDetails.vue'
 import ReferenceList from '@/components/ReferenceList.vue'
 import ContextGraph from '@/components/ContextGraph.vue';
+import SlugLink from '@/components/SlugLink.vue';
 
 export default {
   name: 'NodeDetails',
@@ -62,7 +63,8 @@ export default {
     ReferenceList,
     // MultipartNodeDetails,
     MarkdownRenderer,
-    ContextGraph
+    ContextGraph,
+    SlugLink
   },
   setup(props) {
     const router = useRouter();

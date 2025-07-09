@@ -6,7 +6,8 @@
     }"
     class="reference-link"
   >
-    <span :class="'reference-subtype-' + node.nodetype.secondary">{{ label }}</span>
+    <GlyphIcon :nodeType="node.nodetype" class="reference-glyph" />
+    <span class="reference-label">{{ label }}</span>
   </router-link>
 </template>
 
@@ -14,9 +15,13 @@
 import { useBookStore } from '../stores/bookStore.js';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
+import GlyphIcon from './GlyphIcon.vue';
 
 export default {
   name: 'NodeReference',
+  components: {
+    GlyphIcon,
+  },
   setup(props) {
     const store = useBookStore();
     const route = useRoute();
@@ -27,6 +32,7 @@ export default {
 
     const label = computed(() => {
       const n = node.value;
+      if (!n) return 'Unknown';
       if (n.name && props.useName) {
         return n.reference + ' ' + n.name;
       } else {
@@ -45,33 +51,18 @@ export default {
 
 <style scoped lang="stylus">
 
-.reference-subtype-Comment::before
-  content "= "
+.reference-link
+  display inline-flex
+  align-items baseline
+  gap 0.25em
+  text-decoration none
+  
+  &:hover
+    text-decoration underline
 
-.reference-subtype-Note::before
-  content "= "
+.reference-glyph
+  margin-right 0.1em
 
-.reference-subtype-Chapter::before
-  content "✧ "
-
-.reference-subtype-Appendix::before
-  content "✧ "
-
-.reference-subtype-Definition::before
-  content "▣ "
-
-.reference-subtype-Axiom::before
-  content "▣ "
-
-.reference-subtype-Proposition::before
-  content "⍟ "
-
-.reference-subtype-Corollary::before
-  content "⍟ "
-
-.reference-subtype-Theorem::before
-  content "⬤ "
-
-.reference-subtype-Lemma::before
-  content "◑ "
+.reference-label
+  display inline
 </style>

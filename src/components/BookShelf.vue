@@ -19,18 +19,22 @@ const importFromFile = () => {
       const data = JSON.parse(reader.result as string);
       console.log('Importing book from file:', data);
       bookStore.loadFromJSON(data, data.id);
-      router.push({ name: 'Book', params: { bookParam: data.slug || data.id }});
+      // Refresh the shelf to show the new book
+      shelf.refreshBookList();
+      router.push({ name: 'Book', params: { bookParam: data.slug || data.id } });
     };
     reader.readAsText(file);
   };
   fileInput.click();
-}
+};
 
 function createNewBook() {
   bookStore.createNewBook();
+  // Refresh the shelf to show the new book
+  shelf.refreshBookList();
   // redirect to the new book front page
   const bookId = bookStore.rawBook.id;
-  router.push({ name: 'BookEdit', params: { bookParam: bookId }}); 
+  router.push({ name: 'BookEdit', params: { bookParam: bookId } });
 }
 
 const books = shelf.available;
@@ -38,23 +42,23 @@ const books = shelf.available;
 
 <template>
   <div class="bookshelf">
-    <div class='bookgrid'>
-        <div class='bookgridbook' v-for='book in books'>
-            <router-link :to="{name: 'Book', params: {bookParam: book.slug || book.id}}">
-              <p class='bookshelf-title'>{{ book.title }}</p>
-              <p class='bookshelf-author'>by {{ book.author }}</p>
-            </router-link>
-        </div>
-    </div> 
-    <div class='listoflinks'>
-      <a class='editlink newbooklink' @click="createNewBook()">Create new book</a>
-      <a class='editlink newbooklink' @click="importFromFile()">Import book</a>
+    <div class="bookgrid">
+      <div class="bookgridbook" v-for="book in books">
+        <router-link :to="{ name: 'Book', params: { bookParam: book.slug || book.id } }">
+          <p class="bookshelf-title">{{ book.title }}</p>
+          <p class="bookshelf-author">by {{ book.author }}</p>
+        </router-link>
+      </div>
+    </div>
+    <div class="listoflinks">
+      <a class="editlink newbooklink" @click="createNewBook()">Create new book</a>
+      <a class="editlink newbooklink" @click="importFromFile()">Import book</a>
     </div>
   </div>
 </template>
 
 <style scoped lang="stylus">
-.bookshelf 
+.bookshelf
   text-align center
 
 .bookgrid
@@ -73,7 +77,7 @@ const books = shelf.available;
   padding 0 3em
   cursor pointer
 
-.bookgridbook a 
+.bookgridbook a
   text-decoration none
   color black
 
@@ -91,5 +95,4 @@ const books = shelf.available;
   margin 0px
   font-size 10pt
   font-style italic
-
 </style>

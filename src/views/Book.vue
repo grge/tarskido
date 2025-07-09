@@ -25,16 +25,17 @@ export default {
         id: nodeId,
         reference: '',
         name: '',
+        slug: '',
+        autoslug: true,
         nodetype: { primary: '', secondary: '' },
         statement: '',
         references: [],
         chapter: '',
-        proof_lines: []
+        proof_lines: [],
       };
       store.upsertNode(node);
-      router.push({ name: 'NodeEdit', params: { bookParam: store.rawBook.id, nodeParam: nodeId }}); 
+      router.push({ name: 'NodeEdit', params: { bookParam: store.rawBook.id, nodeParam: nodeId } });
     }
-
 
     function cleanBrokenRefs() {
       for (const nodeId in book.nodes) {
@@ -44,38 +45,42 @@ export default {
           line.references = line.references.filter(refId => book.nodes[refId]);
         });
         if (node.chapter && !book.nodes[node.chapter]) {
-          node.chapter = 'ROOT'
+          node.chapter = 'ROOT';
         }
       }
     }
 
     return { book, createNewNode, cleanBrokenRefs, store };
   },
-}
+};
 </script>
 
 <template>
   <div>
     <CornerMenu />
-      <div class='book-content'>
-        <h1 class='book-front-title'>{{book.title}}</h1>
-        <div class='book-front-author'>by {{book.author}}</div>
-        <div class='listoflinks' v-if="store.editMode">
-          <router-link class='editlink' :to="{ name: 'BookEdit', params: {bookParam: book.slug || book.id}}">Edit book attributes</router-link>
-          <a class='editlink' @click="createNewNode()">Create a new node</a>
-        </div>
-        <ContextGraph :contextIds='["ROOT"]'/>
-        <div class='book-preface'>
-        <MarkdownRenderer :markdown="book.preface" />
-        </div>
-
-        <!-- <MdEditor v-model="book.preface" previewOnly /> -->
-        <LargeTableOfContents />
+    <div class="book-content">
+      <h1 class="book-front-title">{{ book.title }}</h1>
+      <div class="book-front-author">by {{ book.author }}</div>
+      <div class="listoflinks" v-if="store.editMode">
+        <router-link
+          class="editlink"
+          :to="{ name: 'BookEdit', params: { bookParam: book.slug || book.id } }"
+          >Edit book attributes</router-link
+        >
+        <a class="editlink" @click="createNewNode()">Create a new node</a>
       </div>
+      <ContextGraph :contextIds="['ROOT']" />
+      <div class="book-preface">
+        <MarkdownRenderer :markdown="book.preface" />
+      </div>
+
+      <!-- <MdEditor v-model="book.preface" previewOnly /> -->
+      <LargeTableOfContents />
+    </div>
   </div>
 </template>
 
-<style scoped lang='stylus'>
+<style scoped lang="stylus">
 .listoflinks
   text-align center
 
@@ -85,7 +90,7 @@ export default {
 .context-graph
   margin-top 1.5em
 
-.book-front-title 
+.book-front-title
   margin-bottom 0.15em
   margin-top 1em
   font-size 40px

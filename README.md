@@ -24,3 +24,53 @@ cd tarskido
 npm install
 npm run dev
 ```
+
+## Development
+
+### Available Scripts
+
+```bash
+# Development
+npm run dev              # Start development server with hot reload
+npm run build            # Build production bundle  
+npm run preview          # Preview production build locally
+
+# Code Quality
+npm run lint             # Run ESLint with auto-fix on all Vue/JS/TS files
+npm run type-check       # Run TypeScript type checking with vue-tsc
+npm run format           # Format source code with Prettier
+
+# Testing
+npm run test             # Run tests with Vitest in watch mode
+npm run test:run         # Run tests once without watch mode
+
+# Deployment & Utilities
+npm run deploy           # Deploy to GitHub Pages using gh-pages
+npm run import-book      # Import a book from JSON file for puppeteer testing
+```
+
+### Code Quality Tools
+
+The project uses several tools to maintain code quality:
+
+- **ESLint**: Linting for Vue 3, TypeScript, and JavaScript files
+- **TypeScript**: Static type checking with strict configuration
+- **Prettier**: Automatic code formatting
+- **Vitest**: Unit testing framework
+
+To check your code before committing:
+
+```bash
+npm run lint          # Check and auto-fix linting issues
+npm run type-check    # Verify TypeScript types
+npm run test:run      # Run all tests
+```
+
+### Testing
+
+Tests are written using Vitest and Vue Test Utils. Test files should be placed in the `test/` directory and follow the naming convention `*.test.ts` or `*.test.js`.
+
+```bash
+npm run test          # Run tests in watch mode during development
+npm run test:run      # Run tests once (useful for CI/CD)
+```

@@ -1,5 +1,5 @@
 <template>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" />
   <div id="app">
     <div>
       <router-view />
@@ -38,7 +38,7 @@ h3
   margin-top 1em
   font-size 26px
 
-textarea 
+textarea
   font-family fixed
   width 40em
   height 20em
@@ -83,5 +83,4 @@ a:hover
 
 .listoflinks a
   margin-right 2em
-
 </style>

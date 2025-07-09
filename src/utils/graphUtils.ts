@@ -1,4 +1,4 @@
-import { Graph, alg } from '@dagrejs/graphlib'
+import { Graph, alg } from '@dagrejs/graphlib';
 
 /**
  * A simple union-find (aka disjoint set) implementation
@@ -12,7 +12,7 @@ class UnionFind {
   find(x: string): string {
     if (!this.parent.has(x)) {
       this.parent.set(x, x);
-      return x
+      return x;
     }
     const p = this.parent.get(x);
     if (p !== x) {
@@ -38,7 +38,11 @@ class UnionFind {
  * What is the behavoiur when an anchor node is a descendant of another anchor node?
  * Your guess is as good as mine.
  */
-export function collapseHierarchy(graph: Graph, anchorIds: Set<string>, includeParents: boolean = true): Graph {
+export function collapseHierarchy(
+  graph: Graph,
+  anchorIds: Set<string>,
+  includeParents: boolean = true
+): Graph {
   const uf = new UnionFind(graph.nodes());
   for (const n of graph.nodes()) {
     if (!anchorIds.has(n)) {
@@ -48,7 +52,7 @@ export function collapseHierarchy(graph: Graph, anchorIds: Set<string>, includeP
         if (!p) break;
         if (anchorIds.has(p)) {
           uf.union(n, p);
-          break
+          break;
         }
         cur = p;
       }
@@ -56,15 +60,15 @@ export function collapseHierarchy(graph: Graph, anchorIds: Set<string>, includeP
   }
   const collapsedGraph = new Graph({ directed: true, compound: true });
   collapsedGraph.setGraph(graph.graph());
-  const addNode = (n : string) => {
+  const addNode = (n: string) => {
     collapsedGraph.setNode(n, graph.node(n));
     if (includeParents) {
       const p = graph.parent(n);
       if (p) {
-        collapsedGraph.setParent(n, uf.find(p))
+        collapsedGraph.setParent(n, uf.find(p));
       }
     }
-  }
+  };
 
   const seen = new Set();
   for (const e of graph.edges()) {
@@ -75,29 +79,29 @@ export function collapseHierarchy(graph: Graph, anchorIds: Set<string>, includeP
     if (anchoredEdge[0] !== anchoredEdge[1]) {
       addNode(anchoredEdge[0]);
       addNode(anchoredEdge[1]);
-      collapsedGraph.setEdge(anchoredEdge[0], anchoredEdge[1], { label: "" })
+      collapsedGraph.setEdge(anchoredEdge[0], anchoredEdge[1], { label: '' });
     }
   }
 
   // TODO: This is probably not what we really want...
   // But this ensures we get all the nodes in the graph,
   // AND that we get their correct parent relationship.
-  const collapsedNodes = new Set<string>(uf.parent.values())
+  const collapsedNodes = new Set<string>(uf.parent.values());
   for (const n of collapsedNodes) {
     addNode(n);
   }
-  
+
   collapsedGraph.removeNode('ROOT');
   return collapsedGraph;
 }
-    
+
 /**
- * Return nodes reachable from the given seed nodeIds. 
+ * Return nodes reachable from the given seed nodeIds.
  */
 export function depthLimitedTraversal(
   graph: Graph,
   seeds: string[], // seed node ids
-  relations: Array<'parent'|'children'|'predecessors'|'successors'>,
+  relations: Array<'parent' | 'children' | 'predecessors' | 'successors'>,
   depth: number = -1, // -1 means no limit
   exact: boolean = false // only return nodes at the exact depth, not the closure up to that depth
 ): Set<string> {
@@ -109,12 +113,13 @@ export function depthLimitedTraversal(
   const maxDepth = depth < 0 ? Infinity : depth;
 
   for (let d = 1; d <= maxDepth && frontier.length; d++) {
-    const next = []
+    const next = [];
     for (const n of frontier) {
       for (const rel of relations) {
-        const neighbors = rel === 'parent'
-                ? [graph.parent(n)].filter((x): x is string => !!x)
-                : graph[rel](n) || [];
+        const neighbors =
+          rel === 'parent'
+            ? [graph.parent(n)].filter((x): x is string => !!x)
+            : graph[rel](n) || [];
         for (const n of neighbors) {
           if (!visited.has(n)) {
             visited.add(n);
@@ -131,7 +136,6 @@ export function depthLimitedTraversal(
   return exact ? new Set(frontier) : visited;
 }
 
-
 /*
  * Induce a subgraph closure for a given set of node Ids.
  * The resulting graph includes every edge (v->w) where both v and w are in nodeIds
@@ -144,7 +148,7 @@ export function induceCompoundSubgraph(graph: Graph, nodeIds: Set<string>): Grap
     if (graph.hasNode(id)) {
       sub.setNode(id, graph.node(id));
     }
-  })
+  });
   // graph.edges().forEach(edge => {
   //   if (nodeSet.has(edge.v) && nodeSet.has(edge.w)) {
   //     sub.setEdge(edge.v, edge.w, graph.edge(edge));
@@ -172,8 +176,8 @@ export function induceCompoundSubgraph(graph: Graph, nodeIds: Set<string>): Grap
     if (parent && nodeIds.has(parent)) {
       sub.setParent(id, parent);
     }
-  })
-  return sub
+  });
+  return sub;
 }
 
 /**
@@ -181,7 +185,6 @@ export function induceCompoundSubgraph(graph: Graph, nodeIds: Set<string>): Grap
  * an alternate path from u to v via other nodes.
  */
 export function removeTransitiveEdges(graph: Graph): Graph {
-
   // 1) topological sort
   const topo: string[] = alg.topsort(graph);
 
@@ -192,9 +195,9 @@ export function removeTransitiveEdges(graph: Graph): Graph {
   }
 
   // 3) Compute reachability sets in reverse topo order
-  const reach = new Map<stirng, Set<string>>();
+  const reach = new Map<string, Set<string>>();
   for (let i = topo.length - 1; i >= 0; i--) {
-    const u = topo[i]
+    const u = topo[i];
     const r = new Set<string>();
     for (const w of succ.get(u)!) {
       r.add(w);
@@ -229,4 +232,3 @@ export function removeTransitiveEdges(graph: Graph): Graph {
   }
   return result;
 }
-

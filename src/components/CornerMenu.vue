@@ -8,41 +8,44 @@
   <div class="corner-menu-content" :class="menuOpen ? 'menu-open' : 'menu-closed'">
     <ul>
       <li><router-link :to="{ name: 'Home' }">Tarskido</router-link></li>
-      <hr/>
+      <hr />
       <li><a @click="downloadBook()">Download this book</a></li>
-      <li><a @click="store.toggleEditMode()">Edit mode</a><span class="tick">{{ store.editMode ? "✓" : ""}}</span></li>
+      <li>
+        <a @click="store.toggleEditMode()">Edit mode</a
+        ><span class="tick">{{ store.editMode ? '✓' : '' }}</span>
+      </li>
       <li>Github</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
-  import { useBookStore } from '@/stores/bookStore';
+import { ref } from 'vue';
+import { useBookStore } from '@/stores/bookStore';
 
-  const store = useBookStore();
-  const menuOpen = ref(false);
+const store = useBookStore();
+const menuOpen = ref(false);
 
-  function toggleMenu() {
-    menuOpen.value = !menuOpen.value;
-  }
+function toggleMenu() {
+  menuOpen.value = !menuOpen.value;
+}
 
-  function toggleEditMode() {
-    store.editMode = !store.editMode;
-  }
+function toggleEditMode() {
+  store.editMode = !store.editMode;
+}
 
-  function downloadBook() {
-    const bookData = JSON.stringify(store.rawBook, null, 2);
-    const blob = new Blob([bookData], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${store.rawBook.id}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
+function downloadBook() {
+  const bookData = JSON.stringify(store.rawBook, null, 2);
+  const blob = new Blob([bookData], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${store.rawBook.id}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 </script>
 
 <style scoped lang="stylus">
@@ -54,7 +57,7 @@
    height 40px
    z-index 1002
 
-.corner-menu-content 
+.corner-menu-content
    position absolute
    right 0
    top 0
@@ -86,7 +89,7 @@
 .corner-menu-content a:hover
    text-decoration underline
 
-.corner-menu-content .tick 
+.corner-menu-content .tick
    margin-left 1em
 
 .corner-menu-content.menu-closed

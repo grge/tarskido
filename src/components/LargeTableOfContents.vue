@@ -5,15 +5,25 @@
       <li v-for="chap in toc" :key="chap.id" class="toc-l1-li">
         <span class="toc-l1-margin">{{ chap.ref }}</span>
         <div class="toc-l1-content">
-          <router-link :to="{ name: 'Node', params: { bookParam: book.slug || book.id, nodeParam: chap.slug || chap.id } }">
+          <router-link
+            :to="{
+              name: 'Node',
+              params: { bookParam: book.slug || book.id, nodeParam: chap.slug || chap.id },
+            }"
+          >
             <span class="toc-l1-title">{{ chap.title }}</span>
           </router-link>
           <ul>
-            <li v-for="sec in chap.children" :key="sec.id" class='toc-l2-li'>
-              <div class='toc-l2-line'>
-                <router-link :to="{ name: 'Node', params: { bookParam: book.slug || book.id, nodeParam: sec.slug || sec.id } }">
-                  <span class='toc-l2-label'>{{ sec.ref }}</span>
-                  <span class='toc-l2-title'>{{ sec.title }}</span>
+            <li v-for="sec in chap.children" :key="sec.id" class="toc-l2-li">
+              <div class="toc-l2-line">
+                <router-link
+                  :to="{
+                    name: 'Node',
+                    params: { bookParam: book.slug || book.id, nodeParam: sec.slug || sec.id },
+                  }"
+                >
+                  <span class="toc-l2-label">{{ sec.ref }}</span>
+                  <span class="toc-l2-title">{{ sec.title }}</span>
                 </router-link>
               </div>
             </li>
@@ -25,11 +35,16 @@
         <div class="toc-l1-content">
           <span class="toc-l1-title">Orphaned Nodes</span>
           <ul>
-            <li v-for="node in orphaned" :key="node.id" class='toc-l2-li'>
-              <div class='toc-l2-line'>
-                <router-link :to="{ name: 'Node', params: { bookParam: book.slug || book.id, nodeParam: node.slug || node.id } }">
-                  <span class='toc-l2-label'>{{ node.ref }}</span>
-                  <span class='toc-l2-title'>{{ node.title }}</span>
+            <li v-for="node in orphaned" :key="node.id" class="toc-l2-li">
+              <div class="toc-l2-line">
+                <router-link
+                  :to="{
+                    name: 'Node',
+                    params: { bookParam: book.slug || book.id, nodeParam: node.slug || node.id },
+                  }"
+                >
+                  <span class="toc-l2-label">{{ node.ref }}</span>
+                  <span class="toc-l2-title">{{ node.title }}</span>
                 </router-link>
               </div>
             </li>
@@ -41,17 +56,17 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue'
-import { useBookStore } from '@/stores/bookStore'
+import { computed } from 'vue';
+import { useBookStore } from '@/stores/bookStore';
 
 /** A generic TOC node */
 interface TocEntry {
-  id: string
-  ref: string
-  slug: string
-  type: string
-  title: string
-  children: TocEntry[]
+  id: string;
+  ref: string;
+  slug: string;
+  type: string;
+  title: string;
+  children: TocEntry[];
 }
 
 export default {
@@ -68,8 +83,8 @@ export default {
     function buildToc(ids: string[]): TocEntry[] {
       ids = ids.filter(id => {
         const data = book.value.nodes[id];
-        return (data && data?.nodetype.primary == 'Group')
-      })
+        return data && data?.nodetype.primary == 'Group';
+      });
 
       ids = store.sortNodesByReference(ids) || [];
 
@@ -80,54 +95,57 @@ export default {
           ref: data.reference,
           slug: data.slug,
           type: data.nodetype.secondary,
-          title: data.name || (data.nodetype.secondary + " " + data.reference),
-          children: buildToc(store.sortNodesByReference(graph.value.children(id)) || [])
-        }
+          title: data.name || data.nodetype.secondary + ' ' + data.reference,
+          children: buildToc(store.sortNodesByReference(graph.value.children(id)) || []),
+        };
       });
-    };
+    }
 
     function collectOrphans() {
       const nodes = book.value.nodes;
       const ids = graph.value.nodes().filter(id => {
         if (id == rootId) return false;
         const node = nodes[id];
-        return ((!node) || (((node.chapter == "") || (node.chapter == rootId)) && (node.nodetype.primary != "Group")))
+        return (
+          !node ||
+          ((node.chapter == '' || node.chapter == rootId) && node.nodetype.primary != 'Group')
+        );
       });
       return ids.map(id => {
         const data = nodes[id];
         if (!data) {
           return {
             id: id,
-            ref: "Unknown",
+            ref: 'Unknown',
             slug: undefined,
-            type: "Unknown",
-            title: "Unknown Node",
-            children: []
-          }
+            type: 'Unknown',
+            title: 'Unknown Node',
+            children: [],
+          };
         }
         return {
           id: id,
           ref: data.reference,
           slug: data.slug,
           type: data.nodetype.secondary,
-          title: data.name || (data.nodetype.secondary + " " + data.reference),
-          children: []
-        }
+          title: data.name || data.nodetype.secondary + ' ' + data.reference,
+          children: [],
+        };
       });
     }
-        // Top‐level chapters
+    // Top‐level chapters
     const toc = computed<TocEntry[]>(() => {
-      const topIds = graph.value.children(rootId) ?? []
-      return buildToc(topIds)
+      const topIds = graph.value.children(rootId) ?? [];
+      return buildToc(topIds);
     });
 
     const orphaned = computed<TocEntry[]>(() => {
-      return collectOrphans()
+      return collectOrphans();
     });
 
-    return { book, toc, orphaned }
-  }
-}
+    return { book, toc, orphaned };
+  },
+};
 </script>
 
 <style scoped>
@@ -157,7 +175,7 @@ a:hover {
 }
 
 .toc-l1-content {
-  display: inline; 
+  display: inline;
 }
 
 .toc-l1-title {
@@ -167,7 +185,6 @@ a:hover {
 .toc-l1-li {
   margin: 1.1rem 0;
   list-style: none;
-
 }
 
 .toc-l2-li {
@@ -178,5 +195,4 @@ a:hover {
 .toc-l2-label {
   padding: 0 0.9rem 0 0.6rem;
 }
-
 </style>

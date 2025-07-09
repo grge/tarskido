@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import BookShelf from '../components/BookShelf.vue'
+import BookShelf from '../components/BookShelf.vue';
 </script>
 
 <template>
   <div class="home">
-      <h1>Tarskido</h1>
-      <BookShelf />
+    <h1>Tarskido</h1>
+    <BookShelf />
   </div>
 </template>
 
-<style scoped lang='stylus'>
+<style scoped lang="stylus">
 
 .home
  text-align center
@@ -28,6 +28,4 @@ h1::before
  height 1em
  display inline-block
  margin-right 0.5em
-
-
 </style>

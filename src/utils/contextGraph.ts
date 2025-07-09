@@ -3,32 +3,43 @@ import {
   depthLimitedTraversal,
   induceCompoundSubgraph,
   collapseHierarchy,
-  removeTransitiveEdges
-} from './graphUtils.ts';
+  removeTransitiveEdges,
+} from './graphUtils.js';
 
 function getAnchors(
   graph: Graph,
   contextIds: string[],
-  options: { contextCollapseLevel?: number; outsideCollapseLevel?: number; }
+  options: { contextCollapseLevel?: number; outsideCollapseLevel?: number }
 ): Set<string> {
   // This whole function is not very efficient... some of the traversals could be combined/avoided
   // The depth function should be a one-pass map, not a function, etc.
-  function depth(n) { if (graph.parent(n)) return 1 + depth(graph.parent(n)); return 0; }
+  function depth(n) {
+    if (graph.parent(n)) return 1 + depth(graph.parent(n));
+    return 0;
+  }
   const minDepth = contextIds.map(depth).reduce((a, b) => Math.min(a, b), Infinity);
-  const contextAnchors = depthLimitedTraversal(graph, contextIds, ['children'], options.contextCollapseLevel);
+  const contextAnchors = depthLimitedTraversal(
+    graph,
+    contextIds,
+    ['children'],
+    options.contextCollapseLevel
+  );
   const rootNodes = graph.nodes().filter(n => !graph.parent(n));
-  const outsideAnchors = depthLimitedTraversal(graph, rootNodes, ['children'], minDepth + options.outsideCollapseLevel, true);
+  const outsideAnchors = depthLimitedTraversal(
+    graph,
+    rootNodes,
+    ['children'],
+    minDepth + options.outsideCollapseLevel,
+    true
+  );
   // We could remove this stage if we were able to reach inside the above depthLimitedTraversal, so there's room for refactoring...
   const contextDescendants = depthLimitedTraversal(graph, contextIds, ['children']);
   const cleanedOutsideAnchors = Array.from(outsideAnchors).filter(n => !contextDescendants.has(n));
-  return new Set([...contextIds, ...contextAnchors, ...cleanedOutsideAnchors])
+  return new Set([...contextIds, ...contextAnchors, ...cleanedOutsideAnchors]);
 }
 
-function removeSingleChildRoots(
-  graph: Graph,
-  protectedIds: Set<string>
-): Graph {
-  const toRemove: string[] = []
+function removeSingleChildRoots(graph: Graph, protectedIds: Set<string>): Graph {
+  const toRemove: string[] = [];
   for (const n of graph.nodes()) {
     // 1) skip protected nodes
     if (protectedIds.has(n)) continue;
@@ -69,9 +80,8 @@ export function buildContextGraph(
     predecessorRadius = 1,
     successorRadius = 1,
     includeParents = true,
-    pruneSingleChildParents = true
+    pruneSingleChildParents = true,
   } = options;
-
 
   const contextSet = new Set(contextIds);
   // Step 1. Build set of seed nodes - all descendants of context nodes
@@ -87,12 +97,14 @@ export function buildContextGraph(
   let sub = induceCompoundSubgraph(graph, neighborhoodWithAncesters);
 
   // Step 4. Collapse clusters and rewire edges
-  const collapseOpts = { contextCollapseLevel, outsideCollapseLevel }
+  const collapseOpts = { contextCollapseLevel, outsideCollapseLevel };
   const anchorIds = new Set(getAnchors(sub, contextIds, collapseOpts));
   sub = collapseHierarchy(sub, anchorIds, includeParents);
 
   // Step 5. Optionally reduce transitive edges
-  if (reduceEdges) { sub = removeTransitiveEdges(sub) }
+  if (reduceEdges) {
+    sub = removeTransitiveEdges(sub);
+  }
 
   // Step 6. Optionally prune parents with single children (note, this one mutates the graph)
   if (pruneSingleChildParents) removeSingleChildRoots(sub, new Set(contextIds));

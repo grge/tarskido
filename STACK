@@ -5,9 +5,9 @@ LP: Want to fix, but could release without it
 
 - HP: Demo bookshelf list, loading from GitHub, fallback to local, etc. Revamp front page.
 - HP: Auto-slug doesn't wok. Also, slugs often clobber each other when manually editing. E.g., "defintion-1.10" clobbers "definition-1.1"
+- HP: Import book dialog doesn't work - clicking "Import book" should open file picker but appears to do nothing
+- HP: Book list doesn't refresh after creating new book - requires page refresh to see new books
 
-- MP: Animate option in graph menu does nothing
-- MP: The Prev/Next links don't use slugs. I think I need a slug link component.
 - MP: Better chapter and section views. Perhaps show a mini TOC of each subsection when viewing a chapter node.
 - MP: Fix animation of background colour for graph nodes that change colour
 - MP: Highlighted clusters' labels are not visible on the graph

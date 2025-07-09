@@ -2,68 +2,173 @@
   <div>
     <div class="book-content">
       <h2>Editing book</h2>
-      <table class='edit-table'>
-        <tbody>
-        <tr><th>Title</th><td><input type='text' v-model="book.title"/></td></tr>
-        <tr><th>Slug</th><td><input type='text' v-model="book.slug"/></td></tr>
-        <tr><th>Author</th><td><input type='text' v-model="book.author"/></td></tr>
-        <tr><th>Preface</th><td><MdEditor v-model='book.preface' language="en-US"></MdEditor></td></tr>
-        </tbody>
-      </table>
-      <div class='listoflinks'>
-        <router-link class='navigatelink navbacklink' :to="{name:'Book', params:{bookParam: book.slug || book.id}}">Back to book view</router-link>
-        <a class='deletelink' @click='deleteThisBook'>Delete this book</a>
+
+      <el-form
+        :model="book"
+        :rules="formRules"
+        ref="bookForm"
+        label-position="left"
+        label-width="100px"
+        class="edit-form"
+      >
+        <el-form-item label="Title" prop="title" required>
+          <el-input v-model="book.title" placeholder="Enter book title" />
+        </el-form-item>
+
+        <el-form-item label="Slug" prop="slug" required>
+          <el-input v-model="book.slug" placeholder="Enter book slug" />
+        </el-form-item>
+
+        <el-form-item label="Author" prop="author">
+          <el-input v-model="book.author" placeholder="Enter author name" />
+        </el-form-item>
+
+        <el-form-item label="Preface">
+          <div class="preface-editor">
+            <div class="editor-controls">
+              <el-button-group>
+                <el-button :type="showPreview ? 'default' : 'primary'" @click="showPreview = false">
+                  Edit
+                </el-button>
+                <el-button :type="showPreview ? 'primary' : 'default'" @click="showPreview = true">
+                  Preview
+                </el-button>
+              </el-button-group>
+            </div>
+
+            <div v-if="!showPreview" class="editor-container">
+              <el-input
+                v-model="book.preface"
+                type="textarea"
+                :rows="15"
+                placeholder="Enter preface content (supports markdown and LaTeX)"
+                class="preface-textarea"
+              />
+            </div>
+
+            <div v-else class="preview-container">
+              <MarkdownRenderer :markdown="book.preface || 'No preface content'" />
+            </div>
+          </div>
+        </el-form-item>
+      </el-form>
+
+      <div class="action-buttons">
+        <el-button @click="goBack">Back to book view</el-button>
+        <el-button type="danger" @click="deleteThisBook">Delete this book</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import MdEditor from 'md-editor-v3';
 import { useBookStore, deleteBook } from '@/stores/bookStore';
-import { useRoute } from 'vue-router';
-import 'md-editor-v3/lib/style.css';
-import BookShelf from '@/components/BookShelf.vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useBookShelfStore } from '@/stores/bookShelfStore';
-import { watch } from 'vue';
-
-
+import { watch, ref } from 'vue';
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 export default {
   setup() {
     const shelf = useBookShelfStore();
     const book = useBookStore().rawBook;
-    // watch (and debounce) the slug so that we can update the global slugMap
+    const router = useRouter();
+    const showPreview = ref(false);
 
-    watch(() => book.slug, (newSlug, oldSlug) => {
-      if (newSlug) {
-        shelf.slugMap[oldSlug] = undefined;
-        shelf.slugMap[newSlug] = book.id;
-      }
-    }, { immediate: true });
+    // Form validation rules
+    const formRules = {
+      title: [
+        { required: true, message: 'Title is required', trigger: 'blur' },
+        {
+          min: 1,
+          max: 200,
+          message: 'Title must be between 1 and 200 characters',
+          trigger: 'blur',
+        },
+      ],
+      slug: [
+        { required: true, message: 'Slug is required', trigger: 'blur' },
+        {
+          pattern: /^[a-z0-9-]+$/,
+          message: 'Slug can only contain lowercase letters, numbers, and hyphens',
+          trigger: 'blur',
+        },
+      ],
+    };
+
+    // watch (and debounce) the slug so that we can update the global slugMap
+    watch(
+      () => book.slug,
+      (newSlug, oldSlug) => {
+        if (newSlug) {
+          shelf.slugMap[oldSlug] = undefined;
+          shelf.slugMap[newSlug] = book.id;
+        }
+      },
+      { immediate: true }
+    );
+
+    const goBack = () => {
+      router.push({ name: 'Book', params: { bookParam: book.slug || book.id } });
+    };
+
     return {
-      book
-    }
+      book,
+      showPreview,
+      goBack,
+      formRules,
+    };
   },
   methods: {
     deleteThisBook() {
-      deleteBook(this.book.id)
-      this.$router.push({name: 'Home'});
-    }
+      deleteBook(this.book.id);
+      this.$router.push({ name: 'Home' });
+    },
   },
   components: {
-    MdEditor,
-  }
-}
+    MarkdownRenderer,
+  },
+};
 </script>
 
-<style scoped lang='stylus'>
-.edit-table
- width 80%
+<style scoped lang="stylus">
+.book-content
+  padding: 20px
+  max-width: 800px
+  margin: 0 auto
 
-.edit-table th
- text-align right
+.edit-form
+  margin-bottom: 24px
 
-.edit-table td
- text-align left
+.preface-editor
+  width: 100%
+
+.editor-controls
+  margin-bottom: 12px
+
+.editor-container, .preview-container
+  border: 1px solid #dcdfe6
+  border-radius: 4px
+  min-height: 400px
+
+.editor-container
+  padding: 0
+
+.preview-container
+  padding: 16px
+  background-color: #fafafa
+
+.preface-textarea
+  border: none
+  .el-textarea__inner
+    border: none
+    border-radius: 0
+    box-shadow: none
+    resize: vertical
+
+.action-buttons
+  display: flex
+  gap: 12px
+  justify-content: flex-start
+  margin-top: 24px
 </style>

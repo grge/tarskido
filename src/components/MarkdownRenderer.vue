@@ -3,30 +3,30 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue';
-  import MarkdownIt from 'markdown-it';
-  import markdownItKatex from '@vscode/markdown-it-katex';
+import { computed } from 'vue';
+import MarkdownIt from 'markdown-it';
+import markdownItKatex from '@vscode/markdown-it-katex';
 
-  const props = defineProps({
-    markdown: {
-      type: String,
-      required: true,
-    },
-  });
+const props = defineProps({
+  markdown: {
+    type: String,
+    required: true,
+  },
+});
 
-  const md = new MarkdownIt({
-    html: true,
-    linkify: true,
-  }).use(markdownItKatex, {
-    macros: {
-      "\\iff": "\\Longleftrightarrow",
-      "\\implies": "\\Longrightarrow",
-    },
-  });
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+}).use(markdownItKatex, {
+  macros: {
+    '\\iff': '\\Longleftrightarrow',
+    '\\implies': '\\Longrightarrow',
+  },
+});
 
-  const renderedHtml = computed(() => {
-    return md.render(props.markdown);
-  });
+const renderedHtml = computed(() => {
+  return md.render(props.markdown);
+});
 </script>
 
 <style scoped lang="stylus">

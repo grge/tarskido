@@ -1,70 +1,72 @@
-
 <template>
-<div class='graph-options-menu-button' @click="toggleMenu">⚙</div>
-<div class='graph-options-menu' v-if="menuVisible">
-  <el-form label-width="auto" class="menu-form" :model="graphOptions" size="small">
-    <div class="menu-header">
-      <span>Graph Options</span>
-      <el-divider></el-divider>
-    </div>
+  <div class="graph-options-menu-button" @click="toggleMenu">⚙</div>
+  <div class="graph-options-menu" v-if="menuVisible">
+    <el-form label-width="auto" class="menu-form" :model="graphOptions" size="small">
+      <div class="menu-header">
+        <span>Graph Options</span>
+        <el-divider></el-divider>
+      </div>
 
-    <el-form-item label="Animate">
-      <el-switch v-model="graphOptions.animate" label="Animate" size="small"/>
-    </el-form-item>
-    <el-tooltip content="Remove transitive edges to simplify the graph" placement="right" theme="light">
-    <el-form-item label="Reduce Edges">
-      <el-switch v-model="graphOptions.reduceEdges" label="Clean Edges" size="small"/>
-    </el-form-item>
-    </el-tooltip>
-    <el-form-item label="Context Collapse Level">
-      <el-slider v-model="graphOptions.contextCollapseLevel" :min="0" :max="5" :step="1" />
-    </el-form-item>
-    <el-form-item label="Outside Collapse Level">
-      <el-slider v-model="graphOptions.outsideCollapseLevel" :min="-2" :max="2" :step="1" />
-    </el-form-item>
-    <el-form-item label="Parents">
-      <el-radio-group v-model="showParentsMode">
-        <el-radio-button value="None" label="None"/>
-        <el-radio-button value="Most" label="Most"/>
-        <el-radio-button value="All"  label="All"/>
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item label="Predecessor Depth">
-      <el-slider v-model="graphOptions.predecessorRadius" :min="0" :max="10" :step="1" />
-    </el-form-item>
-    <el-form-item label="Successor Depth">
-      <el-slider v-model="graphOptions.successorRadius" :min="0" :max="10" :step="1" />
-    </el-form-item>
-  </el-form>
-</div>
+      <el-form-item label="Animate">
+        <el-switch v-model="graphOptions.animate" label="Animate" size="small" />
+      </el-form-item>
+      <el-tooltip
+        content="Remove transitive edges to simplify the graph"
+        placement="right"
+        theme="light"
+      >
+        <el-form-item label="Reduce Edges">
+          <el-switch v-model="graphOptions.reduceEdges" label="Clean Edges" size="small" />
+        </el-form-item>
+      </el-tooltip>
+      <el-form-item label="Context Collapse Level">
+        <el-slider v-model="graphOptions.contextCollapseLevel" :min="0" :max="5" :step="1" />
+      </el-form-item>
+      <el-form-item label="Outside Collapse Level">
+        <el-slider v-model="graphOptions.outsideCollapseLevel" :min="-2" :max="2" :step="1" />
+      </el-form-item>
+      <el-form-item label="Parents">
+        <el-radio-group v-model="showParentsMode">
+          <el-radio-button value="None" label="None" />
+          <el-radio-button value="Most" label="Most" />
+          <el-radio-button value="All" label="All" />
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="Predecessor Depth">
+        <el-slider v-model="graphOptions.predecessorRadius" :min="0" :max="10" :step="1" />
+      </el-form-item>
+      <el-form-item label="Successor Depth">
+        <el-slider v-model="graphOptions.successorRadius" :min="0" :max="10" :step="1" />
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch } from 'vue';
 function toggleMenu() {
-  menuVisible.value = !menuVisible.value
+  menuVisible.value = !menuVisible.value;
 }
 
-const showParentsMode = ref<'None' | 'Most' | 'All'>('Most')
+const showParentsMode = ref<'None' | 'Most' | 'All'>('Most');
 
-watch(showParentsMode, (newMode) => {
-  const go = props.graphOptions
+watch(showParentsMode, newMode => {
+  const go = props.graphOptions;
   if (newMode === 'None') {
-    go.includeParents = false
-    go.pruneSingleChildParents = true
+    go.includeParents = false;
+    go.pruneSingleChildParents = true;
   } else if (newMode === 'Most') {
-    go.includeParents = true
-    go.pruneSingleChildParents = true
+    go.includeParents = true;
+    go.pruneSingleChildParents = true;
   } else {
-    go.includeParents = true
-    go.pruneSingleChildParents = false
+    go.includeParents = true;
+    go.pruneSingleChildParents = false;
   }
-})
+});
 
-const menuVisible = ref(false)
+const menuVisible = ref(false);
 
-const props = defineProps<{ graphOptions: any }>()
-
+const props = defineProps<{ graphOptions: any }>();
 </script>
 
 <style scoped lang="stylus">

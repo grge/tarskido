@@ -1,33 +1,32 @@
 <template>
-  <ul class='reference-list'>
-    <li v-for='nodeid in nodeids' :key='nodeid'>
-      <NodeReference v-if="nodeid in book.nodes" :nodeId='nodeid' :useName="true" />
-      <span v-if="!(nodeid in book.nodes)">[{{nodeid}}]</span>
+  <ul class="reference-list">
+    <li v-for="nodeid in nodeids" :key="nodeid">
+      <NodeReference v-if="nodeid in book.nodes" :nodeId="nodeid" :useName="true" />
+      <span v-if="!(nodeid in book.nodes)">[{{ nodeid }}]</span>
     </li>
   </ul>
-</template> 
+</template>
 
 <script lang="ts">
-import NodeReference from '@/components/NodeReference.vue'
+import NodeReference from '@/components/NodeReference.vue';
 import { useBookStore } from '@/stores/bookStore';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-
 
 export default {
   name: 'ReferenceList',
   setup() {
     const store = useBookStore();
     const book = store.rawBook;
-    return { book, store }
+    return { book, store };
   },
   props: {
     nodeids: Array,
   },
   components: {
     NodeReference,
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="stylus">
@@ -44,5 +43,4 @@ export default {
   opacity 60%
   padding-right 2em
   font-size 85%
-
 </style>

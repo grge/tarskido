@@ -1,27 +1,28 @@
 <template>
-  <div class='context-graph'>
-      <div class="measure-container" ref="measureRoot">
-        <div v-for="id in rawSubGraph.nodes()" :key="id" :data-id="id" class="measure-node">
-          <NodeReference :nodeId="id" :useName="true" />
-        </div>
+  <div class="context-graph">
+    <div class="measure-container" ref="measureRoot">
+      <div v-for="id in rawSubGraph.nodes()" :key="id" :data-id="id" class="measure-node">
+        <NodeReference :nodeId="id" :useName="true" />
       </div>
-      <GraphOptionsMenu :graphOptions="graphOptions" />
-      <GraphRenderer
-        :graph="graph"
-        :bbox="bbox"
-        :highlightIds="contextIds"
-        :animate="graphOptions.animate" />
+    </div>
+    <GraphOptionsMenu :graphOptions="graphOptions" />
+    <GraphRenderer
+      :graph="graph"
+      :bbox="bbox"
+      :highlightIds="contextIds"
+      :animate="graphOptions.animate"
+    />
   </div>
-</template> 
+</template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useBookStore } from '@/stores/bookStore';
-import { buildContextGraph, type contextGraphOptions } from '@/utils/contextGraph.ts';
+import { buildContextGraph, type contextGraphOptions } from '@/utils/contextGraph.js';
 import { useGraphLayout } from '@/composables/useGraphLayout';
 import GraphOptionsMenu from '@/components/GraphOptionsMenu.vue';
 import GraphRenderer from '@/components/GraphRenderer.vue';
-import NodeReference from '@/components/NodeReference.vue'
+import NodeReference from '@/components/NodeReference.vue';
 
 const props = defineProps<{ contextIds: string[] }>();
 const store = useBookStore();
@@ -34,24 +35,22 @@ const graphOptions = ref({
   predecessorRadius: 1,
   successorRadius: 1,
   includeParents: true,
-  pruneSingleChildParents: true
+  pruneSingleChildParents: true,
 });
 
 const fullGraph = computed(() => store.graph);
 const rawSubGraph = computed(() => {
   const g = buildContextGraph(fullGraph.value, props.contextIds, graphOptions.value);
-  console.log(g)
-  g.removeNode("ROOT")
+  console.log(g);
+  g.removeNode('ROOT');
   return g;
 });
 
 const measureRoot = ref<HTMLElement | null>(null);
-const { graph, bbox } = useGraphLayout(rawSubGraph, measureRoot, { padding: 20, nodeMargin: 20})
-
+const { graph, bbox } = useGraphLayout(rawSubGraph, measureRoot, { padding: 20, nodeMargin: 20 });
 </script>
 
 <style>
-
 .measure-container {
   position: absolute;
   visibility: hidden;
@@ -79,14 +78,15 @@ const { graph, bbox } = useGraphLayout(rawSubGraph, measureRoot, { padding: 20, 
   overflow-y: visible;
   margin: 0 0;
   padding: 1em 0;
-  border-top:    2px solid transparent;
+  border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
-  border-image: 
-    linear-gradient(to right,
-      transparent    10%,
-      #6aa84f       30%,
-      #6aa84f       70%,
-      transparent   90%)
+  border-image: linear-gradient(
+      to right,
+      transparent 10%,
+      #6aa84f 30%,
+      #6aa84f 70%,
+      transparent 90%
+    )
     1 / /* slice */ 1px 0 / /* widths: top/bottom 2px, left/right 0 */ 0 0;
 }
 </style>

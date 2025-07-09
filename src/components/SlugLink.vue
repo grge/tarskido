@@ -25,15 +25,15 @@ export default {
           name: props.routeName || 'Node',
           params: {
             bookParam: book.value.slug || book.value.id,
-            nodeParam: node.slug || node.id
-          }
+            nodeParam: node.slug || node.id,
+          },
         };
       } else if (props.bookId) {
         return {
           name: props.routeName || 'Book',
           params: {
-            bookParam: book.value.slug || book.value.id
-          }
+            bookParam: book.value.slug || book.value.id,
+          },
         };
       }
       return { name: 'Home' };
@@ -44,20 +44,20 @@ export default {
   props: {
     nodeId: {
       type: String,
-      default: null
+      default: null,
     },
     bookId: {
       type: String,
-      default: null
+      default: null,
     },
     linkClass: {
       type: String,
-      default: ''
+      default: '',
     },
     routeName: {
       type: String,
-      default: null
-    }
-  }
+      default: null,
+    },
+  },
 };
 </script>

@@ -1,57 +1,82 @@
 <template>
-  <div class='node-detail' :class='`node-detail-l${level}`'>
-      <!-- column 1 header in wide mode -->
-      <div class='node-detail-header' :class='`node-detail-header-l${level}`'>
-        <h2 v-if='node.name && level==1' class='node-h-reference'>
-          {{node.nodetype.secondary}} {{node.reference}}
-        </h2>
-        <h3 v-if='level==2' class='node-h-name'>
-          {{node.name == "" ? node.nodetype.secondary + " " + node.reference : node.name}}
-        </h3>
-        <div class='editlinks listoflinks'>
-          <NodeReference :nodeId="node.id" v-if='level > 1'/>
-          <SlugLink v-if="store.editMode" :nodeId="node.id" routeName="NodeEdit" linkClass='editlink'>Edit node</SlugLink>
-          <a class='editlink' @click='createChildNode()' v-if='store.editMode && level == 1 && node.nodetype.primary == "Group"'>Create child node</a>
-        </div>
+  <div class="node-detail" :class="`node-detail-l${level}`">
+    <!-- column 1 header in wide mode -->
+    <div class="node-detail-header" :class="`node-detail-header-l${level}`">
+      <h2 v-if="node.name && level == 1" class="node-h-reference">
+        {{ node.nodetype.secondary }} {{ node.reference }}
+      </h2>
+      <h3 v-if="level == 2" class="node-h-name">
+        {{ node.name == '' ? node.nodetype.secondary + ' ' + node.reference : node.name }}
+      </h3>
+      <div class="editlinks listoflinks">
+        <NodeReference :nodeId="node.id" v-if="level > 1" />
+        <SlugLink v-if="store.editMode" :nodeId="node.id" routeName="NodeEdit" linkClass="editlink"
+          >Edit node</SlugLink
+        >
+        <a
+          class="editlink"
+          @click="createChildNode()"
+          v-if="store.editMode && level == 1 && node.nodetype.primary == 'Group'"
+          >Create child node</a
+        >
       </div>
+    </div>
 
-      <!--- the top level gets an extra header in the central column --> 
-      <div class='node-extra-header' v-if='level == 1'>
-        <h2>{{node.name == "" ? node.nodetype.secondary + " " + node.reference : node.name}} </h2>
-        <div class='navlinks listoflinks' v-if='level == 1'>
-          <!-- <a class='navlink navpreviouslink'>Previous</a> -->
-          <SlugLink :nodeId="prevNodeId" linkClass='navlink navpreviouslink' v-if="prevNodeId != 'ROOT'">Previous</SlugLink>
-          <SlugLink :nodeId="node.chapter" linkClass='navlink navuplink' v-if="node.chapter && node.chapter != 'ROOT'">Up</SlugLink>
-          <SlugLink :bookId="book.id" linkClass='navlink navuplink' v-if="! node.chapter || node.chapter == 'ROOT'">Up</SlugLink>
-          <SlugLink :nodeId="nextNodeId" linkClass='navlink navnextlink' v-if="nextNodeId != 'ROOT'">Next</SlugLink>
-          <a class='navlink navtoclink' @click="toggleGraphVisibility()" >{{ graphHidden ? "Show" : "Hide" }} Graph</a>
-        </div>
+    <!--- the top level gets an extra header in the central column -->
+    <div class="node-extra-header" v-if="level == 1">
+      <h2>{{ node.name == '' ? node.nodetype.secondary + ' ' + node.reference : node.name }}</h2>
+      <div class="navlinks listoflinks" v-if="level == 1">
+        <!-- <a class='navlink navpreviouslink'>Previous</a> -->
+        <SlugLink
+          :nodeId="prevNodeId"
+          linkClass="navlink navpreviouslink"
+          v-if="prevNodeId != 'ROOT'"
+          >Previous</SlugLink
+        >
+        <SlugLink
+          :nodeId="node.chapter"
+          linkClass="navlink navuplink"
+          v-if="node.chapter && node.chapter != 'ROOT'"
+          >Up</SlugLink
+        >
+        <SlugLink
+          :bookId="book.id"
+          linkClass="navlink navuplink"
+          v-if="!node.chapter || node.chapter == 'ROOT'"
+          >Up</SlugLink
+        >
+        <SlugLink :nodeId="nextNodeId" linkClass="navlink navnextlink" v-if="nextNodeId != 'ROOT'"
+          >Next</SlugLink
+        >
+        <a class="navlink navtoclink" @click="toggleGraphVisibility()"
+          >{{ graphHidden ? 'Show' : 'Hide' }} Graph</a
+        >
       </div>
+    </div>
 
-      <div class='context-graph-wrapper' v-if='level == 1 && !graphHidden'>
-        <ContextGraph :contextIds='[node.id]' />
-      </div>
+    <div class="context-graph-wrapper" v-if="level == 1 && !graphHidden">
+      <ContextGraph :contextIds="[node.id]" />
+    </div>
 
-      <div class='node-body'>
-        <MarkdownRenderer :markdown="node.statement" />
-      </div>
+    <div class="node-body">
+      <MarkdownRenderer :markdown="node.statement" />
+    </div>
 
-      <ReferenceList v-if='node.references.length' :nodeids='node.references' />
+    <ReferenceList v-if="node.references.length" :nodeids="node.references" />
 
-      <NodeProof v-if='node.nodetype.primary == "Proposition"' :node='node'/>
-
+    <NodeProof v-if="node.nodetype.primary == 'Proposition'" :node="node" />
   </div>
-</template> 
+</template>
 <script lang="ts">
 import { useBookStore } from '@/stores/bookStore';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { v4 as uuidv4 } from 'uuid';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import NodeProof from '@/components/NodeProof.vue'
-import NodeReference from '@/components/NodeReference.vue'
+import NodeProof from '@/components/NodeProof.vue';
+import NodeReference from '@/components/NodeReference.vue';
 // import MultipartNodeDetails from '@/components/MultipartNodeDetails.vue'
-import ReferenceList from '@/components/ReferenceList.vue'
+import ReferenceList from '@/components/ReferenceList.vue';
 import ContextGraph from '@/components/ContextGraph.vue';
 import SlugLink from '@/components/SlugLink.vue';
 
@@ -64,7 +89,7 @@ export default {
     // MultipartNodeDetails,
     MarkdownRenderer,
     ContextGraph,
-    SlugLink
+    SlugLink,
   },
   setup(props) {
     const router = useRouter();
@@ -92,20 +117,33 @@ export default {
         nodetype: { primary: '', secondary: '' },
         statement: '',
         references: [],
-        chapter: node.id,
-        proof_lines: []
+        chapter: node.value.id,
+        proof_lines: [],
       };
       store.upsertNode(child);
-      router.push({ name: 'NodeEdit', params: { bookParam: store.rawBook.id, nodeParam: childId }}); 
+      router.push({
+        name: 'NodeEdit',
+        params: { bookParam: store.rawBook.id, nodeParam: childId },
+      });
     }
-    return { book, store, node, createChildNode, nextNodeId, prevNodeId, hasName, toggleGraphVisibility, graphHidden };
+    return {
+      book,
+      store,
+      node,
+      createChildNode,
+      nextNodeId,
+      prevNodeId,
+      hasName,
+      toggleGraphVisibility,
+      graphHidden,
+    };
   },
 
   props: {
     nodeId: String,
-    level: Number
+    level: Number,
   },
-}
+};
 </script>
 
 <style lang="stylus">
@@ -173,7 +211,7 @@ export default {
 
   .proof-heading, .proof-line, .navlinks
     grid-column 2
-  
+
 
 @container book-content (max-width: 65em)
   .node-detail
@@ -188,7 +226,7 @@ export default {
     margin-bottom 1em
 
   .node-detail-header .node-name
-    font-weight normal 
+    font-weight normal
     margin-left 0.5em
 
   .reference-list li
@@ -200,5 +238,4 @@ export default {
 
   .context-graph-wrapper
     margin-top 2em
-
 </style>

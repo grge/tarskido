@@ -19,7 +19,8 @@ export default {
   setup() {
     const store = useBookStore();
     const book = store.rawBook;
-    const node = book.nodes[useRoute().params.nodeid];
+    const nodeId = useRoute().params.nodeid;
+    const node = book.nodes[Array.isArray(nodeId) ? nodeId[0] : nodeId];
     return { book, store, node };
   },
   props: {

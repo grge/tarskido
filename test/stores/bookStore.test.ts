@@ -4,8 +4,8 @@ import { useBookStore } from '../../src/stores/bookStore';
 import type { Book, Node } from '../../src/stores/bookStore';
 
 // Mock the graph library
-vi.mock('../../src/graphlib_ext.js', () => ({
-  default: vi.fn(() => ({
+vi.mock('@dagrejs/graphlib', () => ({
+  Graph: vi.fn(() => ({
     setNode: vi.fn(),
     setEdge: vi.fn(),
     setParent: vi.fn(),
@@ -13,6 +13,7 @@ vi.mock('../../src/graphlib_ext.js', () => ({
     predecessors: vi.fn(),
     children: vi.fn(),
     parent: vi.fn(),
+    filterNodes: vi.fn(),
   })),
 }));
 

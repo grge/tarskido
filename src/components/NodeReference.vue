@@ -56,7 +56,7 @@ export default {
   align-items baseline
   gap 0.25em
   text-decoration none
-  
+
   &:hover
     text-decoration underline
 

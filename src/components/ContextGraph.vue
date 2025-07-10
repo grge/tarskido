@@ -16,9 +16,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useBookStore } from '@/stores/bookStore';
-import { buildContextGraph, type contextGraphOptions } from '@/utils/contextGraph.js';
+import { buildContextGraph } from '@/utils/contextGraph.js';
 import { useGraphLayout } from '@/composables/useGraphLayout';
 import GraphOptionsMenu from '@/components/GraphOptionsMenu.vue';
 import GraphRenderer from '@/components/GraphRenderer.vue';

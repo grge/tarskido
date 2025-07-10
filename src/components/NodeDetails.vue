@@ -70,7 +70,7 @@
 <script lang="ts">
 import { useBookStore } from '@/stores/bookStore';
 import { computed, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { v4 as uuidv4 } from 'uuid';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import NodeProof from '@/components/NodeProof.vue';

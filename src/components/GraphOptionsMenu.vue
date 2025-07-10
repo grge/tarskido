@@ -50,7 +50,7 @@ function toggleMenu() {
 
 const showParentsMode = ref<'None' | 'Most' | 'All'>('Most');
 
-watch(showParentsMode, newMode => {
+watch(showParentsMode, (newMode: 'None' | 'Most' | 'All') => {
   const go = props.graphOptions;
   if (newMode === 'None') {
     go.includeParents = false;

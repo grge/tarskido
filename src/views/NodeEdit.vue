@@ -203,7 +203,8 @@ export default {
   setup() {
     const store = useBookStore();
     const book = store.rawBook;
-    const node = book.nodes[useRoute().params.nodeId];
+    const nodeId = useRoute().params.nodeId;
+    const node = book.nodes[Array.isArray(nodeId) ? nodeId[0] : nodeId];
     const router = useRouter();
 
     // References search functionality
@@ -362,6 +363,48 @@ export default {
       }
     };
 
+    const deleteThisNode = () => {
+      const parent = node.chapter;
+      store.deleteNode(node.id);
+      if (parent && parent != 'ROOT') {
+        const parentNode = book.nodes[parent];
+        router.push({
+          name: 'Node',
+          params: {
+            bookParam: book.slug || book.id,
+            nodeParam: parentNode.slug || parentNode.id,
+          },
+        });
+      } else {
+        router.push({ name: 'Book', params: { bookParam: book.slug || book.id } });
+      }
+    };
+
+    const createProofLine = () => {
+      node.proof_lines.push({ statement: '', references: [] });
+    };
+
+    const deleteProofLine = (ix: number) => {
+      node.proof_lines.splice(ix, 1);
+    };
+
+    const valid_types = () => {
+      return Object.keys(VALID_NODE_TYPE);
+    };
+
+    const valid_subtypes = (type: string) => {
+      return VALID_NODE_TYPE[type as keyof typeof VALID_NODE_TYPE];
+    };
+
+    const valid_chapters = () => {
+      return Object.values(book.nodes).filter((n: Node) => n.nodetype.primary == 'Group');
+    };
+
+    const reference_label = (nodeid: string) => {
+      const n = book.nodes[nodeid];
+      return n.nodetype.secondary + ' ' + n.reference + ' ' + n.name;
+    };
+
     return {
       book,
       node,
@@ -376,45 +419,16 @@ export default {
       formRules,
       toggleAutoSlug,
       excludedNodesCount,
+      deleteThisNode,
+      createProofLine,
+      deleteProofLine,
+      valid_types,
+      valid_subtypes,
+      valid_chapters,
+      reference_label,
     };
   },
-  methods: {
-    deleteThisNode() {
-      const parent = this.node.chapter;
-      this.store.deleteNode(this.node.id);
-      if (parent && parent != 'ROOT') {
-        const parentNode = this.book.nodes[parent];
-        this.$router.push({
-          name: 'Node',
-          params: {
-            bookParam: this.book.slug || this.book.id,
-            nodeParam: parentNode.slug || parentNode.id,
-          },
-        });
-      } else {
-        this.$router.push({ name: 'Book', params: { bookParam: this.book.slug || this.book.id } });
-      }
-    },
-    createProofLine() {
-      this.node.proof_lines.push({ statement: '', references: [] });
-    },
-    deleteProofLine(ix) {
-      this.node.proof_lines.splice(ix, 1);
-    },
-    valid_types() {
-      return Object.keys(VALID_NODE_TYPE);
-    },
-    valid_subtypes(type: string) {
-      return VALID_NODE_TYPE[type];
-    },
-    valid_chapters() {
-      return Object.values(this.book.nodes).filter((n: Node) => n.nodetype.primary == 'Group');
-    },
-    reference_label(nodeid) {
-      var n = this.book.nodes[nodeid];
-      return n.nodetype.secondary + ' ' + n.reference + ' ' + n.name;
-    },
-  },
+  methods: {},
 };
 </script>
 

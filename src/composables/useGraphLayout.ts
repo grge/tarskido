@@ -2,6 +2,7 @@ import { ref, watch, nextTick, computed, type Ref } from 'vue';
 
 import dagre from 'dagre';
 import { Graph } from '@dagrejs/graphlib';
+import { cloneGraph } from '@/utils/graphUtils';
 
 interface LayoutOptions {
   padding?: number;
@@ -55,7 +56,7 @@ export function useGraphLayout(
           const r = el.getBoundingClientRect();
           sizes[id] = { width: r.width + nodeMargin, height: r.height };
         });
-        const layoutGraph = g.copy().setGraph({ rankdir: 'LR' });
+        const layoutGraph = cloneGraph(g).setGraph({ rankdir: 'LR' });
         layoutGraph.nodes().forEach(id => {
           const s = sizes[id];
           if (s) layoutGraph.setNode(id, { width: s.width, height: s.height });

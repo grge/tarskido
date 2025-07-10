@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router';
 import Home from '../views/Home.vue';
 import Book from '@/views/Book.vue';
 import BookEdit from '@/views/BookEdit.vue';
@@ -26,25 +26,25 @@ const routes = [
         path: '',
         name: 'Book',
         component: Book,
-        props: route => ({ bookId: route.params.bookId }),
+        props: (route: RouteLocationNormalized) => ({ bookId: route.params.bookId }),
       },
       {
         path: 'list',
         name: 'NodeList',
         component: NodeList,
-        props: route => ({ bookId: route.params.bookId }),
+        props: (route: RouteLocationNormalized) => ({ bookId: route.params.bookId }),
       },
       {
         path: 'edit',
         name: 'BookEdit',
         component: BookEdit,
-        props: route => ({ bookId: route.params.bookId }),
+        props: (route: RouteLocationNormalized) => ({ bookId: route.params.bookId }),
       },
       {
         path: ':nodeParam',
         component: NodeLayout,
         meta: { requiresBook: true },
-        props: route => ({
+        props: (route: RouteLocationNormalized) => ({
           bookId: route.params.bookId,
           nodeId: route.params.nodeId,
         }),
@@ -53,7 +53,7 @@ const routes = [
             path: '',
             name: 'Node',
             component: Node,
-            props: route => ({
+            props: (route: RouteLocationNormalized) => ({
               bookId: route.params.bookId,
               nodeId: route.params.nodeId,
             }),
@@ -62,7 +62,7 @@ const routes = [
             path: 'edit',
             name: 'NodeEdit',
             component: NodeEdit,
-            props: route => ({
+            props: (route: RouteLocationNormalized) => ({
               bookId: route.params.bookId,
               nodeId: route.params.nodeId,
             }),
@@ -75,7 +75,7 @@ const routes = [
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound,
-    props: route => ({ path: route.path }),
+    props: (route: RouteLocationNormalized) => ({ path: route.path }),
   },
 ];
 

@@ -1,8 +1,8 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useBookStore } from '@/stores/bookStore';
 import { useBookShelfStore } from '@/stores/bookShelfStore';
 import { useRouter } from 'vue-router';
-import { ref, computed } from 'vue';
+// import { ref, computed } from 'vue'; // These are not used currently
 const bookStore = useBookStore();
 const router = useRouter();
 const shelf = useBookShelfStore();
@@ -13,7 +13,8 @@ const importFromFile = () => {
   fileInput.type = 'file';
   fileInput.accept = '.json';
   fileInput.onchange = () => {
-    const file = fileInput.files[0];
+    const file = fileInput.files?.[0];
+    if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
       const data = JSON.parse(reader.result as string);
@@ -28,14 +29,14 @@ const importFromFile = () => {
   fileInput.click();
 };
 
-function createNewBook() {
+const createNewBook = () => {
   bookStore.createNewBook();
   // Refresh the shelf to show the new book
   shelf.refreshBookList();
   // redirect to the new book front page
   const bookId = bookStore.rawBook.id;
   router.push({ name: 'BookEdit', params: { bookParam: bookId } });
-}
+};
 
 const books = shelf.available;
 </script>
@@ -43,7 +44,7 @@ const books = shelf.available;
 <template>
   <div class="bookshelf">
     <div class="bookgrid">
-      <div class="bookgridbook" v-for="book in books">
+      <div class="bookgridbook" v-for="book in books" :key="book.id">
         <router-link :to="{ name: 'Book', params: { bookParam: book.slug || book.id } }">
           <p class="bookshelf-title">{{ book.title }}</p>
           <p class="bookshelf-author">by {{ book.author }}</p>

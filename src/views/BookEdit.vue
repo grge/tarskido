@@ -112,19 +112,20 @@ export default {
       router.push({ name: 'Book', params: { bookParam: book.slug || book.id } });
     };
 
+    const deleteThisBook = () => {
+      deleteBook(book.id);
+      router.push({ name: 'Home' });
+    };
+
     return {
       book,
       showPreview,
       goBack,
       formRules,
+      deleteThisBook,
     };
   },
-  methods: {
-    deleteThisBook() {
-      deleteBook(this.book.id);
-      this.$router.push({ name: 'Home' });
-    },
-  },
+  methods: {},
   components: {
     MarkdownRenderer,
   },

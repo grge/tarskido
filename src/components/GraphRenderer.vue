@@ -114,8 +114,8 @@ function nodeTransform(nodeId: string) {
 const nodes = computed(() => props.graph.nodes())
 const edges = computed(() => props.graph.edges())
 // TODO: We could topo sort the clusters so that they get rendered in the correct order
-const clusters = computed(() => nodes.value.filter((n) => (props.graph.children(n).length > 0)))
-const leaves = computed(() => nodes.value.filter((n) => (props.graph.children(n).length == 0)))
+const clusters = computed(() => nodes.value.filter((n: string) => (props.graph.children(n).length > 0)))
+const leaves = computed(() => nodes.value.filter((n: string) => (props.graph.children(n).length == 0)))
 
 </script>
 

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
 import { ref, watch, markRaw } from 'vue';
 
-import Graph from '@/graphlib_ext.js';
+import { Graph } from '@dagrejs/graphlib';
 import { migrateBook } from '@/utils/migration';
 
 export interface Book {

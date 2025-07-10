@@ -27,11 +27,13 @@ export const useBookShelfStore = defineStore('bookShelf', {
       const books = [];
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key.startsWith('tarskido-book-')) {
+        if (key && key.startsWith('tarskido-book-')) {
           // we currently just read the whole book in to get
           // the metadata we need. In the future we might want to
           // localstore some metadata separately
-          const book = JSON.parse(localStorage.getItem(key));
+          const bookData = localStorage.getItem(key);
+          if (!bookData) continue;
+          const book = JSON.parse(bookData);
           const meta = {
             id: book.id,
             slug: book.slug,

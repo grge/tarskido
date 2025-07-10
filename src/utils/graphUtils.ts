@@ -15,7 +15,7 @@ class UnionFind {
       return x;
     }
     const p = this.parent.get(x);
-    if (p !== x) {
+    if (p !== x && p !== undefined) {
       const root = this.find(p);
       this.parent.set(x, root); // Path compression
       return root;
@@ -231,4 +231,12 @@ export function removeTransitiveEdges(graph: Graph): Graph {
     }
   }
   return result;
+}
+
+/**
+ * Creates a deep copy of a graph by filtering all nodes (effectively copying everything)
+ * This is more descriptive than the original .copy() method
+ */
+export function cloneGraph(graph: Graph): Graph {
+  return graph.filterNodes(() => true);
 }

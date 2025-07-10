@@ -30,7 +30,7 @@ function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }
 
-function toggleEditMode() {
+function _toggleEditMode() {
   store.editMode = !store.editMode;
 }
 

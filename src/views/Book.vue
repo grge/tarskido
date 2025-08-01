@@ -1,7 +1,6 @@
 <script lang="ts">
 import LargeTableOfContents from '@/components/LargeTableOfContents.vue';
 import ContextGraph from '@/components/ContextGraph.vue';
-import CornerMenu from '@/components/CornerMenu.vue';
 import { useBookStore } from '@/stores/bookStore';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,7 +9,6 @@ import { useRouter } from 'vue-router';
 export default {
   components: {
     MarkdownRenderer,
-    CornerMenu,
     LargeTableOfContents,
     ContextGraph,
   },
@@ -50,24 +48,40 @@ export default {
       }
     }
 
-    return { book, createNewNode, cleanBrokenRefs, store };
+    function copyToEdit() {
+      const copiedBook = store.copyBookToLocal();
+      if (copiedBook) {
+        // Import and use the bookShelf store to add the copied book
+        import('@/stores/bookShelfStore').then(({ useBookShelfStore }) => {
+          const shelf = useBookShelfStore();
+          shelf.addOrUpdateBook(copiedBook);
+          // Navigate to the copied book
+          router.push({ name: 'Book', params: { bookParam: copiedBook.slug || copiedBook.id } });
+        });
+      }
+    }
+
+    return { book, createNewNode, cleanBrokenRefs, copyToEdit, store };
   },
 };
 </script>
 
 <template>
   <div>
-    <CornerMenu />
     <div class="book-content">
       <h1 class="book-front-title">{{ book.title }}</h1>
       <div class="book-front-author">by {{ book.author }}</div>
-      <div class="listoflinks" v-if="store.editMode">
+      <div class="listoflinks" v-if="store.effectiveEditMode">
         <router-link
           class="editlink"
           :to="{ name: 'BookEdit', params: { bookParam: book.slug || book.id } }"
           >Edit book attributes</router-link
         >
         <a class="editlink" @click="createNewNode()">Create a new node</a>
+      </div>
+      <div class="listoflinks" v-else-if="store.isRemoteBook">
+        <a class="copylink" @click="copyToEdit()">📝 Copy to Edit</a>
+        <p class="remote-book-notice">This is a demo book. Create a copy to edit it.</p>
       </div>
       <ContextGraph :contextIds="['ROOT']" />
       <div class="book-preface">
@@ -92,15 +106,16 @@ export default {
 
 .book-front-title
   margin-bottom 0.15em
-  margin-top 1em
-  font-size 40px
+  margin-top var(--sp-4)
+  font-size var(--fs-700)
   text-align center
 
 .book-front-author
-  margin-bottom 0.5em
-  font-size 25px
+  margin-bottom var(--sp-2)
+  font-size var(--fs-500)
   font-style italic
   text-align center
+  color var(--c-ink-muted)
 
 .book-preface
   text-align left
@@ -111,4 +126,25 @@ p
   word-break break-word
   overflow-wrap break-word
   white-space pre-wrap
+
+.copylink
+  background #4a90e2
+  color white
+  padding 8px 16px
+  border-radius 6px
+  text-decoration none
+  font-weight bold
+  cursor pointer
+  display inline-block
+  margin-bottom 10px
+
+.copylink:hover
+  background #357abd
+
+.remote-book-notice
+  color #666
+  font-size 14px
+  font-style italic
+  margin 5px 0
+  text-align center
 </style>

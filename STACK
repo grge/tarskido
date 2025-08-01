@@ -4,32 +4,21 @@ LP: Want to fix, but could release without it
 
 
 - HP: Demo bookshelf list, loading from GitHub, fallback to local, etc. Revamp front page.
-- HP: Auto-slug doesn't wok. Also, slugs often clobber each other when manually editing. E.g., "defintion-1.10" clobbers "definition-1.1"
-- HP: Import book dialog doesn't work - clicking "Import book" should open file picker but appears to do nothing
-- HP: Book list doesn't refresh after creating new book - requires page refresh to see new books
 
 - MP: Better chapter and section views. Perhaps show a mini TOC of each subsection when viewing a chapter node.
 - MP: Fix animation of background colour for graph nodes that change colour
-- MP: Highlighted clusters' labels are not visible on the graph
 
 - LP: Audit consistency of type. Fonts, font sizes, margins, etc 
 - LP: The graph BBOX calculation does not include edges, so in rare circumstances edges get clipped off.
-- LP: seperation of concerns in BookShelfStore and BookStore. Also, places like components/BookShelf.vue
-- LP: Node table: Search
 - LP: Node table: Topological sort
-  LP: Node table: Edit and Delete buttons
-  LP: Node table: Filters
-- LP: Graph clusters don't have correct z-ordering. Should topo sort before rendering.
+- LP: Graph clusters don't have correct z-ordering. Should breath-first sort first
 - LP: Persist graph options, and add a "reset to defaults" button
 - LP: Persist edit mode toggle
 - LP: Horizontal line below graph sometimes disapears when browser zoom < 100%?
 - LP: New view: Graph fullscreen with side panel for content
 - LP: Clusters can be collapsed/expanded on the graph
-- LP: Full dependencies view. Shows the recursive predecessors of the node in topological order.
-- LP: Prevent self-links when editing parent or reference links
-- LP: Overhaul edit pages
+- LP: Full dependencies view. Shows the recursive predecessors of the node in topological order
 - LP: Table of contents sidebar
 - LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.
 - LP: pass nodes into components wherever possible, instead of passing the nodeId and looking it up in the store.
-- LP: Redesign reference glyphs
 - LP: Fix TypeScript type checking and ESLint errors throughout codebase

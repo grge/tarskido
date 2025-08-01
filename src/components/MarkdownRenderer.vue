@@ -29,16 +29,33 @@ const renderedHtml = computed(() => {
 });
 </script>
 
-<style scoped lang="stylus">
-.markdown-body {
-  /* Optional: basic styling for rendered content */
-  font-family: serif;
-  line-height: 1.6;
-  word-wrap: break-word;
-  font-size: 16pt;
-}
+<style lang="stylus">
 
-.katex {
-  font-size: 1em;
-}
+.markdown-body
+  font-family: var(--font-serif)
+  line-height: var(--lh-loose)
+  word-wrap: break-word
+  font-size: var(--fs-400)
+  color: var(--c-ink)
+
+.katex .mord
+  font-size: 1.2rem
+
+/* 
+ * KaTeX font compatibility with STIX Two Text
+ * 
+ * Current approach: Optical sizing adjustments to match STIX Two Text
+ * Future improvement: Custom KaTeX font implementation using STIX Two Math
+ * 
+ * Note: KaTeX doesn't natively support STIX fonts, but future implementation
+ * could use __defineSymbol and __setFontMetrics for full STIX Two Math support
+ */
+.katex
+  font-size: 1.2em // Reset to match the now-larger body text
+  vertical-align: baseline
+  
+.katex-display
+  margin: var(--sp-4) 0
+  text-align: center
+  
 </style>

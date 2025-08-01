@@ -1,5 +1,4 @@
 <script lang="ts">
-import CornerMenu from '@/components/CornerMenu.vue';
 import { useBookStore } from '@/stores/bookStore';
 import { useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
@@ -8,7 +7,6 @@ import type { Node } from '@/stores/bookStore';
 
 export default {
   components: {
-    CornerMenu,
   },
   setup() {
     const store = useBookStore();
@@ -73,11 +71,11 @@ export default {
     });
 
     const handleView = (node: Node) => {
-      router.push(`/book/${book.slug || book.id}/${node.slug || node.id}`);
+      router.push(`/book/${book.slug || book.id}/${node.id}`);
     };
 
     const handleEdit = (node: Node) => {
-      router.push(`/book/${book.slug || book.id}/${node.slug || node.id}/edit`);
+      router.push(`/book/${book.slug || book.id}/${node.id}/edit`);
     };
 
     const handleDelete = async (node: Node) => {
@@ -116,7 +114,6 @@ export default {
 
 <template>
   <div>
-    <CornerMenu />
     <div class="book-content">
       <!-- Search and Filter Controls -->
       <div class="controls">

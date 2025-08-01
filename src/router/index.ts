@@ -87,6 +87,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(r => r.meta.requiresBook)) {
     const shelf = useBookShelfStore();
+    const bookStore = useBookStore();
     const rawParam = to.params.bookParam as string;
 
     const bookId = shelf.resolveBookParam(rawParam);
@@ -94,11 +95,20 @@ router.beforeEach(async (to, from, next) => {
     if (!bookId) {
       return next({ name: 'NotFound' });
     }
-    shelf.activeBook !== bookId && (await shelf.loadBook(bookId));
+
+    // Load book data if not already active
+    if (shelf.activeBook !== bookId) {
+      const bookData = await shelf.getBookData(bookId);
+      if (bookData) {
+        bookStore.loadFromJSON(bookData, bookId);
+        shelf.setActiveBook(bookId);
+      } else {
+        return next({ name: 'NotFound' });
+      }
+    }
     to.params.bookId = bookId;
 
     if (to.params.nodeParam) {
-      const bookStore = useBookStore();
       const np = to.params.nodeParam as string;
       let nodeId = bookStore.resolveNodeParam(np);
       if (!nodeId && bookStore.rawBook.nodes[np]) nodeId = np;

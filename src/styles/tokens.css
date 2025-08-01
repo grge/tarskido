@@ -1,0 +1,127 @@
+/* src/styles/tokens.css */
+:root {
+  /* Fonts */
+  --font-serif: "STIX Two Text", "Libertinus Serif", "Cambria", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+
+  /* Type scale (1.25 ratio, fluid on larger steps) */
+  --fs-100: .75rem;   /* 12px */
+  --fs-200: .875rem;  /* 14px */
+  --fs-300: 1rem;     /* 16px - base */
+  --fs-400: 1.125rem; /* 18px */
+  --fs-500: clamp(1.25rem, 1.1rem + 1vw, 1.4rem);      /* 20-22px */
+  --fs-600: clamp(1.5rem, 1.2rem + 1.8vw, 1.875rem);   /* 24-30px */
+  --fs-700: clamp(1.875rem, 1.4rem + 2.4vw, 2.25rem);  /* 30-36px */
+  --fs-800: clamp(2.25rem, 1.6rem + 3vw, 3rem);        /* 36-48px */
+
+  /* Line heights */
+  --lh-tight: 1.2;
+  --lh-normal: 1.5;
+  --lh-loose: 1.7;
+
+  /* Spacing (8px grid) */
+  --sp-1: .25rem;  /* 4px */
+  --sp-2: .5rem;   /* 8px */
+  --sp-3: .75rem;  /* 12px */
+  --sp-4: 1rem;    /* 16px */
+  --sp-6: 1.5rem;  /* 24px */
+  --sp-8: 2rem;    /* 32px */
+  --sp-12: 3rem;   /* 48px */
+  --sp-16: 4rem;   /* 64px */
+
+  /* Neutrals */
+  --c-background: oklch(100% 0 0); /* Main page background */
+  --c-paper: oklch(98% 0 0);      /* Pure white for cards/content */
+  --c-surface: oklch(96% 0 0);    /* Subtle off-white for cards/surfaces */
+  --c-ink: oklch(18% 0 0);        /* Primary text color */
+  --c-ink-muted: oklch(45% 0 0);  /* Secondary text color */
+
+  /* Brand roles (based on current app colors) */
+  --c-brand:  oklch(55% .12 250); /* Reference links - blue (#0b5394) */
+  --c-accent: oklch(62% .18 30);  /* Edit links - red/orange (#cc2200) */
+  --c-nav:    oklch(70% .14 140); /* Navigation - green (#6aa84f) */
+
+  /* States */
+  --c-success: oklch(70% .15 140);
+  --c-warning: oklch(80% .12 80);
+  --c-error:   oklch(60% .18 25);
+  --c-info:    oklch(65% .06 250);
+
+  /* Interactive states */
+  --c-hover: oklch(94% 0 0);      /* Subtle hover background */
+  --c-focus: oklch(85% .08 250);  /* Focus ring color */
+  --c-border: oklch(85% 0 0);     /* Default border color */
+  --c-border-strong: oklch(70% 0 0); /* Stronger borders */
+
+  /* Geometric properties */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* Shadows */
+  --shadow-1: 0 1px 2px rgba(0,0,0,.08);
+  --shadow-2: 0 2px 4px rgba(0,0,0,.12);
+  --shadow-3: 0 4px 8px rgba(0,0,0,.16);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  /* Z-index scale */
+  --z-dropdown: 1000;
+  --z-sticky: 1010;
+  --z-fixed: 1020;
+  --z-overlay: 1030;
+  --z-modal: 1040;
+  --z-popover: 1050;
+  --z-tooltip: 1060;
+}
+
+/* Dark theme variant */
+:root[data-theme="dark"] {
+  --c-background: oklch(10% 0 0); /* Very dark background for main content */
+  --c-paper: oklch(25% 0 0);      /* Dark grey for book covers */
+  --c-surface: oklch(20% 0 0);    /* Darker grey for backgrounds/spines */
+  --c-ink: oklch(95% 0 0);        /* Light text on dark */
+  --c-ink-muted: oklch(75% 0 0);  /* Muted text on dark */
+
+  /* Slightly lift brand lightness for contrast on dark */
+  --c-brand:  oklch(70% .12 250); /* Brighter blue for dark mode */
+  --c-accent: oklch(75% .18 30);  /* Brighter red/orange for dark mode */
+  --c-nav:    oklch(80% .14 140); /* Brighter green for dark mode */
+
+  /* Adjusted interactive states */
+  --c-hover: oklch(30% 0 0);      /* Lighter hover on dark theme */
+  --c-border: oklch(40% 0 0);     /* More visible borders on dark */
+  --c-border-strong: oklch(50% 0 0);
+
+  /* Enhanced shadows for dark mode */
+  --shadow-1: 0 1px 2px rgba(0,0,0,.3);
+  --shadow-2: 0 2px 4px rgba(0,0,0,.4);
+  --shadow-3: 0 4px 8px rgba(0,0,0,.5);
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --c-ink: oklch(0% 0 0);        /* Pure black text */
+    --c-ink-muted: oklch(25% 0 0); /* Darker muted text */
+    --c-border-strong: oklch(50% 0 0); /* Stronger borders */
+  }
+  
+  :root[data-theme="dark"] {
+    --c-ink: oklch(100% 0 0);      /* Pure white text on dark */
+    --c-ink-muted: oklch(85% 0 0); /* Lighter muted text on dark */
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-normal: 0ms;
+    --transition-slow: 0ms;
+  }
+}

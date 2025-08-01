@@ -1,0 +1,170 @@
+/* src/styles/typography.styl */
+
+body
+  font-family: var(--font-serif)
+  font-size: var(--fs-300)
+  line-height: var(--lh-normal)
+  color: var(--c-ink)
+  background: var(--c-background)
+
+/* Heading hierarchy */
+h1
+  font-size: var(--fs-800)
+  line-height: var(--lh-tight)
+  margin: var(--sp-8) 0 var(--sp-4)
+  font-weight: 600
+
+h2
+  font-size: var(--fs-700)
+  line-height: var(--lh-tight)
+  margin: var(--sp-6) 0 var(--sp-3)
+  font-weight: 600
+
+h3
+  font-size: var(--fs-600)
+  line-height: var(--lh-tight)
+  margin: var(--sp-6) 0 var(--sp-3)
+  font-weight: 600
+
+h4
+  font-size: var(--fs-500)
+  line-height: var(--lh-normal)
+  margin: var(--sp-4) 0 var(--sp-2)
+  font-weight: 600
+
+h5
+  font-size: var(--fs-400)
+  line-height: var(--lh-normal)
+  margin: var(--sp-4) 0 var(--sp-2)
+  font-weight: 600
+
+h6
+  font-size: var(--fs-300)
+  line-height: var(--lh-normal)
+  margin: var(--sp-3) 0 var(--sp-2)
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 0.5px
+
+/* Paragraphs and text */
+p
+  margin: 0 0 var(--sp-4)
+  
+  &:last-child
+    margin-bottom: 0
+
+/* Links */
+a
+  color: var(--c-brand)
+  text-decoration: underline
+  text-underline-offset: 2px
+  transition: var(--transition-fast)
+  
+  &:hover,
+  &:focus-visible
+    text-decoration-thickness: 2px
+    color: var(--c-brand)
+    
+  &:focus-visible
+    outline: 2px solid var(--c-focus)
+    outline-offset: 2px
+    border-radius: var(--radius-sm)
+
+/* Code and math */
+code, 
+pre, 
+.math-inline code
+  font-family: var(--font-mono)
+  font-size: var(--fs-200)
+  
+code
+  background: var(--c-surface)
+  padding: var(--sp-1) var(--sp-2)
+  border-radius: var(--radius-sm)
+  border: 1px solid var(--c-border)
+
+pre
+  background: var(--c-surface)
+  padding: var(--sp-4)
+  border-radius: var(--radius-md)
+  border: 1px solid var(--c-border)
+  overflow-x: auto
+  margin: var(--sp-4) 0
+  
+  code
+    background: none
+    padding: 0
+    border: none
+
+/* Lists */
+ul, ol
+  margin: 0 0 var(--sp-4)
+  padding-left: var(--sp-6)
+  
+li
+  margin-bottom: var(--sp-2)
+  
+  &:last-child
+    margin-bottom: 0
+
+/* Text utilities */
+.text-muted
+  color: var(--c-ink-muted)
+
+.text-small
+  font-size: var(--fs-200)
+
+.text-large
+  font-size: var(--fs-400)
+
+.text-center
+  text-align: center
+
+.text-sans
+  font-family: var(--font-sans)
+
+/* Mathematical content specific */
+.math-display
+  text-align: center
+  margin: var(--sp-6) 0
+  
+.math-inline
+  // KaTeX inline math styling inherits from parent
+  
+/* KaTeX font compatibility improvements */
+.katex
+  // Improve visual weight to match STIX Two Text
+  font-weight: 450 // Slightly heavier than normal (400)
+  
+  // Better spacing around math
+  .mord, .mrel, .mbin, .mop
+    // Subtle letter-spacing for better optical alignment
+    letter-spacing: 0.01em
+    
+.katex-display
+  // Display math gets normal weight
+  font-weight: 400
+
+/* Academic content styling */
+.definition,
+.theorem,
+.proposition,
+.lemma,
+.proof
+  margin: var(--sp-6) 0
+  
+  > .title
+    font-weight: 600
+    margin-bottom: var(--sp-2)
+    
+  > .content
+    margin-left: var(--sp-4)
+
+/* Focus and selection */
+::selection
+  background: var(--c-brand)
+  color: var(--c-paper)
+
+:focus-visible
+  outline: 2px solid var(--c-focus)
+  outline-offset: 2px

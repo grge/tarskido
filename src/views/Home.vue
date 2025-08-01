@@ -3,29 +3,50 @@ import BookShelf from '../components/BookShelf.vue';
 </script>
 
 <template>
-  <div class="home">
-    <h1>Tarskido</h1>
-    <BookShelf />
-  </div>
+  <main class="home">
+    <div class="book-shelves">
+      <BookShelf type="remote" title="Published Books">
+        <template #description>
+          Example books available for reading and duplicating to your local collection.
+        </template>
+      </BookShelf>
+      
+      <BookShelf type="local" title="Your Books">
+        <template #description>
+          Books stored in your browser's local storage that you can edit and modify.
+        </template>
+      </BookShelf>
+    </div>
+    
+    <div class="view-all-section">
+      <a href="#" class="view-all-link">☰ View all books as list</a>
+    </div>
+  </main>
 </template>
 
 <style scoped lang="stylus">
 
 .home
- text-align center
+  max-width 1200px
+  margin 0 auto
+  padding var(--sp-6)
 
-h1
- margin-top 2em
- font-size 41pt
- font-weight normal
- font-family sans
+.book-shelves
+  margin-bottom var(--sp-8)
 
-h1::before
- content " "
- background-size 1em
- background-image url('@/assets/logo.svg')
- width 1em
- height 1em
- display inline-block
- margin-right 0.5em
+.view-all-section
+  text-align center
+  margin-top var(--sp-8)
+
+.view-all-link
+  color var(--c-nav)
+  text-decoration none
+  font-family var(--font-sans)
+  font-weight 500
+  font-size var(--fs-400)
+  transition var(--transition-fast)
+  
+  &:hover
+    color var(--c-nav)
+    text-decoration underline
 </style>

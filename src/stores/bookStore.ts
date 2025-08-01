@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
-import { ref, watch, markRaw } from 'vue';
+import { ref, watch, markRaw, computed } from 'vue';
 
 import { Graph } from '@dagrejs/graphlib';
 import { migrateBook } from '@/utils/migration';
@@ -64,19 +64,16 @@ function nodeRefs(node: Node): string[] {
   return Array.from(new Set([...base, ...extra]));
 }
 
-export function deleteBook(bookId: string) {
-  // delete book from localStorage
-  if (localStorage.getItem('tarskido-book-' + bookId)) {
-    localStorage.removeItem('tarskido-book-' + bookId);
-  }
-}
-
 export const useBookStore = defineStore('book', () => {
+  // ============================================================================
+  // STATE & REACTIVE DATA
+  // ============================================================================
+
   // persistence key for localStorage. Should be the book id generally.
   const storageKey = ref<string | null>(null);
 
   // the single source of truth for the book data we are editing/viewing
-  const rawBook = ref<Book>({ id: '', title: '', author: '', preface: '', nodes: {} });
+  const rawBook = ref<Book>({ id: '', title: '', author: '', preface: '', nodes: {}, slugMap: {} });
 
   // the in-memory graph representation of the book exposed as a reactive ref
   const graph = ref(markRaw(new Graph({ directed: true, compound: true })));
@@ -86,11 +83,30 @@ export const useBookStore = defineStore('book', () => {
   // debounce timer helper for rebuilding the graph
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
-  function rebuildAndPersist() {
-    if (storageKey.value) {
-      rawBook.value.version = new Date().toISOString();
-      localStorage.setItem('tarskido-book-' + storageKey.value, JSON.stringify(rawBook.value));
-    }
+  // ============================================================================
+  // COMPUTED PROPERTIES
+  // ============================================================================
+
+  // Check if the current book is from a remote source
+  const isRemoteBook = computed(() => {
+    return rawBook.value.source === 'remote';
+  });
+
+  // Edit mode should be conditional - remote books cannot be edited
+  const canEdit = computed(() => {
+    return !isRemoteBook.value;
+  });
+
+  // Effective edit mode - only true if editing is allowed and user has enabled it
+  const effectiveEditMode = computed(() => {
+    return canEdit.value && editMode.value;
+  });
+
+  // ============================================================================
+  // GRAPH MANAGEMENT
+  // ============================================================================
+
+  function rebuildGraph() {
     const g = markRaw(new Graph({ directed: true, compound: true }));
     g.setGraph({ label: '', rankDir: 'LR' });
     g.setNode('ROOT', { label: 'ROOT' });
@@ -108,6 +124,18 @@ export const useBookStore = defineStore('book', () => {
     graph.value = g;
   }
 
+  function persistBook() {
+    if (storageKey.value) {
+      const bookToSave = { ...rawBook.value, version: new Date().toISOString() };
+      localStorage.setItem('tarskido-book-' + storageKey.value, JSON.stringify(bookToSave));
+    }
+  }
+
+  function rebuildAndPersist() {
+    rebuildGraph();
+    persistBook();
+  }
+
   watch(
     rawBook,
     data => {
@@ -117,9 +145,9 @@ export const useBookStore = defineStore('book', () => {
     { deep: true }
   );
 
-  function resolveNodeParam(slugOrId: string): string | null {
-    return rawBook.value.nodes[slugOrId] ? slugOrId : rawBook.value.slugMap[slugOrId];
-  }
+  // ============================================================================
+  // BOOK LOADING & PERSISTENCE
+  // ============================================================================
 
   function loadFromJSON(data: Book, key?: string) {
     storageKey.value = key || null;
@@ -150,6 +178,10 @@ export const useBookStore = defineStore('book', () => {
     loadFromJSON(newBook, newBook.id);
   }
 
+  // ============================================================================
+  // SLUG MANAGEMENT
+  // ============================================================================
+
   function generateSlug(node: Node): string {
     if (!node.nodetype.secondary || !node.reference) {
       return '';
@@ -179,6 +211,10 @@ export const useBookStore = defineStore('book', () => {
       rawBook.value.slugMap[newSlug] = nodeId;
     }
   }
+
+  // ============================================================================
+  // NODE MANAGEMENT
+  // ============================================================================
 
   function upsertNode(node: Node) {
     rawBook.value.nodes[node.id] = node;
@@ -211,12 +247,20 @@ export const useBookStore = defineStore('book', () => {
     delete rawBook.value.nodes[nodeId];
   }
 
-  function sortNodesByReference(nodeIds: string[]): Node[] {
+  // ============================================================================
+  // NAVIGATION & UTILITY HELPERS
+  // ============================================================================
+
+  function resolveNodeParam(slugOrId: string): string | null {
+    return rawBook.value.nodes[slugOrId] ? slugOrId : rawBook.value.slugMap[slugOrId];
+  }
+
+  function sortNodesByReference(nodeIds: string[]): string[] {
     const cmp = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare;
     return nodeIds
-      .map(id => [id, rawBook.value.nodes[id].reference])
-      .sort(([ida, refa], [idb, refb]) => cmp(refa, refb))
-      .map(([id]) => id);
+      .map(id => [id, rawBook.value.nodes[id]?.reference || ''])
+      .sort(([ida, refa], [idb, refb]) => cmp(refa as string, refb as string))
+      .map(([id]) => id as string);
   }
 
   function nextNodeId(nodeId: string) {
@@ -251,11 +295,109 @@ export const useBookStore = defineStore('book', () => {
     editMode.value = !editMode.value;
   }
 
+  function copyBookToLocal() {
+    if (!isRemoteBook.value) {
+      console.warn('Cannot copy non-remote book');
+      return null;
+    }
+
+    // Create a deep copy of the current book data
+    const bookCopy = JSON.parse(JSON.stringify(rawBook.value));
+    
+    // Generate new ID and update metadata
+    const newId = uuidv4();
+    bookCopy.id = newId;
+    bookCopy.source = 'local';
+    bookCopy.slug = bookCopy.slug ? `${bookCopy.slug}-copy` : `${newId}-copy`;
+    bookCopy.title = `${bookCopy.title} (Copy)`;
+    bookCopy.version = new Date().toISOString();
+    
+    // Save to localStorage as local book
+    localStorage.setItem(`tarskido-book-${newId}`, JSON.stringify(bookCopy));
+    
+    console.log(`Created local copy of remote book: ${newId}`);
+    return bookCopy;
+  }
+
+  function deleteBook(id: string) {
+    localStorage.removeItem('tarskido-book-' + id);
+    
+    // If this book is currently loaded, clear it to prevent re-saving
+    if (storageKey.value === id) {
+      storageKey.value = null;
+      // Clear the rawBook to prevent the watcher from re-saving
+      rawBook.value = {
+        id: '',
+        title: '',
+        author: '',
+        preface: '',
+        nodes: {},
+        slugMap: {},
+      };
+    }
+  }
+
+  // ============================================================================
+  // REFERENCE & DEPENDENCY HELPERS
+  // ============================================================================
+
+  function wouldCreateCycle(targetNodeId: string, sourceNodeId: string): boolean {
+    // If we're trying to reference ourselves, that's a cycle
+    if (targetNodeId === sourceNodeId) return true;
+
+    // Get all nodes that the target node depends on (directly and indirectly)
+    const visited = new Set<string>();
+    const checkDependencies = (nodeId: string): boolean => {
+      if (visited.has(nodeId)) return false;
+      visited.add(nodeId);
+
+      const nodeRefs = rawBook.value.nodes[nodeId]?.references || [];
+      for (const refId of nodeRefs) {
+        if (refId === sourceNodeId) return true; // Found a path back to source
+        if (checkDependencies(refId)) return true; // Recursive check
+      }
+      return false;
+    };
+
+    return checkDependencies(targetNodeId);
+  }
+
+  function getAvailableReferences(excludeNodeId: string) {
+    return Object.values(rawBook.value.nodes)
+      .filter((n: Node) => {
+        // Exclude Group nodes
+        if (n.nodetype.primary === 'Group') return false;
+
+        // Exclude the specified node (self-reference)
+        if (n.id === excludeNodeId) return false;
+
+        // Exclude nodes that would create circular dependencies
+        if (wouldCreateCycle(n.id, excludeNodeId)) return false;
+
+        return true;
+      })
+      .map((n: Node) => ({
+        value: n.id,
+        label: `${n.nodetype.secondary} ${n.reference} ${n.name}`,
+      }));
+  }
+
+  function getExcludedNodesCount(excludeNodeId: string) {
+    const totalNonGroupNodes = Object.values(rawBook.value.nodes).filter(
+      (n: Node) => n.nodetype.primary !== 'Group'
+    ).length;
+    const availableNodes = getAvailableReferences(excludeNodeId).length;
+    return totalNonGroupNodes - availableNodes - 1; // -1 for self-reference
+  }
+
   return {
     rawBook,
     graph,
     storageKey,
     editMode,
+    isRemoteBook,
+    canEdit,
+    effectiveEditMode,
     loadFromJSON,
     loadFromLocalStorage,
     sortNodesByReference,
@@ -266,7 +408,12 @@ export const useBookStore = defineStore('book', () => {
     deleteNode,
     resolveNodeParam,
     toggleEditMode,
+    copyBookToLocal,
+    deleteBook,
     generateSlug,
     updateSlugMap,
+    wouldCreateCycle,
+    getAvailableReferences,
+    getExcludedNodesCount,
   };
 });

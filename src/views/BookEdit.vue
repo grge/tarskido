@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { useBookStore, deleteBook } from '@/stores/bookStore';
+import { useBookStore } from '@/stores/bookStore';
 import { useRoute, useRouter } from 'vue-router';
 import { useBookShelfStore } from '@/stores/bookShelfStore';
 import { watch, ref } from 'vue';
@@ -113,7 +113,7 @@ export default {
     };
 
     const deleteThisBook = () => {
-      deleteBook(book.id);
+      shelf.deleteLocalBook(book.id);
       router.push({ name: 'Home' });
     };
 
@@ -139,24 +139,24 @@ export default {
   margin: 0 auto
 
 .edit-form
-  margin-bottom: 24px
+  margin-bottom: var(--sp-6)
 
 .preface-editor
   width: 100%
 
 .editor-controls
-  margin-bottom: 12px
+  margin-bottom: var(--sp-3)
 
 .editor-container, .preview-container
-  border: 1px solid #dcdfe6
-  border-radius: 4px
+  border: 1px solid var(--c-border)
+  border-radius: var(--radius-sm)
   min-height: 400px
 
 .editor-container
   padding: 0
 
 .preview-container
-  padding: 16px
+  padding: var(--sp-4)
   background-color: #fafafa
 
 .preface-textarea
@@ -169,7 +169,7 @@ export default {
 
 .action-buttons
   display: flex
-  gap: 12px
+  gap: var(--sp-3)
   justify-content: flex-start
-  margin-top: 24px
+  margin-top: var(--sp-6)
 </style>

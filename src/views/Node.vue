@@ -1,5 +1,4 @@
 <template>
-  <CornerMenu />
   <div>
     <div class="book-content">
       <NodeDetails :nodeId="node.id" :level="1" />
@@ -12,7 +11,6 @@
 
 <script lang="ts">
 import NodeDetails from '@/components/NodeDetails.vue';
-import CornerMenu from '@/components/CornerMenu.vue';
 import { useBookStore } from '@/stores/bookStore';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -34,7 +32,6 @@ export default {
   },
   components: {
     NodeDetails,
-    CornerMenu,
   },
 };
 </script>

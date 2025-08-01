@@ -10,9 +10,15 @@
       <li><router-link :to="{ name: 'Home' }">Tarskido</router-link></li>
       <hr />
       <li><a @click="downloadBook()">Download this book</a></li>
-      <li>
+      <li v-if="store.canEdit">
         <a @click="store.toggleEditMode()">Edit mode</a
         ><span class="tick">{{ store.editMode ? '✓' : '' }}</span>
+      </li>
+      <li v-else class="read-only-indicator">
+        <span>📚 Demo Book (Read-only)</span>
+      </li>
+      <li>
+        <a @click="toggleTheme()">{{ isDark ? '☀️' : '🌙' }} {{ isDark ? 'Light mode' : 'Dark mode' }}</a>
       </li>
       <li>Github</li>
     </ul>
@@ -22,8 +28,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useBookStore } from '@/stores/bookStore';
+import { useTheme } from '@/composables/useTheme';
 
 const store = useBookStore();
+const { isDark, toggleTheme } = useTheme();
 const menuOpen = ref(false);
 
 function toggleMenu() {
@@ -49,28 +57,37 @@ function downloadBook() {
 </script>
 
 <style scoped lang="stylus">
+
 .corner-menu-button
-   position absolute
-   right 0
-   top 0
-   margin 25px
+   position fixed
+   right var(--sp-6)
+   top var(--sp-6)
    height 40px
-   z-index 1002
+   z-index var(--z-fixed)
+   transition var(--transition-fast)
+   
+   @media (max-width: 768px)
+     right var(--sp-4)
+     top var(--sp-4)
 
 .corner-menu-content
-   position absolute
-   right 0
-   top 0
-   margin 35px
+   position fixed
+   right var(--sp-8)
+   top var(--sp-8)
    width 250px
-   background-color rgba(255, 255, 255, 0.6)
-   box-shadow 0 0 10px rgba(0, 0, 0, 0.1)
-   backdrop-filter blur(5px)
-   border-radius 8px
-   border 1px solid #ccc
-   z-index 1001
+   background-color rgba(255, 255, 255, 0.85)
+   box-shadow var(--shadow-2)
+   backdrop-filter blur(8px)
+   border-radius var(--radius-md)
+   border 1px solid var(--c-border)
+   z-index var(--z-dropdown)
    opacity 1
-   transition height 0ms 0ms, opacity 400ms 0ms
+   transition height 0ms 0ms, opacity var(--transition-normal) 0ms
+   
+   @media (max-width: 768px)
+     right var(--sp-4)
+     top var(--sp-16)
+     width 200px
 
 .corner-menu-content ul
    list-style none
@@ -78,24 +95,34 @@ function downloadBook() {
    margin 0
 
 .corner-menu-content li
-   font-size 18pt
-   margin 20px 25px
+   font-size var(--fs-400)
+   margin var(--sp-4) var(--sp-6)
    cursor pointer
 
 .corner-menu-content a
-   color black
+   color var(--c-ink)
    text-decoration none
+   transition var(--transition-fast)
 
 .corner-menu-content a:hover
    text-decoration underline
+   color var(--c-brand)
 
 .corner-menu-content .tick
-   margin-left 1em
+   margin-left var(--sp-4)
+   color var(--c-success)
+
+.read-only-indicator
+   color var(--c-ink-muted)
+   font-style italic
+   
+.read-only-indicator span
+   cursor default
 
 .corner-menu-content.menu-closed
    opacity 0
    height 0
-   overlfow hidden
-   transition height 0ms 400ms, opacity 400ms 0ms
+   overflow hidden
+   transition height 0ms var(--transition-normal), opacity var(--transition-normal) 0ms
    pointer-events none
 </style>

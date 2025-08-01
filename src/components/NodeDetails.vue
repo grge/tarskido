@@ -10,13 +10,13 @@
       </h3>
       <div class="editlinks listoflinks">
         <NodeReference :nodeId="node.id" v-if="level > 1" />
-        <SlugLink v-if="store.editMode" :nodeId="node.id" routeName="NodeEdit" linkClass="editlink"
+        <SlugLink v-if="store.effectiveEditMode" :nodeId="node.id" routeName="NodeEdit" linkClass="editlink"
           >Edit node</SlugLink
         >
         <a
           class="editlink"
           @click="createChildNode()"
-          v-if="store.editMode && level == 1 && node.nodetype.primary == 'Group'"
+          v-if="store.effectiveEditMode && level == 1 && node.nodetype.primary == 'Group'"
           >Create child node</a
         >
       </div>

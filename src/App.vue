@@ -1,18 +1,25 @@
 <template>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" />
   <div id="app">
-    <div>
+    <HeaderBar />
+    <div class="main-content">
       <router-view />
     </div>
   </div>
 </template>
 
+<script setup lang="ts">
+import HeaderBar from './components/HeaderBar.vue'
+import { useTheme } from './composables/useTheme'
+
+// Initialize theme on app startup
+const { initializeTheme } = useTheme()
+initializeTheme()
+</script>
+
 <style lang="stylus">
-edit-link-color = #cc2200
-nav-link-color = #6aa84f
-ref-link-color = #0b5394
-title-blue = #024064
-background-color = #ff00fa
+@import './styles/tokens.css'
+@import './styles/typography.styl'
 
 html
   position relative
@@ -23,23 +30,25 @@ body
   margin 0
 
 #app
-  font-family "Cambria", georgia, serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   width 100%
 
+.main-content
+  padding-top 60px // Account for fixed header height
+
 h2
   margin-bottom 0.15em
   margin-top 1em
-  font-size 40px
+  font-size var(--fs-700)
 
 h3
   margin-bottom 0.15em
   margin-top 1em
-  font-size 26px
+  font-size var(--fs-600)
 
 textarea
-  font-family fixed
+  font-family var(--font-mono)
   width 40em
   height 20em
 
@@ -47,18 +56,19 @@ a:hover
   text-decoration underline
 
 .editlink, .deletelink, .navlink, .reference-link
-  font-family sans-serif
+  font-family var(--font-sans)
   text-decoration none
   cursor pointer
+  transition var(--transition-fast)
 
-.editlink, deletelink
-  color edit-link-color
+.editlink, .deletelink
+  color var(--c-accent)
 
 .navlink
-  color nav-link-color
+  color var(--c-nav)
 
 .reference-link
-  color ref-link-color
+  color var(--c-brand)
 
 .navpreviouslink:before
   content "◀ "
@@ -82,5 +92,5 @@ a:hover
   content "⨯ "
 
 .listoflinks a
-  margin-right 2em
+  margin-right var(--sp-8)
 </style>

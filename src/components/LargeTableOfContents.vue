@@ -150,10 +150,10 @@ export default {
 
 <style scoped>
 .contents {
-  padding: 1rem 2rem;
+  padding: var(--sp-4) var(--sp-8);
   max-width: 25em;
   margin: 0 auto;
-  font-size: 18pt;
+  font-size: var(--fs-400);
 }
 
 h2 {

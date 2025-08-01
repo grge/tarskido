@@ -6,6 +6,7 @@ import router from './router';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import { useBookShelfStore } from '@/stores/bookShelfStore';
+import { useTheme } from '@/composables/useTheme';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -18,3 +19,7 @@ app.mount('#app');
 
 const shelf = useBookShelfStore();
 shelf.initialise();
+
+// Initialize theme
+const { initializeTheme } = useTheme();
+initializeTheme();

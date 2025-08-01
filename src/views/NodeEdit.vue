@@ -211,56 +211,11 @@ export default {
     const referencesLoading = ref(false);
     const filteredReferences = ref([]);
 
-    // Function to check if adding a reference would create a circular dependency
-    const wouldCreateCycle = (targetNodeId: string, sourceNodeId: string): boolean => {
-      // If we're trying to reference ourselves, that's a cycle
-      if (targetNodeId === sourceNodeId) return true;
-
-      // Get all nodes that the target node depends on (directly and indirectly)
-      const visited = new Set<string>();
-      const checkDependencies = (nodeId: string): boolean => {
-        if (visited.has(nodeId)) return false;
-        visited.add(nodeId);
-
-        const nodeRefs = book.nodes[nodeId]?.references || [];
-        for (const refId of nodeRefs) {
-          if (refId === sourceNodeId) return true; // Found a path back to source
-          if (checkDependencies(refId)) return true; // Recursive check
-        }
-        return false;
-      };
-
-      return checkDependencies(targetNodeId);
-    };
-
-    const allReferences = computed(() => {
-      return Object.values(book.nodes)
-        .filter((n: Node) => {
-          // Exclude Group nodes
-          if (n.nodetype.primary === 'Group') return false;
-
-          // Exclude self-reference
-          if (n.id === node.id) return false;
-
-          // Exclude nodes that would create circular dependencies
-          if (wouldCreateCycle(n.id, node.id)) return false;
-
-          return true;
-        })
-        .map((n: Node) => ({
-          value: n.id,
-          label: `${n.nodetype.secondary} ${n.reference} ${n.name}`,
-        }));
-    });
+    // Use store method for available references - much simpler!
+    const allReferences = computed(() => store.getAvailableReferences(node.id));
 
     // Get count of excluded nodes for user feedback
-    const excludedNodesCount = computed(() => {
-      const totalNonGroupNodes = Object.values(book.nodes).filter(
-        (n: Node) => n.nodetype.primary !== 'Group'
-      ).length;
-      const availableNodes = allReferences.value.length;
-      return totalNonGroupNodes - availableNodes - 1; // -1 for self-reference
-    });
+    const excludedNodesCount = computed(() => store.getExcludedNodesCount(node.id));
 
     // Initialize with all references
     filteredReferences.value = allReferences.value;
@@ -462,16 +417,16 @@ export default {
   gap: 16px
 
 .slug-error
-  color: #f56c6c
-  font-size: 12px
+  color: var(--c-error)
+  font-size: var(--fs-200)
 
 .slug-auto
-  color: #67c23a
-  font-size: 12px
+  color: var(--c-success)
+  font-size: var(--fs-200)
 
 .slug-manual
-  color: #909399
-  font-size: 12px
+  color: var(--c-info)
+  font-size: var(--fs-200)
 
 .slug-collision
   :deep(.el-input__inner)
@@ -487,14 +442,14 @@ export default {
 .circular-dependency-info
   display: flex
   align-items: center
-  gap: 6px
-  margin-top: 8px
-  padding: 8px
-  background-color: #f0f9ff
-  border: 1px solid #e1f5fe
-  border-radius: 4px
-  font-size: 12px
-  color: #0277bd
+  gap: var(--sp-2)
+  margin-top: var(--sp-2)
+  padding: var(--sp-2)
+  background-color: var(--c-surface)
+  border: 1px solid var(--c-border)
+  border-radius: var(--radius-sm)
+  font-size: var(--fs-200)
+  color: var(--c-info)
 
 .info-icon
   color: #0277bd
@@ -530,16 +485,16 @@ export default {
   align-items: center
 
 .proof-statement
-  margin-bottom: 12px
+  margin-bottom: var(--sp-3)
 
 .proof-references
   width: 100%
 
 .action-buttons
   display: flex
-  gap: 12px
+  gap: var(--sp-3)
   justify-content: flex-start
-  margin-top: 24px
+  margin-top: var(--sp-6)
 
 :deep(.el-form-item__label)
   font-weight: 500

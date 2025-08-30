@@ -38,9 +38,6 @@ const renderedHtml = computed(() => {
   font-size: var(--fs-400)
   color: var(--c-ink)
 
-.katex .mord
-  font-size: 1.2rem
-
 /* 
  * KaTeX font compatibility with STIX Two Text
  * 

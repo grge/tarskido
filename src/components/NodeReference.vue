@@ -7,7 +7,14 @@
     class="reference-link"
   >
     <GlyphIcon :nodeType="node.nodetype" class="reference-glyph" />
-    <span class="reference-label">{{ label }}</span>
+    <span class="reference-label">
+      <span v-if="!node.name || !useName">
+        {{ node.nodetype.secondary }} {{ node.reference }}
+      </span>
+      <span v-else>
+        {{ node.reference }} <MarkdownRenderer :markdown="node.name" :inline="true" />
+      </span>
+    </span>
   </router-link>
 </template>
 
@@ -16,11 +23,13 @@ import { useBookStore } from '../stores/bookStore.js';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import GlyphIcon from './GlyphIcon.vue';
+import MarkdownRenderer from './MarkdownRenderer.vue';
 
 export default {
   name: 'NodeReference',
   components: {
     GlyphIcon,
+    MarkdownRenderer,
   },
   setup(props) {
     const store = useBookStore();
@@ -30,17 +39,7 @@ export default {
     const book = computed(() => store.rawBook);
     const node = computed(() => book.value.nodes[nodeId.value]);
 
-    const label = computed(() => {
-      const n = node.value;
-      if (!n) return 'Unknown';
-      if (n.name && props.useName) {
-        return n.reference + ' ' + n.name;
-      } else {
-        return n.nodetype.secondary + ' ' + n.reference;
-      }
-    });
-
-    return { book, store, node, label };
+    return { book, store, node };
   },
   props: {
     nodeId: String,

@@ -9,12 +9,12 @@
 </template>
 
 <script setup lang="ts">
-import HeaderBar from './components/HeaderBar.vue'
-import { useTheme } from './composables/useTheme'
+import HeaderBar from './components/HeaderBar.vue';
+import { useTheme } from './composables/useTheme';
 
 // Initialize theme on app startup
-const { initializeTheme } = useTheme()
-initializeTheme()
+const { initializeTheme } = useTheme();
+initializeTheme();
 </script>
 
 <style lang="stylus">

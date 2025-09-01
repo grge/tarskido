@@ -303,7 +303,7 @@ export const useBookStore = defineStore('book', () => {
 
     // Create a deep copy of the current book data
     const bookCopy = JSON.parse(JSON.stringify(rawBook.value));
-    
+
     // Generate new ID and update metadata
     const newId = uuidv4();
     bookCopy.id = newId;
@@ -311,17 +311,17 @@ export const useBookStore = defineStore('book', () => {
     bookCopy.slug = bookCopy.slug ? `${bookCopy.slug}-copy` : `${newId}-copy`;
     bookCopy.title = `${bookCopy.title} (Copy)`;
     bookCopy.version = new Date().toISOString();
-    
+
     // Save to localStorage as local book
     localStorage.setItem(`tarskido-book-${newId}`, JSON.stringify(bookCopy));
-    
+
     console.log(`Created local copy of remote book: ${newId}`);
     return bookCopy;
   }
 
   function deleteBook(id: string) {
     localStorage.removeItem('tarskido-book-' + id);
-    
+
     // If this book is currently loaded, clear it to prevent re-saving
     if (storageKey.value === id) {
       storageKey.value = null;

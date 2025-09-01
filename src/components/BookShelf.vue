@@ -10,7 +10,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
-  'book-action': [action: string, book?: any]
+  'book-action': [action: string, book?: any];
 }>();
 
 const router = useRouter();
@@ -29,7 +29,7 @@ const importFromFile = () => {
   fileInput.onchange = async () => {
     const file = fileInput.files?.[0];
     if (!file) return;
-    
+
     try {
       const bookData = await shelf.importBookFromFile(file);
       router.push({ name: 'Book', params: { bookParam: bookData.slug || bookData.id } });
@@ -71,10 +71,7 @@ const deleteBook = (book: any) => {
     <div class="shelf-container">
       <div class="book-scroll">
         <!-- Special actions card for local shelf -->
-        <div 
-          v-if="type === 'local'" 
-          class="book-card actions-card"
-        >
+        <div v-if="type === 'local'" class="book-card actions-card">
           <div class="actions-content">
             <a class="action-link" @click="createNewBook()">
               <span class="action-icon">✎</span>
@@ -86,24 +83,22 @@ const deleteBook = (book: any) => {
             </a>
           </div>
         </div>
-        
+
         <!-- Book cards -->
-        <div 
-          v-for="book in books" 
-          :key="book.id" 
-          class="book-card"
-        >
+        <div v-for="book in books" :key="book.id" class="book-card">
           <!-- Background layer with actions -->
           <div class="card-background">
             <div class="background-actions">
               <template v-if="type === 'local'">
-                <a class="action-button edit-button" 
-                   @click="$router.push({ name: 'BookEdit', params: { bookParam: book.slug || book.id } })">
+                <a
+                  class="action-button edit-button"
+                  @click="
+                    $router.push({ name: 'BookEdit', params: { bookParam: book.slug || book.id } })
+                  "
+                >
                   ✎ Edit
                 </a>
-                <a class="action-button delete-button" @click="deleteBook(book)">
-                  ✕ Delete
-                </a>
+                <a class="action-button delete-button" @click="deleteBook(book)"> ✕ Delete </a>
               </template>
               <template v-else>
                 <a class="action-button duplicate-button" @click="duplicateBook(book)">
@@ -112,9 +107,12 @@ const deleteBook = (book: any) => {
               </template>
             </div>
           </div>
-          
+
           <!-- Foreground content layer -->
-          <router-link :to="{ name: 'Book', params: { bookParam: book.slug || book.id } }" class="card-content">
+          <router-link
+            :to="{ name: 'Book', params: { bookParam: book.slug || book.id } }"
+            class="card-content"
+          >
             <div class="book-cover">
               <h3 class="book-title">{{ book.title }}</h3>
               <p class="book-author">by {{ book.author }}</p>
@@ -156,7 +154,7 @@ const deleteBook = (book: any) => {
   padding var(--sp-6)
   border 1px solid var(--c-border)
   // Textured background for tactile feel
-  background-image linear-gradient(45deg, transparent 25%, rgba(0,0,0,0.02) 25%), 
+  background-image linear-gradient(45deg, transparent 25%, rgba(0,0,0,0.02) 25%),
                     linear-gradient(-45deg, transparent 25%, rgba(0,0,0,0.02) 25%)
   background-size 8px 8px
 
@@ -167,19 +165,19 @@ const deleteBook = (book: any) => {
   overflow-y hidden
   padding var(--sp-2) 0
   scroll-behavior smooth
-  
+
   // Custom scrollbar styling
   &::-webkit-scrollbar
     height 8px
-  
+
   &::-webkit-scrollbar-track
     background var(--c-surface)
     border-radius var(--radius-sm)
-  
+
   &::-webkit-scrollbar-thumb
     background var(--c-border-strong)
     border-radius var(--radius-sm)
-    
+
     &:hover
       background var(--c-ink-muted)
 
@@ -190,11 +188,11 @@ const deleteBook = (book: any) => {
   position relative
   border-radius var(--radius-md)
   transition var(--transition-fast)
-  
+
   &:hover
     transform translateY(-4px)
     box-shadow var(--shadow-3)
-    
+
     .card-content
       bottom 50px
 
@@ -274,7 +272,7 @@ const deleteBook = (book: any) => {
   align-items center
   justify-content center
   height 248px
-  
+
   &:hover
     background var(--c-hover)
     border-color var(--c-accent)
@@ -301,7 +299,7 @@ const deleteBook = (book: any) => {
   transition var(--transition-fast)
   text-align center
   cursor pointer
-  
+
   &:hover
     color var(--c-accent)
     text-decoration underline
@@ -319,7 +317,7 @@ const deleteBook = (book: any) => {
   border-radius var(--radius-sm)
   transition var(--transition-fast)
   cursor pointer
-  
+
   &:hover
     text-decoration underline
 

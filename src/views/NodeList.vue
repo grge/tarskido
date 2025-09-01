@@ -4,9 +4,11 @@ import { useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import type { Node } from '@/stores/bookStore';
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 export default {
   components: {
+    MarkdownRenderer,
   },
   setup() {
     const store = useBookStore();
@@ -81,7 +83,9 @@ export default {
     const handleDelete = async (node: Node) => {
       try {
         await ElMessageBox.confirm(
-          `Are you sure you want to delete "${node.name}"?`,
+          `Are you sure you want to delete "${
+            node.name || node.nodetype.secondary + ' ' + node.reference
+          }"?`,
           'Confirm Delete',
           {
             confirmButtonText: 'Delete',
@@ -160,7 +164,12 @@ export default {
       >
         <el-table-column prop="nodetype.secondary" label="Type" width="120" />
         <el-table-column prop="reference" label="Reference" width="120" sortable />
-        <el-table-column prop="name" label="Name" min-width="200" />
+        <el-table-column label="Name" min-width="200">
+          <template #default="{ row }">
+            <span v-if="!row.name"> {{ row.nodetype.secondary }} {{ row.reference }} </span>
+            <MarkdownRenderer v-else :markdown="row.name" :inline="true" />
+          </template>
+        </el-table-column>
         <el-table-column prop="slug" label="Slug" width="150" />
         <el-table-column prop="chapter" label="Chapter" width="120" />
         <el-table-column label="Operations" width="250" fixed="right">

@@ -11,7 +11,10 @@
               params: { bookParam: book.slug || book.id, nodeParam: chap.slug || chap.id },
             }"
           >
-            <span class="toc-l1-title">{{ chap.title }}</span>
+            <span class="toc-l1-title">
+              <span v-if="!chap.name"> {{ chap.type }} {{ chap.ref }} </span>
+              <MarkdownRenderer v-else :markdown="chap.name" :inline="true" />
+            </span>
           </router-link>
           <ul>
             <li v-for="sec in chap.children" :key="sec.id" class="toc-l2-li">
@@ -23,7 +26,10 @@
                   }"
                 >
                   <span class="toc-l2-label">{{ sec.ref }}</span>
-                  <span class="toc-l2-title">{{ sec.title }}</span>
+                  <span class="toc-l2-title">
+                    <span v-if="!sec.name"> {{ sec.type }} {{ sec.ref }} </span>
+                    <MarkdownRenderer v-else :markdown="sec.name" :inline="true" />
+                  </span>
                 </router-link>
               </div>
             </li>
@@ -44,7 +50,10 @@
                   }"
                 >
                   <span class="toc-l2-label">{{ node.ref }}</span>
-                  <span class="toc-l2-title">{{ node.title }}</span>
+                  <span class="toc-l2-title">
+                    <span v-if="!node.name"> {{ node.type }} {{ node.ref }} </span>
+                    <MarkdownRenderer v-else :markdown="node.name" :inline="true" />
+                  </span>
                 </router-link>
               </div>
             </li>
@@ -58,6 +67,7 @@
 <script lang="ts">
 import { computed } from 'vue';
 import { useBookStore } from '@/stores/bookStore';
+import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 /** A generic TOC node */
 interface TocEntry {
@@ -65,11 +75,14 @@ interface TocEntry {
   ref: string;
   slug: string;
   type: string;
-  title: string;
+  name: string;
   children: TocEntry[];
 }
 
 export default {
+  components: {
+    MarkdownRenderer,
+  },
   setup() {
     const store = useBookStore();
 
@@ -95,7 +108,7 @@ export default {
           ref: data.reference,
           slug: data.slug,
           type: data.nodetype.secondary,
-          title: data.name || data.nodetype.secondary + ' ' + data.reference,
+          name: data.name,
           children: buildToc(store.sortNodesByReference(graph.value.children(id)) || []),
         };
       });
@@ -119,7 +132,7 @@ export default {
             ref: 'Unknown',
             slug: undefined,
             type: 'Unknown',
-            title: 'Unknown Node',
+            name: 'Unknown Node',
             children: [],
           };
         }
@@ -128,7 +141,7 @@ export default {
           ref: data.reference,
           slug: data.slug,
           type: data.nodetype.secondary,
-          title: data.name || data.nodetype.secondary + ' ' + data.reference,
+          name: data.name,
           children: [],
         };
       });

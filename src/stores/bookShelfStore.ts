@@ -104,9 +104,9 @@ export const useBookShelfStore = defineStore('bookShelf', {
           console.warn('Failed to fetch remote book index:', response.status);
           return;
         }
-        
+
         const data = await response.json();
-        
+
         // Add remote books to the available list
         for (const remoteBook of data.books) {
           const meta = {
@@ -117,36 +117,39 @@ export const useBookShelfStore = defineStore('bookShelf', {
             version: remoteBook.version,
             source: 'remote' as const,
           };
-          
+
           // Remove existing entry if present (in case of refresh)
           // Check by ID, slug, or title to handle cases where metadata changed
-          const existingIndex = this.available.findIndex(b => 
-            b.id === remoteBook.id || 
-            (b.slug && b.slug === remoteBook.slug) ||
-            (b.title === remoteBook.title && b.author === remoteBook.author && b.source === 'remote')
+          const existingIndex = this.available.findIndex(
+            b =>
+              b.id === remoteBook.id ||
+              (b.slug && b.slug === remoteBook.slug) ||
+              (b.title === remoteBook.title &&
+                b.author === remoteBook.author &&
+                b.source === 'remote')
           );
           if (existingIndex >= 0) {
             const existingBook = this.available[existingIndex];
             this.available.splice(existingIndex, 1);
-            
+
             // Clean up old cached remote data if ID changed
             if (existingBook.id !== remoteBook.id) {
               localStorage.removeItem(`tarskido-remote-${existingBook.id}`);
             }
           }
-          
+
           // Add the remote book
           this.available.push(meta);
-          
+
           // Store the remote URL for fetching the full book data
           this.remoteBookUrls[remoteBook.id] = remoteBook.url;
-          
+
           // Update slug map
           if (remoteBook.slug) {
             this.slugMap[remoteBook.slug] = remoteBook.id;
           }
         }
-        
+
         console.log(`Loaded ${data.books.length} remote books`);
       } catch (error) {
         console.warn('Failed to fetch remote books:', error);
@@ -177,12 +180,12 @@ export const useBookShelfStore = defineStore('bookShelf', {
 
     async getBookData(bookId: string): Promise<object | null> {
       const meta = this.available.find(b => b.id === bookId);
-      
+
       if (!meta) {
         console.warn(`Book ${bookId} not found`);
         return null;
       }
-      
+
       if (meta.source === 'local' || meta.source === undefined) {
         // Load from localStorage
         const raw = JSON.parse(localStorage.getItem('tarskido-book-' + bookId) || '{}');
@@ -194,7 +197,7 @@ export const useBookShelfStore = defineStore('bookShelf', {
           console.warn(`No remote URL found for book ${bookId}`);
           return null;
         }
-        
+
         try {
           console.log(`Fetching remote book from ${remoteUrl}`);
           const response = await fetch(remoteUrl);
@@ -202,16 +205,16 @@ export const useBookShelfStore = defineStore('bookShelf', {
             console.warn(`Failed to fetch remote book ${bookId}:`, response.status);
             return null;
           }
-          
+
           const bookData = await response.json();
-          
+
           // Ensure the book has the correct source marker
           bookData.source = 'remote';
-          
+
           // Cache it in localStorage for faster subsequent access
           // Use a special key to distinguish from local books
           localStorage.setItem(`tarskido-remote-${bookId}`, JSON.stringify(bookData));
-          
+
           return migrateBook(bookData);
         } catch (error) {
           console.warn(`Failed to fetch remote book ${bookId}:`, error);
@@ -231,15 +234,14 @@ export const useBookShelfStore = defineStore('bookShelf', {
       return this.slugMap[param] || (this.available.find(b => b.id === param) ? param : null);
     },
 
-
     async deleteLocalBook(bookId: string) {
       // Import bookStore dynamically to avoid circular dependency
       const { useBookStore } = await import('./bookStore');
       const bookStore = useBookStore();
-      
+
       // Use bookStore for localStorage operations
       bookStore.deleteBook(bookId);
-      
+
       // Remove from shelf state
       this.removeBook(bookId);
     },
@@ -248,13 +250,13 @@ export const useBookShelfStore = defineStore('bookShelf', {
       // Import bookStore dynamically to avoid circular dependency
       const { useBookStore } = await import('./bookStore');
       const bookStore = useBookStore();
-      
+
       // Create new book using bookStore helper
       bookStore.createNewBook();
-      
+
       // Add to shelf state
       this.addOrUpdateBook(bookStore.rawBook);
-      
+
       // Return book data for component to handle navigation
       return bookStore.rawBook;
     },
@@ -266,17 +268,17 @@ export const useBookShelfStore = defineStore('bookShelf', {
           try {
             const data = JSON.parse(reader.result as string);
             console.log('Importing book from file:', data);
-            
+
             // Import bookStore dynamically to avoid circular dependency
             const { useBookStore } = await import('./bookStore');
             const bookStore = useBookStore();
-            
+
             // Load book using bookStore helper
             bookStore.loadFromJSON(data, data.id);
-            
+
             // Add to shelf state
             this.addOrUpdateBook(data);
-            
+
             // Return book data for component to handle navigation
             resolve(data);
           } catch (error) {
@@ -293,27 +295,27 @@ export const useBookShelfStore = defineStore('bookShelf', {
       // Import bookStore dynamically to avoid circular dependency
       const { useBookStore } = await import('./bookStore');
       const bookStore = useBookStore();
-      
+
       // Get the full book data first
       const fullBookData = await this.getBookData(sourceBook.id);
-      
+
       if (!fullBookData) {
         console.error('Failed to load book data for duplication');
         return null;
       }
-      
+
       // Load the source book and create a copy
       bookStore.loadFromJSON(fullBookData, sourceBook.id);
       const copiedBook = bookStore.copyBookToLocal();
-      
+
       if (copiedBook) {
         // Add to shelf state
         this.addOrUpdateBook(copiedBook);
-        
+
         // Return book data for component to handle navigation
         return copiedBook;
       }
-      
+
       return null;
     },
   },

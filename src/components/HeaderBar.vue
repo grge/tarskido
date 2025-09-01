@@ -8,20 +8,20 @@
           <span class="header-title">Tarskido</span>
         </router-link>
       </div>
-      
+
       <!-- Center: Search Bar (only on book pages) -->
       <div class="header-center" v-if="showSearchBar">
         <div class="search-container">
-          <input 
-            type="text" 
-            placeholder="Search in book..." 
+          <input
+            type="text"
+            placeholder="Search in book..."
             class="search-input"
             v-model="searchQuery"
             @input="onSearchInput"
           />
         </div>
       </div>
-      
+
       <!-- Right: Hamburger Menu -->
       <div class="header-right">
         <div class="hamburger-container">
@@ -58,73 +58,73 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useBookStore } from '@/stores/bookStore'
-import { useTheme } from '@/composables/useTheme'
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useBookStore } from '@/stores/bookStore';
+import { useTheme } from '@/composables/useTheme';
 
-const route = useRoute()
-const store = useBookStore()
-const { isDark, toggleTheme } = useTheme()
+const route = useRoute();
+const store = useBookStore();
+const { isDark, toggleTheme } = useTheme();
 
-const menuOpen = ref(false)
-const searchQuery = ref('')
+const menuOpen = ref(false);
+const searchQuery = ref('');
 
 // Check if we're on a book page to show search bar
 const showSearchBar = computed(() => {
-  return route.path.includes('/book/')
-})
+  return route.path.includes('/book/');
+});
 
 const isOnBookPage = computed(() => {
-  return route.path.includes('/book/')
-})
+  return route.path.includes('/book/');
+});
 
 function toggleMenu() {
-  menuOpen.value = !menuOpen.value
+  menuOpen.value = !menuOpen.value;
 }
 
 function onSearchInput() {
   // TODO: Implement search functionality
-  console.log('Search query:', searchQuery.value)
+  console.log('Search query:', searchQuery.value);
 }
 
 function downloadBook() {
-  const bookData = JSON.stringify(store.rawBook, null, 2)
-  const blob = new Blob([bookData], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `${store.rawBook.id}.json`
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-  URL.revokeObjectURL(url)
-  menuOpen.value = false
+  const bookData = JSON.stringify(store.rawBook, null, 2);
+  const blob = new Blob([bookData], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${store.rawBook.id}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  menuOpen.value = false;
 }
 
 // Close menu when clicking outside
 function handleClickOutside(event: Event) {
-  const target = event.target as Element
+  const target = event.target as Element;
   if (!target.closest('.hamburger-container')) {
-    menuOpen.value = false
+    menuOpen.value = false;
   }
 }
 
 // Add click outside listener when menu is open
-import { onMounted, onUnmounted, watch } from 'vue'
+import { onMounted, onUnmounted, watch } from 'vue';
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
+  document.addEventListener('click', handleClickOutside);
+});
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+  document.removeEventListener('click', handleClickOutside);
+});
 
 // Close menu when route changes
 watch(route, () => {
-  menuOpen.value = false
-})
+  menuOpen.value = false;
+});
 </script>
 
 <style scoped lang="stylus">
@@ -162,7 +162,7 @@ watch(route, () => {
   text-decoration none
   color var(--c-ink)
   transition var(--transition-fast)
-  
+
   &:hover
     text-decoration none
     color var(--c-brand)
@@ -172,7 +172,7 @@ watch(route, () => {
   width 28px
   margin-right var(--sp-3)
   transition var(--transition-fast)
-  
+
   // Invert logo colors in dark mode
   [data-theme="dark"] &
     filter invert(1)
@@ -182,7 +182,7 @@ watch(route, () => {
   font-size var(--fs-600)
   font-weight 500
   letter-spacing 1px
-  
+
 .header-center
   flex 1
   max-width 400px
@@ -201,12 +201,12 @@ watch(route, () => {
   font-family var(--font-sans)
   font-size var(--fs-300)
   transition var(--transition-fast)
-  
+
   &:focus
     outline none
     border-color var(--c-brand)
     box-shadow 0 0 0 2px var(--c-focus)
-  
+
   &::placeholder
     color var(--c-ink-muted)
 
@@ -224,7 +224,7 @@ watch(route, () => {
   font-size var(--fs-500)
   transition var(--transition-fast)
   user-select none
-  
+
   &:hover
     color var(--c-brand)
 
@@ -247,11 +247,11 @@ watch(route, () => {
   transform translateY(0)
   transition opacity var(--transition-normal), transform var(--transition-normal)
   box-shadow 0 4px 12px -2px rgba(0, 0, 0, 0.1), 0 2px 6px -1px rgba(0, 0, 0, 0.06)
-  
+
   @media (max-width: 768px)
     width 250px
     right var(--sp-4)
-  
+
   [data-theme="dark"] &
     background-color rgba(18, 18, 18, 0.95)
     box-shadow 0 4px 12px -2px rgba(0, 0, 0, 0.3), 0 2px 6px -1px rgba(0, 0, 0, 0.2)
@@ -275,7 +275,7 @@ watch(route, () => {
   font-family var(--font-sans)
   transition var(--transition-fast)
   flex 1
-  
+
   &:hover
     color var(--c-brand)
     text-decoration underline
@@ -293,7 +293,7 @@ watch(route, () => {
 .read-only-indicator
   color var(--c-ink-muted)
   font-style italic
-  
+
   span
     cursor default
 

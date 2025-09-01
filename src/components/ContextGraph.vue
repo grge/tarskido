@@ -88,11 +88,11 @@ const { graph, bbox } = useGraphLayout(rawSubGraph, measureRoot, { padding: 20, 
       transparent 90%
     )
     1 / /* slice */ 1px 0 / /* widths: top/bottom 2px, left/right 0 */ 0 0;
-  
+
   /* Textured background for tactile feel */
   background: var(--c-surface);
-  background-image: linear-gradient(45deg, transparent 25%, rgba(0,0,0,0.02) 25%), 
-                    linear-gradient(-45deg, transparent 25%, rgba(0,0,0,0.02) 25%);
+  background-image: linear-gradient(45deg, transparent 25%, rgba(0, 0, 0, 0.02) 25%),
+    linear-gradient(-45deg, transparent 25%, rgba(0, 0, 0, 0.02) 25%);
   background-size: 8px 8px;
 }
 </style>

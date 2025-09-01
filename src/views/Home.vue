@@ -10,14 +10,14 @@ import BookShelf from '../components/BookShelf.vue';
           Example books available for reading and duplicating to your local collection.
         </template>
       </BookShelf>
-      
+
       <BookShelf type="local" title="Your Books">
         <template #description>
           Books stored in your browser's local storage that you can edit and modify.
         </template>
       </BookShelf>
     </div>
-    
+
     <div class="view-all-section">
       <a href="#" class="view-all-link">☰ View all books as list</a>
     </div>
@@ -45,7 +45,7 @@ import BookShelf from '../components/BookShelf.vue';
   font-weight 500
   font-size var(--fs-400)
   transition var(--transition-fast)
-  
+
   &:hover
     color var(--c-nav)
     text-decoration underline

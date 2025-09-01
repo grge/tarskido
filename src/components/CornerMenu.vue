@@ -18,7 +18,9 @@
         <span>📚 Demo Book (Read-only)</span>
       </li>
       <li>
-        <a @click="toggleTheme()">{{ isDark ? '☀️' : '🌙' }} {{ isDark ? 'Light mode' : 'Dark mode' }}</a>
+        <a @click="toggleTheme()"
+          >{{ isDark ? '☀️' : '🌙' }} {{ isDark ? 'Light mode' : 'Dark mode' }}</a
+        >
       </li>
       <li>Github</li>
     </ul>
@@ -65,7 +67,7 @@ function downloadBook() {
    height 40px
    z-index var(--z-fixed)
    transition var(--transition-fast)
-   
+
    @media (max-width: 768px)
      right var(--sp-4)
      top var(--sp-4)
@@ -83,7 +85,7 @@ function downloadBook() {
    z-index var(--z-dropdown)
    opacity 1
    transition height 0ms 0ms, opacity var(--transition-normal) 0ms
-   
+
    @media (max-width: 768px)
      right var(--sp-4)
      top var(--sp-16)
@@ -115,7 +117,7 @@ function downloadBook() {
 .read-only-indicator
    color var(--c-ink-muted)
    font-style italic
-   
+
 .read-only-indicator span
    cursor default
 

@@ -6,11 +6,16 @@
         {{ node.nodetype.secondary }} {{ node.reference }}
       </h2>
       <h3 v-if="level == 2" class="node-h-name">
-        {{ node.name == '' ? node.nodetype.secondary + ' ' + node.reference : node.name }}
+        <span v-if="node.name == ''"> {{ node.nodetype.secondary }} {{ node.reference }} </span>
+        <MarkdownRenderer v-else :markdown="node.name" :inline="true" />
       </h3>
       <div class="editlinks listoflinks">
         <NodeReference :nodeId="node.id" v-if="level > 1" />
-        <SlugLink v-if="store.effectiveEditMode" :nodeId="node.id" routeName="NodeEdit" linkClass="editlink"
+        <SlugLink
+          v-if="store.effectiveEditMode"
+          :nodeId="node.id"
+          routeName="NodeEdit"
+          linkClass="editlink"
           >Edit node</SlugLink
         >
         <a
@@ -24,7 +29,10 @@
 
     <!--- the top level gets an extra header in the central column -->
     <div class="node-extra-header" v-if="level == 1">
-      <h2>{{ node.name == '' ? node.nodetype.secondary + ' ' + node.reference : node.name }}</h2>
+      <h2>
+        <span v-if="node.name == ''"> {{ node.nodetype.secondary }} {{ node.reference }} </span>
+        <MarkdownRenderer v-else :markdown="node.name" :inline="true" />
+      </h2>
       <div class="navlinks listoflinks" v-if="level == 1">
         <!-- <a class='navlink navpreviouslink'>Previous</a> -->
         <SlugLink

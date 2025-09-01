@@ -1,0 +1,794 @@
+{
+  "id": "59a3efb3-a01a-4a9f-81a4-831f7d45ebc0",
+  "name": "New Book",
+  "author": "George Dickeson",
+  "preface": "This book is a concise introduction to group theory. By design, we don't talk about group actions at all. Many readers will consider this an irredeemable deficiency, but I think there is some benefit to drawing a sharp distinction between these concepts, and for leaving group actions for later.\n\nIn chapter 1 we introduce the group axions and explore some immediate consequences. In Chapter 2 we begin to explore the structure of groups via the subgroup concept. In chapter 3 we look at cosets of subgroups. In Chapter 4 we look at normal subgroups and quotient groups.\n\nSome planned content:\n* Basic results about free groups\n* Properties of Cayley graphs and Shreier Graphs\n* Tietze transformations\n* (Semi-)Direct products, both in axiomatic theory and as presentations.\n* Quotient presentations, i.e., modding out by a normal subgroup.\n* Reidemeister-Shreier (subgroup) presentations. Shreier transfversals.\n* Cayley graphs as 1-skeleta of presentations, relators as 2-cells. \n* Covering graphs & Nielsen-Schreier. Topological intuition for Reidemeister-Shreier.\n* Group extensions / cohomological viewpoint\n* Small-cancellation & word-hyperbolic groups. e.g., linear isoperimetric inequality implies torsion free. \n\n## Sketch of topological track\nT1 Presentation 2-Complexes\nAttach one 0-cell, one 1-loop for each generator, one 2-disc for each relator. Define Cayley 2-complex\tRelators ↔ 2-cells (uses Ch. 2 presentations)\t\nT2 Fundamental Group & van Kampen\nCompute π1π1​ of the 2-complex and prove it recovers the original presentation; introduce van Kampen as the “topological Reidemeister–Schreier”\tGives a geometric proof of the quotient-presentation theorem you plan for Ch. 4B\t\nT3 Covering Spaces & Subgroups\nUniversal cover of the Cayley 2-complex is simply-connected; deck transformations ≅ GG. Subgroups ↔ covering spaces.\tConnects Ch. 3 cosets to topology; sets up Nielsen–Schreier algorithmically\t\nT4 Graphs of Groups (Bass–Serre Lite)\nTree actions without invoking full group-action theory: amalgamated free products & HNN extensions via fundamental groups of graphs of 2-complexes\tSupplies new presentation recipes that feed computation stream (Tietze, Todd–Coxeter)\t\nT5 Group Cohomology & Extensions\nDefine H2(G,M)H2(G,M) via cellular chains of the Cayley 2-complex; classify central & semi-direct extensions\tRe-derives semi-direct product presentation (Ch. 7B) and foreshadows your p-group material\t\nT6 Eilenberg–MacLane K(G,1)K(G,1) Spaces (optional capstone)\nShow any presentation 2-complex can be thickened into a K(G,1)K(G,1); hints at topological invariants of groups\tOpens door to finite-type resolutions for computational homology later\t\n\nMinimal prerequisites: path-connectedness, homotopy of paths, definition of covering space. You never need full orbit–stabiliser machinery; all actions are by homeomorphisms on topological covers, which feels very different from “group actions on arbitrary sets”.",
+  "nodes": {
+    "90ed12bb-ef09-414e-9cb7-6c9821888045": {
+      "id": "90ed12bb-ef09-414e-9cb7-6c9821888045",
+      "reference": "1",
+      "name": "Groups",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "Group theory begins with a simple — but remarkably powerful — set of rules. In this chapter, we adopt the axiomatic framework that defines a group: a set equipped with a binary operation that is closed, associative, and admits both an identity element and inverses for every element. While these four properties may at first seem merely abstract, they capture the essence of a structure that is useful across countless mathematical and physical contexts. By laying out these axioms with care, we establish a common language that will allow us to recognize and compare group-like behavior in a wide variety of settings.\n\nOnce the axioms are in place, the first fruits of group theory quickly emerge. We will prove that the identity element and inverses are unique, and derive the so-called cancellation laws. These immediate consequences not only reassure us that our definition is consistent and robust, but also illustrate how the abstract axioms translate into concrete tools for computation and reasoning.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "label": "90ed12bb-ef09-414e-9cb7-6c9821888045",
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 10,
+      "paddingBottom": 10,
+      "rx": 0,
+      "ry": 0,
+      "shape": "rect",
+      "elem": {
+        "__data__": "90ed12bb-ef09-414e-9cb7-6c9821888045"
+      },
+      "x": 350.2166748046875,
+      "y": 118,
+      "autoslug": true,
+      "slug": "chapter-1"
+    },
+    "f6c40f90-f992-4f68-b1b6-721127051c38": {
+      "id": "f6c40f90-f992-4f68-b1b6-721127051c38",
+      "reference": "1.1",
+      "name": "Group",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A *group* $G$ consists of a set $S$ together with a binary operation $\\cdot$ such that the following three axioms are satisfied:\n\n1. The operation $\\cdot$ is *associative*. That is, $(a \\cdot b) \\cdot c = a \\cdot (b \\cdot c)$, for any choice of $a, b, c \\in S$.\n\n2. There exists an *identity* element in $G$, usually called $1$, which has the property that $1 \\cdot a = a \\cdot 1 = a$ for all $a \\in S$.\n\n3. For each any $a \\in S$ there exists an *inverse*, usually called $a^{-1}$, such that $a \\cdot a^{-1} = a^{-1} \\cdot a = 1$.\n\nWe colloquially say $g \\in G$ to mean that $g$ is an element of the underlying set $S$. The *order* (or the size) of a group, $|G|$, is the inherited order of the underlying set, $|S|$.",
+      "references": [],
+      "chapter": "90ed12bb-ef09-414e-9cb7-6c9821888045",
+      "proof_lines": [],
+      "label": "f6c40f90-f992-4f68-b1b6-721127051c38",
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 10,
+      "paddingBottom": 10,
+      "rx": 0,
+      "ry": 0,
+      "shape": "rect",
+      "elem": {
+        "__data__": "f6c40f90-f992-4f68-b1b6-721127051c38"
+      },
+      "x": 184.3000030517578,
+      "y": 118,
+      "autoslug": true,
+      "slug": "definition-1.1"
+    },
+    "7a27003c-98f8-46ea-a14b-6aacf8e80ff2": {
+      "id": "7a27003c-98f8-46ea-a14b-6aacf8e80ff2",
+      "reference": "1.2",
+      "name": "Abelian Group",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "If a group $G$ has the property that for any $a, b \\in G$ we have $a \\cdot b = b \\cdot a$, then we call $G$ a *commutative* group, or more commonly, an *abelian group*.\n\nFor abelian groups, we often will use the additive notation $a+b$ instead of the usual $a \\cdot b$.",
+      "references": [
+        "f6c40f90-f992-4f68-b1b6-721127051c38"
+      ],
+      "chapter": "90ed12bb-ef09-414e-9cb7-6c9821888045",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-1.2"
+    },
+    "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1": {
+      "id": "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1",
+      "reference": "2",
+      "name": "Words and Presentations",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "In this chapter we develop a formal proof of the perhaps obvious proposition that the object defined by a presentation is indeed a group. Our formal definition of a presentation group will involve equivalences classes of words formed by generators and their inverses. This formalism is a little tedious, but it will be useful for our development to have a clear understanding of what exactly a presentation is.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "chapter-2"
+    },
+    "39645823-31f4-453e-a174-2a8874b8d227": {
+      "id": "39645823-31f4-453e-a174-2a8874b8d227",
+      "reference": "2.1",
+      "name": "Alphabet and Words",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Let $X$ be a set (called the *generators*) and define the *alphabet* $\\Sigma_X = X \\sqcup X^{-1}$, where $X^{-1}$ is the set of symbols, $X^{-1} = \\{x^{-1} \\mid x \\in X\\}$, called the *formal inverses* of the generators. The set $\\Sigma_X^*$ denotes all finite *words* over the alphabet $\\Sigma_X$, including the empty word $\\varepsilon$.\n\nWe can describe words by simply concatenating symbols from the alphabet. For example, if $X = \\{a, b\\}$, then $\\Sigma_X = \\{a, b, a^{-1}, b^{-1}\\}$. Then the words in $\\Sigma_X^*$ include $\\varepsilon$, $a$, $a^{-1}$, $ababab$, and $abb^{-1}a$.",
+      "references": [],
+      "chapter": "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-2.1"
+    },
+    "8594fc87-0aaf-4a1c-9685-93a3083a9629": {
+      "id": "8594fc87-0aaf-4a1c-9685-93a3083a9629",
+      "reference": "2.2",
+      "name": "Word Inverse",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For any word $w = a_1 a_2 \\ldots a_n \\in \\Sigma^*$, define its *formal inverse* as $w^{-1} := a_n^{-1}a_{n-1}^{-1}\\ldots a_1^{-1}$.\n\nNote that the inverse of the empty word is just the empty word. Ie., $\\varepsilon^{-1} = \\varepsilon$.\n\nWe call $w^{-1}$ a *formal* inverse because it is simply another undistinguished word in $\\Sigma^*$ and at this stage has no \"algebraic\" relationship with $w$. \n",
+      "references": [
+        "39645823-31f4-453e-a174-2a8874b8d227"
+      ],
+      "chapter": "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-2.2"
+    },
+    "e398b251-5f14-401f-8443-5ad3b126d7bd": {
+      "id": "e398b251-5f14-401f-8443-5ad3b126d7bd",
+      "reference": "2.4",
+      "name": "Relator Conguence",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Given a set of words $R \\subseteq \\Sigma^*$. Define $\\sim_R$ to be the smallest equivalence relation on $\\Sigma^*$ satisfying:\n\n**R1** (inverse generators cancel): For all $x \\in X$, we have $xx^{-1} \\sim_R \\epsilon$ and $x^{-1}x \\sim_R \\epsilon$.\n\n**R2** (relators vanish): For all $r \\in R$, we have $r \\sim_R  \\epsilon$.\n\n**R3** (context closure): If $u \\sim_R v$, then for all $s, t \\in \\Sigma^*, sut \\sim_R svt$.\n\nWe will write $[u]$ for the $\\sim_R$-class of $u \\in \\Sigma^*$. That is, $[u]=[v] \\Longleftrightarrow u \\sim_R v$.",
+      "references": [
+        "39645823-31f4-453e-a174-2a8874b8d227"
+      ],
+      "chapter": "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-2.4"
+    },
+    "a278aabe-9489-401d-831e-bbc3265eb48a": {
+      "id": "a278aabe-9489-401d-831e-bbc3265eb48a",
+      "reference": "2.4",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Lemma"
+      },
+      "statement": "Under the relator congruence, the formal inverse turns out to be an algebraic inverse, in the sense that for every $u \\in \\Sigma^*, uu^{-1} \\sim_R \\varepsilon$, and $u^{-1}u \\sim_R \\varepsilon$.",
+      "references": [
+        "8594fc87-0aaf-4a1c-9685-93a3083a9629",
+        "e398b251-5f14-401f-8443-5ad3b126d7bd"
+      ],
+      "chapter": "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1",
+      "proof_lines": [
+        {
+          "statement": "By induction on the length of $u$.\n\nIf $u = \\varepsilon$, the claim is immediate.\n\nNow suppose that $u = wx$, where $x \\in \\Sigma$, and $w \\in \\Sigma^*$ being one letter shorter than $u$, and assume that the hypothesis is true in the case of $w$, i.e., $w w^{-1} \\sim_R \\varepsilon$. Then\n\n$$uu^{-1} = wxx^{-1}w^{-1} \\sim_R w \\varepsilon w^{-1} = w w^{-1} \\sim_R \\varepsilon$$",
+          "references": [
+            "e398b251-5f14-401f-8443-5ad3b126d7bd"
+          ]
+        }
+      ],
+      "autoslug": true,
+      "slug": "lemma-2.4"
+    },
+    "d6d93024-bcc3-4db3-be0a-d37c8da04474": {
+      "id": "d6d93024-bcc3-4db3-be0a-d37c8da04474",
+      "reference": "2.5",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Lemma"
+      },
+      "statement": "If two words are congruent by the relator congruence then their formal inverses are also congruent. I.e., $u \\sim_R v \\Longrightarrow u^{-1} \\sim_R v^{-1}$.",
+      "references": [
+        "8594fc87-0aaf-4a1c-9685-93a3083a9629",
+        "e398b251-5f14-401f-8443-5ad3b126d7bd"
+      ],
+      "chapter": "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1",
+      "proof_lines": [
+        {
+          "statement": "We proceed by induction on the construction of a derivation $u \\sim_R v$ using the rules R1, R2, and R3, as well as the implicit rules that come from our assumption that $\\sim_R$ is an equivalence relation. We show that for each case, $u^{-1} \\sim_R v^{-1}$ also holds. \n\n* (reflexivity): Trivial, $u^{-1} \\sim_R u^{-1}$.\n\n* (symmetry) : If $u \\sim_R v$ is derived via symmetry from a derivation of $v \\sim_R u$, then by the inductive assumption $v^{-1} \\sim_R u^{-1}$ and therefore $u^{-1} \\sim_R v^{-1}$ by symmetry.\n\n* (transitivity): If $u \\sim_R v$ is derived via transitivity from $u \\sim_R w$ and $w \\sim_R v$, then by the inductive assumption $u^{-1} \\sim_R w^{-1}$ and $w^{-1} \\sim_R v^{-1}$, so $u^{-1} \\sim_R v^{-1}$ by transitivity.\n\n* (cancelling inverse generators): If $u \\sim v$ is of the form $xx^{-1} \\sim_R \\varepsilon$ or $x^{-1}x \\sim_R \\varepsilon$, then inverting both sides yields an identical congruence.",
+          "references": []
+        },
+        {
+          "statement": "* (relators vanish): If $u \\sim_R v$ has the form $r \\sim_R \\varepsilon$ where $r$ is a relator, we can use R3 to concatenate both sides with $r^{-1}$, giving $r r^{-1} \\sim_R r^{-1}$. But since inverses cancel (Lemma 1.4) we get $\\epsilon \\sim_R r^{-1}$, and by symmetry $r^{-1} \\sim_R \\varepsilon$. ",
+          "references": [
+            "a278aabe-9489-401d-831e-bbc3265eb48a"
+          ]
+        },
+        {
+          "statement": "* (congruence closure) If $u \\sim_R v$ has the form $s u_0 t \\sim s v_0 t$, with $u_0 \\sim_R v_0$, then by the induction assumption we have $u_0^{-1} \\sim_R v_0^{-1}$. Then\n\n$$ u^{-1} = (su_0 t)^{-1} = t^{-1} u_0^{-1} v^{-1} \\sim_R t^{-1} v_0^{-1} s^{-1} = (sv_0t)^{-1} = v^{-1}$$ ",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "lemma-2.5"
+    },
+    "7c8edd46-2f34-432e-99b1-7b2de7d3c7ae": {
+      "id": "7c8edd46-2f34-432e-99b1-7b2de7d3c7ae",
+      "reference": "2.6",
+      "name": "<G | R> is a group",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Define $\\langle X \\mid R \\rangle = \\Sigma_X^* / \\sim_R$, i.e., the set of classes $[w]$ of words $w \\in \\Sigma_X^*$. Then $\\langle X \\mid R \\rangle$ forms a group, where the group operation is concatenation, i.e.,  $[u] \\cdot [v] := [uv]$, the inverse operation is $[w]^{-1} := [w^{-1}]$, and the identity element is $[\\varepsilon]$.\n\nWe call a formal expression $\\langle X \\mid R \\rangle$ a *presentation* for the group it defines, and a group that is defined by a presentation is a *presentation group*.",
+      "references": [
+        "f6c40f90-f992-4f68-b1b6-721127051c38",
+        "e398b251-5f14-401f-8443-5ad3b126d7bd"
+      ],
+      "chapter": "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1",
+      "proof_lines": [
+        {
+          "statement": "We must verify that the group operation and the inverse $[w]^{-1} = [w^{-1}]$ are both well-defined, and that the group axioms are satisfied.\n\n* *group op. is well-defined*: If $[u] = [u']$ and $[v] = [v']$, then First $[u] = [u'] \\Rightarrow_{R3} [uv] = [u'v]$. Second $[v] = [v'] \\Rightarrow_{R3} [u'v] = [u'v']$. Finally, by transitivity we have $[uv] = [u'v']$.\n \n* *associativity axiom*: Follows directly from associativity of word concatenation in $\\Sigma_X^*$. \n\n* *identity axiom*: $[u][\\varepsilon] = [u\\varepsilon] = [u]$.\n",
+          "references": []
+        },
+        {
+          "statement": "* *inverse is well-defined*: We need to show that if $[u] = [v]$ then $[u^{-1}] = [v^{-1}]$, which is immediate from Lemma 2.5",
+          "references": [
+            "d6d93024-bcc3-4db3-be0a-d37c8da04474"
+          ]
+        },
+        {
+          "statement": "* *inverse axiom*: We want to show that for each word $u \\in \\Sigma_X^*$, the class of formal inverses is the inverse in the group. I.e., $[u][u^{-1}] = [uu^{-1}] = [\\varepsilon]$. But this is exactly what Lemma 2.4 states.",
+          "references": [
+            "a278aabe-9489-401d-831e-bbc3265eb48a"
+          ]
+        }
+      ],
+      "autoslug": true,
+      "slug": "proposition-2.6"
+    },
+    "2b07cb80-ba91-4234-89ca-f33230f5d757": {
+      "id": "2b07cb80-ba91-4234-89ca-f33230f5d757",
+      "reference": "2.7",
+      "name": "",
+      "nodetype": {
+        "primary": "Comment",
+        "secondary": "Comment"
+      },
+      "statement": "Proposition 2.6 shows that the equivalence classes formed by the congruence relator over our words $\\Sigma_X^*$ are a valid group $\\langle X \\mid R \\rangle$, but which group is it? From what we know so far it could turn out that $\\langle X \\mid R \\rangle = \\{ 1 \\}$, the trivial group, in every case.\n\nLuckily this turns out not to be the case, as can be seen by working through the details for a specific presentation. Later, we will prove that $\\langle X \\mid R \\rangle$ is the largest (in a specific sense) group generated by $X$ that satisfies $R$. ",
+      "references": [
+        "7c8edd46-2f34-432e-99b1-7b2de7d3c7ae"
+      ],
+      "chapter": "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "comment-2.7"
+    },
+    "38a93235-d63d-43eb-a6e0-15b00067514e": {
+      "id": "38a93235-d63d-43eb-a6e0-15b00067514e",
+      "reference": "",
+      "name": "Free Group",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Definition of the free group on a set $X$ by the universal property.",
+      "references": [
+        "1d601c21-2925-4f64-bb48-0a39d4578325"
+      ],
+      "chapter": "",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-"
+    },
+    "1d601c21-2925-4f64-bb48-0a39d4578325": {
+      "id": "1d601c21-2925-4f64-bb48-0a39d4578325",
+      "reference": "",
+      "name": "Homomorphism",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Group homomorphism",
+      "references": [
+        "f6c40f90-f992-4f68-b1b6-721127051c38"
+      ],
+      "chapter": "f5971cb8-f41f-4bfb-8dc9-d52b93724ca8",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition--(2)"
+    },
+    "6c1fabc9-3868-4718-8981-82bcafe631dd": {
+      "id": "6c1fabc9-3868-4718-8981-82bcafe631dd",
+      "reference": "",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "$\\langle X \\mid \\emptyset\\rangle$ is a free group.",
+      "references": [
+        "7c8edd46-2f34-432e-99b1-7b2de7d3c7ae",
+        "38a93235-d63d-43eb-a6e0-15b00067514e"
+      ],
+      "chapter": "",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-"
+    },
+    "6c78b987-0e4a-4393-bcc8-cf99d008e8f9": {
+      "id": "6c78b987-0e4a-4393-bcc8-cf99d008e8f9",
+      "reference": "1.3",
+      "name": "",
+      "nodetype": {
+        "primary": "Comment",
+        "secondary": "Example"
+      },
+      "statement": "1. Addition of the integers $\\mathbb{Z}$ forms a group. $0$ is the identity element, and $-n$ is the group inverse of $n \\in \\mathbb{Z}$. This is an example of an infinite, abelian group.\n\n2. Our second example is a finite, non-abelian group, given via an explicit multiplication table. In fact it is the smallest non-abelian group, and is given the name $D_6$ by group theorists. Consider the set of arbitrary elements $G = \\{\\varepsilon, a, b, c, d, f\\}$, with the group operation defined by the multiplication table\n\n$$\n\\begin{array}{c|cccccc}\n\\cdot & \\varepsilon & a & b & c & d & f \\\\\n\\hline\n\\varepsilon & \\varepsilon & a & b & c & d & f \\\\\na & a & b & \\varepsilon & f & c & d \\\\\nb & b & \\varepsilon & a & d & f & c \\\\\nc & c & d & f & \\varepsilon & a & b \\\\\nd & d & f & c & b & \\varepsilon & a \\\\\nf & f & c & d & a & b & \\varepsilon\n\\end{array}\n$$",
+      "references": [
+        "f6c40f90-f992-4f68-b1b6-721127051c38",
+        "7a27003c-98f8-46ea-a14b-6aacf8e80ff2"
+      ],
+      "chapter": "90ed12bb-ef09-414e-9cb7-6c9821888045",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "example-1.3"
+    },
+    "70d98d1f-bba0-496d-9ca2-eef90196bbd2": {
+      "id": "70d98d1f-bba0-496d-9ca2-eef90196bbd2",
+      "reference": "1.4",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Lemma"
+      },
+      "statement": "Below we collect some immediate consequences of the group axioms.\n\n1. *(uniqueness of identity)*: If $g \\cdot h = h$ for all $h \\in G$, then $g = 1_G$.\n2. *(uniqueness of inverses)*. If $g \\cdot h_1 = g \\cdot h_2 = 1$ then $h_1 = h_2 = g^{-1}$.\n3. *(cancellation property)*: $h_1 g = h_2 g \\Longrightarrow h_1 = h_2$\n4. *(product inverse)*: $(g \\cdot h)^{-1} = h^{-1} \\cdot g^{-1}$\n5. *(double inverse)*: $(g^{-1})^{-1} = g$",
+      "references": [
+        "f6c40f90-f992-4f68-b1b6-721127051c38"
+      ],
+      "chapter": "90ed12bb-ef09-414e-9cb7-6c9821888045",
+      "proof_lines": [
+        {
+          "statement": "Suppose that $g \\in G$ has the identity property, i.e., $a \\cdot g = a$ for all $a \\in G$. Then $1\\cdot g = 1$. But $1$ also has the identity property, so this implies $1\\cdot g = g$ therefore we can conclude that $g = 1$.",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "lemma-1.4"
+    },
+    "2306b2bb-a9bf-431a-93b4-200fd68efe7e": {
+      "id": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "reference": "3",
+      "name": "Subgroups and Cosets",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "We now begin the task of understanding the structure of groups. As we have seen from examples, many groups contains subsets of elements that are closed under the group operation, and therefore form a group. After formalising this idea, we look at the relationship between the order of a group and the order its subgroups, culminating in our first major result: Lagrange's Theorem. ",
+      "references": [],
+      "chapter": "",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "chapter-3"
+    },
+    "dd0d161c-37a3-4624-8f81-dcbb1338b3d3": {
+      "id": "dd0d161c-37a3-4624-8f81-dcbb1338b3d3",
+      "reference": "3.1",
+      "name": "Subgroup",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "f6c40f90-f992-4f68-b1b6-721127051c38"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-3.1"
+    },
+    "55057b87-8656-4871-96db-2ff4bc8111bb": {
+      "id": "55057b87-8656-4871-96db-2ff4bc8111bb",
+      "reference": "3.2",
+      "name": "Subgroup test",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "",
+      "references": [
+        "dd0d161c-37a3-4624-8f81-dcbb1338b3d3"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-3.2"
+    },
+    "d45ee90e-4e80-47ec-9b33-5d1ec8bbb787": {
+      "id": "d45ee90e-4e80-47ec-9b33-5d1ec8bbb787",
+      "reference": "3.3",
+      "name": "Subgroup examples",
+      "nodetype": {
+        "primary": "Comment",
+        "secondary": "Example"
+      },
+      "statement": "",
+      "references": [
+        "dd0d161c-37a3-4624-8f81-dcbb1338b3d3"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "example-3.3"
+    },
+    "c7e7c1cc-26a8-4ba0-9e93-e5c8c7882163": {
+      "id": "c7e7c1cc-26a8-4ba0-9e93-e5c8c7882163",
+      "reference": "3.4",
+      "name": "Subgroup generated by",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "dd0d161c-37a3-4624-8f81-dcbb1338b3d3"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-3.4"
+    },
+    "731a2864-ba2f-4ab1-859f-92e56df62eb8": {
+      "id": "731a2864-ba2f-4ab1-859f-92e56df62eb8",
+      "reference": "3.6",
+      "name": "Cosets",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "dd0d161c-37a3-4624-8f81-dcbb1338b3d3"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-3.6"
+    },
+    "168288e3-b4e5-4fb3-938a-024e4196fac7": {
+      "id": "168288e3-b4e5-4fb3-938a-024e4196fac7",
+      "reference": "3.8",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Cosets partition $G$.",
+      "references": [
+        "731a2864-ba2f-4ab1-859f-92e56df62eb8",
+        "3ca520e3-ece7-433e-b6bb-9c328b0f6c2d"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-3.8"
+    },
+    "3ca520e3-ece7-433e-b6bb-9c328b0f6c2d": {
+      "id": "3ca520e3-ece7-433e-b6bb-9c328b0f6c2d",
+      "reference": "3.7",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "$g_1 H = g_2 H \\Longleftrightarrow g_1 g_2^{-1} \\in H$.",
+      "references": [
+        "731a2864-ba2f-4ab1-859f-92e56df62eb8"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-3.7"
+    },
+    "21beb74f-92cd-4cfa-bfe4-abf5469846c8": {
+      "id": "21beb74f-92cd-4cfa-bfe4-abf5469846c8",
+      "reference": "3.8",
+      "name": "Index",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "731a2864-ba2f-4ab1-859f-92e56df62eb8"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-3.8"
+    },
+    "c33605ac-63e6-473f-a0ee-d2a1fb12ff15": {
+      "id": "c33605ac-63e6-473f-a0ee-d2a1fb12ff15",
+      "reference": "3.10",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Each coset has the same size",
+      "references": [
+        "21beb74f-92cd-4cfa-bfe4-abf5469846c8"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-3.10"
+    },
+    "69d34cda-f8fa-4620-b0b8-ba4f5579900f": {
+      "id": "69d34cda-f8fa-4620-b0b8-ba4f5579900f",
+      "reference": "3.11",
+      "name": "Lagrange's Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "Let $G$ be a finite group, and let $H \\leq G$ be a subgroup. Then:\n\n$$ |G|=[G:H] \\times |H|.$$\n\nThat is, the order of $G$ is equal to the number of left cosets of $H$ in $G$ times the order of $H$.",
+      "references": [
+        "21beb74f-92cd-4cfa-bfe4-abf5469846c8",
+        "731a2864-ba2f-4ab1-859f-92e56df62eb8"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [
+        {
+          "statement": "We know that the cosets partition $G$, and that they have equal size, i.e., $|H|$.",
+          "references": [
+            "c33605ac-63e6-473f-a0ee-d2a1fb12ff15",
+            "168288e3-b4e5-4fb3-938a-024e4196fac7"
+          ]
+        }
+      ],
+      "autoslug": true,
+      "slug": "theorem-3.11"
+    },
+    "ce497cf5-56ea-42cf-8aca-398d9d726e63": {
+      "id": "ce497cf5-56ea-42cf-8aca-398d9d726e63",
+      "reference": "3.4",
+      "name": "Cyclic subgroup",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "c7e7c1cc-26a8-4ba0-9e93-e5c8c7882163"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-3.4-(2)"
+    },
+    "b7ba3c6d-70e9-4dc8-953c-d05c2f3e02e2": {
+      "id": "b7ba3c6d-70e9-4dc8-953c-d05c2f3e02e2",
+      "reference": "3.12",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Corollary"
+      },
+      "statement": "Group elements have order dividing $G$.",
+      "references": [
+        "ce497cf5-56ea-42cf-8aca-398d9d726e63",
+        "69d34cda-f8fa-4620-b0b8-ba4f5579900f"
+      ],
+      "chapter": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "corollary-3.12"
+    },
+    "f5971cb8-f41f-4bfb-8dc9-d52b93724ca8": {
+      "id": "f5971cb8-f41f-4bfb-8dc9-d52b93724ca8",
+      "reference": "5",
+      "name": "Homomorphisms",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "",
+      "references": [],
+      "chapter": "",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "chapter-5"
+    },
+    "4eade02a-0d31-4bc7-b89c-e34ce7d7c7d5": {
+      "id": "4eade02a-0d31-4bc7-b89c-e34ce7d7c7d5",
+      "reference": "5.2",
+      "name": "Kernel",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "1d601c21-2925-4f64-bb48-0a39d4578325"
+      ],
+      "chapter": "f5971cb8-f41f-4bfb-8dc9-d52b93724ca8",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-5.2"
+    },
+    "0061340f-5504-461e-b138-80e36281b82e": {
+      "id": "0061340f-5504-461e-b138-80e36281b82e",
+      "reference": "5.3",
+      "name": "Image",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "1d601c21-2925-4f64-bb48-0a39d4578325"
+      ],
+      "chapter": "f5971cb8-f41f-4bfb-8dc9-d52b93724ca8",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-5.3"
+    },
+    "6d8d33da-e57a-4898-80c3-6b0453e84c1c": {
+      "id": "6d8d33da-e57a-4898-80c3-6b0453e84c1c",
+      "reference": "5.4",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "kernel forms normal subgroup",
+      "references": [
+        "4eade02a-0d31-4bc7-b89c-e34ce7d7c7d5",
+        "cc0b1227-3688-4612-8c53-bc968f3f2c2c"
+      ],
+      "chapter": "f5971cb8-f41f-4bfb-8dc9-d52b93724ca8",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-5.4"
+    },
+    "6e5228cb-9094-434c-af3f-9ec66ca63d8e": {
+      "id": "6e5228cb-9094-434c-af3f-9ec66ca63d8e",
+      "reference": "4",
+      "name": "Quotient Groups",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "",
+      "references": [],
+      "chapter": "",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "chapter-4"
+    },
+    "cc0b1227-3688-4612-8c53-bc968f3f2c2c": {
+      "id": "cc0b1227-3688-4612-8c53-bc968f3f2c2c",
+      "reference": "4.1",
+      "name": "Normal Subgroup",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "dd0d161c-37a3-4624-8f81-dcbb1338b3d3"
+      ],
+      "chapter": "6e5228cb-9094-434c-af3f-9ec66ca63d8e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-4.1"
+    },
+    "e917d065-5554-4942-910a-6e192bc4656c": {
+      "id": "e917d065-5554-4942-910a-6e192bc4656c",
+      "reference": "5.5",
+      "name": "Isomorphism",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "1d601c21-2925-4f64-bb48-0a39d4578325"
+      ],
+      "chapter": "f5971cb8-f41f-4bfb-8dc9-d52b93724ca8",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-5.5"
+    },
+    "11d9b25f-0659-4f56-b452-89057da2bc0d": {
+      "id": "11d9b25f-0659-4f56-b452-89057da2bc0d",
+      "reference": "5.10",
+      "name": "First Isomorphism Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "",
+      "references": [
+        "4eade02a-0d31-4bc7-b89c-e34ce7d7c7d5",
+        "e917d065-5554-4942-910a-6e192bc4656c",
+        "5cfad022-4202-4915-9a64-9595c7118cbc",
+        "6d8d33da-e57a-4898-80c3-6b0453e84c1c",
+        "0061340f-5504-461e-b138-80e36281b82e"
+      ],
+      "chapter": "f5971cb8-f41f-4bfb-8dc9-d52b93724ca8",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "theorem-5.10"
+    },
+    "5cfad022-4202-4915-9a64-9595c7118cbc": {
+      "id": "5cfad022-4202-4915-9a64-9595c7118cbc",
+      "reference": "4.3",
+      "name": "Quotient Group",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "",
+      "references": [
+        "56b816a3-ffce-4941-b9f1-8e5e0c6722c9"
+      ],
+      "chapter": "6e5228cb-9094-434c-af3f-9ec66ca63d8e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-4.3"
+    },
+    "56b816a3-ffce-4941-b9f1-8e5e0c6722c9": {
+      "id": "56b816a3-ffce-4941-b9f1-8e5e0c6722c9",
+      "reference": "4.2",
+      "name": "",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Lemma"
+      },
+      "statement": "The quotient of a group by a subgroup inherits a well-defined group operation if and only if the subgroup is normal.",
+      "references": [
+        "cc0b1227-3688-4612-8c53-bc968f3f2c2c"
+      ],
+      "chapter": "6e5228cb-9094-434c-af3f-9ec66ca63d8e",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "lemma-4.2"
+    }
+  },
+  "title": "Group Theory",
+  "schemaVersion": 0.2,
+  "version": "2025-06-05T01:37:06.972Z",
+  "source": "local",
+  "slugMap": {
+    "chapter-1": "90ed12bb-ef09-414e-9cb7-6c9821888045",
+    "definition-1.1": "f6c40f90-f992-4f68-b1b6-721127051c38",
+    "definition-1.2": "7a27003c-98f8-46ea-a14b-6aacf8e80ff2",
+    "chapter-2": "1b16be81-7ad0-4c6e-97a3-632b6a4e7ef1",
+    "definition-2.1": "39645823-31f4-453e-a174-2a8874b8d227",
+    "definition-2.2": "8594fc87-0aaf-4a1c-9685-93a3083a9629",
+    "definition-2.4": "e398b251-5f14-401f-8443-5ad3b126d7bd",
+    "lemma-2.4": "a278aabe-9489-401d-831e-bbc3265eb48a",
+    "lemma-2.5": "d6d93024-bcc3-4db3-be0a-d37c8da04474",
+    "proposition-2.6": "7c8edd46-2f34-432e-99b1-7b2de7d3c7ae",
+    "comment-2.7": "2b07cb80-ba91-4234-89ca-f33230f5d757",
+    "definition-": "38a93235-d63d-43eb-a6e0-15b00067514e",
+    "definition--(2)": "1d601c21-2925-4f64-bb48-0a39d4578325",
+    "proposition-": "6c1fabc9-3868-4718-8981-82bcafe631dd",
+    "example-1.3": "6c78b987-0e4a-4393-bcc8-cf99d008e8f9",
+    "lemma-1.4": "70d98d1f-bba0-496d-9ca2-eef90196bbd2",
+    "chapter-3": "2306b2bb-a9bf-431a-93b4-200fd68efe7e",
+    "definition-3.1": "dd0d161c-37a3-4624-8f81-dcbb1338b3d3",
+    "proposition-3.2": "55057b87-8656-4871-96db-2ff4bc8111bb",
+    "example-3.3": "d45ee90e-4e80-47ec-9b33-5d1ec8bbb787",
+    "definition-3.4": "c7e7c1cc-26a8-4ba0-9e93-e5c8c7882163",
+    "definition-3.6": "731a2864-ba2f-4ab1-859f-92e56df62eb8",
+    "proposition-3.8": "168288e3-b4e5-4fb3-938a-024e4196fac7",
+    "proposition-3.7": "3ca520e3-ece7-433e-b6bb-9c328b0f6c2d",
+    "definition-3.8": "21beb74f-92cd-4cfa-bfe4-abf5469846c8",
+    "proposition-3.10": "c33605ac-63e6-473f-a0ee-d2a1fb12ff15",
+    "theorem-3.11": "69d34cda-f8fa-4620-b0b8-ba4f5579900f",
+    "definition-3.4-(2)": "ce497cf5-56ea-42cf-8aca-398d9d726e63",
+    "corollary-3.12": "b7ba3c6d-70e9-4dc8-953c-d05c2f3e02e2",
+    "chapter-5": "f5971cb8-f41f-4bfb-8dc9-d52b93724ca8",
+    "definition-5.2": "4eade02a-0d31-4bc7-b89c-e34ce7d7c7d5",
+    "definition-5.3": "0061340f-5504-461e-b138-80e36281b82e",
+    "proposition-5.4": "6d8d33da-e57a-4898-80c3-6b0453e84c1c",
+    "chapter-4": "6e5228cb-9094-434c-af3f-9ec66ca63d8e",
+    "definition-4.1": "cc0b1227-3688-4612-8c53-bc968f3f2c2c",
+    "definition-5.5": "e917d065-5554-4942-910a-6e192bc4656c",
+    "theorem-5.10": "11d9b25f-0659-4f56-b452-89057da2bc0d",
+    "definition-4.3": "5cfad022-4202-4915-9a64-9595c7118cbc",
+    "lemma-4.2": "56b816a3-ffce-4941-b9f1-8e5e0c6722c9"
+  },
+  "slug": "group-theory"
+}

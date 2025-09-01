@@ -1,6 +1,6 @@
 {
-  "id": "123",
-  "name": "New Book",
+  "id": "representation-theory-demo",
+  "name": "Representation Theory",
   "author": "James and Liebeck",
   "preface": "This book is a demonstration of the Tarskido system, and is not intended for distribution.",
   "nodes": {
@@ -1082,7 +1082,8 @@
     }
   },
   "title": "Representation Theory",
+  "slug": "representation-theory",
   "schemaVersion": 0.1,
   "version": "2025-06-05T01:33:39.103Z",
-  "source": "local"
+  "source": "remote"
 }

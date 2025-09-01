@@ -1,0 +1,662 @@
+{
+  "id": "numbers-book-2025",
+  "name": "Number Systems",
+  "author": "Claude Code",
+  "preface": "This book constructs the fundamental number systems of mathematics from first principles. Starting with the natural numbers defined via Peano axioms, we systematically build the integers, rational numbers, and real numbers through rigorous mathematical constructions.\n\nIn Chapter 1, we establish the natural numbers using Peano's axioms and develop the basic operations of addition and multiplication, along with the crucial principles of mathematical induction and well-ordering.\n\nChapter 2 constructs the integers as equivalence classes of ordered pairs of natural numbers, showing how negative numbers arise naturally from the need for additive inverses.\n\nChapter 3 builds the rational numbers from pairs of integers, establishing the field properties and demonstrating key results like the density property.\n\nFinally, Chapter 4 completes our construction with the real numbers, using Cauchy sequences to fill the gaps left by the rationals and establishing completeness.\n\nTogether, these constructions provide a solid foundation for all of mathematical analysis.",
+  "nodes": {
+    "chapter-1-natural": {
+      "id": "chapter-1-natural",
+      "reference": "1",
+      "name": "Natural Numbers",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "The natural numbers form the foundation of all mathematics. In this chapter, we establish the natural numbers through Peano's axioms, which provide a rigorous axiomatic foundation. From these axioms, we derive the familiar operations of addition and multiplication, prove their fundamental properties, and establish the crucial principles of mathematical induction and well-ordering that make the natural numbers so powerful for mathematical reasoning.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "chapter-1",
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 10,
+      "paddingBottom": 10,
+      "rx": 0,
+      "ry": 0,
+      "shape": "rect"
+    },
+    "peano-axioms": {
+      "id": "peano-axioms",
+      "reference": "1.1",
+      "name": "Peano Axioms",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "The *natural numbers* $\\mathbb{N}$ are defined by the following axioms (Peano Axioms):\n\n**P1.** $0 \\in \\mathbb{N}$ (zero is a natural number)\n\n**P2.** For each $n \\in \\mathbb{N}$, there exists a unique $S(n) \\in \\mathbb{N}$ called the *successor* of $n$\n\n**P3.** For all $n \\in \\mathbb{N}$, $S(n) \\neq 0$ (zero is not a successor)\n\n**P4.** If $S(n) = S(m)$, then $n = m$ (successor function is injective)\n\n**P5.** *(Induction Axiom)* If $P(0)$ is true and $P(n) \\Rightarrow P(S(n))$ for all $n \\in \\mathbb{N}$, then $P(n)$ is true for all $n \\in \\mathbb{N}$\n\nWe conventionally write $1 = S(0)$, $2 = S(1) = S(S(0))$, and so forth.",
+      "references": [],
+      "chapter": "chapter-1-natural",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-1.1"
+    },
+    "natural-addition": {
+      "id": "natural-addition",
+      "reference": "1.2",
+      "name": "Addition on Natural Numbers",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "We define *addition* on $\\mathbb{N}$ recursively as follows:\n\nFor any $m, n \\in \\mathbb{N}$:\n- $m + 0 = m$\n- $m + S(n) = S(m + n)$\n\nThis definition ensures that addition is well-defined for all natural numbers via the recursive structure provided by the Peano axioms.",
+      "references": ["peano-axioms"],
+      "chapter": "chapter-1-natural",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-1.2"
+    },
+    "addition-properties": {
+      "id": "addition-properties",
+      "reference": "1.3",
+      "name": "Properties of Addition",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Addition on $\\mathbb{N}$ satisfies the following properties:\n\n1. *(Associativity)* $(m + n) + p = m + (n + p)$ for all $m, n, p \\in \\mathbb{N}$\n2. *(Commutativity)* $m + n = n + m$ for all $m, n \\in \\mathbb{N}$\n3. *(Identity)* $m + 0 = 0 + m = m$ for all $m \\in \\mathbb{N}$\n4. *(Cancellation)* If $m + n = m + p$, then $n = p$ for all $m, n, p \\in \\mathbb{N}$",
+      "references": ["natural-addition"],
+      "chapter": "chapter-1-natural",
+      "proof_lines": [
+        {
+          "statement": "We prove commutativity by induction on $n$. First, we show $m + 0 = 0 + m$ for all $m$ by induction on $m$. Base case: $0 + 0 = 0 = 0 + 0$. Inductive step: assume $m + 0 = 0 + m$, then $S(m) + 0 = S(m) = S(0 + m) = 0 + S(m)$ by definition.",
+          "references": ["peano-axioms"]
+        },
+        {
+          "statement": "Next, assume $m + n = n + m$ and prove $m + S(n) = S(n) + m$. We have $m + S(n) = S(m + n) = S(n + m)$ by inductive hypothesis. By induction on $m$, we can show $S(n) + m = S(n + m)$, completing the proof.",
+          "references": ["natural-addition"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "proposition-1.3"
+    },
+    "natural-multiplication": {
+      "id": "natural-multiplication",
+      "reference": "1.4",
+      "name": "Multiplication on Natural Numbers",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "We define *multiplication* on $\\mathbb{N}$ recursively as follows:\n\nFor any $m, n \\in \\mathbb{N}$:\n- $m \\cdot 0 = 0$\n- $m \\cdot S(n) = m \\cdot n + m$\n\nThis recursive definition, combined with our addition operation, gives multiplication its familiar properties.",
+      "references": ["natural-addition"],
+      "chapter": "chapter-1-natural",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-1.4"
+    },
+    "multiplication-properties": {
+      "id": "multiplication-properties",
+      "reference": "1.5",
+      "name": "Properties of Multiplication",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Multiplication on $\\mathbb{N}$ satisfies:\n\n1. *(Associativity)* $(m \\cdot n) \\cdot p = m \\cdot (n \\cdot p)$ for all $m, n, p \\in \\mathbb{N}$\n2. *(Commutativity)* $m \\cdot n = n \\cdot m$ for all $m, n \\in \\mathbb{N}$\n3. *(Identity)* $m \\cdot 1 = 1 \\cdot m = m$ for all $m \\in \\mathbb{N}$\n4. *(Distributivity)* $m \\cdot (n + p) = m \\cdot n + m \\cdot p$ for all $m, n, p \\in \\mathbb{N}$\n5. *(Zero Property)* $m \\cdot 0 = 0 \\cdot m = 0$ for all $m \\in \\mathbb{N}$",
+      "references": ["natural-multiplication", "addition-properties"],
+      "chapter": "chapter-1-natural",
+      "proof_lines": [
+        {
+          "statement": "Distributivity follows by induction on $p$. Base case: $m \\cdot (n + 0) = m \\cdot n = m \\cdot n + 0 = m \\cdot n + m \\cdot 0$. Inductive step: $m \\cdot (n + S(p)) = m \\cdot S(n + p) = m \\cdot (n + p) + m = m \\cdot n + m \\cdot p + m = m \\cdot n + m \\cdot S(p)$.",
+          "references": ["natural-multiplication", "natural-addition"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "proposition-1.5"
+    },
+    "natural-order": {
+      "id": "natural-order",
+      "reference": "1.6",
+      "name": "Order Relation",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "We define an *order relation* $\\leq$ on $\\mathbb{N}$ as follows:\n\nFor $m, n \\in \\mathbb{N}$, we say $m \\leq n$ if there exists $k \\in \\mathbb{N}$ such that $m + k = n$.\n\nWe write $m < n$ if $m \\leq n$ and $m \\neq n$.\n\nThis relation makes $\\mathbb{N}$ into a *totally ordered set*, meaning for any $m, n \\in \\mathbb{N}$, exactly one of $m < n$, $m = n$, or $n < m$ holds.",
+      "references": ["natural-addition"],
+      "chapter": "chapter-1-natural",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-1.6"
+    },
+    "well-ordering": {
+      "id": "well-ordering",
+      "reference": "1.7",
+      "name": "Well-Ordering Principle",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "*(Well-Ordering Principle)* Every non-empty subset of $\\mathbb{N}$ has a least element.\n\nThat is, if $S \\subseteq \\mathbb{N}$ and $S \\neq \\emptyset$, then there exists $m \\in S$ such that $m \\leq n$ for all $n \\in S$.",
+      "references": ["natural-order", "peano-axioms"],
+      "chapter": "chapter-1-natural",
+      "proof_lines": [
+        {
+          "statement": "Suppose for contradiction that some non-empty subset $S$ has no least element. Let $T = \\{n \\in \\mathbb{N} : k \\notin S \\text{ for all } k \\leq n\\}$. Then $0 \\in T$ (otherwise $0 \\in S$ would be the least element). If $n \\in T$, then $S(n) \\in T$ as well (otherwise $S(n) \\in S$ and since no $k \\leq n$ is in $S$, we'd have $S(n)$ as the least element). By induction, $T = \\mathbb{N}$, so $S = \\emptyset$, contradiction.",
+          "references": ["peano-axioms", "natural-order"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "theorem-1.7"
+    },
+    "mathematical-induction": {
+      "id": "mathematical-induction",
+      "reference": "1.8",
+      "name": "Mathematical Induction",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "*(Principle of Mathematical Induction)* Let $P(n)$ be a property of natural numbers. If:\n\n1. $P(0)$ is true (base case)\n2. For all $n \\in \\mathbb{N}$, $P(n) \\Rightarrow P(S(n))$ (inductive step)\n\nThen $P(n)$ is true for all $n \\in \\mathbb{N}$.\n\n*Variant:* *(Strong Induction)* If $P(0)$ is true and for all $n$, $[P(k) \\text{ for all } k \\leq n] \\Rightarrow P(S(n))$, then $P(n)$ holds for all $n \\in \\mathbb{N}$.",
+      "references": ["peano-axioms", "well-ordering"],
+      "chapter": "chapter-1-natural",
+      "proof_lines": [
+        {
+          "statement": "This is precisely Peano Axiom P5. The equivalence with well-ordering can be shown: suppose induction fails for some property $P$. Let $S = \\{n : \\neg P(n)\\}$. If $S \\neq \\emptyset$, it has a least element $m$ by well-ordering. Since $P(0)$ holds, $m \\neq 0$, so $m = S(k)$ for some $k$. Since $m$ is least in $S$, we have $P(k)$, so $P(S(k)) = P(m)$ by the inductive step, contradicting $m \\in S$.",
+          "references": ["peano-axioms", "well-ordering"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "theorem-1.8"
+    },
+    "chapter-2-integers": {
+      "id": "chapter-2-integers",
+      "reference": "2",
+      "name": "Integers",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "While the natural numbers suffice for counting and basic arithmetic, they lack additive inverses—there is no natural number $n$ such that $3 + n = 0$. To remedy this, we construct the integers as equivalence classes of ordered pairs of natural numbers, extending the natural numbers to include negative numbers and zero in a systematic way.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "chapter-2"
+    },
+    "integer-construction": {
+      "id": "integer-construction",
+      "reference": "2.1",
+      "name": "Construction of Integers",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "We define the *integers* $\\mathbb{Z}$ as equivalence classes of ordered pairs from $\\mathbb{N} \\times \\mathbb{N}$.\n\nFor $(a, b), (c, d) \\in \\mathbb{N} \\times \\mathbb{N}$, we define the equivalence relation:\n$(a, b) \\sim (c, d)$ if and only if $a + d = b + c$\n\nThe set of integers is $\\mathbb{Z} = (\\mathbb{N} \\times \\mathbb{N}) / \\sim$.\n\nIntuitively, the pair $(a, b)$ represents the integer $a - b$, so $(5, 2) \\sim (8, 5)$ both represent the integer $3$.",
+      "references": ["natural-addition"],
+      "chapter": "chapter-2-integers",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-2.1"
+    },
+    "integer-addition": {
+      "id": "integer-addition",
+      "reference": "2.2",
+      "name": "Integer Addition",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For integers $[(a, b)], [(c, d)] \\in \\mathbb{Z}$, we define addition by:\n$[(a, b)] + [(c, d)] = [(a + c, b + d)]$\n\nThis operation is well-defined: if $(a, b) \\sim (a', b')$ and $(c, d) \\sim (c', d')$, then $(a + c, b + d) \\sim (a' + c', b' + d')$.",
+      "references": ["integer-construction", "natural-addition"],
+      "chapter": "chapter-2-integers",
+      "proof_lines": [
+        {
+          "statement": "To verify well-definedness: assume $(a, b) \\sim (a', b')$ and $(c, d) \\sim (c', d')$. Then $a + b' = b + a'$ and $c + d' = d + c'$. We need $(a + c) + (b' + d') = (b + d) + (a' + c')$. This follows from $(a + b') + (c + d') = (b + a') + (d + c')$ by commutativity and associativity of natural number addition.",
+          "references": ["addition-properties"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "definition-2.2"
+    },
+    "integer-multiplication": {
+      "id": "integer-multiplication",
+      "reference": "2.3",
+      "name": "Integer Multiplication",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For integers $[(a, b)], [(c, d)] \\in \\mathbb{Z}$, we define multiplication by:\n$[(a, b)] \\cdot [(c, d)] = [(ac + bd, ad + bc)]$\n\nThis gives the familiar rule for multiplying signed numbers: positive times positive is positive, negative times negative is positive, etc.",
+      "references": ["integer-construction", "natural-multiplication"],
+      "chapter": "chapter-2-integers",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-2.3"
+    },
+    "natural-embedding": {
+      "id": "natural-embedding",
+      "reference": "2.4",
+      "name": "Embedding Natural Numbers",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "There is a canonical embedding $\\iota: \\mathbb{N} \\rightarrow \\mathbb{Z}$ given by $\\iota(n) = [(n, 0)]$.\n\nThis embedding preserves addition and multiplication:\n- $\\iota(m + n) = \\iota(m) + \\iota(n)$\n- $\\iota(m \\cdot n) = \\iota(m) \\cdot \\iota(n)$\n\nThus we can identify $\\mathbb{N}$ with a subset of $\\mathbb{Z}$.",
+      "references": ["integer-addition", "integer-multiplication"],
+      "chapter": "chapter-2-integers",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-2.4"
+    },
+    "additive-inverses": {
+      "id": "additive-inverses",
+      "reference": "2.5",
+      "name": "Additive Inverses",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Every integer has an additive inverse. For any $[(a, b)] \\in \\mathbb{Z}$, its additive inverse is $[(b, a)]$, and we have:\n$[(a, b)] + [(b, a)] = [(a + b, b + a)] = [(0, 0)]$\n\nWe denote the additive inverse of an integer $n$ as $-n$. The integer $[(0, 0)]$ serves as the additive identity, denoted $0$.",
+      "references": ["integer-addition", "natural-embedding"],
+      "chapter": "chapter-2-integers",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-2.5"
+    },
+    "integer-ring": {
+      "id": "integer-ring",
+      "reference": "2.6",
+      "name": "Ring Properties of Integers",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "The integers $\\mathbb{Z}$ with addition and multiplication form a *commutative ring*:\n\n1. $(\\mathbb{Z}, +)$ is an abelian group with identity $0$\n2. $(\\mathbb{Z}, \\cdot)$ is a commutative monoid with identity $1$\n3. Multiplication distributes over addition\n4. $\\mathbb{Z}$ has no zero divisors (if $ab = 0$, then $a = 0$ or $b = 0$)\n\nThus $\\mathbb{Z}$ is an *integral domain*.",
+      "references": ["integer-addition", "integer-multiplication", "additive-inverses"],
+      "chapter": "chapter-2-integers",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "theorem-2.6"
+    },
+    "integer-order": {
+      "id": "integer-order",
+      "reference": "2.7",
+      "name": "Order on Integers",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "We extend the order relation to $\\mathbb{Z}$ by defining:\n$[(a, b)] \\leq [(c, d)]$ if and only if $a + d \\leq b + c$ in $\\mathbb{N}$\n\nThis makes $\\mathbb{Z}$ a totally ordered set, extending the natural number ordering. We have:\n- *Positive integers*: $n > 0$ \n- *Negative integers*: $n < 0$\n- *Zero*: $n = 0$",
+      "references": ["integer-construction", "natural-order"],
+      "chapter": "chapter-2-integers",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-2.7"
+    },
+    "division-algorithm": {
+      "id": "division-algorithm",
+      "reference": "2.8",
+      "name": "Division Algorithm",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "*(Division Algorithm)* For any integers $a$ and $b$ with $b \\neq 0$, there exist unique integers $q$ (quotient) and $r$ (remainder) such that:\n$a = bq + r$ where $0 \\leq r < |b|$\n\nThis fundamental result enables the Euclidean algorithm and forms the basis for modular arithmetic.",
+      "references": ["integer-ring", "integer-order", "well-ordering"],
+      "chapter": "chapter-2-integers",
+      "proof_lines": [
+        {
+          "statement": "Consider the set $S = \\{a - bk : k \\in \\mathbb{Z}, a - bk \\geq 0\\}$. This set is non-empty (take $k$ sufficiently negative) and bounded below by $0$, so by well-ordering it has a least element $r = a - bq$ for some $q$. If $r \\geq |b|$, then $a - b(q + \\text{sign}(b)) < r$, contradicting minimality of $r$. Thus $0 \\leq r < |b|$. Uniqueness follows from the fact that if $bq_1 + r_1 = bq_2 + r_2$ with both remainders in the required range, then $b(q_1 - q_2) = r_2 - r_1$, which forces $q_1 = q_2$ and $r_1 = r_2$.",
+          "references": ["well-ordering"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "theorem-2.8"
+    },
+    "chapter-3-rationals": {
+      "id": "chapter-3-rationals",
+      "reference": "3",
+      "name": "Rational Numbers",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "The integers provide additive inverses but lack multiplicative inverses—there is no integer $n$ such that $3 \\cdot n = 1$. To enable division, we construct the rational numbers as equivalence classes of ordered pairs of integers, where the second component is non-zero. This gives us a field structure with both additive and multiplicative inverses.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "chapter-3"
+    },
+    "rational-construction": {
+      "id": "rational-construction",
+      "reference": "3.1",
+      "name": "Construction of Rationals",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "We define the *rational numbers* $\\mathbb{Q}$ as equivalence classes of ordered pairs from $\\mathbb{Z} \\times (\\mathbb{Z} \\setminus \\{0\\})$.\n\nFor $(a, b), (c, d) \\in \\mathbb{Z} \\times (\\mathbb{Z} \\setminus \\{0\\})$, we define:\n$(a, b) \\sim (c, d)$ if and only if $ad = bc$\n\nThe set of rational numbers is $\\mathbb{Q} = (\\mathbb{Z} \\times (\\mathbb{Z} \\setminus \\{0\\})) / \\sim$.\n\nWe write the equivalence class of $(a, b)$ as $\\frac{a}{b}$, representing the \"fraction\" $a$ divided by $b$.",
+      "references": ["integer-ring"],
+      "chapter": "chapter-3-rationals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-3.1"
+    },
+    "rational-addition": {
+      "id": "rational-addition",
+      "reference": "3.2",
+      "name": "Rational Addition",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For rational numbers $\\frac{a}{b}, \\frac{c}{d} \\in \\mathbb{Q}$, we define addition by:\n$\\frac{a}{b} + \\frac{c}{d} = \\frac{ad + bc}{bd}$\n\nThis operation is well-defined and gives the familiar rule for adding fractions.",
+      "references": ["rational-construction", "integer-ring"],
+      "chapter": "chapter-3-rationals",
+      "proof_lines": [
+        {
+          "statement": "Well-definedness: suppose $\\frac{a}{b} = \\frac{a'}{b'}$ and $\\frac{c}{d} = \\frac{c'}{d'}$. Then $ab' = ba'$ and $cd' = dc'$. We need to show $\\frac{ad + bc}{bd} = \\frac{a'd' + b'c'}{b'd'}$, i.e., $(ad + bc)(b'd') = bd(a'd' + b'c')$. Expanding: $ab'dd' + bb'cd' = bda'd' + bddc'$. Using $ab' = ba'$ and $cd' = dc'$, this becomes $ba'dd' + bb'dc' = bda'd' + bddc'$, which is true.",
+          "references": ["integer-ring"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "definition-3.2"
+    },
+    "rational-multiplication": {
+      "id": "rational-multiplication",
+      "reference": "3.3",
+      "name": "Rational Multiplication",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For rational numbers $\\frac{a}{b}, \\frac{c}{d} \\in \\mathbb{Q}$, we define multiplication by:\n$\\frac{a}{b} \\cdot \\frac{c}{d} = \\frac{ac}{bd}$\n\nThis gives the familiar rule for multiplying fractions.",
+      "references": ["rational-construction", "integer-ring"],
+      "chapter": "chapter-3-rationals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-3.3"
+    },
+    "integer-embedding-q": {
+      "id": "integer-embedding-q",
+      "reference": "3.4",
+      "name": "Embedding Integers in Rationals",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "There is a canonical embedding $\\iota: \\mathbb{Z} \\rightarrow \\mathbb{Q}$ given by $\\iota(n) = \\frac{n}{1}$.\n\nThis embedding preserves addition and multiplication, so we can identify $\\mathbb{Z}$ with a subset of $\\mathbb{Q}$. Every integer $n$ corresponds to the rational number $\\frac{n}{1}$.",
+      "references": ["rational-addition", "rational-multiplication", "natural-embedding"],
+      "chapter": "chapter-3-rationals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-3.4"
+    },
+    "multiplicative-inverses": {
+      "id": "multiplicative-inverses",
+      "reference": "3.5",
+      "name": "Multiplicative Inverses",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Every non-zero rational number has a multiplicative inverse. For any $\\frac{a}{b} \\in \\mathbb{Q}$ with $a \\neq 0$, its multiplicative inverse is $\\frac{b}{a}$, and:\n$\\frac{a}{b} \\cdot \\frac{b}{a} = \\frac{ab}{ba} = \\frac{1}{1} = 1$\n\nWe denote the multiplicative inverse of a rational $r \\neq 0$ as $r^{-1}$ or $\\frac{1}{r}$.",
+      "references": ["rational-multiplication", "integer-embedding-q"],
+      "chapter": "chapter-3-rationals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-3.5"
+    },
+    "rational-field": {
+      "id": "rational-field",
+      "reference": "3.6",
+      "name": "Field Properties of Rationals",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "The rational numbers $\\mathbb{Q}$ with addition and multiplication form a *field*:\n\n1. $(\\mathbb{Q}, +)$ is an abelian group with identity $0 = \\frac{0}{1}$\n2. $(\\mathbb{Q} \\setminus \\{0\\}, \\cdot)$ is an abelian group with identity $1 = \\frac{1}{1}$\n3. Multiplication distributes over addition\n\nThis means every linear equation $ax + b = 0$ with $a \\neq 0$ has a unique solution in $\\mathbb{Q}$.",
+      "references": ["rational-addition", "rational-multiplication", "multiplicative-inverses"],
+      "chapter": "chapter-3-rationals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "theorem-3.6"
+    },
+    "rational-density": {
+      "id": "rational-density",
+      "reference": "3.7",
+      "name": "Density of Rationals",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "The rational numbers are *dense* in themselves: between any two distinct rational numbers, there exists another rational number.\n\nFormally, if $r, s \\in \\mathbb{Q}$ with $r < s$, then there exists $t \\in \\mathbb{Q}$ such that $r < t < s$.\n\nIn fact, we can take $t = \\frac{r + s}{2}$, the arithmetic mean of $r$ and $s$.",
+      "references": ["rational-field", "integer-order"],
+      "chapter": "chapter-3-rationals",
+      "proof_lines": [
+        {
+          "statement": "Given $r < s$, let $t = \\frac{r + s}{2} = \\frac{1}{2}(r + s)$. Since $\\mathbb{Q}$ is a field, this is a well-defined rational number. We have $t - r = \\frac{s - r}{2} > 0$ and $s - t = \\frac{s - r}{2} > 0$, so $r < t < s$.",
+          "references": ["rational-field"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "proposition-3.7"
+    },
+    "archimedean-property": {
+      "id": "archimedean-property",
+      "reference": "3.8",
+      "name": "Archimedean Property",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "*(Archimedean Property)* For any rational numbers $a, b \\in \\mathbb{Q}$ with $a, b > 0$, there exists a positive integer $n \\in \\mathbb{N}$ such that $na > b$.\n\nEquivalently, the rationals contain no infinitesimal or infinite elements—they are *Archimedean*.",
+      "references": ["rational-field", "integer-embedding-q", "well-ordering"],
+      "chapter": "chapter-3-rationals",
+      "proof_lines": [
+        {
+          "statement": "Write $a = \\frac{p}{q}$ and $b = \\frac{r}{s}$ with $p, q, r, s$ positive integers. We need $n \\cdot \\frac{p}{q} > \\frac{r}{s}$, i.e., $nps > qr$, i.e., $n > \\frac{qr}{ps}$. Since $\\frac{qr}{ps}$ is a positive rational, we can choose any integer $n$ larger than this rational. Such an integer exists since the integers are unbounded above.",
+          "references": ["integer-embedding-q"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "theorem-3.8"
+    },
+    "chapter-4-reals": {
+      "id": "chapter-4-reals",
+      "reference": "4",
+      "name": "Real Numbers",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "While the rational numbers form a field and are dense, they have gaps—for example, there is no rational number whose square is 2. To complete our number system, we construct the real numbers using Cauchy sequences of rationals, filling all the gaps to create a complete ordered field that serves as the foundation for mathematical analysis.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "chapter-4"
+    },
+    "cauchy-sequences": {
+      "id": "cauchy-sequences",
+      "reference": "4.1",
+      "name": "Cauchy Sequences",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A sequence $(a_n)_{n=1}^{\\infty}$ of rational numbers is called a *Cauchy sequence* if for every rational $\\varepsilon > 0$, there exists $N \\in \\mathbb{N}$ such that for all $m, n \\geq N$:\n$|a_m - a_n| < \\varepsilon$\n\nIntuitively, the terms of a Cauchy sequence get arbitrarily close to each other as the sequence progresses, even if the sequence doesn't converge to a rational number.",
+      "references": ["rational-field", "archimedean-property"],
+      "chapter": "chapter-4-reals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-4.1"
+    },
+    "sequence-equivalence": {
+      "id": "sequence-equivalence",
+      "reference": "4.2",
+      "name": "Equivalence of Cauchy Sequences",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "Two Cauchy sequences $(a_n)$ and $(b_n)$ are *equivalent* if $\\lim_{n \\to \\infty} (a_n - b_n) = 0$.\n\nFormally, $(a_n) \\sim (b_n)$ if for every rational $\\varepsilon > 0$, there exists $N \\in \\mathbb{N}$ such that for all $n \\geq N$:\n$|a_n - b_n| < \\varepsilon$\n\nThis defines an equivalence relation on the set of Cauchy sequences of rationals.",
+      "references": ["cauchy-sequences"],
+      "chapter": "chapter-4-reals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-4.2"
+    },
+    "real-construction": {
+      "id": "real-construction",
+      "reference": "4.3",
+      "name": "Construction of Real Numbers",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "The *real numbers* $\\mathbb{R}$ are defined as the set of equivalence classes of Cauchy sequences of rational numbers:\n$\\mathbb{R} = \\{\\text{Cauchy sequences of rationals}\\} / \\sim$\n\nEach real number is represented by an equivalence class $[(a_n)]$ of Cauchy sequences that \"converge\" to the same limit, even if that limit is not rational.",
+      "references": ["sequence-equivalence"],
+      "chapter": "chapter-4-reals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-4.3"
+    },
+    "real-operations": {
+      "id": "real-operations",
+      "reference": "4.4",
+      "name": "Real Addition and Multiplication",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For real numbers $[(a_n)], [(b_n)] \\in \\mathbb{R}$, we define:\n\n*Addition:* $[(a_n)] + [(b_n)] = [(a_n + b_n)]$\n\n*Multiplication:* $[(a_n)] \\cdot [(b_n)] = [(a_n \\cdot b_n)]$\n\nThese operations are well-defined: if $(a_n) \\sim (a_n')$ and $(b_n) \\sim (b_n')$, then $(a_n + b_n) \\sim (a_n' + b_n')$ and $(a_n \\cdot b_n) \\sim (a_n' \\cdot b_n')$.",
+      "references": ["real-construction", "rational-field"],
+      "chapter": "chapter-4-reals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "definition-4.4"
+    },
+    "rational-embedding-r": {
+      "id": "rational-embedding-r",
+      "reference": "4.5",
+      "name": "Embedding Rationals in Reals",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "There is a canonical embedding $\\iota: \\mathbb{Q} \\rightarrow \\mathbb{R}$ given by $\\iota(r) = [(r, r, r, \\ldots)]$, the equivalence class of the constant sequence.\n\nThis embedding preserves all field operations and order, so we identify $\\mathbb{Q}$ with a subset of $\\mathbb{R}$. Every rational number corresponds to a constant Cauchy sequence.",
+      "references": ["real-operations", "integer-embedding-q"],
+      "chapter": "chapter-4-reals",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "proposition-4.5"
+    },
+    "completeness-axiom": {
+      "id": "completeness-axiom",
+      "reference": "4.6",
+      "name": "Completeness of Real Numbers",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "*(Completeness)* Every Cauchy sequence of real numbers converges to a real number.\n\nThis property distinguishes $\\mathbb{R}$ from $\\mathbb{Q}$: while rational Cauchy sequences may not converge to rationals (like sequences approximating $\\sqrt{2}$), real Cauchy sequences always converge to reals. This \"fills all the gaps\" in the rational numbers.",
+      "references": ["real-construction", "cauchy-sequences"],
+      "chapter": "chapter-4-reals",
+      "proof_lines": [
+        {
+          "statement": "Let $([x_n^{(k)}])$ be a Cauchy sequence of real numbers, where each $[x_n^{(k)}]$ is represented by a rational Cauchy sequence $(x_n^{(k)})$. We can choose representatives such that $|x_m^{(k)} - x_n^{(k)}| < 1/k$ for $m, n \\geq k$. Define $y_k = x_k^{(k)}$. Then $(y_k)$ is a rational Cauchy sequence, and $[(y_k)]$ is the limit of the original sequence of reals.",
+          "references": ["cauchy-sequences"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "theorem-4.6"
+    },
+    "least-upper-bound": {
+      "id": "least-upper-bound",
+      "reference": "4.7",
+      "name": "Least Upper Bound Property",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "*(Least Upper Bound Property)* Every non-empty subset of $\\mathbb{R}$ that is bounded above has a least upper bound (supremum) in $\\mathbb{R}$.\n\nThis is equivalent to completeness and ensures that $\\mathbb{R}$ has no \"gaps\"—every set that should have a least upper bound actually does have one in $\\mathbb{R}$.",
+      "references": ["completeness-axiom", "rational-embedding-r"],
+      "chapter": "chapter-4-reals",
+      "proof_lines": [
+        {
+          "statement": "Let $S \\subseteq \\mathbb{R}$ be non-empty and bounded above by $M$. For each $n \\in \\mathbb{N}$, let $a_n$ be a rational number such that $a_n$ is an upper bound for the set $S \\cap (-n, n)$ and $a_n \\leq M + 1/n$. The sequence $(a_n)$ is Cauchy and its limit is the supremum of $S$. This construction uses the density of rationals and the completeness of reals.",
+          "references": ["rational-density", "completeness-axiom"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "theorem-4.7"
+    },
+    "decimal-representation": {
+      "id": "decimal-representation",
+      "reference": "4.8",
+      "name": "Decimal Representation",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "Every real number has a decimal representation. Moreover:\n\n1. *Terminating decimals* correspond to rational numbers with denominators of the form $2^a 5^b$\n2. *Eventually periodic decimals* correspond to rational numbers\n3. *Non-periodic decimals* correspond to irrational numbers\n\nThis gives a concrete way to represent and work with real numbers in practice.",
+      "references": ["real-construction", "rational-embedding-r", "archimedean-property"],
+      "chapter": "chapter-4-reals",
+      "proof_lines": [
+        {
+          "statement": "Given a real number $x \\geq 0$, use the Archimedean property to find the largest integer $n_0$ such that $n_0 \\leq x < n_0 + 1$. Then find the largest $n_1 \\in \\{0, 1, \\ldots, 9\\}$ such that $n_0 + n_1/10 \\leq x$, and so on. This process gives the decimal expansion $x = n_0.n_1n_2n_3\\ldots$ The convergence follows from completeness.",
+          "references": ["archimedean-property", "completeness-axiom"]
+        }
+      ],
+      "autoslug": true,
+      "slug": "proposition-4.8"
+    }
+  },
+  "title": "Number Systems: From Natural Numbers to Reals",
+  "schemaVersion": 0.2,
+  "version": "2025-01-13T00:00:00.000Z",
+  "source": "local",
+  "slugMap": {
+    "chapter-1": "chapter-1-natural",
+    "definition-1.1": "peano-axioms",
+    "definition-1.2": "natural-addition",
+    "proposition-1.3": "addition-properties",
+    "definition-1.4": "natural-multiplication",
+    "proposition-1.5": "multiplication-properties",
+    "definition-1.6": "natural-order",
+    "theorem-1.7": "well-ordering",
+    "theorem-1.8": "mathematical-induction",
+    "chapter-2": "chapter-2-integers",
+    "definition-2.1": "integer-construction",
+    "definition-2.2": "integer-addition",
+    "definition-2.3": "integer-multiplication",
+    "proposition-2.4": "natural-embedding",
+    "proposition-2.5": "additive-inverses",
+    "theorem-2.6": "integer-ring",
+    "definition-2.7": "integer-order",
+    "theorem-2.8": "division-algorithm",
+    "chapter-3": "chapter-3-rationals",
+    "definition-3.1": "rational-construction",
+    "definition-3.2": "rational-addition",
+    "definition-3.3": "rational-multiplication",
+    "proposition-3.4": "integer-embedding-q",
+    "proposition-3.5": "multiplicative-inverses",
+    "theorem-3.6": "rational-field",
+    "proposition-3.7": "rational-density",
+    "theorem-3.8": "archimedean-property",
+    "chapter-4": "chapter-4-reals",
+    "definition-4.1": "cauchy-sequences",
+    "definition-4.2": "sequence-equivalence",
+    "definition-4.3": "real-construction",
+    "definition-4.4": "real-operations",
+    "proposition-4.5": "rational-embedding-r",
+    "theorem-4.6": "completeness-axiom",
+    "theorem-4.7": "least-upper-bound",
+    "proposition-4.8": "decimal-representation"
+  },
+  "slug": "number-systems"
+}

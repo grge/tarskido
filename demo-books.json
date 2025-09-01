@@ -1,0 +1,33 @@
+{
+  "books": [
+    {
+      "id": "numbers-book-2025",
+      "title": "Number Systems: From Natural Numbers to Reals",
+      "author": "Claude Code",
+      "description": "A rigorous construction of the fundamental number systems from first principles. Starting with Peano axioms for natural numbers, this book systematically builds integers, rationals, and reals through mathematical constructions.",
+      "slug": "number-systems",
+      "url": "/tarskido/books/numbers.json",
+      "source": "remote",
+      "topics": ["Number Theory", "Mathematical Foundations", "Real Analysis"],
+      "difficulty": "Undergraduate",
+      "nodeCount": 33
+    },
+    {
+      "id": "representation-theory-demo",
+      "title": "Representation Theory",
+      "author": "James and Liebeck",
+      "description": "A demonstration of the Tarskido system showcasing representation theory concepts including Maschke's theorem and related results.",
+      "slug": "representation-theory",
+      "url": "/tarskido/books/representation_theory.json",
+      "source": "remote",
+      "topics": ["Representation Theory", "Group Theory", "Linear Algebra"],
+      "difficulty": "Graduate",
+      "nodeCount": 15
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2025-01-13",
+    "description": "Demo books available for immediate exploration in Tarskido"
+  }
+}

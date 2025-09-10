@@ -11,15 +11,20 @@
 
       <!-- Center: Search Bar (only on book pages) -->
       <div class="header-center" v-if="showSearchBar">
-        <div class="search-container">
-          <input
-            type="text"
-            placeholder="Search in book..."
-            class="search-input"
-            v-model="searchQuery"
-            @input="onSearchInput"
-          />
-        </div>
+        <el-autocomplete
+          v-model="searchQuery"
+          :fetch-suggestions="fetchSuggestions"
+          placeholder="Search in book..."
+          class="search-autocomplete"
+          clearable
+          :select-when-unmatched="false"
+        >
+          <template #default="{ item }">
+            <div class="search-suggestion" @mousedown.stop.prevent="onSearchSelect(item)">
+              <NodeReference :nodeId="item.node.id" :useName="true" />
+            </div>
+          </template>
+        </el-autocomplete>
       </div>
 
       <!-- Right: Hamburger Menu -->
@@ -59,16 +64,116 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useBookStore } from '@/stores/bookStore';
 import { useTheme } from '@/composables/useTheme';
+import type { Node } from '@/stores/bookStore';
+import NodeReference from './NodeReference.vue';
 
 const route = useRoute();
+const router = useRouter();
 const store = useBookStore();
 const { isDark, toggleTheme } = useTheme();
 
 const menuOpen = ref(false);
+// Search functionality
 const searchQuery = ref('');
+const maxResults = 10;
+
+// Calculate search results for autocomplete
+function calculateRelevance(query: string, node: Node): { score: number; matchedFields: string[] } {
+  let score = 0;
+  const matchedFields: string[] = [];
+  const lowerQuery = query.toLowerCase();
+
+  // Helper function to check for matches and apply scoring
+  const checkField = (fieldValue: string, fieldName: string, baseScore: number) => {
+    if (!fieldValue) return;
+    
+    const lowerField = fieldValue.toLowerCase();
+    if (!lowerField.includes(lowerQuery)) return;
+
+    matchedFields.push(fieldName);
+    let fieldScore = baseScore;
+
+    // Bonus for exact matches
+    if (lowerField === lowerQuery) {
+      fieldScore *= 2;
+    }
+    // Bonus for word boundary matches (start of word)
+    else if (lowerField.includes(' ' + lowerQuery) || lowerField.startsWith(lowerQuery)) {
+      fieldScore *= 1.5;
+    }
+
+    score += fieldScore;
+  };
+
+  // Field-specific scoring (higher scores for more relevant fields)
+  checkField(node.name, 'name', 100);
+  checkField(node.statement, 'statement', 75);
+  checkField(node.reference, 'reference', 25);
+  checkField(node.slug || '', 'slug', 25);
+  checkField(node.chapter, 'chapter', 10);
+
+  // Check proof lines (treat as single searchable content)
+  if (node.proof_lines && Array.isArray(node.proof_lines) && node.proof_lines.length > 0) {
+    const proofText = node.proof_lines
+      .map(line => line?.statement || '')
+      .filter(statement => statement)
+      .join(' ')
+      .toLowerCase();
+    
+    if (proofText && proofText.includes(lowerQuery)) {
+      matchedFields.push('proof_lines');
+      let proofScore = 50;
+      
+      // Apply same bonuses as other fields
+      if (proofText === lowerQuery) {
+        proofScore *= 2;
+      } else if (proofText.includes(' ' + lowerQuery) || proofText.startsWith(lowerQuery)) {
+        proofScore *= 1.5;
+      }
+      
+      score += proofScore;
+    }
+  }
+
+  return { score, matchedFields };
+}
+
+// Fetch suggestions for autocomplete
+function fetchSuggestions(query: string, callback: (suggestions: any[]) => void) {
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) {
+    callback([]);
+    return;
+  }
+
+  const nodes = Object.values(store.rawBook.nodes);
+  const suggestions = nodes
+    .map(node => {
+      const { score, matchedFields } = calculateRelevance(trimmedQuery, node);
+      return { node, score, matchedFields };
+    })
+    .filter(result => result.score > 0)
+    .sort((a, b) => {
+      // Sort by score descending, then by reference ascending
+      if (b.score !== a.score) {
+        return b.score - a.score;
+      }
+      return a.node.reference.localeCompare(b.node.reference, undefined, { 
+        numeric: true, 
+        sensitivity: 'base' 
+      });
+    })
+    .slice(0, maxResults)
+    .map(result => ({
+      value: trimmedQuery, // Use the user's search query instead of node name
+      node: result.node
+    }));
+
+  callback(suggestions);
+}
 
 // Check if we're on a book page to show search bar
 const showSearchBar = computed(() => {
@@ -83,9 +188,15 @@ function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }
 
-function onSearchInput() {
-  // TODO: Implement search functionality
-  console.log('Search query:', searchQuery.value);
+function onSearchSelect(item: any) {
+  const node = item.node;
+  const bookParam = store.rawBook.slug || store.rawBook.id;
+  const nodeParam = node.slug || node.id;
+  
+  router.push({ 
+    name: 'Node', 
+    params: { bookParam, nodeParam } 
+  });
 }
 
 function downloadBook() {
@@ -188,27 +299,61 @@ watch(route, () => {
   max-width 400px
   margin 0 var(--sp-8)
 
-.search-container
-  position relative
-
-.search-input
+.search-autocomplete
   width 100%
-  padding var(--sp-3) var(--sp-4)
-  border 1px solid var(--c-border)
-  border-radius var(--radius-md)
-  background var(--c-surface)
-  color var(--c-ink)
-  font-family var(--font-sans)
-  font-size var(--fs-300)
-  transition var(--transition-fast)
+  
+  :deep(.el-input)
+    .el-input__wrapper
+      padding var(--sp-3) var(--sp-4)
+      border 1px solid var(--c-border)
+      border-radius var(--radius-md)
+      background var(--c-surface)
+      color var(--c-ink)
+      font-family var(--font-sans)
+      font-size var(--fs-300)
+      transition var(--transition-fast)
+      box-shadow none
+      
+      &:hover
+        border-color var(--c-border)
+        box-shadow none
+        
+      &.is-focus
+        border-color var(--c-brand)
+        box-shadow 0 0 0 2px var(--c-focus)
+        
+    .el-input__inner
+      background transparent
+      border none
+      color var(--c-ink)
+      padding 0
+      
+      &::placeholder
+        color var(--c-ink-muted)
+        
+  :deep(.el-autocomplete-suggestion)
+    background var(--c-paper)
+    border 1px solid var(--c-border)
+    border-top none
+    border-radius 0 0 var(--radius-lg) var(--radius-lg)
+    
+    .el-autocomplete-suggestion__list
+      max-height 400px
+      
+    .el-autocomplete-suggestion__item
+      padding var(--sp-3) var(--sp-6)
+      border-left 3px solid transparent
+      
+      &:hover, &.highlighted
+        background var(--c-surface)
+        border-left-color var(--c-brand)
 
-  &:focus
-    outline none
-    border-color var(--c-brand)
-    box-shadow 0 0 0 2px var(--c-focus)
-
-  &::placeholder
-    color var(--c-ink-muted)
+.search-suggestion
+  display block
+  width 100%
+  cursor pointer
+  padding var(--sp-3) var(--sp-6)
+  margin 0
 
 .header-right
   display flex

@@ -15,7 +15,7 @@
         <!-- Use a gaussian blur to create the soft blurriness of the glow -->
         <feGaussianBlur in="thicken" stdDeviation="10" result="blurred" />
         <!-- Change the colour -->
-        <feFlood flood-color="rgb(230,255,200)" result="glowColor" />
+        <feFlood flood-color="rgb(220,220,220)" result="glowColor" />
         <!-- Color in the glows -->
         <feComposite in="glowColor" in2="blurred" operator="in" result="softGlow_colored" />
         <!--	Layer the effects together -->
@@ -113,8 +113,25 @@ function nodeTransform(nodeId: string) {
 
 const nodes = computed(() => props.graph.nodes())
 const edges = computed(() => props.graph.edges())
-// TODO: We could topo sort the clusters so that they get rendered in the correct order
-const clusters = computed(() => nodes.value.filter((n: string) => (props.graph.children(n).length > 0)))
+
+function getClusterRenderOrder(): string[] {
+  // Get all cluster nodes (nodes with children)
+  const clusterNodes = nodes.value.filter((n: string) => props.graph.children(n).length > 0);
+  
+  // Calculate depth for each cluster node
+  const getDepth = (nodeId: string): number => {
+    const parent = props.graph.parent(nodeId);
+    return parent ? 1 + getDepth(parent) : 0;
+  };
+  
+  // Sort clusters by depth (shallowest first) so parent clusters render behind children
+  return clusterNodes
+    .map(nodeId => ({ nodeId, depth: getDepth(nodeId) }))
+    .sort((a, b) => a.depth - b.depth) // Sort ascending by depth
+    .map(item => item.nodeId);
+}
+
+const clusters = computed(() => getClusterRenderOrder())
 const leaves = computed(() => nodes.value.filter((n: string) => (props.graph.children(n).length == 0)))
 
 </script>
@@ -139,8 +156,8 @@ g.node rect {
 }
 
 g.node rect.chapter {
-    fill: #f6fffa;
-    stroke: #6aa84f;
+    fill: #f8f8f8;
+    stroke: #666;
     stroke-width: 2px;
 }
 
@@ -150,7 +167,7 @@ g.node div {
 }
 
 g.highlight rect {
-  fill: #6aa84f;
+  fill: #666;
   filter: url(#softGlow);
 }
 
@@ -159,12 +176,12 @@ g.highlight rect {
 }
 
 g.cluster.highlight a {
-  color: #6aa84f;
+  color: #666;
 }
 
 g.cluster rect {
-    fill: rgba(234, 234, 234, 0.1);
-    stroke: #6aa84f;
+    fill: white;
+    stroke: #888;
     stroke-width: 2px;
 }
 

@@ -79,34 +79,43 @@ const routes = [
   },
 ];
 
+// Handle GitHub Pages SPA fallback redirect BEFORE router creation
+addDebugLog('🌐 Checking GitHub Pages fallback', {
+  search: window.location.search,
+  href: window.location.href,
+  pathname: window.location.pathname,
+  origin: window.location.origin,
+});
+
+if (window.location.search.startsWith('?/')) {
+  const pathAfterQuery = window.location.search.slice(2); // remove '?/'
+  const normalized = decodeURIComponent(pathAfterQuery).replace(/`+$/, '').replace(/^\/+/, '');
+  const fullRedirectPath = window.location.pathname + normalized + window.location.hash;
+
+  addDebugLog('🔄 GitHub Pages SPA fallback triggered', {
+    originalSearch: window.location.search,
+    pathAfterQuery,
+    normalized,
+    currentPathname: window.location.pathname,
+    fullRedirectPath,
+  });
+
+  window.history.replaceState(null, '', fullRedirectPath);
+
+  addDebugLog('✅ SPA fallback redirect complete', {
+    href: window.location.href,
+    pathname: window.location.pathname,
+    search: window.location.search,
+    hash: window.location.hash,
+  });
+} else {
+  addDebugLog('⏭️ No GitHub Pages fallback needed');
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
-
-// Handle GitHub Pages SPA fallback redirect
-addDebugLog('🌐 Checking GitHub Pages fallback', {
-  search: window.location.search,
-  href: window.location.href,
-  pathname: window.location.pathname
-});
-
-if (window.location.search.startsWith('?/')) {
-  const redirectPath = window.location.search.slice(2) + window.location.hash;
-  addDebugLog('🔄 GitHub Pages SPA fallback triggered', {
-    originalSearch: window.location.search,
-    redirectPath: redirectPath,
-    finalUrl: window.location.origin + window.location.pathname + redirectPath
-  });
-  window.history.replaceState(null, '', redirectPath);
-  addDebugLog('✅ SPA fallback redirect complete', {
-    newHref: window.location.href,
-    newPathname: window.location.pathname,
-    newSearch: window.location.search
-  });
-} else {
-  addDebugLog('⏭️  No GitHub Pages fallback needed');
-}
 
 // Debug logging for visual display
 function addDebugLog(message: string, data?: any) {

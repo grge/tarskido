@@ -4,6 +4,21 @@
   "author": "George Dickeson",
   "preface": "This book presents elliptic functions from a modern perspective, building systematically from lattices through Liouville's fundamental theorems to the Weierstrass ℘-function. The approach emphasizes the logical structure and dependencies between key results, making the natural graph structure of the theory explicit.\n\nWe begin with the basic definitions of lattices and elliptic functions, then establish Liouville's four fundamental theorems that characterize the behavior of elliptic functions. Finally, we construct the Weierstrass ℘-function and prove that it generates the field of all elliptic functions.\n\nThis material is based on the AMSI course 'Elliptic Functions, Elliptic Curves and Modular Forms' taught by Prof. Florian Breuer at the University of Newcastle.",
   "nodes": {
+    "foundations": {
+      "id": "foundations",
+      "reference": "1",
+      "name": "Foundations",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "We establish the basic definitions and concepts needed for the theory of elliptic functions. This includes lattices in the complex plane, meromorphic functions, and the definition of elliptic functions as doubly periodic meromorphic functions.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "foundations"
+    },
     "lattice-definition": {
       "id": "lattice-definition",
       "reference": "1.1",
@@ -63,6 +78,21 @@
       "proof_lines": [],
       "autoslug": true,
       "slug": "fundamental-parallelogram"
+    },
+    "liouville-theorems": {
+      "id": "liouville-theorems",
+      "reference": "2",
+      "name": "Liouville's Theorems",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "Four fundamental theorems of Liouville characterize the behavior of elliptic functions. These results show that non-constant elliptic functions must have poles, establish constraints on residues, prove surjectivity properties, and lead to Abel's important relation.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "liouville-theorems"
     },
     "residue-theory": {
       "id": "residue-theory",
@@ -170,6 +200,21 @@
       ],
       "autoslug": true,
       "slug": "liouville-third"
+    },
+    "weierstrass": {
+      "id": "weierstrass",
+      "reference": "3",
+      "name": "Weierstrass ℘-function",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "The Weierstrass ℘-function provides a canonical construction of elliptic functions and serves as a fundamental building block. We establish its existence, derive its differential equation, and show that it generates the field of all elliptic functions.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "weierstrass"
     },
     "weierstrass-existence": {
       "id": "weierstrass-existence",

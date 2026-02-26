@@ -3,15 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tarskido</title>
+  <title>Tarskido - Redirecting</title>
   <script>
     // GitHub Pages SPA fallback
+    console.log('404.html fallback triggered', {
+      href: window.location.href,
+      pathname: window.location.pathname,
+      search: window.location.search,
+      hash: window.location.hash
+    });
+    
+    // Store debug info in localStorage
+    const debugLogs = JSON.parse(localStorage.getItem('tarskido-debug-logs') || '[]');
+    debugLogs.push({
+      timestamp: new Date().toISOString(),
+      message: '🚨 404.html fallback triggered',
+      data: JSON.stringify({
+        href: window.location.href,
+        pathname: window.location.pathname,
+        search: window.location.search,
+        hash: window.location.hash
+      })
+    });
+    localStorage.setItem('tarskido-debug-logs', JSON.stringify(debugLogs));
+    
     // Redirect to index.html with the path preserved as a query parameter
-    const path = window.location.pathname.replace('/tarskido/', '/tarskido/?/');
-    window.location.href = path + window.location.search + window.location.hash;
+    if (window.location.pathname.startsWith('/tarskido/')) {
+      const pathAfterBase = window.location.pathname.replace('/tarskido/', '');
+      const redirectPath = '/tarskido/?/' + pathAfterBase;
+      const finalUrl = redirectPath + window.location.search + window.location.hash;
+      
+      console.log('Redirecting to:', finalUrl);
+      debugLogs.push({
+        timestamp: new Date().toISOString(),
+        message: '🔄 404.html redirecting to',
+        data: finalUrl
+      });
+      localStorage.setItem('tarskido-debug-logs', JSON.stringify(debugLogs));
+      
+      window.location.href = finalUrl;
+    } else {
+      // Fallback for unexpected paths
+      window.location.href = '/tarskido/';
+    }
   </script>
 </head>
 <body>
-  <p>Redirecting...</p>
+  <p>Redirecting to Tarskido...</p>
+  <p><small>If this page doesn't redirect automatically, <a href="/tarskido/">click here</a>.</small></p>
 </body>
 </html>

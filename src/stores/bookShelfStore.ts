@@ -16,6 +16,8 @@ export const useBookShelfStore = defineStore('bookShelf', {
     slugMap: {} as Record<string, string>,
     activeBook: null as string | null,
     remoteBookUrls: {} as Record<string, string>, // Map book ID to remote URL
+    _isInitializing: false,
+    _isInitialized: false,
   }),
 
   getters: {
@@ -143,14 +145,10 @@ export const useBookShelfStore = defineStore('bookShelf', {
 
           // Store the remote URL for fetching the full book data
           this.remoteBookUrls[remoteBook.id] = remoteBook.url;
-
-          // Update slug map
-          if (remoteBook.slug) {
-            this.slugMap[remoteBook.slug] = remoteBook.id;
-          }
         }
 
         console.log(`Loaded ${data.books.length} remote books`);
+        console.log('Remote book slugs:', data.books.map(b => b.slug));
       } catch (error) {
         console.warn('Failed to fetch remote books:', error);
         // Continue with local books only
@@ -170,12 +168,32 @@ export const useBookShelfStore = defineStore('bookShelf', {
         }
         this.slugMap[s] = b.id;
       }
+      console.log('Built slug map:', this.slugMap);
     },
 
     async initialise() {
-      this.scanLocalStorage();
-      await this.fetchRemoteIndex();
-      this.buildSlugMap();
+      // Prevent multiple concurrent initializations
+      if (this._isInitialized) {
+        return;
+      }
+      
+      if (this._isInitializing) {
+        // Wait for the current initialization to complete
+        while (this._isInitializing) {
+          await new Promise(resolve => setTimeout(resolve, 50));
+        }
+        return;
+      }
+
+      this._isInitializing = true;
+      try {
+        this.scanLocalStorage();
+        await this.fetchRemoteIndex();
+        this.buildSlugMap();
+        this._isInitialized = true;
+      } finally {
+        this._isInitializing = false;
+      }
     },
 
     async getBookData(bookId: string): Promise<object | null> {
@@ -231,7 +249,13 @@ export const useBookShelfStore = defineStore('bookShelf', {
     },
 
     resolveBookParam(param: string): string | null {
-      return this.slugMap[param] || (this.available.find(b => b.id === param) ? param : null);
+      const resolved = this.slugMap[param] || (this.available.find(b => b.id === param) ? param : null);
+      console.log(`Resolving book param "${param}" to:`, resolved);
+      if (!resolved) {
+        console.log('Available slug map:', this.slugMap);
+        console.log('Available books:', this.available.map(b => ({ id: b.id, slug: b.slug })));
+      }
+      return resolved;
     },
 
     async deleteLocalBook(bookId: string) {

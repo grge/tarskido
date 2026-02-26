@@ -36,7 +36,7 @@
     },
     "meromorphic-functions": {
       "id": "meromorphic-functions",
-      "reference": "1.2", 
+      "reference": "1.2",
       "name": "Meromorphic Functions",
       "nodetype": {
         "primary": "Definition",
@@ -44,7 +44,7 @@
       },
       "statement": "A function $f : \\mathbb{C} \\to \\mathbb{C} \\cup \\{\\infty\\}$ is **meromorphic** if it is holomorphic on all of $\\mathbb{C}$ except on a discrete set of poles.\n\nAt every point $c \\in \\mathbb{C}$ there exists a function $g$ holomorphic in a neighborhood of $c$ such that:\n\n$$f(z) = (z - c)^n g(z) \\text{ with } g(c) \\neq 0$$\n\nwhere $n \\in \\mathbb{Z}$ is called the **order** of $c$ in $f$, denoted $\\text{ord}_c(f)$:\n\n- If $\\text{ord}_c(f) > 0$: $f$ has a **zero** at $c$ of order $n$\n- If $\\text{ord}_c(f) < 0$: $f$ has a **pole** at $c$ of order $-n$\n- If $\\text{ord}_c(f) = 0$: $c$ is a regular point\n\nThe set of poles must be **discrete**: it has finite intersection with any bounded set.",
       "references": [],
-      "chapter": "foundations", 
+      "chapter": "foundations",
       "proof_lines": [],
       "autoslug": true,
       "slug": "meromorphic-functions"
@@ -54,11 +54,14 @@
       "reference": "1.3",
       "name": "Elliptic Functions",
       "nodetype": {
-        "primary": "Definition", 
+        "primary": "Definition",
         "secondary": "Definition"
       },
       "statement": "An **elliptic function** with respect to lattice $\\Lambda$ is a meromorphic function $f : \\mathbb{C} \\to \\mathbb{C} \\cup \\{\\infty\\}$ that is **doubly periodic**:\n\n$$f(z + \\lambda) = f(z) \\text{ for all } z \\in \\mathbb{C} \\text{ and all } \\lambda \\in \\Lambda$$\n\nEquivalently, $f$ satisfies:\n$$f(z + \\omega_1) = f(z + \\omega_2) = f(z)$$\n\nfor all $z \\in \\mathbb{C}$.\n\n**Notation:** We denote by $E(\\Lambda)$ the set of all elliptic functions with respect to lattice $\\Lambda$.",
-      "references": ["lattice-definition", "meromorphic-functions"],
+      "references": [
+        "lattice-definition",
+        "meromorphic-functions"
+      ],
       "chapter": "foundations",
       "proof_lines": [],
       "autoslug": true,
@@ -67,13 +70,15 @@
     "fundamental-parallelogram": {
       "id": "fundamental-parallelogram",
       "reference": "1.4",
-      "name": "Fundamental Parallelogram", 
+      "name": "Fundamental Parallelogram",
       "nodetype": {
         "primary": "Definition",
         "secondary": "Definition"
       },
       "statement": "For a lattice $\\Lambda = \\mathbb{Z}\\omega_1 + \\mathbb{Z}\\omega_2$, a **fundamental parallelogram** (or **period parallelogram**) is a set of the form:\n\n$$P = \\{s\\omega_1 + t\\omega_2 : s,t \\in [0,1)\\}$$\n\nAlternatively, we can use any translate: $P_u = \\{u + s\\omega_1 + t\\omega_2 : s,t \\in [0,1)\\}$ for some $u \\in \\mathbb{C}$.\n\nThe fundamental parallelogram represents the **quotient space** $\\mathbb{C}/\\Lambda$, which is topologically a torus. Every elliptic function is completely determined by its behavior on any fundamental parallelogram.",
-      "references": ["lattice-definition"],
+      "references": [
+        "lattice-definition"
+      ],
       "chapter": "foundations",
       "proof_lines": [],
       "autoslug": true,
@@ -103,10 +108,12 @@
         "secondary": "Background"
       },
       "statement": "For a meromorphic function $f$ with Laurent expansion about point $c$:\n\n$$f(z) = \\sum_{n \\geq m}^{\\infty} a_n (z-c)^n$$\n\nthe **residue** of $f$ at $c$ is the coefficient $a_{-1}$ of the $(z-c)^{-1}$ term:\n\n$$\\text{res}_c(f) = a_{-1}$$\n\n**Residue Theorem:** For a contour $\\gamma$ enclosing poles $c_1, \\ldots, c_k$:\n\n$$\\oint_{\\gamma} f(z) dz = 2\\pi i \\sum_{j=1}^{k} \\text{res}_{c_j}(f)$$\n\nFor elliptic functions, residues are preserved under translation: $\\text{res}_c(f) = \\text{res}_{c+\\lambda}(f)$ for any $\\lambda \\in \\Lambda$.",
-      "references": ["meromorphic-functions"],
+      "references": [
+        "meromorphic-functions"
+      ],
       "chapter": "liouville-theorems",
       "proof_lines": [],
-      "autoslug": true, 
+      "autoslug": true,
       "slug": "residue-theory"
     },
     "liouville-first": {
@@ -118,12 +125,18 @@
         "secondary": "Theorem"
       },
       "statement": "If $f \\in E(\\Lambda)$ is holomorphic (i.e., has no poles), then $f$ is constant.\n\n**Interpretation:** Non-constant elliptic functions must have poles. There are no interesting holomorphic elliptic functions.",
-      "references": ["elliptic-function-definition", "fundamental-parallelogram"],
+      "references": [
+        "classical-liouville-theorem",
+        "elliptic-function-definition",
+        "fundamental-parallelogram"
+      ],
       "chapter": "liouville-theorems",
       "proof_lines": [
         {
           "statement": "Since $f$ is elliptic, it is determined by its values on the fundamental parallelogram $P$, which is compact.",
-          "references": ["fundamental-parallelogram"]
+          "references": [
+            "fundamental-parallelogram"
+          ]
         },
         {
           "statement": "A continuous function on a compact set is bounded, so $f$ is bounded on $P$, hence bounded on all of $\\mathbb{C}$.",
@@ -139,27 +152,38 @@
     },
     "liouville-second": {
       "id": "liouville-second",
-      "reference": "2.3", 
+      "reference": "2.3",
       "name": "Liouville's Second Theorem",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Theorem"
       },
       "statement": "If $f \\in E(\\Lambda)$ with fundamental parallelogram $P$, then:\n\n$$\\sum_{c \\in P} \\text{res}_c(f) = 0$$\n\n**Interpretation:** The sum of all residues in any period parallelogram is zero. This implies any non-constant elliptic function must have at least two poles (or a multiple pole).",
-      "references": ["elliptic-function-definition", "fundamental-parallelogram", "residue-theory"],
+      "references": [
+        "elliptic-function-definition",
+        "fundamental-parallelogram",
+        "residue-theory"
+      ],
       "chapter": "liouville-theorems",
       "proof_lines": [
         {
           "statement": "Apply the residue theorem to the boundary of the fundamental parallelogram $P$.",
-          "references": ["residue-theory", "fundamental-parallelogram"]
+          "references": [
+            "residue-theory",
+            "fundamental-parallelogram"
+          ]
         },
         {
           "statement": "The integral equals $2\\pi i \\sum_{c \\in P} \\text{res}_c(f)$ by the residue theorem.",
-          "references": ["residue-theory"]
+          "references": [
+            "residue-theory"
+          ]
         },
         {
           "statement": "But opposite sides of the parallelogram cancel due to periodicity: $\\int_{\\partial P} f(z) dz = 0$.",
-          "references": ["elliptic-function-definition"]
+          "references": [
+            "elliptic-function-definition"
+          ]
         },
         {
           "statement": "Therefore $\\sum_{c \\in P} \\text{res}_c(f) = 0$.",
@@ -170,28 +194,39 @@
       "slug": "liouville-second"
     },
     "liouville-third": {
-      "id": "liouville-third", 
+      "id": "liouville-third",
       "reference": "2.4",
       "name": "Liouville's Third Theorem",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Theorem"
       },
-      "statement": "If $f \\in E(\\Lambda)$ is non-constant, with fundamental parallelogram $P$, and $w \\in \\mathbb{C}$, then:\n\n$$\\sum_{c \\in P} \\text{ord}_c(f - w) = 0$$\n\n**Interpretation:** The number of zeros of $f - w$ equals the number of poles of $f$ (counting multiplicities). Every value $w$ is taken the same number of times. The map $f: P \\to \\mathbb{C} \\cup \\{\\infty\\}$ is surjective.\n\n**Geometric insight:** Elliptic functions are maps from the torus $\\mathbb{C}/\\Lambda$ to the Riemann sphere $\\mathbb{C} \\cup \\{\\infty\\}$.",
-      "references": ["elliptic-function-definition", "fundamental-parallelogram", "liouville-second"],
-      "chapter": "liouville-theorems", 
+      "statement": "If $f \\in E(\\Lambda)$ is non-constant, with fundamental parallelogram $P$, and $w \\in \\mathbb{C}$, then:\n\n$$\\sum_{c \\in P} \\operatorname{ord}_c(f - w) = 0$$\n\n**Interpretation:** Counting multiplicities, the number of zeros of $f-w$ in $P$ equals the number of poles of $f$ in $P$. Hence each value $w$ is taken the same number of times, and non-constant elliptic functions are surjective onto $\\widehat{\\mathbb{C}}$ (cf. the torus-to-sphere viewpoint).",
+      "references": [
+        "elliptic-function-definition",
+        "liouville-second",
+        "log-derivative-residue-lemma",
+        "torus-to-sphere-viewpoint"
+      ],
+      "chapter": "liouville-theorems",
       "proof_lines": [
         {
           "statement": "Consider the function $g(z) = \\frac{f'(z)}{f(z) - w}$, which is elliptic.",
-          "references": ["elliptic-function-definition"]
+          "references": [
+            "elliptic-function-definition"
+          ]
         },
         {
           "statement": "The residue of $g$ at a point $c$ equals $\\text{ord}_c(f - w)$ (logarithmic derivative property).",
-          "references": ["residue-theory"]
+          "references": [
+            "residue-theory"
+          ]
         },
         {
           "statement": "By Liouville's Second Theorem, $\\sum_{c \\in P} \\text{res}_c(g) = 0$.",
-          "references": ["liouville-second"]
+          "references": [
+            "liouville-second"
+          ]
         },
         {
           "statement": "Therefore $\\sum_{c \\in P} \\text{ord}_c(f - w) = 0$.",
@@ -225,7 +260,12 @@
         "secondary": "Construction"
       },
       "statement": "For any lattice $\\Lambda$, there exists an elliptic function $\\wp(z)$ that:\n\n1. Has a double pole at each lattice point $\\lambda \\in \\Lambda$\n2. Has no other poles\n3. Has Laurent expansion about 0: $\\wp(z) = \\frac{1}{z^2} + \\sum_{n=1}^{\\infty} a_n z^{2n}$\n\nThis is the **Weierstrass ℘-function** (Weierstrass p-function).\n\n**Series definition:** \n$$\\wp(z) = \\frac{1}{z^2} + \\sum_{0 \\neq \\lambda \\in \\Lambda} \\left[\\frac{1}{(z-\\lambda)^2} - \\frac{1}{\\lambda^2}\\right]$$",
-      "references": ["lattice-definition", "elliptic-function-definition", "liouville-first", "liouville-second"],
+      "references": [
+        "lattice-definition",
+        "elliptic-function-definition",
+        "liouville-first",
+        "liouville-second"
+      ],
       "chapter": "weierstrass",
       "proof_lines": [],
       "autoslug": true,
@@ -234,17 +274,220 @@
     "weierstrass-differential-equation": {
       "id": "weierstrass-differential-equation",
       "reference": "3.2",
-      "name": "Weierstrass Differential Equation", 
+      "name": "Weierstrass Differential Equation",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Theorem"
       },
       "statement": "The Weierstrass ℘-function satisfies the differential equation:\n\n$$(\\wp'(z))^2 = 4(\\wp(z))^3 - g_2 \\wp(z) - g_3$$\n\nwhere $g_2$ and $g_3$ are constants depending only on the lattice $\\Lambda$.\n\n**Alternative form:** The equation can be factored as:\n$$(\\wp'(z))^2 = 4(\\wp(z) - e_1)(\\wp(z) - e_2)(\\wp(z) - e_3)$$\n\nwhere $e_1, e_2, e_3$ are the three roots, given by $e_k = \\wp(\\omega_k/2)$ with $\\omega_3 = \\omega_1 + \\omega_2$.",
-      "references": ["weierstrass-existence"],
+      "references": [
+        "weierstrass-existence"
+      ],
       "chapter": "weierstrass",
       "proof_lines": [],
       "autoslug": true,
       "slug": "weierstrass-differential-equation"
+    },
+    "complex-prereqs": {
+      "id": "complex-prereqs",
+      "reference": "0",
+      "name": "Complex Analysis Prerequisites",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "Minimal complex-analysis results used directly in the elliptic-function development.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "complex-prerequisites"
+    },
+    "identity-theorem-zeros-discrete": {
+      "id": "identity-theorem-zeros-discrete",
+      "reference": "0.1",
+      "name": "Discrete Zero Set Principle",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Background"
+      },
+      "statement": "If a holomorphic function on a domain has an accumulation point of zeros, it is identically zero (Identity Theorem). Consequently, a nonzero meromorphic function has a discrete set of zeros and poles.",
+      "references": [],
+      "chapter": "complex-prereqs",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "discrete-zero-set-principle"
+    },
+    "classical-liouville-theorem": {
+      "id": "classical-liouville-theorem",
+      "reference": "0.2",
+      "name": "Classical Liouville Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Background"
+      },
+      "statement": "Every bounded entire function on $\\mathbb{C}$ is constant.",
+      "references": [],
+      "chapter": "complex-prereqs",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "classical-liouville-theorem"
+    },
+    "log-derivative-residue-lemma": {
+      "id": "log-derivative-residue-lemma",
+      "reference": "0.3",
+      "name": "Logarithmic Derivative Residue Lemma",
+      "nodetype": {
+        "primary": "Lemma",
+        "secondary": "Background"
+      },
+      "statement": "If $h$ is meromorphic and nonzero near $c$, then\\n$$\\operatorname{res}_c\\!\\left(\\frac{h\\'(z)}{h(z)}\\right)=\\operatorname{ord}_c(h).$$\\nThis is used repeatedly with $h=f-w$ and $h=f$.",
+      "references": [
+        "residue-theory"
+      ],
+      "chapter": "complex-prereqs",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "log-derivative-residue-lemma"
+    },
+    "fundamental-lemma-periods": {
+      "id": "fundamental-lemma-periods",
+      "reference": "1.5",
+      "name": "Fundamental Lemma on Period Groups",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "If $f$ is meromorphic and non-constant, then exactly one holds: (i) $\\operatorname{Per}(f)=\\{0\\}$, (ii) $\\operatorname{Per}(f)=\\mathbb{Z}\\omega$ for some $\\omega\\in\\mathbb{C}^*$, or (iii) $\\operatorname{Per}(f)=\\mathbb{Z}\\omega_1+\\mathbb{Z}\\omega_2$ with $\\omega_1,\\omega_2$ $\\mathbb{R}$-linearly independent.",
+      "references": [
+        "meromorphic-functions",
+        "identity-theorem-zeros-discrete"
+      ],
+      "chapter": "foundations",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "fundamental-lemma-period-groups"
+    },
+    "reduced-lattice-basis": {
+      "id": "reduced-lattice-basis",
+      "reference": "1.6",
+      "name": "Reduced Lattice Basis and $\\tau$",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Normalization"
+      },
+      "statement": "For a rank-2 lattice, one can choose a basis $(\\omega_1,\\omega_2)$ with $\\tau=\\omega_1/\\omega_2$ satisfying\\n$$\\operatorname{Im}(\\tau)>0,\\quad |\\operatorname{Re}(\\tau)|\\le \\tfrac12,\\quad |\\tau|\\ge 1.$$ ",
+      "references": [
+        "lattice-definition",
+        "fundamental-lemma-periods"
+      ],
+      "chapter": "foundations",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "reduced-lattice-basis"
+    },
+    "lattice-basis-change-gl2z": {
+      "id": "lattice-basis-change-gl2z",
+      "reference": "1.7",
+      "name": "Lattice Basis Change via $\\mathrm{GL}_2(\\mathbb{Z})$",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Algebraic Structure"
+      },
+      "statement": "Pairs $(\\lambda_1,\\lambda_2)$ form a $\\mathbb{Z}$-basis of $\\Lambda$ iff\\n$$\\begin{bmatrix}\\lambda_1\\\\\\lambda_2\\end{bmatrix}=\\gamma\\begin{bmatrix}\\omega_1\\\\\\omega_2\\end{bmatrix},\\quad \\gamma\\in\\mathrm{GL}_2(\\mathbb{Z}).$$\\nSo all lattice bases are related by $\\mathrm{GL}_2(\\mathbb{Z})$.",
+      "references": [
+        "lattice-definition"
+      ],
+      "chapter": "foundations",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "lattice-basis-change-gl2z"
+    },
+    "torus-to-sphere-viewpoint": {
+      "id": "torus-to-sphere-viewpoint",
+      "reference": "1.8",
+      "name": "Geometric Viewpoint: $\\mathbb{C}/\\Lambda \\to \\widehat{\\mathbb{C}}$",
+      "nodetype": {
+        "primary": "Interpretation",
+        "secondary": "Geometric"
+      },
+      "statement": "Identifying opposite edges of a fundamental parallelogram gives the torus $\\mathbb{C}/\\Lambda$. Elliptic functions descend to meromorphic maps\n$$f: \\mathbb{C}/\\Lambda \\to \\widehat{\\mathbb{C}}=\\mathbb{C}\\cup\\{\\infty\\}. $$\nThis geometric model is used to interpret value-distribution statements in Liouville's theorems.",
+      "references": [
+        "fundamental-parallelogram",
+        "elliptic-function-definition"
+      ],
+      "chapter": "foundations",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "torus-sphere-viewpoint"
+    },
+    "liouville-fourth": {
+      "id": "liouville-fourth",
+      "reference": "2.5",
+      "name": "Liouville's Fourth Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "If $f\\in E(\\Lambda)$, $f\\neq 0$, and $P$ is a fundamental parallelogram, then\\n$$\\sum_{c\\in P} \\operatorname{ord}_c(f)\\,c \\in \\Lambda.$$\\nEquivalent form (Abel relation): sum of zeros equals sum of poles modulo $\\Lambda$, counting multiplicity.",
+      "references": [
+        "liouville-second",
+        "log-derivative-residue-lemma",
+        "fundamental-parallelogram"
+      ],
+      "chapter": "liouville-theorems",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "liouville-fourth"
+    },
+    "eisenstein-series": {
+      "id": "eisenstein-series",
+      "reference": "4",
+      "name": "Eisenstein Series",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "First structural examples linking elliptic functions to modular forms.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "eisenstein-series"
+    },
+    "eisenstein-definition": {
+      "id": "eisenstein-definition",
+      "reference": "4.1",
+      "name": "Eisenstein Series $G_k(\\Lambda)$",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For integer $k>2$, define\\n$$G_k(\\Lambda)=\\sum_{0\\ne\\lambda\\in\\Lambda}\\frac{1}{\\lambda^k}.$$\\nFor odd $k$, pairing $\\lambda$ with $-\\lambda$ gives $G_k(\\Lambda)=0$, so even weights are the main case.",
+      "references": [
+        "lattice-definition"
+      ],
+      "chapter": "eisenstein-series",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "eisenstein-definition"
+    },
+    "eisenstein-polynomial-structure": {
+      "id": "eisenstein-polynomial-structure",
+      "reference": "4.2",
+      "name": "Polynomial Structure in $G_4,G_6$",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "For $k\\ge2$,\\n$$G_{2k}\\in\\mathbb{Q}[G_4,G_6].$$\\nExamples: $7G_8=3G_4^2$, $11G_{10}=5G_4G_6$.",
+      "references": [
+        "eisenstein-definition"
+      ],
+      "chapter": "eisenstein-series",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "eisenstein-polynomial-structure"
     }
   }
 }

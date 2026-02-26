@@ -27,7 +27,7 @@
         "primary": "Definition",
         "secondary": "Definition"
       },
-      "statement": "A **lattice** in $\\mathbb{C}$ is a set of the form:\n\n$$\\Lambda = \\mathbb{Z}\\omega_1 + \\mathbb{Z}\\omega_2 = \\{m\\omega_1 + n\\omega_2 : m,n \\in \\mathbb{Z}\\}$$\n\nwhere $\\omega_1, \\omega_2 \\in \\mathbb{C}$ are **linearly independent over $\\mathbb{R}$**, meaning $\\frac{\\omega_1}{\\omega_2} \\notin \\mathbb{R}$.\n\nThe lattice forms a discrete additive subgroup of $\\mathbb{C}$, and we can visualize it as a regular grid of points in the complex plane.",
+      "statement": "A **lattice** in $\\mathbb{C}$ is a set of the form:\n\n$$\\Lambda = \\mathbb{Z}\\omega_1 + \\mathbb{Z}\\omega_2 = \\{m\\omega_1 + n\\omega_2 : m,n \\in \\mathbb{Z}\\}$$\n\nwhere $\\omega_1, \\omega_2 \\in \\mathbb{C}$ are **linearly independent over $\\mathbb{R}$**, meaning $\\frac{\\omega_1}{\\omega_2} \notin \\mathbb{R}$.\n\nThe lattice forms a discrete additive subgroup of $\\mathbb{C}$, and we can visualize it as a regular grid of points in the complex plane.",
       "references": [],
       "chapter": "foundations",
       "proof_lines": [],
@@ -36,22 +36,25 @@
     },
     "meromorphic-functions": {
       "id": "meromorphic-functions",
-      "reference": "1.2",
+      "reference": "0.7",
       "name": "Meromorphic Functions",
       "nodetype": {
         "primary": "Definition",
         "secondary": "Definition"
       },
-      "statement": "A function $f : \\mathbb{C} \\to \\mathbb{C} \\cup \\{\\infty\\}$ is **meromorphic** if it is holomorphic on all of $\\mathbb{C}$ except on a discrete set of poles.\n\nAt every point $c \\in \\mathbb{C}$ there exists a function $g$ holomorphic in a neighborhood of $c$ such that:\n\n$$f(z) = (z - c)^n g(z) \\text{ with } g(c) \\neq 0$$\n\nwhere $n \\in \\mathbb{Z}$ is called the **order** of $c$ in $f$, denoted $\\text{ord}_c(f)$:\n\n- If $\\text{ord}_c(f) > 0$: $f$ has a **zero** at $c$ of order $n$\n- If $\\text{ord}_c(f) < 0$: $f$ has a **pole** at $c$ of order $-n$\n- If $\\text{ord}_c(f) = 0$: $c$ is a regular point\n\nThe set of poles must be **discrete**: it has finite intersection with any bounded set.",
-      "references": [],
-      "chapter": "foundations",
+      "statement": "A function $f: \\mathbb{C} \\to \\mathbb{C} \\cup \\{\\infty\\}$ is **meromorphic** if it is holomorphic except at a discrete set of poles.\n\nEquivalently, near each point $c$ one can write\n$$f(z)=(z-c)^n g(z),\\qquad g(c)\neq0,\\ n\\in\\mathbb{Z},$$\nwith $g$ holomorphic near $c$.",
+      "references": [
+        "holomorphic-definition",
+        "order-definition"
+      ],
+      "chapter": "complex-prereqs",
       "proof_lines": [],
       "autoslug": true,
       "slug": "meromorphic-functions"
     },
     "elliptic-function-definition": {
       "id": "elliptic-function-definition",
-      "reference": "1.3",
+      "reference": "1.2",
       "name": "Elliptic Functions",
       "nodetype": {
         "primary": "Definition",
@@ -69,7 +72,7 @@
     },
     "fundamental-parallelogram": {
       "id": "fundamental-parallelogram",
-      "reference": "1.4",
+      "reference": "1.3",
       "name": "Fundamental Parallelogram",
       "nodetype": {
         "primary": "Definition",
@@ -93,7 +96,10 @@
         "secondary": "Chapter"
       },
       "statement": "Four fundamental theorems of Liouville characterize the behavior of elliptic functions. These results show that non-constant elliptic functions must have poles, establish constraints on residues, prove surjectivity properties, and lead to Abel's important relation.",
-      "references": [],
+      "references": [
+        "complex-prereqs",
+        "foundations"
+      ],
       "chapter": "ROOT",
       "proof_lines": [],
       "autoslug": true,
@@ -101,17 +107,18 @@
     },
     "residue-theory": {
       "id": "residue-theory",
-      "reference": "2.1",
-      "name": "Residue Theory",
+      "reference": "0.8",
+      "name": "Residue Theorem",
       "nodetype": {
-        "primary": "Definition",
-        "secondary": "Background"
+        "primary": "Theorem",
+        "secondary": "Theorem"
       },
-      "statement": "For a meromorphic function $f$ with Laurent expansion about point $c$:\n\n$$f(z) = \\sum_{n \\geq m}^{\\infty} a_n (z-c)^n$$\n\nthe **residue** of $f$ at $c$ is the coefficient $a_{-1}$ of the $(z-c)^{-1}$ term:\n\n$$\\text{res}_c(f) = a_{-1}$$\n\n**Residue Theorem:** For a contour $\\gamma$ enclosing poles $c_1, \\ldots, c_k$:\n\n$$\\oint_{\\gamma} f(z) dz = 2\\pi i \\sum_{j=1}^{k} \\text{res}_{c_j}(f)$$\n\nFor elliptic functions, residues are preserved under translation: $\\text{res}_c(f) = \\text{res}_{c+\\lambda}(f)$ for any $\\lambda \\in \\Lambda$.",
+      "statement": "For a meromorphic function $f$ and a positively oriented contour $\\gamma$ enclosing poles $c_1,\\dots,c_k$,\n$$\\oint_{\\gamma} f(z)\\,dz = 2\\pi i \\sum_{j=1}^{k} \\operatorname{res}_{c_j}(f).$$\nFor elliptic functions, residues are translation-invariant: $\\operatorname{res}_{c}(f)=\\operatorname{res}_{c+\\lambda}(f)$ for $\\lambda\\in\\Lambda$.",
       "references": [
+        "residue-definition",
         "meromorphic-functions"
       ],
-      "chapter": "liouville-theorems",
+      "chapter": "complex-prereqs",
       "proof_lines": [],
       "autoslug": true,
       "slug": "residue-theory"
@@ -128,7 +135,8 @@
       "references": [
         "classical-liouville-theorem",
         "elliptic-function-definition",
-        "fundamental-parallelogram"
+        "fundamental-parallelogram",
+        "holomorphic-definition"
       ],
       "chapter": "liouville-theorems",
       "proof_lines": [
@@ -256,10 +264,10 @@
       "reference": "3.1",
       "name": "Weierstrass ℘-function",
       "nodetype": {
-        "primary": "Definition",
-        "secondary": "Construction"
+        "primary": "Theorem",
+        "secondary": "Theorem"
       },
-      "statement": "For any lattice $\\Lambda$, there exists an elliptic function $\\wp(z)$ that:\n\n1. Has a double pole at each lattice point $\\lambda \\in \\Lambda$\n2. Has no other poles\n3. Has Laurent expansion about 0: $\\wp(z) = \\frac{1}{z^2} + \\sum_{n=1}^{\\infty} a_n z^{2n}$\n\nThis is the **Weierstrass ℘-function** (Weierstrass p-function).\n\n**Series definition:** \n$$\\wp(z) = \\frac{1}{z^2} + \\sum_{0 \\neq \\lambda \\in \\Lambda} \\left[\\frac{1}{(z-\\lambda)^2} - \\frac{1}{\\lambda^2}\\right]$$",
+      "statement": "For every lattice $\\Lambda$, there exists an elliptic function $\\wp$ with:\n1. a double pole at each $\\lambda\\in\\Lambda$,\n2. no other poles,\n3. Laurent expansion near $0$: $\\wp(z)=z^{-2}+O(z^2)$.\n\n(Existence stated here; proof deferred.)",
       "references": [
         "lattice-definition",
         "elliptic-function-definition",
@@ -273,7 +281,7 @@
     },
     "weierstrass-differential-equation": {
       "id": "weierstrass-differential-equation",
-      "reference": "3.2",
+      "reference": "3.3",
       "name": "Weierstrass Differential Equation",
       "nodetype": {
         "primary": "Proposition",
@@ -281,7 +289,7 @@
       },
       "statement": "The Weierstrass ℘-function satisfies the differential equation:\n\n$$(\\wp'(z))^2 = 4(\\wp(z))^3 - g_2 \\wp(z) - g_3$$\n\nwhere $g_2$ and $g_3$ are constants depending only on the lattice $\\Lambda$.\n\n**Alternative form:** The equation can be factored as:\n$$(\\wp'(z))^2 = 4(\\wp(z) - e_1)(\\wp(z) - e_2)(\\wp(z) - e_3)$$\n\nwhere $e_1, e_2, e_3$ are the three roots, given by $e_k = \\wp(\\omega_k/2)$ with $\\omega_3 = \\omega_1 + \\omega_2$.",
       "references": [
-        "weierstrass-existence"
+        "weierstrass-series-definition"
       ],
       "chapter": "weierstrass",
       "proof_lines": [],
@@ -305,7 +313,7 @@
     },
     "identity-theorem-zeros-discrete": {
       "id": "identity-theorem-zeros-discrete",
-      "reference": "0.1",
+      "reference": "0.2",
       "name": "Discrete Zero Set Principle",
       "nodetype": {
         "primary": "Proposition",
@@ -320,7 +328,7 @@
     },
     "classical-liouville-theorem": {
       "id": "classical-liouville-theorem",
-      "reference": "0.2",
+      "reference": "0.3",
       "name": "Classical Liouville Theorem",
       "nodetype": {
         "primary": "Proposition",
@@ -335,13 +343,13 @@
     },
     "log-derivative-residue-lemma": {
       "id": "log-derivative-residue-lemma",
-      "reference": "0.3",
+      "reference": "0.6",
       "name": "Logarithmic Derivative Residue Lemma",
       "nodetype": {
         "primary": "Lemma",
         "secondary": "Background"
       },
-      "statement": "If $h$ is meromorphic and nonzero near $c$, then\\n$$\\operatorname{res}_c\\!\\left(\\frac{h\\'(z)}{h(z)}\\right)=\\operatorname{ord}_c(h).$$\\nThis is used repeatedly with $h=f-w$ and $h=f$.",
+      "statement": "If $h$ is meromorphic and nonzero near $c$, then\n$$\\operatorname{res}_c\\!\\left(\\frac{h\\'(z)}{h(z)}\\right)=\\operatorname{ord}_c(h).$$\nThis is used repeatedly with $h=f-w$ and $h=f$.",
       "references": [
         "residue-theory"
       ],
@@ -352,49 +360,55 @@
     },
     "fundamental-lemma-periods": {
       "id": "fundamental-lemma-periods",
-      "reference": "1.5",
+      "reference": "1.4",
       "name": "Fundamental Lemma on Period Groups",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
-      "statement": "If $f$ is meromorphic and non-constant, then exactly one holds: (i) $\\operatorname{Per}(f)=\\{0\\}$, (ii) $\\operatorname{Per}(f)=\\mathbb{Z}\\omega$ for some $\\omega\\in\\mathbb{C}^*$, or (iii) $\\operatorname{Per}(f)=\\mathbb{Z}\\omega_1+\\mathbb{Z}\\omega_2$ with $\\omega_1,\\omega_2$ $\\mathbb{R}$-linearly independent.",
+      "statement": "If $f$ is meromorphic and non-constant, then exactly one holds:\n1. $\\operatorname{Per}(f)=\\{0\\}$,\n2. $\\operatorname{Per}(f)=\\mathbb{Z}\\omega$ for some $\\omega\\in\\mathbb{C}^*$,\n3. $\\operatorname{Per}(f)=\\mathbb{Z}\\omega_1+\\mathbb{Z}\\omega_2$ with $\\omega_1,\\omega_2$ $\\mathbb{R}$-linearly independent.\n\nIn case (3), one may choose a basis with $\\tau=\\omega_1/\\omega_2$ satisfying\n$$\\operatorname{Im}(\\tau)>0,\\qquad |\\operatorname{Re}(\\tau)|\\le \\tfrac12,\\qquad |\\tau|\\ge 1.$$",
       "references": [
         "meromorphic-functions",
         "identity-theorem-zeros-discrete"
       ],
       "chapter": "foundations",
-      "proof_lines": [],
+      "proof_lines": [
+        {
+          "statement": "$\\operatorname{Per}(f)$ is an additive subgroup of $\\mathbb{C}$.",
+          "references": [
+            "elliptic-function-definition"
+          ]
+        },
+        {
+          "statement": "Discreteness of periods for non-constant meromorphic functions rules out accumulation at $0$.",
+          "references": [
+            "identity-theorem-zeros-discrete",
+            "meromorphic-functions"
+          ]
+        },
+        {
+          "statement": "Discrete additive subgroups of $\\mathbb{C}$ have rank $0$, $1$, or $2$, giving the trichotomy.",
+          "references": []
+        },
+        {
+          "statement": "In rank $2$, apply a basis reduction (modular reduction) to obtain normalized $\\tau$.",
+          "references": [
+            "lattice-basis-change-gl2z"
+          ]
+        }
+      ],
       "autoslug": true,
       "slug": "fundamental-lemma-period-groups"
     },
-    "reduced-lattice-basis": {
-      "id": "reduced-lattice-basis",
-      "reference": "1.6",
-      "name": "Reduced Lattice Basis and $\\tau$",
-      "nodetype": {
-        "primary": "Proposition",
-        "secondary": "Normalization"
-      },
-      "statement": "For a rank-2 lattice, one can choose a basis $(\\omega_1,\\omega_2)$ with $\\tau=\\omega_1/\\omega_2$ satisfying\\n$$\\operatorname{Im}(\\tau)>0,\\quad |\\operatorname{Re}(\\tau)|\\le \\tfrac12,\\quad |\\tau|\\ge 1.$$ ",
-      "references": [
-        "lattice-definition",
-        "fundamental-lemma-periods"
-      ],
-      "chapter": "foundations",
-      "proof_lines": [],
-      "autoslug": true,
-      "slug": "reduced-lattice-basis"
-    },
     "lattice-basis-change-gl2z": {
       "id": "lattice-basis-change-gl2z",
-      "reference": "1.7",
+      "reference": "1.5",
       "name": "Lattice Basis Change via $\\mathrm{GL}_2(\\mathbb{Z})$",
       "nodetype": {
         "primary": "Proposition",
-        "secondary": "Algebraic Structure"
+        "secondary": "Proposition"
       },
-      "statement": "Pairs $(\\lambda_1,\\lambda_2)$ form a $\\mathbb{Z}$-basis of $\\Lambda$ iff\\n$$\\begin{bmatrix}\\lambda_1\\\\\\lambda_2\\end{bmatrix}=\\gamma\\begin{bmatrix}\\omega_1\\\\\\omega_2\\end{bmatrix},\\quad \\gamma\\in\\mathrm{GL}_2(\\mathbb{Z}).$$\\nSo all lattice bases are related by $\\mathrm{GL}_2(\\mathbb{Z})$.",
+      "statement": "Pairs $(\\lambda_1,\\lambda_2)$ form a $\\mathbb{Z}$-basis of $\\Lambda$ iff\n$$\\begin{bmatrix}\\lambda_1\\\\\\lambda_2\\end{bmatrix}=\\gamma\\begin{bmatrix}\\omega_1\\\\\\omega_2\\end{bmatrix},\\qquad \\gamma\\in\\mathrm{GL}_2(\\mathbb{Z}).$$\nSo all lattice bases are related by $\\mathrm{GL}_2(\\mathbb{Z})$.",
       "references": [
         "lattice-definition"
       ],
@@ -405,11 +419,11 @@
     },
     "torus-to-sphere-viewpoint": {
       "id": "torus-to-sphere-viewpoint",
-      "reference": "1.8",
+      "reference": "1.6",
       "name": "Geometric Viewpoint: $\\mathbb{C}/\\Lambda \\to \\widehat{\\mathbb{C}}$",
       "nodetype": {
-        "primary": "Interpretation",
-        "secondary": "Geometric"
+        "primary": "Note",
+        "secondary": "Note"
       },
       "statement": "Identifying opposite edges of a fundamental parallelogram gives the torus $\\mathbb{C}/\\Lambda$. Elliptic functions descend to meromorphic maps\n$$f: \\mathbb{C}/\\Lambda \\to \\widehat{\\mathbb{C}}=\\mathbb{C}\\cup\\{\\infty\\}. $$\nThis geometric model is used to interpret value-distribution statements in Liouville's theorems.",
       "references": [
@@ -429,7 +443,7 @@
         "primary": "Proposition",
         "secondary": "Theorem"
       },
-      "statement": "If $f\\in E(\\Lambda)$, $f\\neq 0$, and $P$ is a fundamental parallelogram, then\\n$$\\sum_{c\\in P} \\operatorname{ord}_c(f)\\,c \\in \\Lambda.$$\\nEquivalent form (Abel relation): sum of zeros equals sum of poles modulo $\\Lambda$, counting multiplicity.",
+      "statement": "If $f\\in E(\\Lambda)$, $f\neq 0$, and $P$ is a fundamental parallelogram, then\n$$\\sum_{c\\in P} \\operatorname{ord}_c(f)\\,c \\in \\Lambda.$$\nEquivalent form (Abel relation): sum of zeros equals sum of poles modulo $\\Lambda$, counting multiplicity.",
       "references": [
         "liouville-second",
         "log-derivative-residue-lemma",
@@ -463,7 +477,7 @@
         "primary": "Definition",
         "secondary": "Definition"
       },
-      "statement": "For integer $k>2$, define\\n$$G_k(\\Lambda)=\\sum_{0\\ne\\lambda\\in\\Lambda}\\frac{1}{\\lambda^k}.$$\\nFor odd $k$, pairing $\\lambda$ with $-\\lambda$ gives $G_k(\\Lambda)=0$, so even weights are the main case.",
+      "statement": "For integer $k>2$, define\n$$G_k(\\Lambda)=\\sum_{0\ne\\lambda\\in\\Lambda}\\frac{1}{\\lambda^k}.$$\nFor odd $k$, pairing $\\lambda$ with $-\\lambda$ gives $G_k(\\Lambda)=0$, so even weights are the main case.",
       "references": [
         "lattice-definition"
       ],
@@ -480,7 +494,7 @@
         "primary": "Proposition",
         "secondary": "Theorem"
       },
-      "statement": "For $k\\ge2$,\\n$$G_{2k}\\in\\mathbb{Q}[G_4,G_6].$$\\nExamples: $7G_8=3G_4^2$, $11G_{10}=5G_4G_6$.",
+      "statement": "For $k\\ge2$,\n$$G_{2k}\\in\\mathbb{Q}[G_4,G_6].$$\nExamples: $7G_8=3G_4^2$, $11G_{10}=5G_4G_6$.",
       "references": [
         "eisenstein-definition"
       ],
@@ -488,6 +502,70 @@
       "proof_lines": [],
       "autoslug": true,
       "slug": "eisenstein-polynomial-structure"
+    },
+    "holomorphic-definition": {
+      "id": "holomorphic-definition",
+      "reference": "0.1",
+      "name": "Holomorphic Function",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A function $f:U\\to\\mathbb{C}$ on an open set $U\\subseteq\\mathbb{C}$ is **holomorphic** if it is complex differentiable at every point of $U$.",
+      "references": [],
+      "chapter": "complex-prereqs",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "holomorphic-definition"
+    },
+    "order-definition": {
+      "id": "order-definition",
+      "reference": "0.4",
+      "name": "Order of a Meromorphic Function at a Point",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "If $f$ is meromorphic near $c$, then there exists $n\\in\\mathbb{Z}$ and holomorphic $g$ with $g(c)\neq 0$ such that\n$$f(z)=(z-c)^n g(z).$$\nDefine $\\operatorname{ord}_c(f):=n$. Positive order means a zero, negative order means a pole.",
+      "references": [
+        "holomorphic-definition"
+      ],
+      "chapter": "complex-prereqs",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "order-definition"
+    },
+    "residue-definition": {
+      "id": "residue-definition",
+      "reference": "0.5",
+      "name": "Residue",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "If\n$$f(z)=\\sum_{m=-\\infty}^{\\infty} a_m (z-c)^m$$\nis the Laurent expansion near $c$, then the **residue** is\n$$\\operatorname{res}_c(f):=a_{-1}.$$ ",
+      "references": [],
+      "chapter": "complex-prereqs",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "residue-definition"
+    },
+    "weierstrass-series-definition": {
+      "id": "weierstrass-series-definition",
+      "reference": "3.2",
+      "name": "Series Definition of $\\wp$",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A standard definition is\n$$\\wp(z)=\\frac{1}{z^2}+\\sum_{0\ne\\lambda\\in\\Lambda}\\left(\\frac{1}{(z-\\lambda)^2}-\\frac{1}{\\lambda^2}\\right).$$",
+      "references": [
+        "weierstrass-existence"
+      ],
+      "chapter": "weierstrass",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "weierstrass-series-definition"
     }
   }
 }

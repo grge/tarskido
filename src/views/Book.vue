@@ -5,6 +5,20 @@ import { useBookStore } from '@/stores/bookStore';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'vue-router';
+import { onMounted, onErrorCaptured } from 'vue';
+
+// Debug logging function
+function addDebugLog(message: string, data?: any) {
+  console.log(message, data);
+  const logs = JSON.parse(localStorage.getItem('tarskido-debug-logs') || '[]');
+  logs.push({
+    timestamp: new Date().toISOString(),
+    message,
+    data: data ? JSON.stringify(data) : undefined
+  });
+  if (logs.length > 20) logs.shift();
+  localStorage.setItem('tarskido-debug-logs', JSON.stringify(logs));
+}
 
 export default {
   components: {
@@ -13,9 +27,38 @@ export default {
     ContextGraph,
   },
   setup() {
+    addDebugLog('📖 Book.vue setup() called');
+    
     const store = useBookStore();
     const book = store.rawBook;
     const router = useRouter();
+    
+    addDebugLog('📖 Book.vue accessing rawBook', {
+      bookId: book?.id,
+      bookTitle: book?.title,
+      hasBook: !!book,
+      storeState: {
+        hasNodes: !!book?.nodes,
+        nodeCount: book?.nodes ? Object.keys(book.nodes).length : 0
+      }
+    });
+
+    onMounted(() => {
+      addDebugLog('📖 Book.vue mounted successfully', {
+        bookId: book?.id,
+        currentRoute: router.currentRoute.value.path
+      });
+    });
+
+    onErrorCaptured((error, instance, errorInfo) => {
+      addDebugLog('❌ Book.vue error captured', {
+        error: error.message,
+        errorInfo: errorInfo,
+        componentName: instance?.$options?.name
+      });
+      console.error('Book.vue error:', error, errorInfo);
+      return false; // Don't suppress the error
+    });
 
     function createNewNode() {
       const nodeId = uuidv4();

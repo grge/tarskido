@@ -195,4 +195,21 @@ router.beforeEach(async (to, from, next) => {
   next();
 });
 
+// Add navigation hooks for debugging
+router.afterEach((to, from, failure) => {
+  addDebugLog('✅ Router afterEach', {
+    toPath: to.path,
+    toName: to.name,
+    fromPath: from.path,
+    failure: failure ? failure.message : null
+  });
+});
+
+router.onError((error) => {
+  addDebugLog('❌ Router error', {
+    error: error.message,
+    stack: error.stack
+  });
+});
+
 export default router;

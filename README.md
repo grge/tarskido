@@ -74,3 +74,21 @@ Tests are written using Vitest and Vue Test Utils. Test files should be placed i
 npm run test          # Run tests in watch mode during development
 npm run test:run      # Run tests once (useful for CI/CD)
 ```
+
+## GitHub Pages Deep-Link Routing
+
+Tarskido is deployed as a SPA under the subpath `/tarskido/` on GitHub Pages.
+Direct links like `/tarskido/book/<slug>` need fallback handling because GitHub Pages serves static files only.
+
+The project uses a two-step fallback strategy:
+
+1. **`public/404.html`** captures unknown static paths and redirects to:
+   - `/tarskido/?/book/<slug>`
+2. **Client startup normalization** rewrites `?/...` URLs back to real SPA paths before/after router init.
+
+Relevant files:
+- `public/404.html` (GitHub Pages fallback redirect)
+- `src/router/index.ts` (pre-router `?/` normalization)
+- `src/main.ts` (post-bootstrap safety-net `router.replace(...)`)
+
+If direct links regress, verify those three files together and test in a fresh incognito tab.

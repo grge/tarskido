@@ -32,6 +32,9 @@ onMounted(async () => {
     const bookParam = pathParts[pathParts.indexOf('book') + 1];
     const resolvedBookId = bookParam ? shelf.resolveBookParam(bookParam) : null;
     
+    // Get router debug logs from localStorage
+    const debugLogs = JSON.parse(localStorage.getItem('tarskido-debug-logs') || '[]');
+    
     debugInfo.value = {
       currentPath: currentPath,
       referrer: referrer,
@@ -49,10 +52,18 @@ onMounted(async () => {
         slug: b.slug,
         source: b.source
       })),
-      slugMap: shelf.slugMap
+      slugMap: shelf.slugMap,
+      routerLogs: debugLogs
     };
   }
 });
+
+const clearLogs = () => {
+  localStorage.removeItem('tarskido-debug-logs');
+  if (debugInfo.value) {
+    debugInfo.value.routerLogs = [];
+  }
+};
 </script>
 
 <template>
@@ -99,6 +110,17 @@ onMounted(async () => {
               <strong>{{ slug }}</strong> → {{ id }}
             </li>
           </ul>
+        </div>
+        
+        <div v-if="debugInfo?.routerLogs?.length">
+          <h3>Router Debug Logs: <button @click="clearLogs" class="clear-logs-btn">Clear</button></h3>
+          <div class="router-logs">
+            <div v-for="(log, index) in debugInfo.routerLogs.slice(-10)" :key="index" class="log-entry">
+              <span class="timestamp">{{ new Date(log.timestamp).toLocaleTimeString() }}</span>
+              <span class="message">{{ log.message }}</span>
+              <span v-if="log.data" class="data">{{ log.data }}</span>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -164,6 +186,45 @@ onMounted(async () => {
     li
       margin-bottom 4px
       word-break break-all
+    
+    .router-logs
+      background #f8f9fa
+      border 1px solid #e9ecef
+      border-radius 4px
+      padding 10px
+      max-height 200px
+      overflow-y auto
+      margin-top 8px
+      
+      .log-entry
+        margin-bottom 5px
+        font-size 12px
+        display block
+        
+        .timestamp
+          color #6c757d
+          margin-right 8px
+        
+        .message
+          font-weight bold
+          margin-right 8px
+        
+        .data
+          color #495057
+          font-style italic
+  
+  .clear-logs-btn
+    background #dc3545
+    color white
+    border none
+    padding 2px 8px
+    border-radius 3px
+    font-size 12px
+    cursor pointer
+    margin-left 10px
+    
+    &:hover
+      background #c82333
 
 .book-shelves
   margin-bottom var(--sp-8)

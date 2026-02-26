@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia';
 import { migrateBook } from '@/utils/migration.js';
 
+// Try relative URL first, fallback to absolute if needed
 const REMOTE_INDEX_URL = '/tarskido/demo-books.json';
+const REMOTE_INDEX_FALLBACK = 'https://grge.github.io/tarskido/demo-books.json';
 
 export const useBookShelfStore = defineStore('bookShelf', {
   state: () => ({
@@ -100,14 +102,28 @@ export const useBookShelfStore = defineStore('bookShelf', {
       }
     },
     async fetchRemoteIndex() {
+      console.log('Attempting to fetch remote index from:', REMOTE_INDEX_URL);
+      
+      let response;
+      let data;
+      
       try {
-        const response = await fetch(REMOTE_INDEX_URL);
+        response = await fetch(REMOTE_INDEX_URL);
+        console.log('Fetch response status:', response.status, 'ok:', response.ok);
+        
         if (!response.ok) {
-          console.warn('Failed to fetch remote book index:', response.status);
+          console.warn('Primary URL failed, trying fallback:', REMOTE_INDEX_FALLBACK);
+          response = await fetch(REMOTE_INDEX_FALLBACK);
+          console.log('Fallback response status:', response.status, 'ok:', response.ok);
+        }
+        
+        if (!response.ok) {
+          console.warn('Failed to fetch remote book index from both URLs');
           return;
         }
 
-        const data = await response.json();
+        data = await response.json();
+        console.log('Fetched remote data:', data);
 
         // Add remote books to the available list
         for (const remoteBook of data.books) {
@@ -172,25 +188,44 @@ export const useBookShelfStore = defineStore('bookShelf', {
     },
 
     async initialise() {
+      console.log('BookShelf initialise() called. Current state:', {
+        isInitialized: this._isInitialized,
+        isInitializing: this._isInitializing,
+        availableCount: this.available.length
+      });
+      
       // Prevent multiple concurrent initializations
       if (this._isInitialized) {
+        console.log('Already initialized, returning early');
         return;
       }
       
       if (this._isInitializing) {
+        console.log('Already initializing, waiting...');
         // Wait for the current initialization to complete
         while (this._isInitializing) {
           await new Promise(resolve => setTimeout(resolve, 50));
         }
+        console.log('Initialization wait complete');
         return;
       }
 
+      console.log('Starting initialization...');
       this._isInitializing = true;
       try {
+        console.log('Scanning localStorage...');
         this.scanLocalStorage();
+        console.log('Local books found:', this.available.length);
+        
+        console.log('Fetching remote index...');
         await this.fetchRemoteIndex();
+        console.log('After remote fetch, available books:', this.available.length);
+        
+        console.log('Building slug map...');
         this.buildSlugMap();
+        
         this._isInitialized = true;
+        console.log('Initialization complete!');
       } finally {
         this._isInitializing = false;
       }

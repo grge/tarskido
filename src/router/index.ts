@@ -84,11 +84,20 @@ const router = createRouter({
   routes,
 });
 
+// Handle GitHub Pages SPA fallback redirect
+if (window.location.search.startsWith('?/')) {
+  const redirectPath = window.location.search.slice(2) + window.location.hash;
+  window.history.replaceState(null, '', redirectPath);
+}
+
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(r => r.meta.requiresBook)) {
     const shelf = useBookShelfStore();
     const bookStore = useBookStore();
     const rawParam = to.params.bookParam as string;
+
+    // Ensure bookShelfStore is fully initialized (handles race conditions internally)
+    await shelf.initialise();
 
     const bookId = shelf.resolveBookParam(rawParam);
 

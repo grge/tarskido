@@ -23,11 +23,23 @@
       "topics": ["Representation Theory", "Group Theory", "Linear Algebra"],
       "difficulty": "Graduate",
       "nodeCount": 15
+    },
+    {
+      "id": "elliptic-functions-2026",
+      "title": "Elliptic Functions: A Modern Approach",
+      "author": "George Dickeson",
+      "description": "A systematic development of elliptic functions from lattices through Liouville's fundamental theorems to the Weierstrass ℘-function. Based on AMSI course materials, emphasizing the logical structure and dependencies between key results.",
+      "slug": "elliptic-functions",
+      "url": "/tarskido/books/elliptic_functions.json",
+      "source": "remote",
+      "topics": ["Elliptic Functions", "Complex Analysis", "Modular Forms"],
+      "difficulty": "Graduate",
+      "nodeCount": 10
     }
   ],
   "metadata": {
-    "version": "1.0",
-    "lastUpdated": "2025-01-13",
+    "version": "1.1",
+    "lastUpdated": "2026-02-26",
     "description": "Demo books available for immediate exploration in Tarskido"
   }
 }

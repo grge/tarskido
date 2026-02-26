@@ -1,0 +1,205 @@
+{
+  "id": "elliptic-functions-2026",
+  "name": "Elliptic Functions: A Modern Approach",
+  "author": "George Dickeson",
+  "preface": "This book presents elliptic functions from a modern perspective, building systematically from lattices through Liouville's fundamental theorems to the Weierstrass ℘-function. The approach emphasizes the logical structure and dependencies between key results, making the natural graph structure of the theory explicit.\n\nWe begin with the basic definitions of lattices and elliptic functions, then establish Liouville's four fundamental theorems that characterize the behavior of elliptic functions. Finally, we construct the Weierstrass ℘-function and prove that it generates the field of all elliptic functions.\n\nThis material is based on the AMSI course 'Elliptic Functions, Elliptic Curves and Modular Forms' taught by Prof. Florian Breuer at the University of Newcastle.",
+  "nodes": {
+    "lattice-definition": {
+      "id": "lattice-definition",
+      "reference": "1.1",
+      "name": "Lattice Definition",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A **lattice** in $\\mathbb{C}$ is a set of the form:\n\n$$\\Lambda = \\mathbb{Z}\\omega_1 + \\mathbb{Z}\\omega_2 = \\{m\\omega_1 + n\\omega_2 : m,n \\in \\mathbb{Z}\\}$$\n\nwhere $\\omega_1, \\omega_2 \\in \\mathbb{C}$ are **linearly independent over $\\mathbb{R}$**, meaning $\\frac{\\omega_1}{\\omega_2} \\notin \\mathbb{R}$.\n\nThe lattice forms a discrete additive subgroup of $\\mathbb{C}$, and we can visualize it as a regular grid of points in the complex plane.",
+      "references": [],
+      "chapter": "foundations",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "lattice-definition"
+    },
+    "meromorphic-functions": {
+      "id": "meromorphic-functions",
+      "reference": "1.2", 
+      "name": "Meromorphic Functions",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A function $f : \\mathbb{C} \\to \\mathbb{C} \\cup \\{\\infty\\}$ is **meromorphic** if it is holomorphic on all of $\\mathbb{C}$ except on a discrete set of poles.\n\nAt every point $c \\in \\mathbb{C}$ there exists a function $g$ holomorphic in a neighborhood of $c$ such that:\n\n$$f(z) = (z - c)^n g(z) \\text{ with } g(c) \\neq 0$$\n\nwhere $n \\in \\mathbb{Z}$ is called the **order** of $c$ in $f$, denoted $\\text{ord}_c(f)$:\n\n- If $\\text{ord}_c(f) > 0$: $f$ has a **zero** at $c$ of order $n$\n- If $\\text{ord}_c(f) < 0$: $f$ has a **pole** at $c$ of order $-n$\n- If $\\text{ord}_c(f) = 0$: $c$ is a regular point\n\nThe set of poles must be **discrete**: it has finite intersection with any bounded set.",
+      "references": [],
+      "chapter": "foundations", 
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "meromorphic-functions"
+    },
+    "elliptic-function-definition": {
+      "id": "elliptic-function-definition",
+      "reference": "1.3",
+      "name": "Elliptic Functions",
+      "nodetype": {
+        "primary": "Definition", 
+        "secondary": "Definition"
+      },
+      "statement": "An **elliptic function** with respect to lattice $\\Lambda$ is a meromorphic function $f : \\mathbb{C} \\to \\mathbb{C} \\cup \\{\\infty\\}$ that is **doubly periodic**:\n\n$$f(z + \\lambda) = f(z) \\text{ for all } z \\in \\mathbb{C} \\text{ and all } \\lambda \\in \\Lambda$$\n\nEquivalently, $f$ satisfies:\n$$f(z + \\omega_1) = f(z + \\omega_2) = f(z)$$\n\nfor all $z \\in \\mathbb{C}$.\n\n**Notation:** We denote by $E(\\Lambda)$ the set of all elliptic functions with respect to lattice $\\Lambda$.",
+      "references": ["lattice-definition", "meromorphic-functions"],
+      "chapter": "foundations",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "elliptic-function-definition"
+    },
+    "fundamental-parallelogram": {
+      "id": "fundamental-parallelogram",
+      "reference": "1.4",
+      "name": "Fundamental Parallelogram", 
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For a lattice $\\Lambda = \\mathbb{Z}\\omega_1 + \\mathbb{Z}\\omega_2$, a **fundamental parallelogram** (or **period parallelogram**) is a set of the form:\n\n$$P = \\{s\\omega_1 + t\\omega_2 : s,t \\in [0,1)\\}$$\n\nAlternatively, we can use any translate: $P_u = \\{u + s\\omega_1 + t\\omega_2 : s,t \\in [0,1)\\}$ for some $u \\in \\mathbb{C}$.\n\nThe fundamental parallelogram represents the **quotient space** $\\mathbb{C}/\\Lambda$, which is topologically a torus. Every elliptic function is completely determined by its behavior on any fundamental parallelogram.",
+      "references": ["lattice-definition"],
+      "chapter": "foundations",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "fundamental-parallelogram"
+    },
+    "residue-theory": {
+      "id": "residue-theory",
+      "reference": "2.1",
+      "name": "Residue Theory",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Background"
+      },
+      "statement": "For a meromorphic function $f$ with Laurent expansion about point $c$:\n\n$$f(z) = \\sum_{n \\geq m}^{\\infty} a_n (z-c)^n$$\n\nthe **residue** of $f$ at $c$ is the coefficient $a_{-1}$ of the $(z-c)^{-1}$ term:\n\n$$\\text{res}_c(f) = a_{-1}$$\n\n**Residue Theorem:** For a contour $\\gamma$ enclosing poles $c_1, \\ldots, c_k$:\n\n$$\\oint_{\\gamma} f(z) dz = 2\\pi i \\sum_{j=1}^{k} \\text{res}_{c_j}(f)$$\n\nFor elliptic functions, residues are preserved under translation: $\\text{res}_c(f) = \\text{res}_{c+\\lambda}(f)$ for any $\\lambda \\in \\Lambda$.",
+      "references": ["meromorphic-functions"],
+      "chapter": "liouville-theorems",
+      "proof_lines": [],
+      "autoslug": true, 
+      "slug": "residue-theory"
+    },
+    "liouville-first": {
+      "id": "liouville-first",
+      "reference": "2.2",
+      "name": "Liouville's First Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "If $f \\in E(\\Lambda)$ is holomorphic (i.e., has no poles), then $f$ is constant.\n\n**Interpretation:** Non-constant elliptic functions must have poles. There are no interesting holomorphic elliptic functions.",
+      "references": ["elliptic-function-definition", "fundamental-parallelogram"],
+      "chapter": "liouville-theorems",
+      "proof_lines": [
+        {
+          "statement": "Since $f$ is elliptic, it is determined by its values on the fundamental parallelogram $P$, which is compact.",
+          "references": ["fundamental-parallelogram"]
+        },
+        {
+          "statement": "A continuous function on a compact set is bounded, so $f$ is bounded on $P$, hence bounded on all of $\\mathbb{C}$.",
+          "references": []
+        },
+        {
+          "statement": "By the classical Liouville theorem, a bounded entire function must be constant.",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "liouville-first"
+    },
+    "liouville-second": {
+      "id": "liouville-second",
+      "reference": "2.3", 
+      "name": "Liouville's Second Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "If $f \\in E(\\Lambda)$ with fundamental parallelogram $P$, then:\n\n$$\\sum_{c \\in P} \\text{res}_c(f) = 0$$\n\n**Interpretation:** The sum of all residues in any period parallelogram is zero. This implies any non-constant elliptic function must have at least two poles (or a multiple pole).",
+      "references": ["elliptic-function-definition", "fundamental-parallelogram", "residue-theory"],
+      "chapter": "liouville-theorems",
+      "proof_lines": [
+        {
+          "statement": "Apply the residue theorem to the boundary of the fundamental parallelogram $P$.",
+          "references": ["residue-theory", "fundamental-parallelogram"]
+        },
+        {
+          "statement": "The integral equals $2\\pi i \\sum_{c \\in P} \\text{res}_c(f)$ by the residue theorem.",
+          "references": ["residue-theory"]
+        },
+        {
+          "statement": "But opposite sides of the parallelogram cancel due to periodicity: $\\int_{\\partial P} f(z) dz = 0$.",
+          "references": ["elliptic-function-definition"]
+        },
+        {
+          "statement": "Therefore $\\sum_{c \\in P} \\text{res}_c(f) = 0$.",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "liouville-second"
+    },
+    "liouville-third": {
+      "id": "liouville-third", 
+      "reference": "2.4",
+      "name": "Liouville's Third Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "If $f \\in E(\\Lambda)$ is non-constant, with fundamental parallelogram $P$, and $w \\in \\mathbb{C}$, then:\n\n$$\\sum_{c \\in P} \\text{ord}_c(f - w) = 0$$\n\n**Interpretation:** The number of zeros of $f - w$ equals the number of poles of $f$ (counting multiplicities). Every value $w$ is taken the same number of times. The map $f: P \\to \\mathbb{C} \\cup \\{\\infty\\}$ is surjective.\n\n**Geometric insight:** Elliptic functions are maps from the torus $\\mathbb{C}/\\Lambda$ to the Riemann sphere $\\mathbb{C} \\cup \\{\\infty\\}$.",
+      "references": ["elliptic-function-definition", "fundamental-parallelogram", "liouville-second"],
+      "chapter": "liouville-theorems", 
+      "proof_lines": [
+        {
+          "statement": "Consider the function $g(z) = \\frac{f'(z)}{f(z) - w}$, which is elliptic.",
+          "references": ["elliptic-function-definition"]
+        },
+        {
+          "statement": "The residue of $g$ at a point $c$ equals $\\text{ord}_c(f - w)$ (logarithmic derivative property).",
+          "references": ["residue-theory"]
+        },
+        {
+          "statement": "By Liouville's Second Theorem, $\\sum_{c \\in P} \\text{res}_c(g) = 0$.",
+          "references": ["liouville-second"]
+        },
+        {
+          "statement": "Therefore $\\sum_{c \\in P} \\text{ord}_c(f - w) = 0$.",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "liouville-third"
+    },
+    "weierstrass-existence": {
+      "id": "weierstrass-existence",
+      "reference": "3.1",
+      "name": "Weierstrass ℘-function",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Construction"
+      },
+      "statement": "For any lattice $\\Lambda$, there exists an elliptic function $\\wp(z)$ that:\n\n1. Has a double pole at each lattice point $\\lambda \\in \\Lambda$\n2. Has no other poles\n3. Has Laurent expansion about 0: $\\wp(z) = \\frac{1}{z^2} + \\sum_{n=1}^{\\infty} a_n z^{2n}$\n\nThis is the **Weierstrass ℘-function** (Weierstrass p-function).\n\n**Series definition:** \n$$\\wp(z) = \\frac{1}{z^2} + \\sum_{0 \\neq \\lambda \\in \\Lambda} \\left[\\frac{1}{(z-\\lambda)^2} - \\frac{1}{\\lambda^2}\\right]$$",
+      "references": ["lattice-definition", "elliptic-function-definition", "liouville-first", "liouville-second"],
+      "chapter": "weierstrass",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "weierstrass-existence"
+    },
+    "weierstrass-differential-equation": {
+      "id": "weierstrass-differential-equation",
+      "reference": "3.2",
+      "name": "Weierstrass Differential Equation", 
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "The Weierstrass ℘-function satisfies the differential equation:\n\n$$(\\wp'(z))^2 = 4(\\wp(z))^3 - g_2 \\wp(z) - g_3$$\n\nwhere $g_2$ and $g_3$ are constants depending only on the lattice $\\Lambda$.\n\n**Alternative form:** The equation can be factored as:\n$$(\\wp'(z))^2 = 4(\\wp(z) - e_1)(\\wp(z) - e_2)(\\wp(z) - e_3)$$\n\nwhere $e_1, e_2, e_3$ are the three roots, given by $e_k = \\wp(\\omega_k/2)$ with $\\omega_3 = \\omega_1 + \\omega_2$.",
+      "references": ["weierstrass-existence"],
+      "chapter": "weierstrass",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "weierstrass-differential-equation"
+    }
+  }
+}

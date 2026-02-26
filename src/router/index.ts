@@ -85,9 +85,27 @@ const router = createRouter({
 });
 
 // Handle GitHub Pages SPA fallback redirect
+addDebugLog('🌐 Checking GitHub Pages fallback', {
+  search: window.location.search,
+  href: window.location.href,
+  pathname: window.location.pathname
+});
+
 if (window.location.search.startsWith('?/')) {
   const redirectPath = window.location.search.slice(2) + window.location.hash;
+  addDebugLog('🔄 GitHub Pages SPA fallback triggered', {
+    originalSearch: window.location.search,
+    redirectPath: redirectPath,
+    finalUrl: window.location.origin + window.location.pathname + redirectPath
+  });
   window.history.replaceState(null, '', redirectPath);
+  addDebugLog('✅ SPA fallback redirect complete', {
+    newHref: window.location.href,
+    newPathname: window.location.pathname,
+    newSearch: window.location.search
+  });
+} else {
+  addDebugLog('⏭️  No GitHub Pages fallback needed');
 }
 
 // Debug logging for visual display
@@ -113,6 +131,9 @@ router.beforeEach(async (to, from, next) => {
   addDebugLog('🔄 Router guard triggered', {
     toPath: to.path,
     toParams: to.params,
+    toFullPath: to.fullPath,
+    toName: to.name,
+    matchedRoutes: to.matched.map(r => r.path),
     requiresBook: to.matched.some(r => r.meta.requiresBook)
   });
 

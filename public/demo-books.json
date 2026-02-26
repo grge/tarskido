@@ -34,7 +34,7 @@
       "source": "remote",
       "topics": ["Elliptic Functions", "Complex Analysis", "Modular Forms"],
       "difficulty": "Graduate",
-      "nodeCount": 10
+      "nodeCount": 13
     }
   ],
   "metadata": {

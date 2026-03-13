@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { useBookStore } from '@/stores/bookStore';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useBookShelfStore } from '@/stores/bookShelfStore';
 import { watch, ref } from 'vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';

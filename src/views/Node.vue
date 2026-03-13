@@ -13,7 +13,6 @@
 import NodeDetails from '@/components/NodeDetails.vue';
 import { useBookStore } from '@/stores/bookStore';
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
 
 export default {
   name: 'Node',
@@ -22,7 +21,6 @@ export default {
     bookId: String,
   },
   setup(props) {
-    const route = useRoute();
     const bookStore = useBookStore();
     const node = computed(() => bookStore.rawBook.nodes[props.nodeId]);
     const children = computed(() =>

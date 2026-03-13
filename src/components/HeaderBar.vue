@@ -89,7 +89,7 @@ function calculateRelevance(query: string, node: Node): { score: number; matched
   // Helper function to check for matches and apply scoring
   const checkField = (fieldValue: string, fieldName: string, baseScore: number) => {
     if (!fieldValue) return;
-    
+
     const lowerField = fieldValue.toLowerCase();
     if (!lowerField.includes(lowerQuery)) return;
 
@@ -122,18 +122,18 @@ function calculateRelevance(query: string, node: Node): { score: number; matched
       .filter(statement => statement)
       .join(' ')
       .toLowerCase();
-    
+
     if (proofText && proofText.includes(lowerQuery)) {
       matchedFields.push('proof_lines');
       let proofScore = 50;
-      
+
       // Apply same bonuses as other fields
       if (proofText === lowerQuery) {
         proofScore *= 2;
       } else if (proofText.includes(' ' + lowerQuery) || proofText.startsWith(lowerQuery)) {
         proofScore *= 1.5;
       }
-      
+
       score += proofScore;
     }
   }
@@ -161,15 +161,15 @@ function fetchSuggestions(query: string, callback: (suggestions: any[]) => void)
       if (b.score !== a.score) {
         return b.score - a.score;
       }
-      return a.node.reference.localeCompare(b.node.reference, undefined, { 
-        numeric: true, 
-        sensitivity: 'base' 
+      return a.node.reference.localeCompare(b.node.reference, undefined, {
+        numeric: true,
+        sensitivity: 'base',
       });
     })
     .slice(0, maxResults)
     .map(result => ({
       value: trimmedQuery, // Use the user's search query instead of node name
-      node: result.node
+      node: result.node,
     }));
 
   callback(suggestions);
@@ -192,10 +192,10 @@ function onSearchSelect(item: any) {
   const node = item.node;
   const bookParam = store.rawBook.slug || store.rawBook.id;
   const nodeParam = node.slug || node.id;
-  
-  router.push({ 
-    name: 'Node', 
-    params: { bookParam, nodeParam } 
+
+  router.push({
+    name: 'Node',
+    params: { bookParam, nodeParam },
   });
 }
 
@@ -301,7 +301,7 @@ watch(route, () => {
 
 .search-autocomplete
   width 100%
-  
+
   :deep(.el-input)
     .el-input__wrapper
       padding var(--sp-3) var(--sp-4)
@@ -313,37 +313,37 @@ watch(route, () => {
       font-size var(--fs-300)
       transition var(--transition-fast)
       box-shadow none
-      
+
       &:hover
         border-color var(--c-border)
         box-shadow none
-        
+
       &.is-focus
         border-color var(--c-brand)
         box-shadow 0 0 0 2px var(--c-focus)
-        
+
     .el-input__inner
       background transparent
       border none
       color var(--c-ink)
       padding 0
-      
+
       &::placeholder
         color var(--c-ink-muted)
-        
+
   :deep(.el-autocomplete-suggestion)
     background var(--c-paper)
     border 1px solid var(--c-border)
     border-top none
     border-radius 0 0 var(--radius-lg) var(--radius-lg)
-    
+
     .el-autocomplete-suggestion__list
       max-height 400px
-      
+
     .el-autocomplete-suggestion__item
       padding var(--sp-3) var(--sp-6)
       border-left 3px solid transparent
-      
+
       &:hover, &.highlighted
         background var(--c-surface)
         border-left-color var(--c-brand)

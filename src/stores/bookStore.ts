@@ -138,7 +138,7 @@ export const useBookStore = defineStore('book', () => {
 
   watch(
     rawBook,
-    data => {
+    () => {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(rebuildAndPersist, 50);
     },
@@ -259,7 +259,7 @@ export const useBookStore = defineStore('book', () => {
     const cmp = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare;
     return nodeIds
       .map(id => [id, rawBook.value.nodes[id]?.reference || ''])
-      .sort(([ida, refa], [idb, refb]) => cmp(refa as string, refb as string))
+      .sort(([, refa], [, refb]) => cmp(refa as string, refb as string))
       .map(([id]) => id as string);
   }
 

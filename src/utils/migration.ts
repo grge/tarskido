@@ -1,5 +1,20 @@
 import type { Book, Node } from '@/stores/bookStore';
 
+function slugify(node: Node, book: Book): string {
+  const baseSlug = (node.nodetype.secondary.toLowerCase() + '-' + node.reference).replace(
+    /\s+/g,
+    '-'
+  );
+
+  let slug = baseSlug;
+  let suffix = 2;
+  while (book.slugMap[slug]) {
+    slug = `${baseSlug}-${suffix}`;
+    suffix++;
+  }
+  return slug;
+}
+
 export function migrateBook(raw: any): Book {
   const book = { ...raw };
   const version = book.schemaVersion || 0;
@@ -13,20 +28,6 @@ export function migrateBook(raw: any): Book {
 
   if (version < 0.2) {
     // TODO: Proably want to move this helper to bookShelfStore.ts
-    function slugify(node: Node, book: Book): string {
-      const baseSlug = (node.nodetype.secondary.toLowerCase() + '-' + node.reference).replace(
-        /\s+/g,
-        '-'
-      );
-
-      let slug = baseSlug;
-      let suffix = 2;
-      while (book.slugMap[slug]) {
-        slug = `${baseSlug}-${suffix}`;
-        suffix++;
-      }
-      return slug;
-    }
     book.slugMap = book.slugMap || {};
     book.slug = book.slug || book.title?.toLowerCase().replace(/\s+/g, '-');
     for (const node of Object.values(book.nodes || {})) {

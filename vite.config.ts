@@ -10,14 +10,14 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 export default defineConfig({
   base: '/tarskido/',
   plugins: [
-    vue(), 
+    vue(),
     vueJsx(),
     {
       name: 'spa-fallback',
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           console.log('🔍 Middleware check:', req.url);
-          
+
           // Match our specific SPA route patterns from the router
           const spaRoutePatterns = [
             /^\/tarskido\/$/, // Home page
@@ -27,9 +27,12 @@ export default defineConfig({
             /^\/tarskido\/book\/[^/]+\/[^/]+$/, // Node page: /tarskido/book/{bookParam}/{nodeParam}
             /^\/tarskido\/book\/[^/]+\/[^/]+\/edit$/, // Node edit: /tarskido/book/{bookParam}/{nodeParam}/edit
           ];
-          
-          const isSpaRoute = req.method === 'GET' && req.url && spaRoutePatterns.some(pattern => pattern.test(req.url!));
-          
+
+          const isSpaRoute =
+            req.method === 'GET' &&
+            req.url &&
+            spaRoutePatterns.some(pattern => pattern.test(req.url!));
+
           if (isSpaRoute) {
             console.log('✅ SPA route detected, serving index.html for:', req.url);
             const indexPath = path.resolve(__dirname, 'index.html');
@@ -45,8 +48,8 @@ export default defineConfig({
           }
           next();
         });
-      }
-    }
+      },
+    },
   ],
   resolve: {
     alias: {

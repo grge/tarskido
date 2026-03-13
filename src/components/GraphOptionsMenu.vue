@@ -44,14 +44,32 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+
+type GraphOptions = {
+  reduceEdges: boolean;
+  animate: boolean;
+  contextCollapseLevel: number;
+  outsideCollapseLevel: number;
+  predecessorRadius: number;
+  successorRadius: number;
+  includeParents: boolean;
+  pruneSingleChildParents: boolean;
+};
+
+const props = defineProps<{ graphOptions: GraphOptions }>();
+
+// Local alias avoids directly mutating the prop binding in template.
+const graphOptions = ref(props.graphOptions);
+
+const menuVisible = ref(false);
+const showParentsMode = ref<'None' | 'Most' | 'All'>('Most');
+
 function toggleMenu() {
   menuVisible.value = !menuVisible.value;
 }
 
-const showParentsMode = ref<'None' | 'Most' | 'All'>('Most');
-
-watch(showParentsMode, (newMode: 'None' | 'Most' | 'All') => {
-  const go = props.graphOptions;
+watch(showParentsMode, newMode => {
+  const go = graphOptions.value;
   if (newMode === 'None') {
     go.includeParents = false;
     go.pruneSingleChildParents = true;
@@ -63,10 +81,6 @@ watch(showParentsMode, (newMode: 'None' | 'Most' | 'All') => {
     go.pruneSingleChildParents = false;
   }
 });
-
-const menuVisible = ref(false);
-
-const props = defineProps<{ graphOptions: any }>();
 </script>
 
 <style scoped lang="stylus">

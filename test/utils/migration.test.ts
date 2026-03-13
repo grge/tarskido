@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { migrateBook } from '../../src/utils/migration';
 
 describe('migration', () => {

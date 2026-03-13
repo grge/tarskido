@@ -1,36 +1,22 @@
 <template>
   <h4 class="proof-heading">Proof:</h4>
-  <template key="ix" v-for="(line, ix) in node.proof_lines">
+  <template v-for="(line, ix) in node.proof_lines" :key="ix">
     <div class="proof-line">
       <MarkdownRenderer :markdown="line.statement" />
     </div>
-    <ReferenceList :nodeids="line.references" v-if="line.references.length" />
+    <ReferenceList v-if="line.references.length" :nodeids="line.references" />
   </template>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import ReferenceList from '@/components/ReferenceList.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
-import { useBookStore } from '@/stores/bookStore';
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
 
-export default {
-  setup() {
-    const store = useBookStore();
-    const book = store.rawBook;
-    const nodeId = useRoute().params.nodeid;
-    const node = book.nodes[Array.isArray(nodeId) ? nodeId[0] : nodeId];
-    return { book, store, node };
-  },
-  props: {
-    node: Object,
-  },
-  components: {
-    ReferenceList,
-    MarkdownRenderer,
-  },
-};
+defineProps<{
+  node: {
+    proof_lines: Array<{ statement: string; references: string[] }>;
+  };
+}>();
 </script>
 
 <style scoped lang="stylus">

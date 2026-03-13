@@ -9,10 +9,6 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const emit = defineEmits<{
-  'book-action': [action: string, book?: any];
-}>();
-
 const router = useRouter();
 const shelf = useBookShelfStore();
 

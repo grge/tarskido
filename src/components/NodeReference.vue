@@ -20,7 +20,6 @@
 
 <script lang="ts">
 import { useBookStore } from '../stores/bookStore.js';
-import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import GlyphIcon from './GlyphIcon.vue';
 import MarkdownRenderer from './MarkdownRenderer.vue';
@@ -33,8 +32,6 @@ export default {
   },
   setup(props) {
     const store = useBookStore();
-    const route = useRoute();
-    const book_id = computed(() => route.params.bookid);
     const nodeId = computed(() => props.nodeId);
     const book = computed(() => store.rawBook);
     const node = computed(() => book.value.nodes[nodeId.value]);

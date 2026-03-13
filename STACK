@@ -2,23 +2,127 @@ HP: Completely broken or incredibly annoying unless fixed
 MP: Must fix before releasing MVP
 LP: Want to fix, but could release without it
 
+# STACK — priority-ordered jobs
+# Source docs:
+# - code_reviews/tarskido_code_review.md
+# - code_reviews/tarskido_code_review_2.md
+# - code_reviews/graph_animation_review.md
 
-- HP: Demo bookshelf list, loading from GitHub, fallback to local, etc. Revamp front page.
+## Recently completed
+- ✅ HP-02 parser/lint blockers completed:
+  - Fixed malformed `<rect>` markup in `GraphRenderer.vue`
+  - Fixed `NodeProof.vue` key/duplicate/template issues
+  - Removed prop mutation anti-pattern in `GraphOptionsMenu.vue`
 
-- MP: Better chapter and section views. Perhaps show a mini TOC of each subsection when viewing a chapter node.
-- MP: Fix animation of background colour for graph nodes that change colour
+- HP-01: Stabilization gate: get quality checks green and make them release blockers.
+  - Status: IN PROGRESS
+  - ✅ `npm run lint` now passes with 0 errors (warnings remain).
+  - ⏳ `npm run type-check` still failing.
+  - ⏳ `npm run test:run` still failing.
+  - ⏳ Add CI/deploy gate so deploy cannot proceed when checks fail.
+  - Ref: review.md → “Addendum: Empirical Build Health Check”, “Track A — Stabilization Sprint”, “Healthy Main Branch”.
 
-- LP: Audit consistency of type. Fonts, font sizes, margins, etc 
-- LP: The graph BBOX calculation does not include edges, so in rare circumstances edges get clipped off.
-- LP: Node table: Topological sort
-- LP: Graph clusters don't have correct z-ordering. Should breath-first sort first
-- LP: Persist graph options, and add a "reset to defaults" button
-- LP: Persist edit mode toggle
-- LP: Horizontal line below graph sometimes disapears when browser zoom < 100%?
-- LP: New view: Graph fullscreen with side panel for content
-- LP: Clusters can be collapsed/expanded on the graph
-- LP: Full dependencies view. Shows the recursive predecessors of the node in topological order
-- LP: Table of contents sidebar
-- LP: hovering over the navigation links like "up", "next", "previous" should highlight the corresponding node in the graph.
-- LP: pass nodes into components wherever possible, instead of passing the nodeId and looking it up in the store.
-- LP: Fix TypeScript type checking and ESLint errors throughout codebase
+- HP-02b: Graph renderer stabilization (measurement/render contract + animation model).
+  - Make measurement DOM styling-identical to rendered graph nodes (leaf/cluster/chapter variants).
+  - Replace brittle CSS/TransitionGroup-driven motion with explicit geometry tweening (shared node+edge interpolated state).
+  - Stop relying on CSS path morphing for `d`; either numeric tween or deliberate edge snap/fade strategy.
+  - Ref: graph_animation_review.md → “measurement contract is inconsistent”, “animation strategy is too fragile”, “recommended next-step architecture”.
+
+- HP-03: Repair domain model drift (`Node`/proof lines/slug fields) so types match runtime.
+  - Canonicalize `autoSlug` vs `autoslug` (single field only).
+  - Introduce proper `ProofLine` type and update `Node.proof_lines` to object shape used at runtime.
+  - Stop creating invalid placeholder node types (`{primary:'', secondary:''}`); use valid defaults.
+  - Ref: review_2.md → “Type system drift is severe”, “autoSlug vs autoslug bug”, “proof_lines is typed wrong”.
+
+- HP-04: Enforce data invariants at store level (not just UI hints).
+  - Validate on save/upsert: valid node types, existing references, no chapter/group references, no cycles.
+  - Include proof-line references in cycle detection.
+  - Block slug collisions from being persisted.
+  - Ref: review.md → “Critical Bugs #1/#3”; review_2.md → “Cycle detection ignores proof-line references”.
+
+- HP-05: Fix remote/local persistence boundary (current behavior is ambiguous).
+  - Separate loaded-book state from editable local persistence.
+  - Stop implicitly persisting remote loads into local editable store.
+  - Either use remote cache (`tarskido-remote-*`) properly or remove it.
+  - Ref: review_2.md → “Remote/local persistence is muddled”, “Remote cache is written but apparently unused”.
+
+- HP-06: Enforce edit permissions in store/router actions.
+  - Ensure remote/read-only books cannot be mutated by component paths (edit/delete in NodeList/NodeEdit/etc).
+  - Add central guard methods in store; UI should reflect policy but not be sole enforcement.
+  - Ref: review_2.md → “Edit permissions are mostly UI-level, not model-level”.
+
+- HP-07: Security hardening for markdown rendering.
+  - Sanitize markdown HTML output (or disable raw HTML if not needed).
+  - Review `v-html` surfaces and imported/remote content trust assumptions.
+  - Ref: review_2.md → “Markdown is currently XSS-prone”.
+
+- MP-01: Improve UX reliability and prevent accidental data loss.
+  - Add confirmations for destructive actions (delete node/book/proof line).
+  - Add user-visible error toasts/states for fetch/import/save failures.
+  - Add loading states for async flows (book load, remote fetch, graph refresh).
+  - Ref: review.md → “User Experience Issues #1/#3”, “Critical Bugs #2”.
+
+- MP-02: Refactor mutation flow to explicit store actions.
+  - Reduce direct deep component mutation of `rawBook`.
+  - Centralize invariants, slug map updates, and persistence triggers.
+  - Ref: review_2.md → “Store is doing too much, and components mutate it too freely”.
+
+- MP-03: Rework autosave/rebuild pipeline for performance.
+  - Replace deep-watch full-book rebuild/persist loop with intentional save pipeline (dirty flags, idle/debounce, selective graph invalidation).
+  - Ref: review.md → “Graph Rendering Performance”; review_2.md → “Deep watch on entire book + rebuild + localStorage write”.
+
+- MP-03b: Graph animation quality pass (post-stabilization).
+  - Remove `transition: all`; explicitly animate only intended properties.
+  - Add enter/exit origin/destination heuristics for nodes (parent/ancestor anchor) to reduce popping.
+  - Re-evaluate edge curve strategy (`curveBasis` vs polyline/rounded path) for clarity and stable arrowheads.
+  - Ref: graph_animation_review.md → “Concrete short-term fixes”, “edge spline choice”, “entering/exiting nodes”.
+
+- MP-04: Documentation pass for contributor velocity.
+  - Add `ARCHITECTURE.md` and `CONTRIBUTING.md`.
+  - Document core invariants (node types, refs, cycles, slug rules, permission model).
+  - Ref: review.md → “Developer Experience Issues #1”.
+
+- MP-05: Front page/shelf reliability and clarity.
+  - Revamp demo bookshelf list and remote fallback behavior.
+  - Implement “View all books as list” link (currently dead placeholder).
+  - Ref: existing STACK item + review_2.md “Dead or placeholder UI bits”.
+
+- MP-06: Improve chapter/section reading views.
+  - Add mini-TOC for chapter nodes and better subsection navigation.
+  - Ref: existing STACK item.
+
+- LP-01: Consistent visual system.
+  - Audit typography, spacing, component consistency.
+  - Standardize interaction elements (`button` vs clickable `<a>` where appropriate).
+  - Ref: existing STACK item + review.md “Design & UX Patterns”, review_2.md “Accessibility/semantics”.
+
+- LP-02: Graph UX + behavior polish.
+  - Fix node background color animation behavior.
+  - Include edges in graph BBOX to avoid clipping.
+  - Fix cluster z-ordering (breadth-first/parent-first layering).
+  - Persist graph options and add reset-to-defaults.
+  - Persist edit mode toggle.
+  - Optional long-term renderer architecture: split `structuralGraph` / `layoutGraph` / `displayGraph` states.
+  - Ref: existing STACK items + graph_animation_review.md.
+
+- LP-03: Navigation/reading enhancements.
+  - Node table topological sort.
+  - Table of contents sidebar.
+  - Full dependencies view (recursive predecessors in topological order).
+  - Hovering prev/up/next highlights target node in graph.
+  - Ref: existing STACK items.
+
+- LP-04: Advanced graph mode.
+  - Fullscreen graph view with side-panel content.
+  - Expand/collapse graph clusters interactively.
+  - Ref: existing STACK items.
+
+- LP-05: Codebase cleanup and consistency.
+  - Pass node objects to components where practical (reduce repeated ID lookups).
+  - Remove dead code/logging placeholders; unify naming conventions.
+  - Ref: existing STACK item + review_2.md consistency notes.
+
+- LP-06: Product-level roadmap after stabilization.
+  - Undo/redo, search/discovery, accessibility, mobile responsiveness.
+  - Export formats (PDF/LaTeX/HTML), templates, optional collaboration direction.
+  - Ref: review.md “Should-Fix/Nice-to-Have”, “Strategic Direction & Missing Features”.

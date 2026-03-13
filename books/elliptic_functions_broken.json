@@ -2,7 +2,7 @@
   "id": "elliptic-functions-2026",
   "name": "Elliptic Functions: A Modern Approach",
   "author": "George Dickeson",
-  "preface": "This book presents elliptic functions from a modern perspective, building systematically from lattices through Liouville's fundamental theorems to the Weierstrass \u2118-function. The approach emphasizes the logical structure and dependencies between key results, making the natural graph structure of the theory explicit.\n\nWe begin with the basic definitions of lattices and elliptic functions, then establish Liouville's four fundamental theorems that characterize the behavior of elliptic functions. We construct the Weierstrass \u2118-function through its series definition, prove convergence, and show that it generates the field of all elliptic functions.\n\nThis material is based on the AMSI course 'Elliptic Functions, Elliptic Curves and Modular Forms' taught by Prof. Florian Breuer at the University of Newcastle.",
+  "preface": "This book presents elliptic functions from a modern perspective, building systematically from lattices through Liouville's fundamental theorems to the Weierstrass ℘-function. The approach emphasizes the logical structure and dependencies between key results, making the natural graph structure of the theory explicit.\n\nWe begin with the basic definitions of lattices and elliptic functions, then establish Liouville's four fundamental theorems that characterize the behavior of elliptic functions. We construct the Weierstrass ℘-function through its series definition, prove convergence, and show that it generates the field of all elliptic functions.\n\nThis material is based on the AMSI course 'Elliptic Functions, Elliptic Curves and Modular Forms' taught by Prof. Florian Breuer at the University of Newcastle.",
   "nodes": {
     "foundations": {
       "id": "foundations",
@@ -77,8 +77,10 @@
         "primary": "Group",
         "secondary": "Chapter"
       },
-      "statement": "Eisenstein series provide the first systematic examples of functions with lattice structure. They illustrate convergence conditions and parity properties that will be crucial for constructing the Weierstrass \u2118-function.",
-      "references": [],
+      "statement": "Eisenstein series provide the first systematic examples of functions with lattice structure. They illustrate convergence conditions and parity properties that will be crucial for constructing the Weierstrass ℘-function.",
+      "references": [
+        "foundations"
+      ],
       "chapter": "ROOT",
       "proof_lines": [],
       "autoslug": true,
@@ -145,7 +147,10 @@
         "secondary": "Chapter"
       },
       "statement": "Four fundamental theorems of Liouville characterize the behavior of elliptic functions. These results show that non-constant elliptic functions must have poles, establish constraints on residues, prove surjectivity properties, and lead to Abel's important relation.",
-      "references": [],
+      "references": [
+        "complex-prereqs",
+        "foundations"
+      ],
       "chapter": "ROOT",
       "proof_lines": [],
       "autoslug": true,
@@ -312,13 +317,16 @@
     "weierstrass": {
       "id": "weierstrass",
       "reference": "4",
-      "name": "Weierstrass \u2118-function",
+      "name": "Weierstrass ℘-function",
       "nodetype": {
         "primary": "Group",
         "secondary": "Chapter"
       },
-      "statement": "The Weierstrass \u2118-function provides a canonical construction of elliptic functions and serves as a fundamental building block. We establish its existence through series construction, prove convergence, derive its differential equation, and show that it generates the field of all elliptic functions.",
-      "references": [],
+      "statement": "The Weierstrass ℘-function provides a canonical construction of elliptic functions and serves as a fundamental building block. We establish its existence through series construction, prove convergence, derive its differential equation, and show that it generates the field of all elliptic functions.",
+      "references": [
+        "liouville-theorems",
+        "eisenstein-series"
+      ],
       "chapter": "ROOT",
       "proof_lines": [],
       "autoslug": true,
@@ -329,8 +337,8 @@
       "reference": "4.1",
       "name": "Construction Motivation",
       "nodetype": {
-        "primary": "Comment",
-        "secondary": "Note"
+        "primary": "Note",
+        "secondary": "Discussion"
       },
       "statement": "We want to construct an elliptic function $\\wp(z)$ with:\n- Order 2 (double poles)\n- Poles exactly at lattice points $\\lambda \\in \\Lambda$\n- Laurent expansion $\\wp(z) = \\frac{1}{z^2} + a_1 z + a_2 z^2 + \\cdots$\n\n**Naive approach:** Try $f_k(z) = \\sum_{\\lambda \\in \\Lambda} \\frac{1}{(z - \\lambda)^k}$. This is doubly periodic, but converges only for $k > 2$.\n\n**Problem:** We need $k = 2$ for double poles, but the series doesn't converge.\n\n**Weierstrass's solution:** Use a subtraction trick to force convergence while preserving the essential singularity structure.",
       "references": [
@@ -345,12 +353,12 @@
     "weierstrass-series-definition": {
       "id": "weierstrass-series-definition",
       "reference": "4.2",
-      "name": "Series Definition of \u2118",
+      "name": "Series Definition of ℘",
       "nodetype": {
         "primary": "Definition",
         "secondary": "Definition"
       },
-      "statement": "The **Weierstrass \u2118-function** is defined by:\n$$\\wp(z, \\Lambda) = \\frac{1}{z^2} + \\sum_{0 \\neq \\lambda \\in \\Lambda} \\left[ \\frac{1}{(z - \\lambda)^2} - \\frac{1}{\\lambda^2} \\right]$$\n\n**Key insight:** The subtraction of $\\frac{1}{\\lambda^2}$ makes the terms small enough for convergence. The sum has zeros at all lattice points except 0, so we add $\\frac{1}{z^2}$ to get the correct pole at the origin.",
+      "statement": "The **Weierstrass ℘-function** is defined by:\n$$\\wp(z, \\Lambda) = \\frac{1}{z^2} + \\sum_{0 \\neq \\lambda \\in \\Lambda} \\left[ \\frac{1}{(z - \\lambda)^2} - \\frac{1}{\\lambda^2} \\right]$$\n\n**Key insight:** The subtraction of $\\frac{1}{\\lambda^2}$ makes the terms small enough for convergence. The sum has zeros at all lattice points except 0, so we add $\\frac{1}{z^2}$ to get the correct pole at the origin.",
       "references": [
         "weierstrass-construction-motivation",
         "lattice-definition"
@@ -363,7 +371,7 @@
     "weierstrass-double-periodicity": {
       "id": "weierstrass-double-periodicity",
       "reference": "4.3",
-      "name": "Double Periodicity of \u2118",
+      "name": "Double Periodicity of ℘",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Theorem"
@@ -437,7 +445,7 @@
       "reference": "4.5",
       "name": "Convergence of Weierstrass Series",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "The series defining $\\wp(z, \\Lambda)$ converges absolutely and uniformly on compact subsets of $\\{ (z, \\omega_1, \\omega_2) \\in \\mathbb{C}^3 : z \\notin \\Lambda, \\omega_1 / \\omega_2 \\notin \\mathbb{R} \\}$.",
@@ -478,9 +486,9 @@
     "weierstrass-critical-points": {
       "id": "weierstrass-critical-points",
       "reference": "4.6",
-      "name": "Critical Points of \u2118",
+      "name": "Critical Points of ℘",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Lemma",
         "secondary": "Lemma"
       },
       "statement": "The critical points of $\\wp$ are $\\omega/2 \\notin \\Lambda$ for $\\omega \\in \\Lambda$.\n\nIn the fundamental parallelogram, $\\omega_1/2$, $\\omega_2/2$, and $\\omega_3/2 = (\\omega_1 + \\omega_2)/2$ are simple zeros of $\\wp'$.",
@@ -510,10 +518,10 @@
       "reference": "4.7",
       "name": "Weierstrass Differential Equation",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
-      "statement": "The Weierstrass \u2118-function satisfies the differential equation:\n\n$$(\\wp'(z))^2 = 4(\\wp(z) - e_1)(\\wp(z) - e_2)(\\wp(z) - e_3)$$\n\nwhere $e_i = \\wp(\\omega_i/2)$ for $i = 1, 2, 3$ are the critical values of $\\wp$, with $\\omega_3 = \\omega_1 + \\omega_2$.\n\n**Alternative form:** $(\\wp'(z))^2 = 4(\\wp(z))^3 - g_2 \\wp(z) - g_3$ where $g_2, g_3$ depend only on the lattice.",
+      "statement": "The Weierstrass ℘-function satisfies the differential equation:\n\n$$(\\wp'(z))^2 = 4(\\wp(z) - e_1)(\\wp(z) - e_2)(\\wp(z) - e_3)$$\n\nwhere $e_i = \\wp(\\omega_i/2)$ for $i = 1, 2, 3$ are the critical values of $\\wp$, with $\\omega_3 = \\omega_1 + \\omega_2$.\n\n**Alternative form:** $(\\wp'(z))^2 = 4(\\wp(z))^3 - g_2 \\wp(z) - g_3$ where $g_2, g_3$ depend only on the lattice.",
       "references": [
         "weierstrass-critical-points"
       ],
@@ -548,8 +556,8 @@
       "reference": "4.8",
       "name": "Classification of Elliptic Functions",
       "nodetype": {
-        "primary": "Proposition",
-        "secondary": "Theorem"
+        "primary": "Theorem",
+        "secondary": "Main Theorem"
       },
       "statement": "**Main Classification Theorem:**\n\na) All even elliptic functions are rational functions in $\\wp$: $E_{\\text{even}}(\\Lambda) = \\mathbb{C}(\\wp)$.\n\nb) The field of all elliptic functions is $E(\\Lambda) = \\mathbb{C}(\\wp, \\wp')$. Any elliptic function $f \\in E(\\Lambda)$ can be written as:\n$$f(z) = R_1(\\wp(z)) + R_2(\\wp(z)) \\cdot \\wp'(z)$$\nwhere $R_1, R_2$ are rational functions.\n\n**Algebraic interpretation:** $E(\\Lambda) \\cong \\mathbb{C}[x,y]/\\langle y^2 - 4(x - e_1)(x - e_2)(x - e_3)\\rangle$",
       "references": [
@@ -631,7 +639,7 @@
       "name": "Classical Liouville Theorem",
       "nodetype": {
         "primary": "Proposition",
-        "secondary": "Proposition"
+        "secondary": "Background"
       },
       "statement": "Every bounded entire function on $\\mathbb{C}$ is constant.",
       "references": [],
@@ -677,7 +685,7 @@
       "reference": "0.6",
       "name": "Residue Theorem",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "For a meromorphic function $f$ and a positively oriented contour $\\gamma$ enclosing poles $c_1,\\dots,c_k$,\n$$\\oint_{\\gamma} f(z)\\,dz = 2\\pi i \\sum_{j=1}^{k} \\operatorname{res}_{c_j}(f).$$\nFor elliptic functions, residues are translation-invariant: $\\operatorname{res}_{c}(f)=\\operatorname{res}_{c+\\lambda}(f)$ for $\\lambda\\in\\Lambda$.",
@@ -695,8 +703,8 @@
       "reference": "0.7",
       "name": "Logarithmic Derivative Residue Lemma",
       "nodetype": {
-        "primary": "Proposition",
-        "secondary": "Lemma"
+        "primary": "Lemma",
+        "secondary": "Background"
       },
       "statement": "If $h$ is meromorphic and nonzero near $c$, then\n$$\\operatorname{res}_c\\!\\left(\\frac{h'(z)}{h(z)}\\right)=\\operatorname{ord}_c(h).$$\nThis is used repeatedly with $h=f-w$ and $h=f$.",
       "references": [
@@ -712,7 +720,7 @@
       "reference": "1.4",
       "name": "Geometric Viewpoint: $\\mathbb{C}/\\Lambda \\to \\widehat{\\mathbb{C}}$",
       "nodetype": {
-        "primary": "Comment",
+        "primary": "Note",
         "secondary": "Note"
       },
       "statement": "Identifying opposite edges of a fundamental parallelogram gives the torus $\\mathbb{C}/\\Lambda$. Elliptic functions descend to meromorphic maps\n$$f: \\mathbb{C}/\\Lambda \\to \\widehat{\\mathbb{C}}=\\mathbb{C}\\cup\\{\\infty\\}. $$\nThis geometric model is used to interpret value-distribution statements in Liouville's theorems.",

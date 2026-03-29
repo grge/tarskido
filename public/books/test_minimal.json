@@ -1,0 +1,52 @@
+{
+  "id": "test-minimal",
+  "name": "Minimal Test Book",
+  "author": "Test",
+  "preface": "Minimal test case",
+  "nodes": {
+    "root-chapter": {
+      "id": "root-chapter",
+      "reference": "1",
+      "name": "Test Chapter",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "Test chapter for debugging",
+      "references": [],
+      "chapter": "ROOT",
+      "autoslug": true,
+      "slug": "root-chapter"
+    },
+    "test-def": {
+      "id": "test-def",
+      "reference": "1.1",
+      "name": "Test Definition",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A test definition: $x = y$",
+      "references": [],
+      "chapter": "root-chapter",
+      "autoslug": true,
+      "slug": "test-def"
+    },
+    "test-thm": {
+      "id": "test-thm",
+      "reference": "1.2",
+      "name": "Test Theorem",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "A test theorem that uses the definition.",
+      "references": [
+        "test-def"
+      ],
+      "chapter": "root-chapter",
+      "autoslug": true,
+      "slug": "test-thm"
+    }
+  }
+}

@@ -1510,7 +1510,7 @@
       "name": "Introduction to Theta Functions",
       "nodetype": {
         "primary": "Comment",
-        "secondary": "Advanced"
+        "secondary": "Comment"
       },
       "statement": "**Theta functions** provide an alternative approach to elliptic functions via infinite products and q-series:\n\n$$\\vartheta(z; \\tau) = \\sum_{n \\in \\mathbb{Z}} e^{\\pi i n^2 \\tau + 2\\pi i n z}$$\n\nThey satisfy functional equations and transform under modular groups, connecting elliptic functions to modular forms and number theory. Jacobi's triple product and pentagonal number theorems arise from theta function identities.",
       "references": [
@@ -1527,7 +1527,7 @@
       "name": "Numerical Computation of \u2118",
       "nodetype": {
         "primary": "Comment",
-        "secondary": "Practical"
+        "secondary": "Comment"
       },
       "statement": "For computational purposes, the \u2118-function series converges rapidly away from lattice points. **Practical considerations:**\n\n- Use symmetry: compute only in fundamental parallelogram\n- Near lattice points: use Laurent expansion\n- For large |z|: series converges exponentially fast\n- Alternative: theta function representations often converge faster",
       "references": [
@@ -1546,7 +1546,7 @@
       "name": "Applications of Elliptic Functions",
       "nodetype": {
         "primary": "Comment",
-        "secondary": "Overview"
+        "secondary": "Comment"
       },
       "statement": "Elliptic functions appear throughout mathematics and physics:\n\n**Cryptography:** Elliptic Curve Cryptography (ECC) - ECDSA, ECDH protocols\n**Physics:** Pendulum motion, lattice models, integrable systems\n**Number Theory:** Modular forms, L-functions, BSD conjecture\n**Algebraic Geometry:** Abelian varieties, Riemann surfaces\n**Analysis:** Special functions, integral evaluation, conformal mapping",
       "references": [
@@ -1564,7 +1564,7 @@
       "name": "Historical Development",
       "nodetype": {
         "primary": "Comment",
-        "secondary": "Historical"
+        "secondary": "Comment"
       },
       "statement": "**Historical timeline of elliptic functions:**\n\n- **1655:** Wallis studies elliptic integrals (arc length of ellipse)\n- **1761:** Euler discovers addition theorem for elliptic integrals\n- **1827:** Abel proves impossibility of elementary antiderivative\n- **1829:** Jacobi inverts the problem: study the functions, not integrals\n- **1862:** Weierstrass gives the modern \u2118-function approach\n- **1900s:** Connection to algebraic geometry and modular forms\n- **1985:** Cryptographic applications via elliptic curve cryptography",
       "references": [

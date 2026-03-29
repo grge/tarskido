@@ -1,5 +1,7 @@
 # Tarskido
 
+[![Deploy to GitHub Pages](https://github.com/grge/tarskido/actions/workflows/deploy.yml/badge.svg)](https://github.com/grge/tarskido/actions/workflows/deploy.yml)
+
 **Tarskido** is an experimental platform for authoring and reading mathematics books or notes as a directed graph of definitions and propositions. It aims to make the natural graph structure of mathematical knowledge an explicit part of learning and reading. I've built this as a personal project, and have found it a useful way to organise my notes while study new topics. If you find it useful, or if you have any feedback or suggestions, I'd love to hear from you!
 
 ![Tarskido screenshot](screenshot.png)

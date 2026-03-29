@@ -12,6 +12,7 @@
     "format": "prettier --write src/",
     "deploy": "gh-pages -d dist",
     "import-book": "node scripts/import-book.js",
+    "check-books": "node scripts/check-books.js",
     "test": "vitest",
     "test:run": "vitest run"
   },

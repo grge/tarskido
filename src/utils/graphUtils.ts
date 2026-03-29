@@ -32,6 +32,86 @@ class UnionFind {
   }
 }
 /**
+ * Detect which anchor nodes (chapters) participate in dependency cycles.
+ * Returns both the set of cyclic anchors and the cycle information for UI feedback.
+ */
+export function detectCyclicChapters(
+  graph: Graph,
+  anchorIds: Set<string>
+): {
+  cyclicAnchors: Set<string>;
+  cycles: string[][];
+  chapterEdges: Map<string, Set<string>>;
+} {
+  console.log('🔍 CYCLE DETECTION: Starting analysis...');
+  
+  const uf = new UnionFind(graph.nodes());
+  
+  // First, determine what each node would collapse to
+  for (const n of graph.nodes()) {
+    if (!anchorIds.has(n)) {
+      let cur: string | undefined = n;
+      while (cur) {
+        const p = graph.parent(cur);
+        if (!p) break;
+        if (anchorIds.has(p)) {
+          uf.union(n, p);
+          break;
+        }
+        cur = p;
+      }
+    }
+  }
+  
+  // Build chapter-to-chapter graph
+  const chapterGraph = new Graph({ directed: true });
+  const chapterEdges = new Map<string, Set<string>>();
+  
+  // Add anchor nodes (excluding ROOT)
+  for (const anchor of anchorIds) {
+    if (anchor !== 'ROOT') {
+      chapterGraph.setNode(anchor, {});
+      chapterEdges.set(anchor, new Set());
+    }
+  }
+  
+  // Build chapter-to-chapter edges
+  const seen = new Set();
+  for (const e of graph.edges()) {
+    const anchoredEdge = [uf.find(e.v), uf.find(e.w)];
+    const key = anchoredEdge.join('->');
+    if (seen.has(key)) continue;
+    seen.add(key);
+    
+    if (anchoredEdge[0] !== anchoredEdge[1] && 
+        anchoredEdge[0] !== 'ROOT' && 
+        anchoredEdge[1] !== 'ROOT') {
+      
+      const [from, to] = anchoredEdge;
+      chapterGraph.setEdge(from, to, {});
+      chapterEdges.get(from)?.add(to);
+    }
+  }
+  
+  // Detect cycles using graphlib
+  const cycles = alg.findCycles(chapterGraph);
+  const cyclicAnchors = new Set<string>();
+  
+  console.log(`🔍 CYCLE DETECTION: Found ${cycles.length} cycles`);
+  for (let i = 0; i < cycles.length; i++) {
+    const cycle = cycles[i];
+    console.log(`  Cycle ${i + 1}: ${cycle.join(' → ')}`);
+    for (const node of cycle) {
+      cyclicAnchors.add(node);
+    }
+  }
+  
+  console.log(`🎯 CYCLE DETECTION: ${cyclicAnchors.size} chapters affected:`, [...cyclicAnchors]);
+  
+  return { cyclicAnchors, cycles, chapterEdges };
+}
+
+/**
  * Collapse clusters in the compound graph. Returns the new graph.
  * Any node that is a descendant of an anchor node (in the anchorIds set) will be collapsed,
  * and the edge relationships will be rewired accordingly.
@@ -42,7 +122,18 @@ export function collapseHierarchy(
   graph: Graph,
   anchorIds: Set<string>,
   includeParents: boolean = true
-): Graph {
+): {
+  graph: Graph;
+  cycles: string[][];
+  chapterEdges: Map<string, Set<string>>;
+} {
+  console.log('🔄 Starting collapseHierarchy...');
+  console.log(`📊 Input: ${graph.nodes().length} nodes, ${graph.edges().length} edges`);
+  console.log(`🎯 Anchors:`, [...anchorIds]);
+
+  // Detect cycles first
+  const { cyclicAnchors, cycles, chapterEdges } = detectCyclicChapters(graph, anchorIds);
+  
   const uf = new UnionFind(graph.nodes());
   for (const n of graph.nodes()) {
     if (!anchorIds.has(n)) {
@@ -50,7 +141,8 @@ export function collapseHierarchy(
       while (cur) {
         const p = graph.parent(cur);
         if (!p) break;
-        if (anchorIds.has(p)) {
+        if (anchorIds.has(p) && !cyclicAnchors.has(p)) {
+          // Only collapse chapters that don't participate in cycles
           uf.union(n, p);
           break;
         }
@@ -70,6 +162,8 @@ export function collapseHierarchy(
     }
   };
 
+  const addedEdges = new Set<string>();
+
   const seen = new Set();
   for (const e of graph.edges()) {
     const anchoredEdge = [uf.find(e.v), uf.find(e.w)];
@@ -80,6 +174,8 @@ export function collapseHierarchy(
       addNode(anchoredEdge[0]);
       addNode(anchoredEdge[1]);
       collapsedGraph.setEdge(anchoredEdge[0], anchoredEdge[1], { label: '' });
+      
+      addedEdges.add(`${anchoredEdge[0]} → ${anchoredEdge[1]}`);
     }
   }
 
@@ -92,7 +188,15 @@ export function collapseHierarchy(
   }
 
   collapsedGraph.removeNode('ROOT');
-  return collapsedGraph;
+
+  console.log('🔗 Final edges created:', [...addedEdges]);
+  console.log(`✅ Output: ${collapsedGraph.nodes().length} nodes, ${collapsedGraph.edges().length} edges`);
+  
+  if (cycles.length > 0) {
+    console.log(`🚨 Selective collapse applied - ${cyclicAnchors.size} chapters left uncollapsed due to cycles`);
+  }
+
+  return { graph: collapsedGraph, cycles, chapterEdges };
 }
 
 /**
@@ -186,6 +290,29 @@ export function induceCompoundSubgraph(graph: Graph, nodeIds: Set<string>): Grap
  */
 export function removeTransitiveEdges(graph: Graph): Graph {
   // 1) topological sort
+  console.log('🔍 TOPSORT DEBUG: About to run topological sort...');
+  console.log(`📊 Graph has ${graph.nodes().length} nodes, ${graph.edges().length} edges`);
+  console.log(`📋 Nodes:`, graph.nodes());
+  console.log(`🔗 Edges:`, graph.edges().map(e => `${e.v}→${e.w}`));
+  
+  try {
+    const isAcyclic = alg.isAcyclic(graph);
+    console.log(`🔄 Graph is acyclic: ${isAcyclic}`);
+    
+    if (!isAcyclic) {
+      const cycles = alg.findCycles(graph);
+      console.log('❌ CYCLES DETECTED in removeTransitiveEdges:', cycles);
+      throw new Error(`Graph has cycles: ${JSON.stringify(cycles)}`);
+    }
+    
+    const topo: string[] = alg.topsort(graph);
+    console.log('✅ Topological sort successful');
+  } catch (error) {
+    console.error('❌ TOPOLOGICAL SORT FAILED:', error);
+    console.log('Graph nodes:', graph.nodes());
+    console.log('Graph edges:', graph.edges().map(e => `${e.v} → ${e.w}`));
+    throw error;
+  }
   const topo: string[] = alg.topsort(graph);
 
   // 2) Build succ: map from node to direct successors

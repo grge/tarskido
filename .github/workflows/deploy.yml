@@ -36,6 +36,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate books
+        run: npm run check-books
+
       - name: Build
         run: npm run build
 

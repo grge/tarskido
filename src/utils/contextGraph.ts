@@ -1,4 +1,4 @@
-import { Graph } from '@dagrejs/graphlib';
+import { Graph, alg } from '@dagrejs/graphlib';
 import {
   depthLimitedTraversal,
   induceCompoundSubgraph,
@@ -72,7 +72,12 @@ export function buildContextGraph(
   graph: Graph,
   contextIds: string[] = [],
   options: contextGraphOptions = {}
-) {
+): {
+  graph: Graph;
+  cycles?: string[][];
+  chapterEdges?: Map<string, Set<string>>;
+  nodeCycles?: string[][];
+} {
   const {
     reduceEdges = true,
     contextCollapseLevel = 1,
@@ -96,18 +101,48 @@ export function buildContextGraph(
   // Step 3. Induce subgraph on the neighbourhood (i.e., gather all the edges)
   let sub = induceCompoundSubgraph(graph, neighborhoodWithAncesters);
 
+  // Step 3.5. Check for node-level cycles in the base graph
+  const nodeCycles = alg.findCycles(sub);
+  if (nodeCycles.length > 0) {
+    console.error('🚨 NODE-LEVEL CYCLES DETECTED:', nodeCycles);
+    console.error('   This indicates direct circular dependencies between individual nodes.');
+    console.error('   Graph rendering may be degraded or incorrect.');
+  }
+
   // Step 4. Collapse clusters and rewire edges
   const collapseOpts = { contextCollapseLevel, outsideCollapseLevel };
   const anchorIds = new Set(getAnchors(sub, contextIds, collapseOpts));
-  sub = collapseHierarchy(sub, anchorIds, includeParents);
+  
+  console.log('🏗️ CONTEXT GRAPH DEBUG: Before collapse');
+  console.log('  Anchor IDs:', Array.from(anchorIds));
+  console.log('  Subgraph nodes:', sub.nodes());
+  console.log('  Subgraph edges:', sub.edges().map(e => `${e.v} → ${e.w}`));
+  
+  const collapseResult = collapseHierarchy(sub, anchorIds, includeParents);
+  sub = collapseResult.graph;
+  
+  console.log('🏗️ CONTEXT GRAPH DEBUG: After collapse');
+  console.log('  Collapsed nodes:', sub.nodes());
+  console.log('  Collapsed edges:', sub.edges().map(e => `${e.v} → ${e.w}`));
 
-  // Step 5. Optionally reduce transitive edges
+  // Step 5. Optionally reduce transitive edges (skip if cycles detected)
+  let skippedTransitiveReduction = false;
   if (reduceEdges) {
-    sub = removeTransitiveEdges(sub);
+    if (collapseResult.cycles && collapseResult.cycles.length > 0) {
+      console.log('🚨 Skipping transitive reduction due to chapter cycles');
+      skippedTransitiveReduction = true;
+    } else {
+      sub = removeTransitiveEdges(sub);
+    }
   }
 
   // Step 6. Optionally prune parents with single children (note, this one mutates the graph)
   if (pruneSingleChildParents) removeSingleChildRoots(sub, new Set(contextIds));
 
-  return sub;
+  return {
+    graph: sub,
+    cycles: collapseResult.cycles,
+    chapterEdges: collapseResult.chapterEdges,
+    nodeCycles: nodeCycles.length > 0 ? nodeCycles : undefined,
+  };
 }

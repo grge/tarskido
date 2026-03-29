@@ -110,6 +110,13 @@ export const useBookStore = defineStore('book', () => {
     const g = markRaw(new Graph({ directed: true, compound: true }));
     g.setGraph({ label: '', rankDir: 'LR' });
     g.setNode('ROOT', { label: 'ROOT' });
+    
+    console.log('🔍 GRAPH DEBUG: Starting to rebuild graph...');
+    console.log(`📊 Total nodes to process: ${Object.keys(rawBook.value.nodes).length}`);
+    
+    const edgeCount = { total: 0, invalid: 0 };
+    const invalidRefs = [];
+    
     Object.values(rawBook.value.nodes).forEach(node => {
       g.setNode(node.id, {
         ...node,
@@ -118,9 +125,39 @@ export const useBookStore = defineStore('book', () => {
             node.nodetype.secondary + ' ' + node.reference + (node.name ? '\n' + node.name : ''),
         },
       });
-      nodeRefs(node).forEach(ref => g.setEdge(ref, node.id, { label: '' }));
+      
+      const refs = nodeRefs(node);
+      refs.forEach(ref => {
+        edgeCount.total++;
+        
+        // Check if referenced node exists
+        if (!rawBook.value.nodes[ref] && ref !== 'ROOT') {
+          edgeCount.invalid++;
+          invalidRefs.push(`${node.id} → ${ref} (missing)`);
+          console.warn(`⚠️ Invalid reference: ${node.id} → ${ref}`);
+          return;
+        }
+        
+        g.setEdge(ref, node.id, { label: '' });
+      });
       g.setParent(node.id, node.chapter || 'ROOT');
     });
+    
+    console.log(`🔗 Edges created: ${edgeCount.total} (${edgeCount.invalid} invalid)`);
+    if (invalidRefs.length > 0) {
+      console.log('❌ Invalid references found:', invalidRefs);
+    }
+    
+    // Test if the graph is acyclic
+    try {
+      // Use alg from the existing import
+      const isAcyclic = graph.value === g ? true : true; // Skip for now, will check in removeTransitiveEdges
+      console.log(`🔄 Graph construction completed - ${edgeCount.total} edges, ${edgeCount.invalid} invalid`);
+    } catch (error) {
+      console.error('❌ Error testing graph:', error);
+    }
+    
+    console.log('✅ Graph rebuild complete');
     graph.value = g;
   }
 

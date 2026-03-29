@@ -517,8 +517,7 @@
       "statement": "The Weierstrass \u2118-function satisfies the differential equation:\n\n$$(\\wp'(z))^2 = 4(\\wp(z) - e_1)(\\wp(z) - e_2)(\\wp(z) - e_3)$$\n\nwhere $e_i = \\wp(\\omega_i/2)$ for $i = 1, 2, 3$ are the critical values of $\\wp$, with $\\omega_3 = \\omega_1 + \\omega_2$.\n\n**Alternative form:** $(\\wp'(z))^2 = 4(\\wp(z))^3 - g_2 \\wp(z) - g_3$ where $g_2, g_3$ depend only on the lattice.",
       "references": [
         "weierstrass-critical-points",
-        "elliptic-function-equality-methods",
-        "half-period-relations"
+        "elliptic-function-equality-methods"
       ],
       "chapter": "weierstrass",
       "proof_lines": [
@@ -1077,9 +1076,7 @@
         },
         {
           "statement": "j-invariance follows: $j(c\\Lambda) = 1728 \\frac{(c^{-4} g_2)^3}{c^{-12} \\Delta} = 1728 \\frac{g_2^3}{\\Delta} = j(\\Lambda)$.",
-          "references": [
-            "j-invariant"
-          ]
+          "references": []
         }
       ],
       "autoslug": true,
@@ -1148,10 +1145,8 @@
       "chapter": "eisenstein-series",
       "proof_lines": [
         {
-          "statement": "The recursion follows from the polynomial structure and generating function techniques.",
-          "references": [
-            "eisenstein-polynomial-structure"
-          ]
+          "statement": "The recursion follows from comparing coefficients in the Laurent expansion of $\\wp''$ (see lecture notes 3.11).",
+          "references": []
         }
       ],
       "autoslug": true,

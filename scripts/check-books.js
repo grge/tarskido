@@ -138,6 +138,141 @@ function checkNodeIntegrity(bookName, book, graphResult) {
   return issues;
 }
 
+// Valid node type combinations from AGENTS.md
+const VALID_NODE_TYPES = {
+  'Comment': ['Comment', 'Note', 'Example'],
+  'Definition': ['Definition', 'Axiom', 'Hypothesis'], 
+  'Group': ['Chapter', 'Section', 'Subsection', 'MultiPart', 'Appendix'],
+  'Proposition': ['Proposition', 'Lemma', 'Theorem', 'Corollary']
+};
+
+function checkNodeTypes(bookName, book) {
+  const issues = [];
+  
+  for (const [nodeId, node] of Object.entries(book.nodes || {})) {
+    const { primary, secondary } = node.nodetype || {};
+    
+    if (!primary || !secondary) {
+      issues.push({
+        type: 'error',
+        category: 'invalid-node-type',
+        message: `Node ${nodeId}: Missing primary or secondary node type`
+      });
+      continue;
+    }
+    
+    const validSecondaries = VALID_NODE_TYPES[primary];
+    if (!validSecondaries) {
+      issues.push({
+        type: 'error',
+        category: 'invalid-node-type',
+        message: `Node ${nodeId}: Invalid primary type '${primary}'`
+      });
+    } else if (!validSecondaries.includes(secondary)) {
+      issues.push({
+        type: 'error',
+        category: 'invalid-node-type', 
+        message: `Node ${nodeId}: Invalid secondary type '${secondary}' for primary '${primary}'`
+      });
+    }
+  }
+  
+  return issues;
+}
+
+function checkReferences(bookName, book) {
+  const issues = [];
+  
+  for (const [nodeId, node] of Object.entries(book.nodes || {})) {
+    // Check if Group nodes have references (they shouldn't)
+    if (node.nodetype?.primary === 'Group' && node.references && node.references.length > 0) {
+      issues.push({
+        type: 'error',
+        category: 'invalid-group-references',
+        message: `Node ${nodeId}: Group/Chapter nodes must not have references`
+      });
+    }
+    
+    // Check references point to leaf nodes only
+    for (const refId of node.references || []) {
+      const refNode = book.nodes[refId];
+      if (refNode && refNode.nodetype?.primary === 'Group') {
+        issues.push({
+          type: 'error',
+          category: 'invalid-reference-target',
+          message: `Node ${nodeId}: References Group node '${refId}' (only leaf nodes allowed)`
+        });
+      }
+    }
+    
+    // Check proof line references too
+    for (const proofLine of node.proof_lines || []) {
+      for (const refId of proofLine.references || []) {
+        const refNode = book.nodes[refId];
+        if (refNode && refNode.nodetype?.primary === 'Group') {
+          issues.push({
+            type: 'error',
+            category: 'invalid-reference-target',
+            message: `Node ${nodeId}: Proof line references Group node '${refId}' (only leaf nodes allowed)`
+          });
+        }
+      }
+    }
+  }
+  
+  return issues;
+}
+
+function checkStructure(bookName, book) {
+  const issues = [];
+  
+  for (const [nodeId, node] of Object.entries(book.nodes || {})) {
+    // Check node ID consistency
+    if (node.id !== nodeId) {
+      issues.push({
+        type: 'error',
+        category: 'id-mismatch',
+        message: `Node key '${nodeId}' doesn't match internal id '${node.id}'`
+      });
+    }
+    
+    // Check required fields
+    const requiredFields = ['id', 'reference', 'name', 'statement', 'nodetype', 'references', 'chapter'];
+    for (const field of requiredFields) {
+      if (node[field] === undefined || node[field] === null) {
+        issues.push({
+          type: 'error',
+          category: 'missing-field',
+          message: `Node ${nodeId}: Missing required field '${field}'`
+        });
+      }
+    }
+    
+    // Check chapter exists (unless it's ROOT)
+    if (node.chapter && node.chapter !== 'ROOT' && !book.nodes[node.chapter]) {
+      issues.push({
+        type: 'error',
+        category: 'invalid-chapter',
+        message: `Node ${nodeId}: References non-existent chapter '${node.chapter}'`
+      });
+    }
+    
+    // Basic LaTeX validation (check for unmatched delimiters)
+    const statement = node.statement || '';
+    const dollarSingle = (statement.match(/\$/g) || []).length;
+    const dollarDouble = (statement.match(/\$\$/g) || []).length;
+    if ((dollarSingle - dollarDouble * 2) % 2 !== 0) {
+      issues.push({
+        type: 'warning',
+        category: 'malformed-latex',
+        message: `Node ${nodeId}: Possible unmatched $ delimiters in statement`
+      });
+    }
+  }
+  
+  return issues;
+}
+
 function validateBook(bookPath) {
   const bookName = path.basename(bookPath, '.json');
   console.log(`\n📖 Checking ${bookName}...`);
@@ -151,6 +286,9 @@ function validateBook(bookPath) {
   // Run all checks
   allIssues.push(...checkCycles(bookName, graphResult.graph));
   allIssues.push(...checkNodeIntegrity(bookName, book, graphResult));
+  allIssues.push(...checkNodeTypes(bookName, book));
+  allIssues.push(...checkReferences(bookName, book));
+  allIssues.push(...checkStructure(bookName, book));
   
   // Report results
   const errors = allIssues.filter(issue => issue.type === 'error');

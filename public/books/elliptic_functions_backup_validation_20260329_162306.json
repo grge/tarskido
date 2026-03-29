@@ -129,8 +129,7 @@
       "statement": "Every Eisenstein series of even weight can be expressed as a polynomial with rational coefficients in $G_4$ and $G_6$:\n$$G_{2k} \\in \\mathbb{Q}[G_4, G_6]$$\n\n**Examples:** \n- $7G_8 = 3G_4^2$\n- $11G_{10} = 5G_4 G_6$\n\n*Note: This provides our first glimpse of modular forms, though we haven't defined them yet.*",
       "references": [
         "eisenstein-definition",
-        "eisenstein-parity",
-        "eisenstein-recursion"
+        "eisenstein-parity"
       ],
       "chapter": "eisenstein-series",
       "proof_lines": [],
@@ -517,8 +516,7 @@
       "statement": "The Weierstrass \u2118-function satisfies the differential equation:\n\n$$(\\wp'(z))^2 = 4(\\wp(z) - e_1)(\\wp(z) - e_2)(\\wp(z) - e_3)$$\n\nwhere $e_i = \\wp(\\omega_i/2)$ for $i = 1, 2, 3$ are the critical values of $\\wp$, with $\\omega_3 = \\omega_1 + \\omega_2$.\n\n**Alternative form:** $(\\wp'(z))^2 = 4(\\wp(z))^3 - g_2 \\wp(z) - g_3$ where $g_2, g_3$ depend only on the lattice.",
       "references": [
         "weierstrass-critical-points",
-        "elliptic-function-equality-methods",
-        "half-period-relations"
+        "elliptic-function-equality-methods"
       ],
       "chapter": "weierstrass",
       "proof_lines": [
@@ -559,9 +557,8 @@
       "statement": "**Main Classification Theorem:**\n\na) All even elliptic functions are rational functions in $\\wp$: $E_{\\text{even}}(\\Lambda) = \\mathbb{C}(\\wp)$.\n\nb) The field of all elliptic functions is $E(\\Lambda) = \\mathbb{C}(\\wp, \\wp')$. Any elliptic function $f \\in E(\\Lambda)$ can be written as:\n$$f(z) = R_1(\\wp(z)) + R_2(\\wp(z)) \\cdot \\wp'(z)$$\nwhere $R_1, R_2$ are rational functions.\n\n**Algebraic interpretation:** $E(\\Lambda) \\cong \\mathbb{C}[x,y]/\\langle y^2 - 4(x - e_1)(x - e_2)(x - e_3)\\rangle$",
       "references": [
         "weierstrass-differential-equation",
-        "elliptic-function-equality-methods",
-        "liouville-third",
-        "liouville-fourth"
+        "liouville-theorems",
+        "elliptic-function-equality-methods"
       ],
       "chapter": "weierstrass",
       "proof_lines": [
@@ -735,7 +732,7 @@
       "reference": "3.1A",
       "name": "Elliptic Function Equality Methods",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Corollary",
         "secondary": "Corollary"
       },
       "statement": "To prove two elliptic functions $f$ and $g$ are equal, use one of these fundamental methods:\n\n**Method 1 (Difference):** If $f - g$ has no poles (poles cancel), then by Liouville I, $f - g$ is constant. Show the constant is 0 by evaluating at a convenient point.\n\n**Method 2 (Ratio):** If $f/g$ has no zeros or poles (same zeros and poles), then by Liouville I, $f/g$ is constant. Show the constant is 1 by comparing Laurent coefficients or evaluation.\n\n**Meta-principle:** These methods underlie most elliptic function proofs since Liouville I is the primary tool for establishing equalities in the presence of periodicity constraints.",
@@ -893,7 +890,7 @@
       "reference": "6.1",
       "name": "Addition Theorem for \u2118",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "Given $z, w \\in \\mathbb{C}$ with $z, w, z \\pm w \\notin \\Lambda$:\n\n$$\\wp(z+w) = \\frac{1}{4}\\left(\\frac{\\wp'(z) - \\wp'(w)}{\\wp(z) - \\wp(w)}\\right)^2 - \\wp(z) - \\wp(w)$$\n\n**Significance:** This explicit formula shows that addition of lattice points corresponds to a rational operation on the elliptic curve. This underlies the group law structure.",
@@ -933,7 +930,7 @@
       "reference": "6.2",
       "name": "Duplication Formula",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Corollary",
         "secondary": "Corollary"
       },
       "statement": "Setting $z = w$ in the addition theorem (with careful limit analysis):\n\n$$\\wp(2z) = \\frac{1}{4}\\left(\\frac{\\wp''(z)}{\\wp'(z)}\\right)^2 - 2\\wp(z)$$\n\n**Alternative form using the differential equation:**\n$$\\wp(2z) = \\frac{(\\wp'(z))^2 + (\\wp(z))^2 - g_2/4}{4\\wp(z) - \\wp''(z)/\\wp'(z)}$$",
@@ -996,7 +993,7 @@
       "reference": "7.2",
       "name": "Weierstrass Parametrization",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "The map $\\Phi: \\mathbb{C}/\\Lambda \\to E(\\mathbb{C})$ defined by:\n\n$$\\Phi(z + \\Lambda) = \\begin{cases} (\\wp(z), \\wp'(z)) & \\text{if } z \\notin \\Lambda \\\\ \\mathcal{O} & \\text{if } z \\in \\Lambda \\end{cases}$$\n\nis a **bijection** between the torus and the elliptic curve. This is the **uniformization** of the curve.",
@@ -1041,8 +1038,7 @@
       "references": [
         "weierstrass-g2",
         "weierstrass-g3",
-        "weierstrass-discriminant",
-        "homothety-action"
+        "weierstrass-discriminant"
       ],
       "chapter": "invariants",
       "proof_lines": [],
@@ -1061,7 +1057,8 @@
       "references": [
         "weierstrass-g2",
         "weierstrass-g3",
-        "weierstrass-discriminant"
+        "weierstrass-discriminant",
+        "j-invariant"
       ],
       "chapter": "invariants",
       "proof_lines": [
@@ -1090,7 +1087,7 @@
       "reference": "0.6",
       "name": "Residue Theorem",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "If $f$ is meromorphic on a simply connected domain $D$ and $\\gamma$ is a simple closed curve in $D$ containing poles $a_1, \\ldots, a_n$ in its interior, then:\n\n$$\\frac{1}{2\\pi i} \\oint_\\gamma f(z) \\, dz = \\sum_{k=1}^n \\text{res}_{a_k}(f)$$",
@@ -1108,12 +1105,13 @@
       "reference": "4.8",
       "name": "Half-Period Relations",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Lemma",
         "secondary": "Lemma"
       },
       "statement": "The critical values $e_i = \\wp(\\omega_i/2)$ satisfy:\n\n$$e_1 + e_2 + e_3 = 0$$\n$$g_2 = -4(e_1 e_2 + e_2 e_3 + e_3 e_1)$$\n$$g_3 = 4e_1 e_2 e_3$$\n\nThese follow from expanding $4(x - e_1)(x - e_2)(x - e_3) = 4x^3 - g_2 x - g_3$ and comparing coefficients.",
       "references": [
         "weierstrass-critical-points",
+        "weierstrass-differential-equation",
         "weierstrass-g2",
         "weierstrass-g3"
       ],
@@ -1138,12 +1136,13 @@
       "reference": "2.4",
       "name": "Eisenstein Series Recursion",
       "nodetype": {
-        "primary": "Proposition",
-        "secondary": "Corollary"
+        "primary": "Corollary",
+        "secondary": "Formula"
       },
       "statement": "The Eisenstein series satisfy the recursion:\n\n$$G_{2k}(\\Lambda) = \\frac{3}{(2k-1)(2k-3)} \\sum_{j=1}^{k-2} G_{2j}(\\Lambda) G_{2(k-j-1)}(\\Lambda)$$\n\nfor $k \\geq 3$, with initial values $G_4$ and $G_6$ generating all higher series.",
       "references": [
-        "eisenstein-definition"
+        "eisenstein-definition",
+        "eisenstein-polynomial-structure"
       ],
       "chapter": "eisenstein-series",
       "proof_lines": [
@@ -1162,13 +1161,12 @@
       "reference": "6.3",
       "name": "Algebraic Addition Theorem",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "There exists a polynomial $P \\in \\mathbb{C}[X, Y, Z]$ such that:\n\n$$P(\\wp(z), \\wp(w), \\wp(z+w)) = 0$$\n\n**Classification Consequence:** If a meromorphic function $f$ on $\\mathbb{C}$ satisfies an algebraic addition theorem, then $f$ is one of:\n- (a) a rational function,\n- (b) a rational function in $e^{2\\pi i\\alpha z}$ for some $\\alpha \\in \\mathbb{C}^*$,\n- (c) an elliptic function with respect to some lattice.",
       "references": [
-        "weierstrass-addition-theorem",
-        "weierstrass-duplication-formula"
+        "weierstrass-addition-theorem"
       ],
       "chapter": "addition-theorem",
       "proof_lines": [
@@ -1193,7 +1191,7 @@
       "reference": "7.3",
       "name": "Group Law on Elliptic Curves",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "The elliptic curve $E(\\mathbb{C})$ has a natural **abelian group structure** with:\n\n- **Identity:** $\\mathcal{O}$ (point at infinity)\n- **Addition:** Chord-and-tangent construction\n- **Inverse:** $(x, y)^{-1} = (x, -y)$\n\n**Chord-and-tangent rule:** To compute $P + Q$:\n1. Draw the line through $P$ and $Q$ (tangent if $P = Q$)\n2. Find the third intersection $R$ with the curve\n3. $P + Q = R^{-1}$ (reflection of $R$ across $x$-axis)\n\n**Key fact:** This geometric law corresponds to addition in $\\mathbb{C}/\\Lambda$ under the Weierstrass parametrization.",
@@ -1281,7 +1279,7 @@
       "reference": "0.7",
       "name": "Laurent Expansion",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "Every function meromorphic in an annulus $r < |z - a| < R$ has a unique Laurent expansion:\n\n$$f(z) = \\sum_{n=-\\infty}^{\\infty} a_n (z - a)^n$$\n\nThe **principal part** is $\\sum_{n=-\\infty}^{-1} a_n (z-a)^n$ and the residue is $a_{-1}$.",
@@ -1299,7 +1297,7 @@
       "reference": "0.8",
       "name": "Maximum Modulus Principle",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "If $f$ is holomorphic and non-constant on a connected domain $D$, then $|f|$ has no local maxima in $D$.\n\n**Consequence:** If $f$ is continuous on $\\overline{D}$ and holomorphic in $D$, then $\\max_{z \\in \\overline{D}} |f(z)|$ is achieved on the boundary $\\partial D$.",
@@ -1316,7 +1314,7 @@
       "reference": "2.5",
       "name": "Eisenstein Series Convergence",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "The Eisenstein series $G_k(\\Lambda) = \\sum_{0 \\neq \\lambda \\in \\Lambda} \\frac{1}{\\lambda^k}$ converges absolutely for $k > 2$.\n\n**Proof idea:** Use lattice comparison to relate convergence to $\\sum_{n,m} \\frac{1}{(n^2 + m^2)^{k/2}}$, which converges for $k > 2$.",
@@ -1349,7 +1347,7 @@
       "reference": "4.9",
       "name": "Laurent Expansion of \u2118",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "The Weierstrass \u2118-function has Laurent expansion at $z = 0$:\n\n$$\\wp(z) = \\frac{1}{z^2} + \\frac{g_2}{20} z^2 + \\frac{g_3}{28} z^4 + \\sum_{k=3}^{\\infty} \\frac{(2k+1) G_{2k+2}(\\Lambda)}{(k-1)(2k-1)} z^{2k}$$\n\n**Key observation:** No odd powers appear (\u2118 is even), and no linear term appears (residue is 0).",
@@ -1382,7 +1380,7 @@
       "reference": "4.10",
       "name": "Order and Degree of \u2118",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "The Weierstrass \u2118-function has **order 2**: in any fundamental parallelogram, \u2118 has exactly 2 poles (counting multiplicity), which are both simple poles at lattice points.\n\nFor any $w \\in \\mathbb{C}$, the equation $\\wp(z) = w$ has exactly 2 solutions in any fundamental parallelogram (counting multiplicity).",
@@ -1413,8 +1411,8 @@
       "reference": "8.3",
       "name": "Eisenstein Series as Modular Forms",
       "nodetype": {
-        "primary": "Proposition",
-        "secondary": "Theorem"
+        "primary": "Theorem",
+        "secondary": "Example"
       },
       "statement": "The normalized Eisenstein series $E_k(\\tau) = G_k(\\mathbb{Z} + \\mathbb{Z}\\tau) / \\zeta(k)$ are **modular forms of weight k**:\n\n$$E_k\\left(\\frac{a\\tau + b}{c\\tau + d}\\right) = (c\\tau + d)^k E_k(\\tau)$$\n\nfor $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\in \\text{SL}(2,\\mathbb{Z})$ and $k \\geq 4$ even.",
       "references": [
@@ -1442,8 +1440,8 @@
       "reference": "8.4",
       "name": "j-Invariant as Modular Function",
       "nodetype": {
-        "primary": "Proposition",
-        "secondary": "Theorem"
+        "primary": "Theorem",
+        "secondary": "Example"
       },
       "statement": "The j-invariant $j(\\tau) = j(\\mathbb{Z} + \\mathbb{Z}\\tau)$ is a **modular function**:\n\n$$j\\left(\\frac{a\\tau + b}{c\\tau + d}\\right) = j(\\tau)$$\n\nMoreover, $j: \\mathfrak{h}/\\text{SL}(2,\\mathbb{Z}) \\to \\mathbb{C}$ is **surjective**: every complex number is the j-invariant of some elliptic curve.",
       "references": [
@@ -1492,7 +1490,7 @@
       "name": "Complex Multiplication",
       "nodetype": {
         "primary": "Definition",
-        "secondary": "Definition"
+        "secondary": "Advanced"
       },
       "statement": "An elliptic curve has **complex multiplication (CM)** if its endomorphism ring is larger than \u2124.\n\n**Equivalent condition:** The lattice \u039b is stable under multiplication by some \u03b1 \u2208 \u2102 with \u03b1 \u2209 \u211d.\n\n**Examples:** Square lattices, triangular lattices, and their scaling variants have CM.",
       "references": [
@@ -1514,7 +1512,8 @@
       },
       "statement": "**Theta functions** provide an alternative approach to elliptic functions via infinite products and q-series:\n\n$$\\vartheta(z; \\tau) = \\sum_{n \\in \\mathbb{Z}} e^{\\pi i n^2 \\tau + 2\\pi i n z}$$\n\nThey satisfy functional equations and transform under modular groups, connecting elliptic functions to modular forms and number theory. Jacobi's triple product and pentagonal number theorems arise from theta function identities.",
       "references": [
-        "weierstrass-series-definition"
+        "weierstrass-series-definition",
+        "modular-forms"
       ],
       "chapter": "modular-forms",
       "proof_lines": [],
@@ -1551,6 +1550,7 @@
       "statement": "Elliptic functions appear throughout mathematics and physics:\n\n**Cryptography:** Elliptic Curve Cryptography (ECC) - ECDSA, ECDH protocols\n**Physics:** Pendulum motion, lattice models, integrable systems\n**Number Theory:** Modular forms, L-functions, BSD conjecture\n**Algebraic Geometry:** Abelian varieties, Riemann surfaces\n**Analysis:** Special functions, integral evaluation, conformal mapping",
       "references": [
         "elliptic-curve-group-law",
+        "modular-forms",
         "j-invariant"
       ],
       "chapter": "modular-forms",

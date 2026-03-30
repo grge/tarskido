@@ -96,7 +96,10 @@
         "secondary": "Chapter"
       },
       "statement": "Four fundamental theorems of Liouville characterize the behavior of elliptic functions. These results show that non-constant elliptic functions must have poles, establish constraints on residues, prove surjectivity properties, and lead to Abel's important relation.",
-      "references": [],
+      "references": [
+        "complex-prereqs",
+        "foundations"
+      ],
       "chapter": "ROOT",
       "proof_lines": [],
       "autoslug": true,
@@ -107,7 +110,7 @@
       "reference": "0.8",
       "name": "Residue Theorem",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "For a meromorphic function $f$ and a positively oriented contour $\\gamma$ enclosing poles $c_1,\\dots,c_k$,\n$$\\oint_{\\gamma} f(z)\\,dz = 2\\pi i \\sum_{j=1}^{k} \\operatorname{res}_{c_j}(f).$$\nFor elliptic functions, residues are translation-invariant: $\\operatorname{res}_{c}(f)=\\operatorname{res}_{c+\\lambda}(f)$ for $\\lambda\\in\\Lambda$.",
@@ -261,7 +264,7 @@
       "reference": "3.1",
       "name": "Weierstrass ℘-function",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "For every lattice $\\Lambda$, there exists an elliptic function $\\wp$ with:\n1. a double pole at each $\\lambda\\in\\Lambda$,\n2. no other poles,\n3. Laurent expansion near $0$: $\\wp(z)=z^{-2}+O(z^2)$.\n\n(Existence stated here; proof deferred.)",
@@ -314,7 +317,7 @@
       "name": "Discrete Zero Set Principle",
       "nodetype": {
         "primary": "Proposition",
-        "secondary": "Proposition"
+        "secondary": "Background"
       },
       "statement": "If a holomorphic function on a domain has an accumulation point of zeros, it is identically zero (Identity Theorem). Consequently, a nonzero meromorphic function has a discrete set of zeros and poles.",
       "references": [],
@@ -329,7 +332,7 @@
       "name": "Classical Liouville Theorem",
       "nodetype": {
         "primary": "Proposition",
-        "secondary": "Proposition"
+        "secondary": "Background"
       },
       "statement": "Every bounded entire function on $\\mathbb{C}$ is constant.",
       "references": [],
@@ -343,8 +346,8 @@
       "reference": "0.6",
       "name": "Logarithmic Derivative Residue Lemma",
       "nodetype": {
-        "primary": "Proposition",
-        "secondary": "Proposition"
+        "primary": "Lemma",
+        "secondary": "Background"
       },
       "statement": "If $h$ is meromorphic and nonzero near $c$, then\n$$\\operatorname{res}_c\\!\\left(\\frac{h\\'(z)}{h(z)}\\right)=\\operatorname{ord}_c(h).$$\nThis is used repeatedly with $h=f-w$ and $h=f$.",
       "references": [
@@ -360,7 +363,7 @@
       "reference": "1.4",
       "name": "Fundamental Lemma on Period Groups",
       "nodetype": {
-        "primary": "Proposition",
+        "primary": "Theorem",
         "secondary": "Theorem"
       },
       "statement": "If $f$ is meromorphic and non-constant, then exactly one holds:\n1. $\\operatorname{Per}(f)=\\{0\\}$,\n2. $\\operatorname{Per}(f)=\\mathbb{Z}\\omega$ for some $\\omega\\in\\mathbb{C}^*$,\n3. $\\operatorname{Per}(f)=\\mathbb{Z}\\omega_1+\\mathbb{Z}\\omega_2$ with $\\omega_1,\\omega_2$ $\\mathbb{R}$-linearly independent.\n\nIn case (3), one may choose a basis with $\\tau=\\omega_1/\\omega_2$ satisfying\n$$\\operatorname{Im}(\\tau)>0,\\qquad |\\operatorname{Re}(\\tau)|\\le \\tfrac12,\\qquad |\\tau|\\ge 1.$$",
@@ -419,7 +422,7 @@
       "reference": "1.6",
       "name": "Geometric Viewpoint: $\\mathbb{C}/\\Lambda \\to \\widehat{\\mathbb{C}}$",
       "nodetype": {
-        "primary": "Comment",
+        "primary": "Note",
         "secondary": "Note"
       },
       "statement": "Identifying opposite edges of a fundamental parallelogram gives the torus $\\mathbb{C}/\\Lambda$. Elliptic functions descend to meromorphic maps\n$$f: \\mathbb{C}/\\Lambda \\to \\widehat{\\mathbb{C}}=\\mathbb{C}\\cup\\{\\infty\\}. $$\nThis geometric model is used to interpret value-distribution statements in Liouville's theorems.",

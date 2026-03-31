@@ -818,7 +818,7 @@
         "primary": "Definition",
         "secondary": "Definition"
       },
-      "statement": "If $U_1, \\ldots, U_r$ are subspaces of a vector space $V$, then their *sum* is defined by\n\n$$ U_1 + \\cdots + U_r = \\{ u_1 + \\cdots + u_r : u_i \\in U_i \\text{ for } 1 \\leq i \\leq r \\}.$$\n\nNote that by the conditions set out in 2.5, $U_1 + \\cdots + U_r$ is a subspace of $V\n\nWe say that a sum of subspaces is a **direct sum** if every element of the sum can be written in a *unique* way as $u_1 + \\cdots + u_r$ with $u_i \\in U_i$ for $1 \\leq i \\leq r$. If the sum is direct, we write it as\n\n$$U_1 \\oplus \\cdots \\oplus U_r.$$",
+      "statement": "If $U_1, \\ldots, U_r$ are subspaces of a vector space $V$, then their *sum* is defined by\n\n$$ U_1 + \\cdots + U_r = \\{ u_1 + \\cdots + u_r : u_i \\in U_i \\text{ for } 1 \\leq i \\leq r \\}.$$\n\nNote that by the conditions set out in 2.5, $U_1 + \\cdots + U_r$ is a subspace of $V$.\n\nWe say that a sum of subspaces is a **direct sum** if every element of the sum can be written in a *unique* way as $u_1 + \\cdots + u_r$ with $u_i \\in U_i$ for $1 \\leq i \\leq r$. If the sum is direct, we write it as\n\n$$U_1 \\oplus \\cdots \\oplus U_r.$$",
       "references": [
         "e8eab3e7-94c8-4894-a4bb-4ca3115d1e4c"
       ],

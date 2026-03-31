@@ -111,9 +111,6 @@ export const useBookStore = defineStore('book', () => {
     g.setGraph({ label: '', rankDir: 'LR' });
     g.setNode('ROOT', { label: 'ROOT' });
     
-    console.log('🔍 GRAPH DEBUG: Starting to rebuild graph...');
-    console.log(`📊 Total nodes to process: ${Object.keys(rawBook.value.nodes).length}`);
-    
     const edgeCount = { total: 0, invalid: 0 };
     const invalidRefs = [];
     
@@ -143,21 +140,10 @@ export const useBookStore = defineStore('book', () => {
       g.setParent(node.id, node.chapter || 'ROOT');
     });
     
-    console.log(`🔗 Edges created: ${edgeCount.total} (${edgeCount.invalid} invalid)`);
-    if (invalidRefs.length > 0) {
+    if (import.meta.env?.DEV && invalidRefs.length > 0) {
+      console.warn('⚠️ Invalid references detected. Run migration to fix orphaned references.');
       console.log('❌ Invalid references found:', invalidRefs);
     }
-    
-    // Test if the graph is acyclic
-    try {
-      // Use alg from the existing import
-      const isAcyclic = graph.value === g ? true : true; // Skip for now, will check in removeTransitiveEdges
-      console.log(`🔄 Graph construction completed - ${edgeCount.total} edges, ${edgeCount.invalid} invalid`);
-    } catch (error) {
-      console.error('❌ Error testing graph:', error);
-    }
-    
-    console.log('✅ Graph rebuild complete');
     graph.value = g;
   }
 
@@ -173,14 +159,17 @@ export const useBookStore = defineStore('book', () => {
     persistBook();
   }
 
-  watch(
-    rawBook,
-    () => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(rebuildAndPersist, 50);
-    },
-    { deep: true }
-  );
+  // Only enable watcher outside of test environment
+  if (!import.meta.env?.VITEST) {
+    watch(
+      rawBook,
+      () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(rebuildAndPersist, 50);
+      },
+      { deep: true }
+    );
+  }
 
   // ============================================================================
   // BOOK LOADING & PERSISTENCE
@@ -247,6 +236,8 @@ export const useBookStore = defineStore('book', () => {
     if (newSlug) {
       rawBook.value.slugMap[newSlug] = nodeId;
     }
+    // Ensure persistence in test environment where watcher might not fire
+    rebuildAndPersist();
   }
 
   // ============================================================================

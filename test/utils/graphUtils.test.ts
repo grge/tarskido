@@ -17,8 +17,8 @@ describe('graphUtils', () => {
 
     it('should handle empty graph', () => {
       const result = collapseHierarchy(graph, new Set());
-      expect(result.nodes()).toEqual([]);
-      expect(result.edges()).toEqual([]);
+      expect(result.graph.nodes()).toEqual([]);
+      expect(result.graph.edges()).toEqual([]);
     });
 
     it('should collapse simple hierarchy', () => {
@@ -36,10 +36,10 @@ describe('graphUtils', () => {
       const result = collapseHierarchy(graph, new Set(['A']));
 
       // A should be the anchor, B and C should be collapsed into A
-      expect(result.hasNode('A')).toBe(true);
-      expect(result.hasNode('B')).toBe(false);
-      expect(result.hasNode('C')).toBe(false);
-      expect(result.edges()).toEqual([]);
+      expect(result.graph.hasNode('A')).toBe(true);
+      expect(result.graph.hasNode('B')).toBe(false);
+      expect(result.graph.hasNode('C')).toBe(false);
+      expect(result.graph.edges()).toEqual([]);
     });
 
     it('should handle multiple anchors', () => {
@@ -59,11 +59,11 @@ describe('graphUtils', () => {
       const result = collapseHierarchy(graph, new Set(['A', 'C']));
 
       // Both A and C should remain as anchors
-      expect(result.hasNode('A')).toBe(true);
-      expect(result.hasNode('C')).toBe(true);
-      expect(result.hasNode('B')).toBe(false);
-      expect(result.hasNode('D')).toBe(false);
-      expect(result.hasEdge('A', 'C')).toBe(true);
+      expect(result.graph.hasNode('A')).toBe(true);
+      expect(result.graph.hasNode('C')).toBe(true);
+      expect(result.graph.hasNode('B')).toBe(false);
+      expect(result.graph.hasNode('D')).toBe(false);
+      expect(result.graph.hasEdge('A', 'C')).toBe(true);
     });
 
     it('should preserve edges between collapsed nodes', () => {
@@ -78,10 +78,10 @@ describe('graphUtils', () => {
       const result = collapseHierarchy(graph, new Set(['A']));
 
       // Edge should be collapsed to self-loop and removed
-      expect(result.hasNode('A')).toBe(true);
-      expect(result.hasNode('B')).toBe(false);
-      expect(result.hasNode('C')).toBe(false);
-      expect(result.edges()).toEqual([]);
+      expect(result.graph.hasNode('A')).toBe(true);
+      expect(result.graph.hasNode('B')).toBe(false);
+      expect(result.graph.hasNode('C')).toBe(false);
+      expect(result.graph.edges()).toEqual([]);
     });
   });
 

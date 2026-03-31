@@ -13,8 +13,8 @@ describe('contextGraph', () => {
 
     it('should handle empty graph', () => {
       const result = buildContextGraph(graph, []);
-      expect(result.nodes()).toEqual([]);
-      expect(result.edges()).toEqual([]);
+      expect(result.graph.nodes()).toEqual([]);
+      expect(result.graph.edges()).toEqual([]);
     });
 
     it('should handle empty context', () => {
@@ -23,8 +23,8 @@ describe('contextGraph', () => {
       graph.setEdge('A', 'B', {});
 
       const result = buildContextGraph(graph, []);
-      expect(result.nodes()).toEqual([]);
-      expect(result.edges()).toEqual([]);
+      expect(result.graph.nodes()).toEqual([]);
+      expect(result.graph.edges()).toEqual([]);
     });
 
     it('should include context nodes and their immediate neighborhood', () => {
@@ -38,11 +38,11 @@ describe('contextGraph', () => {
       const result = buildContextGraph(graph, ['B']);
 
       // Should include B and its immediate neighbors
-      expect(result.hasNode('A')).toBe(true);
-      expect(result.hasNode('B')).toBe(true);
-      expect(result.hasNode('C')).toBe(true);
-      expect(result.hasEdge('A', 'B')).toBe(true);
-      expect(result.hasEdge('B', 'C')).toBe(true);
+      expect(result.graph.hasNode('A')).toBe(true);
+      expect(result.graph.hasNode('B')).toBe(true);
+      expect(result.graph.hasNode('C')).toBe(true);
+      expect(result.graph.hasEdge('A', 'B')).toBe(true);
+      expect(result.graph.hasEdge('B', 'C')).toBe(true);
     });
 
     it('should respect predecessor radius', () => {
@@ -60,11 +60,11 @@ describe('contextGraph', () => {
       const result = buildContextGraph(graph, ['C'], { predecessorRadius: 2, successorRadius: 0 });
 
       // Should include C and 2 predecessors (B, A), but no successors
-      expect(result.hasNode('A')).toBe(true);
-      expect(result.hasNode('B')).toBe(true);
-      expect(result.hasNode('C')).toBe(true);
-      expect(result.hasNode('D')).toBe(false);
-      expect(result.hasNode('E')).toBe(false);
+      expect(result.graph.hasNode('A')).toBe(true);
+      expect(result.graph.hasNode('B')).toBe(true);
+      expect(result.graph.hasNode('C')).toBe(true);
+      expect(result.graph.hasNode('D')).toBe(false);
+      expect(result.graph.hasNode('E')).toBe(false);
     });
 
     it('should respect successor radius', () => {
@@ -82,11 +82,11 @@ describe('contextGraph', () => {
       const result = buildContextGraph(graph, ['C'], { predecessorRadius: 0, successorRadius: 2 });
 
       // Should include C and 2 successors (D, E), but no predecessors
-      expect(result.hasNode('A')).toBe(false);
-      expect(result.hasNode('B')).toBe(false);
-      expect(result.hasNode('C')).toBe(true);
-      expect(result.hasNode('D')).toBe(true);
-      expect(result.hasNode('E')).toBe(true);
+      expect(result.graph.hasNode('A')).toBe(false);
+      expect(result.graph.hasNode('B')).toBe(false);
+      expect(result.graph.hasNode('C')).toBe(true);
+      expect(result.graph.hasNode('D')).toBe(true);
+      expect(result.graph.hasNode('E')).toBe(true);
     });
 
     it('should disable edge reduction when requested', () => {
@@ -102,9 +102,9 @@ describe('contextGraph', () => {
       const resultWithoutReduction = buildContextGraph(graph, ['B'], { reduceEdges: false });
 
       // With reduction, transitive edge should be removed
-      expect(resultWithReduction.hasEdge('A', 'C')).toBe(false);
+      expect(resultWithReduction.graph.hasEdge('A', 'C')).toBe(false);
       // Without reduction, transitive edge should remain
-      expect(resultWithoutReduction.hasEdge('A', 'C')).toBe(true);
+      expect(resultWithoutReduction.graph.hasEdge('A', 'C')).toBe(true);
     });
 
     it('should handle multiple context nodes', () => {
@@ -119,12 +119,12 @@ describe('contextGraph', () => {
       const result = buildContextGraph(graph, ['A', 'C']);
 
       // Should include both context nodes and their neighborhoods
-      expect(result.hasNode('A')).toBe(true);
-      expect(result.hasNode('B')).toBe(true);
-      expect(result.hasNode('C')).toBe(true);
-      expect(result.hasNode('D')).toBe(true);
-      expect(result.hasEdge('A', 'B')).toBe(true);
-      expect(result.hasEdge('C', 'D')).toBe(true);
+      expect(result.graph.hasNode('A')).toBe(true);
+      expect(result.graph.hasNode('B')).toBe(true);
+      expect(result.graph.hasNode('C')).toBe(true);
+      expect(result.graph.hasNode('D')).toBe(true);
+      expect(result.graph.hasEdge('A', 'B')).toBe(true);
+      expect(result.graph.hasEdge('C', 'D')).toBe(true);
     });
 
     it('should preserve node attributes', () => {
@@ -134,8 +134,8 @@ describe('contextGraph', () => {
 
       const result = buildContextGraph(graph, ['A']);
 
-      expect(result.node('A')).toEqual({ label: 'Node A', type: 'definition' });
-      expect(result.node('B')).toEqual({ label: 'Node B', type: 'theorem' });
+      expect(result.graph.node('A')).toEqual({ label: 'Node A', type: 'definition' });
+      expect(result.graph.node('B')).toEqual({ label: 'Node B', type: 'theorem' });
     });
   });
 });

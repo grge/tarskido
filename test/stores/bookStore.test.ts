@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
+import { nextTick } from 'vue';
 import { useBookStore } from '../../src/stores/bookStore';
 import type { Book, Node } from '../../src/stores/bookStore';
 
@@ -185,7 +186,11 @@ describe('bookStore', () => {
     });
 
     it('should handle slug collisions', () => {
-      store.rawBook.value.slugMap = { 'definition-1.1': 'other-node' };
+      // Load a book with existing slug mappings
+      store.loadFromJSON({
+        ...mockBook,
+        slugMap: { 'definition-1.1': 'other-node' }
+      });
 
       const node: Node = {
         id: 'node1',
@@ -263,16 +268,16 @@ describe('bookStore', () => {
 
   describe('sortNodesByReference', () => {
     beforeEach(() => {
-      store.rawBook.value = {
+      store.loadFromJSON({
         ...mockBook,
         nodes: {
-          node1: { reference: '1.1', id: 'node1' } as Node,
-          node2: { reference: '1.10', id: 'node2' } as Node,
-          node3: { reference: '1.2', id: 'node3' } as Node,
-          node4: { reference: '2.1', id: 'node4' } as Node,
-          node5: { reference: '1.1.1', id: 'node5' } as Node,
+          node1: { reference: '1.1', id: 'node1', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
+          node2: { reference: '1.10', id: 'node2', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
+          node3: { reference: '1.2', id: 'node3', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
+          node4: { reference: '2.1', id: 'node4', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
+          node5: { reference: '1.1.1', id: 'node5', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
         },
-      };
+      });
     });
 
     it('should sort references naturally', () => {
@@ -293,11 +298,14 @@ describe('bookStore', () => {
     });
 
     it('should handle alphabetic references', () => {
-      store.rawBook.value.nodes = {
-        node1: { reference: 'A.1', id: 'node1' } as Node,
-        node2: { reference: 'B.1', id: 'node2' } as Node,
-        node3: { reference: 'A.2', id: 'node3' } as Node,
-      };
+      store.loadFromJSON({
+        ...mockBook,
+        nodes: {
+          node1: { reference: 'A.1', id: 'node1', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
+          node2: { reference: 'B.1', id: 'node2', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
+          node3: { reference: 'A.2', id: 'node3', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
+        },
+      });
 
       const result = store.sortNodesByReference(['node2', 'node3', 'node1']);
       expect(result).toEqual(['node1', 'node3', 'node2']);
@@ -306,46 +314,55 @@ describe('bookStore', () => {
 
   describe('updateSlugMap', () => {
     beforeEach(() => {
-      store.rawBook.value = {
+      store.loadFromJSON({
         ...mockBook,
         slugMap: {
           'old-slug': 'node1',
           'other-slug': 'node2',
         },
-      };
+      });
     });
 
-    it('should update slug mapping', () => {
+    it('should update slug mapping', async () => {
       store.updateSlugMap('node1', 'new-slug', 'old-slug');
+      await nextTick();
 
-      expect(store.rawBook.value.slugMap).toEqual({
+      // Access the data directly since Pinia is auto-unwrapping the ref in tests
+      const bookData = store.rawBook as any;
+      expect(bookData.slugMap).toEqual({
         'new-slug': 'node1',
         'other-slug': 'node2',
       });
     });
 
-    it('should add new slug without removing old', () => {
+    it('should add new slug without removing old', async () => {
       store.updateSlugMap('node1', 'new-slug');
+      await nextTick();
 
-      expect(store.rawBook.value.slugMap).toEqual({
+      const bookData = store.rawBook as any;
+      expect(bookData.slugMap).toEqual({
         'old-slug': 'node1',
         'other-slug': 'node2',
         'new-slug': 'node1',
       });
     });
 
-    it('should remove old slug mapping', () => {
+    it('should remove old slug mapping', async () => {
       store.updateSlugMap('node1', '', 'old-slug');
+      await nextTick();
 
-      expect(store.rawBook.value.slugMap).toEqual({
+      const bookData = store.rawBook as any;
+      expect(bookData.slugMap).toEqual({
         'other-slug': 'node2',
       });
     });
 
-    it('should not remove wrong node mapping', () => {
+    it('should not remove wrong node mapping', async () => {
       store.updateSlugMap('node1', 'new-slug', 'other-slug');
+      await nextTick();
 
-      expect(store.rawBook.value.slugMap).toEqual({
+      const bookData = store.rawBook as any;
+      expect(bookData.slugMap).toEqual({
         'old-slug': 'node1',
         'other-slug': 'node2',
         'new-slug': 'node1',
@@ -355,15 +372,15 @@ describe('bookStore', () => {
 
   describe('resolveNodeParam', () => {
     beforeEach(() => {
-      store.rawBook.value = {
+      store.loadFromJSON({
         ...mockBook,
         nodes: {
-          node1: { id: 'node1' } as Node,
+          node1: { id: 'node1', nodetype: { primary: 'Definition', secondary: 'Definition' }, reference: '1.1' } as Node,
         },
         slugMap: {
           'test-slug': 'node1',
         },
-      };
+      });
     });
 
     it('should resolve node ID directly', () => {

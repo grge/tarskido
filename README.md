@@ -9,8 +9,6 @@
 
 **Live demo:** https://grge.github.io/tarskido/
 
-![Tarskido screenshot](screenshot.png)
-
 ## Features
 
 - **Graph-based navigation** of mathematical content with dependency-aware layout

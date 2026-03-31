@@ -32,8 +32,8 @@ export function migrateBook(raw: any): Book {
     book.slug = book.slug || book.title?.toLowerCase().replace(/\s+/g, '-');
     for (const node of Object.values(book.nodes || {})) {
       const typedNode = node as Node;
-      if (typedNode.autoSlug == undefined) {
-        typedNode.autoSlug = true;
+      if (typedNode.autoslug == undefined) {
+        typedNode.autoslug = true;
         if (typedNode.slug == undefined) {
           // TODO: Probably want a method inside bookShelfStore.ts for adding slugs
           typedNode.slug = slugify(typedNode, book);

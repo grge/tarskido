@@ -22,6 +22,11 @@ const VALID_COMMENT_SUBTYPE = ['Comment', 'Note', 'Example'] as const;
 const VALID_DEFINITION_SUBTYPE = ['Definition', 'Axiom', 'Hypothesis'] as const;
 const VALID_GROUP_SUBTYPE = ['Chapter', 'Section', 'Subsection', 'MultiPart', 'Appendix'] as const;
 const VALID_PROPOSITION_SUBTYPE = ['Proposition', 'Lemma', 'Theorem', 'Corollary'] as const;
+
+export interface ProofLine {
+  statement: string;
+  references: string[];
+}
 export const VALID_NODE_TYPE = {
   Comment: VALID_COMMENT_SUBTYPE,
   Definition: VALID_DEFINITION_SUBTYPE,
@@ -45,12 +50,12 @@ export interface Node {
   reference: string;
   name: string;
   slug?: string;
-  autoSlug: boolean;
+  autoslug: boolean;
   nodetype: NodeType;
   statement: string;
   references: string[];
   chapter: string;
-  proof_lines: string[];
+  proof_lines: ProofLine[];
 }
 
 function nodeRefs(node: Node): string[] {
@@ -60,7 +65,7 @@ function nodeRefs(node: Node): string[] {
     return base;
   }
 
-  const extra = Object.values(node.proof_lines ?? {}).flatMap(line => line?.references ?? []);
+  const extra = (node.proof_lines ?? []).flatMap((line: ProofLine) => line?.references ?? []);
   return Array.from(new Set([...base, ...extra]));
 }
 
@@ -379,8 +384,12 @@ export const useBookStore = defineStore('book', () => {
       if (visited.has(nodeId)) return false;
       visited.add(nodeId);
 
-      const nodeRefs = rawBook.value.nodes[nodeId]?.references || [];
-      for (const refId of nodeRefs) {
+      // Use nodeRefs to get ALL references (including proof-line references)
+      const node = rawBook.value.nodes[nodeId];
+      if (!node) return false;
+      
+      const allRefs = nodeRefs(node);
+      for (const refId of allRefs) {
         if (refId === sourceNodeId) return true; // Found a path back to source
         if (checkDependencies(refId)) return true; // Recursive check
       }

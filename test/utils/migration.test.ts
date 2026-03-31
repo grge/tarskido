@@ -95,8 +95,8 @@ describe('migration', () => {
 
       expect(result.schemaVersion).toBe(0.2);
       expect(result.slug).toBe('test-book');
-      expect(result.nodes.node1.autoSlug).toBe(true);
-      expect(result.nodes.node2.autoSlug).toBe(true);
+      expect(result.nodes.node1.autoslug).toBe(true);
+      expect(result.nodes.node2.autoslug).toBe(true);
       expect(result.nodes.node1.slug).toBe('definition-1.1');
       expect(result.nodes.node2.slug).toBe('theorem-1.2');
       expect(result.slugMap['definition-1.1']).toBe('node1');
@@ -208,7 +208,7 @@ describe('migration', () => {
             reference: '1.1',
             name: 'First Node',
             slug: 'definition-1.1',
-            autoSlug: true,
+            autoslug: true,
             nodetype: { primary: 'Definition', secondary: 'Definition' },
             statement: 'Test statement',
             references: [],

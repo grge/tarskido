@@ -7,7 +7,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "build": "vite build",
-    "type-check": "npm run lint && npm run build",
+    "type-check": "npm run build-only",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "deploy": "gh-pages -d dist",

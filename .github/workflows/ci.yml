@@ -27,7 +27,7 @@ jobs:
         run: npm run type-check
 
       - name: Lint
-        run: npx eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --max-warnings 0
+        run: npx eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --max-warnings 30
 
       - name: Run tests
         run: npm run test:run

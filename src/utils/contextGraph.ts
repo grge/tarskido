@@ -112,25 +112,29 @@ export function buildContextGraph(
   // Step 4. Collapse clusters and rewire edges
   const collapseOpts = { contextCollapseLevel, outsideCollapseLevel };
   const anchorIds = new Set(getAnchors(sub, contextIds, collapseOpts));
-  
+
   console.log('🏗️ CONTEXT GRAPH DEBUG: Before collapse');
   console.log('  Anchor IDs:', Array.from(anchorIds));
   console.log('  Subgraph nodes:', sub.nodes());
-  console.log('  Subgraph edges:', sub.edges().map(e => `${e.v} → ${e.w}`));
-  
+  console.log(
+    '  Subgraph edges:',
+    sub.edges().map(e => `${e.v} → ${e.w}`)
+  );
+
   const collapseResult = collapseHierarchy(sub, anchorIds, includeParents);
   sub = collapseResult.graph;
-  
+
   console.log('🏗️ CONTEXT GRAPH DEBUG: After collapse');
   console.log('  Collapsed nodes:', sub.nodes());
-  console.log('  Collapsed edges:', sub.edges().map(e => `${e.v} → ${e.w}`));
+  console.log(
+    '  Collapsed edges:',
+    sub.edges().map(e => `${e.v} → ${e.w}`)
+  );
 
   // Step 5. Optionally reduce transitive edges (skip if cycles detected)
-  let skippedTransitiveReduction = false;
   if (reduceEdges) {
     if (collapseResult.cycles && collapseResult.cycles.length > 0) {
       console.log('🚨 Skipping transitive reduction due to chapter cycles');
-      skippedTransitiveReduction = true;
     } else {
       sub = removeTransitiveEdges(sub);
     }

@@ -115,10 +115,10 @@ export const useBookStore = defineStore('book', () => {
     const g = markRaw(new Graph({ directed: true, compound: true }));
     g.setGraph({ label: '', rankDir: 'LR' });
     g.setNode('ROOT', { label: 'ROOT' });
-    
+
     const edgeCount = { total: 0, invalid: 0 };
     const invalidRefs = [];
-    
+
     Object.values(rawBook.value.nodes).forEach(node => {
       g.setNode(node.id, {
         ...node,
@@ -127,11 +127,11 @@ export const useBookStore = defineStore('book', () => {
             node.nodetype.secondary + ' ' + node.reference + (node.name ? '\n' + node.name : ''),
         },
       });
-      
+
       const refs = nodeRefs(node);
       refs.forEach(ref => {
         edgeCount.total++;
-        
+
         // Check if referenced node exists
         if (!rawBook.value.nodes[ref] && ref !== 'ROOT') {
           edgeCount.invalid++;
@@ -139,12 +139,12 @@ export const useBookStore = defineStore('book', () => {
           console.warn(`⚠️ Invalid reference: ${node.id} → ${ref}`);
           return;
         }
-        
+
         g.setEdge(ref, node.id, { label: '' });
       });
       g.setParent(node.id, node.chapter || 'ROOT');
     });
-    
+
     if (import.meta.env?.DEV && invalidRefs.length > 0) {
       console.warn('⚠️ Invalid references detected. Run migration to fix orphaned references.');
       console.log('❌ Invalid references found:', invalidRefs);
@@ -387,7 +387,7 @@ export const useBookStore = defineStore('book', () => {
       // Use nodeRefs to get ALL references (including proof-line references)
       const node = rawBook.value.nodes[nodeId];
       if (!node) return false;
-      
+
       const allRefs = nodeRefs(node);
       for (const refId of allRefs) {
         if (refId === sourceNodeId) return true; // Found a path back to source

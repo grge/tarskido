@@ -1,17 +1,37 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
+    // Module resolution
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    
+    // Path mapping
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
+    
+    // Library and target
     "lib": ["ES2019", "DOM", "DOM.Iterable"],
+    "target": "ESNext",
+    
+    // Vue-specific
+    "jsx": "preserve",
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
+    
+    // Strictness
     "strict": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "skipLibCheck": true
+    "noImplicitThis": true,
+    
+    // Misc
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   },
 
   "references": [

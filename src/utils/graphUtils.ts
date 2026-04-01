@@ -44,9 +44,9 @@ export function detectCyclicChapters(
   chapterEdges: Map<string, Set<string>>;
 } {
   console.log('🔍 CYCLE DETECTION: Starting analysis...');
-  
+
   const uf = new UnionFind(graph.nodes());
-  
+
   // First, determine what each node would collapse to
   for (const n of graph.nodes()) {
     if (!anchorIds.has(n)) {
@@ -62,11 +62,11 @@ export function detectCyclicChapters(
       }
     }
   }
-  
+
   // Build chapter-to-chapter graph
   const chapterGraph = new Graph({ directed: true });
   const chapterEdges = new Map<string, Set<string>>();
-  
+
   // Add anchor nodes (excluding ROOT)
   for (const anchor of anchorIds) {
     if (anchor !== 'ROOT') {
@@ -74,7 +74,7 @@ export function detectCyclicChapters(
       chapterEdges.set(anchor, new Set());
     }
   }
-  
+
   // Build chapter-to-chapter edges
   const seen = new Set();
   for (const e of graph.edges()) {
@@ -82,21 +82,22 @@ export function detectCyclicChapters(
     const key = anchoredEdge.join('->');
     if (seen.has(key)) continue;
     seen.add(key);
-    
-    if (anchoredEdge[0] !== anchoredEdge[1] && 
-        anchoredEdge[0] !== 'ROOT' && 
-        anchoredEdge[1] !== 'ROOT') {
-      
+
+    if (
+      anchoredEdge[0] !== anchoredEdge[1] &&
+      anchoredEdge[0] !== 'ROOT' &&
+      anchoredEdge[1] !== 'ROOT'
+    ) {
       const [from, to] = anchoredEdge;
       chapterGraph.setEdge(from, to, {});
       chapterEdges.get(from)?.add(to);
     }
   }
-  
+
   // Detect cycles using graphlib
   const cycles = alg.findCycles(chapterGraph);
   const cyclicAnchors = new Set<string>();
-  
+
   console.log(`🔍 CYCLE DETECTION: Found ${cycles.length} cycles`);
   for (let i = 0; i < cycles.length; i++) {
     const cycle = cycles[i];
@@ -105,9 +106,9 @@ export function detectCyclicChapters(
       cyclicAnchors.add(node);
     }
   }
-  
+
   console.log(`🎯 CYCLE DETECTION: ${cyclicAnchors.size} chapters affected:`, [...cyclicAnchors]);
-  
+
   return { cyclicAnchors, cycles, chapterEdges };
 }
 
@@ -133,7 +134,7 @@ export function collapseHierarchy(
 
   // Detect cycles first
   const { cyclicAnchors, cycles, chapterEdges } = detectCyclicChapters(graph, anchorIds);
-  
+
   const uf = new UnionFind(graph.nodes());
   for (const n of graph.nodes()) {
     if (!anchorIds.has(n)) {
@@ -174,7 +175,7 @@ export function collapseHierarchy(
       addNode(anchoredEdge[0]);
       addNode(anchoredEdge[1]);
       collapsedGraph.setEdge(anchoredEdge[0], anchoredEdge[1], { label: '' });
-      
+
       addedEdges.add(`${anchoredEdge[0]} → ${anchoredEdge[1]}`);
     }
   }
@@ -190,10 +191,14 @@ export function collapseHierarchy(
   collapsedGraph.removeNode('ROOT');
 
   console.log('🔗 Final edges created:', [...addedEdges]);
-  console.log(`✅ Output: ${collapsedGraph.nodes().length} nodes, ${collapsedGraph.edges().length} edges`);
-  
+  console.log(
+    `✅ Output: ${collapsedGraph.nodes().length} nodes, ${collapsedGraph.edges().length} edges`
+  );
+
   if (cycles.length > 0) {
-    console.log(`🚨 Selective collapse applied - ${cyclicAnchors.size} chapters left uncollapsed due to cycles`);
+    console.log(
+      `🚨 Selective collapse applied - ${cyclicAnchors.size} chapters left uncollapsed due to cycles`
+    );
   }
 
   return { graph: collapsedGraph, cycles, chapterEdges };
@@ -293,24 +298,30 @@ export function removeTransitiveEdges(graph: Graph): Graph {
   console.log('🔍 TOPSORT DEBUG: About to run topological sort...');
   console.log(`📊 Graph has ${graph.nodes().length} nodes, ${graph.edges().length} edges`);
   console.log(`📋 Nodes:`, graph.nodes());
-  console.log(`🔗 Edges:`, graph.edges().map(e => `${e.v}→${e.w}`));
-  
+  console.log(
+    `🔗 Edges:`,
+    graph.edges().map(e => `${e.v}→${e.w}`)
+  );
+
   try {
     const isAcyclic = alg.isAcyclic(graph);
     console.log(`🔄 Graph is acyclic: ${isAcyclic}`);
-    
+
     if (!isAcyclic) {
       const cycles = alg.findCycles(graph);
       console.log('❌ CYCLES DETECTED in removeTransitiveEdges:', cycles);
       throw new Error(`Graph has cycles: ${JSON.stringify(cycles)}`);
     }
-    
-    const topo: string[] = alg.topsort(graph);
+
+    alg.topsort(graph);
     console.log('✅ Topological sort successful');
   } catch (error) {
     console.error('❌ TOPOLOGICAL SORT FAILED:', error);
     console.log('Graph nodes:', graph.nodes());
-    console.log('Graph edges:', graph.edges().map(e => `${e.v} → ${e.w}`));
+    console.log(
+      'Graph edges:',
+      graph.edges().map(e => `${e.v} → ${e.w}`)
+    );
     throw error;
   }
   const topo: string[] = alg.topsort(graph);

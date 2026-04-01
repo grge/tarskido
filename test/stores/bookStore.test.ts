@@ -189,7 +189,7 @@ describe('bookStore', () => {
       // Load a book with existing slug mappings
       store.loadFromJSON({
         ...mockBook,
-        slugMap: { 'definition-1.1': 'other-node' }
+        slugMap: { 'definition-1.1': 'other-node' },
       });
 
       const node: Node = {
@@ -271,11 +271,31 @@ describe('bookStore', () => {
       store.loadFromJSON({
         ...mockBook,
         nodes: {
-          node1: { reference: '1.1', id: 'node1', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
-          node2: { reference: '1.10', id: 'node2', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
-          node3: { reference: '1.2', id: 'node3', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
-          node4: { reference: '2.1', id: 'node4', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
-          node5: { reference: '1.1.1', id: 'node5', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
+          node1: {
+            reference: '1.1',
+            id: 'node1',
+            nodetype: { primary: 'Definition', secondary: 'Definition' },
+          } as Node,
+          node2: {
+            reference: '1.10',
+            id: 'node2',
+            nodetype: { primary: 'Definition', secondary: 'Definition' },
+          } as Node,
+          node3: {
+            reference: '1.2',
+            id: 'node3',
+            nodetype: { primary: 'Definition', secondary: 'Definition' },
+          } as Node,
+          node4: {
+            reference: '2.1',
+            id: 'node4',
+            nodetype: { primary: 'Definition', secondary: 'Definition' },
+          } as Node,
+          node5: {
+            reference: '1.1.1',
+            id: 'node5',
+            nodetype: { primary: 'Definition', secondary: 'Definition' },
+          } as Node,
         },
       });
     });
@@ -301,9 +321,21 @@ describe('bookStore', () => {
       store.loadFromJSON({
         ...mockBook,
         nodes: {
-          node1: { reference: 'A.1', id: 'node1', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
-          node2: { reference: 'B.1', id: 'node2', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
-          node3: { reference: 'A.2', id: 'node3', nodetype: { primary: 'Definition', secondary: 'Definition' } } as Node,
+          node1: {
+            reference: 'A.1',
+            id: 'node1',
+            nodetype: { primary: 'Definition', secondary: 'Definition' },
+          } as Node,
+          node2: {
+            reference: 'B.1',
+            id: 'node2',
+            nodetype: { primary: 'Definition', secondary: 'Definition' },
+          } as Node,
+          node3: {
+            reference: 'A.2',
+            id: 'node3',
+            nodetype: { primary: 'Definition', secondary: 'Definition' },
+          } as Node,
         },
       });
 
@@ -375,7 +407,11 @@ describe('bookStore', () => {
       store.loadFromJSON({
         ...mockBook,
         nodes: {
-          node1: { id: 'node1', nodetype: { primary: 'Definition', secondary: 'Definition' }, reference: '1.1' } as Node,
+          node1: {
+            id: 'node1',
+            nodetype: { primary: 'Definition', secondary: 'Definition' },
+            reference: '1.1',
+          } as Node,
         },
         slugMap: {
           'test-slug': 'node1',

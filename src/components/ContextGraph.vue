@@ -6,14 +6,14 @@
       </div>
     </div>
     <GraphOptionsMenu :graphOptions="graphOptions" />
-    
+
     <!-- Node-Level Cycle Error (serious) -->
     <div v-if="cycleInfo.hasNodeCycles" class="cycle-error">
-      <div class="cycle-error-header">
-        🚨 Direct Circular Dependencies Detected
-      </div>
+      <div class="cycle-error-header">🚨 Direct Circular Dependencies Detected</div>
       <div class="cycle-error-body">
-        <p><strong>Graph may not render properly due to circular dependencies between nodes:</strong></p>
+        <p>
+          <strong>Graph may not render properly due to circular dependencies between nodes:</strong>
+        </p>
         <ul>
           <li v-for="(cycle, index) in cycleInfo.nodeCycles" :key="index">
             {{ cycle.join(' ↔ ') }}
@@ -24,12 +24,10 @@
         </p>
       </div>
     </div>
-    
+
     <!-- Chapter-Level Cycle Warning (only show if no node-level cycles) -->
     <div v-if="cycleInfo.hasChapterCycles && !cycleInfo.hasNodeCycles" class="cycle-warning">
-      <div class="cycle-warning-header">
-        ⚠️ Chapter Dependency Cycles Detected
-      </div>
+      <div class="cycle-warning-header">⚠️ Chapter Dependency Cycles Detected</div>
       <div class="cycle-warning-body">
         <p>Some chapters have circular dependencies and were left uncollapsed for clarity:</p>
         <ul>
@@ -42,7 +40,7 @@
         </p>
       </div>
     </div>
-    
+
     <GraphRenderer
       :graph="graph"
       :bbox="bbox"
@@ -94,7 +92,7 @@ const cycleInfo = computed(() => {
     chapterCycles: result.cycles || [],
     hasNodeCycles: result.nodeCycles && result.nodeCycles.length > 0,
     nodeCycles: result.nodeCycles || [],
-    chapterEdges: result.chapterEdges
+    chapterEdges: result.chapterEdges,
   };
 });
 

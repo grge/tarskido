@@ -39,7 +39,7 @@ type DefinitionSubType = (typeof VALID_DEFINITION_SUBTYPE)[number];
 type GroupSubType = (typeof VALID_GROUP_SUBTYPE)[number];
 type PropositionSubType = (typeof VALID_PROPOSITION_SUBTYPE)[number];
 
-type NodeType =
+export type NodeType =
   | { primary: 'Comment'; secondary: CommentSubType }
   | { primary: 'Definition'; secondary: DefinitionSubType }
   | { primary: 'Group'; secondary: GroupSubType }
@@ -56,6 +56,21 @@ export interface Node {
   references: string[];
   chapter: string;
   proof_lines: ProofLine[];
+}
+
+export function createDefaultNode(partial: Partial<Node> & Pick<Node, 'id'>): Node {
+  return {
+    id: partial.id,
+    reference: partial.reference ?? '',
+    name: partial.name ?? '',
+    slug: partial.slug ?? '',
+    autoslug: partial.autoslug ?? true,
+    nodetype: partial.nodetype ?? { primary: 'Definition', secondary: 'Definition' },
+    statement: partial.statement ?? '',
+    references: partial.references ?? [],
+    chapter: partial.chapter ?? 'ROOT',
+    proof_lines: partial.proof_lines ?? [],
+  };
 }
 
 function nodeRefs(node: Node): string[] {
@@ -270,7 +285,7 @@ export const useBookStore = defineStore('book', () => {
     if (children) {
       children.forEach(childId => {
         const childNode = rawBook.value.nodes[childId];
-        childNode.chapter = '';
+        childNode.chapter = 'ROOT';
       });
     }
   }

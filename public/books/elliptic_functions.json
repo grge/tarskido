@@ -7,12 +7,12 @@
     "foundations": {
       "id": "foundations",
       "reference": "1",
-      "name": "Foundations",
+      "name": "Lattices",
       "nodetype": {
         "primary": "Group",
         "secondary": "Chapter"
       },
-      "statement": "We establish the basic definitions and concepts needed for the theory of elliptic functions. This includes lattices in the complex plane, meromorphic functions, and the definition of elliptic functions as doubly periodic meromorphic functions.",
+      "statement": "A lattice imposes a rigid repeating geometry on the complex plane. Once such a periodic pattern is fixed, it is natural to ask what numerical quantities and functions can be built canonically from it. The fundamental parallelogram gives a concrete model for the quotient space $\\mathbb{C}/\\Lambda$, which one can think of as the basic cell of this periodic geometry.\n\nOne of the simplest and most fruitful ideas is to sum over all lattice points. Such sums measure the global shape of the lattice while respecting its symmetry, and they provide some of the first canonical quantities attached to $\\Lambda$. A particularly attractive choice is to sum reciprocal powers of the nonzero lattice points: these are simple enough to study directly, and for sufficiently large powers they converge. The Eisenstein series are the basic examples. Although they are straightforward to define, they already exhibit the central themes of the subject — convergence, symmetry, scaling, and invariance.\n\nLater, these lattice sums will reappear inside the analytic theory of elliptic functions: as coefficients in expansions, as invariants of the lattice, and as building blocks for the functions naturally associated to the quotient $\\mathbb{C}/\\Lambda$. Thus this chapter begins not just with definitions, but with the first signs that a lattice carries a rich analytic structure.",
       "references": [],
       "chapter": "ROOT",
       "proof_lines": [],
@@ -36,7 +36,7 @@
     },
     "elliptic-function-definition": {
       "id": "elliptic-function-definition",
-      "reference": "1.2",
+      "reference": "2.1",
       "name": "Elliptic Functions",
       "nodetype": {
         "primary": "Definition",
@@ -47,20 +47,20 @@
         "lattice-definition",
         "meromorphic-functions"
       ],
-      "chapter": "foundations",
+      "chapter": "eisenstein-series",
       "proof_lines": [],
       "autoslug": true,
       "slug": "elliptic-function-definition"
     },
     "fundamental-parallelogram": {
       "id": "fundamental-parallelogram",
-      "reference": "1.3",
+      "reference": "1.2",
       "name": "Fundamental Parallelogram",
       "nodetype": {
         "primary": "Definition",
         "secondary": "Definition"
       },
-      "statement": "For a lattice $\\Lambda = \\mathbb{Z}\\omega_1 + \\mathbb{Z}\\omega_2$, a **fundamental parallelogram** (or **period parallelogram**) is a set of the form:\n\n$$P = \\{s\\omega_1 + t\\omega_2 : s,t \\in [0,1)\\}$$\n\nAlternatively, we can use any translate: $P_u = \\{u + s\\omega_1 + t\\omega_2 : s,t \\in [0,1)\\}$ for some $u \\in \\mathbb{C}$.\n\nThe fundamental parallelogram represents the **quotient space** $\\mathbb{C}/\\Lambda$, which is topologically a torus. Every elliptic function is completely determined by its behavior on any fundamental parallelogram.",
+      "statement": "For a lattice $\\Lambda = \\mathbb{Z}\\omega_1 + \\mathbb{Z}\\omega_2$, a **fundamental parallelogram** (or **period parallelogram**) is a set of the form:\n\n$$P = \\{s\\omega_1 + t\\omega_2 : s,t \\in [0,1)\\}$$\n\nAlternatively, we can use any translate: $P_u = \\{u + s\\omega_1 + t\\omega_2 : s,t \\in [0,1)\\}$ for some $u \\in \\mathbb{C}$.\n\nThe fundamental parallelogram represents the **quotient space** $\\mathbb{C}/\\Lambda$, which is topologically a torus.",
       "references": [
         "lattice-definition"
       ],
@@ -69,15 +69,51 @@
       "autoslug": true,
       "slug": "fundamental-parallelogram"
     },
+    "lattice-norm-comparison": {
+      "id": "lattice-norm-comparison",
+      "reference": "1.3",
+      "name": "Lattice Norm Comparison",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Lemma"
+      },
+      "statement": "Let $\\Lambda = \\mathbb{Z}\\omega_1 + \\mathbb{Z}\\omega_2$ be a lattice with chosen basis $(\\omega_1, \\omega_2)$. Then there exist constants $c, C > 0$ such that every lattice point $\\lambda = m\\omega_1 + n\\omega_2 \\in \\Lambda$ satisfies\n\n$$c\\sqrt{m^2 + n^2} \\leq |\\lambda| \\leq C\\sqrt{m^2 + n^2}. $$\n\n**Interpretation:** Up to constant factors, the size of a lattice point is comparable to the Euclidean size of its coefficient vector in $\\mathbb{Z}^2$. This is the basic reason sums over a general lattice behave like sums over $\\mathbb{Z}^2$.",
+      "references": [
+        "lattice-definition"
+      ],
+      "chapter": "foundations",
+      "proof_lines": [
+        {
+          "statement": "Define a real-linear map $T : \\mathbb{R}^2 \\to \\mathbb{C}$ by $T(m,n) = m\\omega_1 + n\\omega_2$.",
+          "references": []
+        },
+        {
+          "statement": "Because $\\omega_1$ and $\\omega_2$ are linearly independent over $\\mathbb{R}$, the map $T$ is injective.",
+          "references": [
+            "lattice-definition"
+          ]
+        },
+        {
+          "statement": "An injective linear map between finite-dimensional normed real vector spaces is bounded above and below: there exist constants $c, C > 0$ such that $c\\|(m,n)\\| \\leq |T(m,n)| \\leq C\\|(m,n)\\|$ for all $(m,n) \\in \\mathbb{R}^2$.",
+          "references": []
+        },
+        {
+          "statement": "Taking $\\|(m,n)\\| = \\sqrt{m^2+n^2}$ and writing $\\lambda = T(m,n)$ gives the required inequalities for lattice points.",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "lattice-norm-comparison"
+    },
     "eisenstein-series": {
       "id": "eisenstein-series",
       "reference": "2",
-      "name": "Eisenstein Series",
+      "name": "Elliptic Functions",
       "nodetype": {
         "primary": "Group",
         "secondary": "Chapter"
       },
-      "statement": "Eisenstein series provide the first systematic examples of functions with lattice structure. They illustrate convergence conditions and parity properties that will be crucial for constructing the Weierstrass ℘-function.",
+      "statement": "An elliptic function is a meromorphic function on $\\mathbb{C}$ which repeats with respect to a lattice. In other words, once a lattice $\\Lambda$ is fixed, we ask for functions whose values are unchanged when we translate by any lattice vector. Such functions are therefore most naturally understood not on the whole plane as an unstructured domain, but on the quotient space $\\mathbb{C}/\\Lambda$, or equivalently on a fundamental parallelogram with opposite sides identified. This makes elliptic functions the natural analytic inhabitants of the torus determined by the lattice.\n\nAt first this periodicity seems like a strong source of flexibility: one might expect many meromorphic functions to repeat on a doubly periodic pattern. In fact the opposite is true. The combination of periodicity and meromorphicity imposes rigid global constraints. A non-constant elliptic function cannot be holomorphic everywhere; its residues in a period parallelogram must balance; its zeros and poles are tied together by precise counting relations; and even their locations satisfy striking algebraic constraints modulo the lattice. These are the first signs that elliptic functions form a remarkably structured class.\n\nThe goal of this chapter is to develop that general structure before turning to specific constructions. The theorems of Liouville show that elliptic functions are not arbitrary doubly repeating patterns, but tightly controlled objects on the torus. Later, when we construct the Weierstrass $\\wp$-function, these abstract results will explain why it behaves the way it does and why it becomes the basic model for the whole theory.",
       "references": [],
       "chapter": "ROOT",
       "proof_lines": [],
@@ -86,7 +122,7 @@
     },
     "eisenstein-definition": {
       "id": "eisenstein-definition",
-      "reference": "2.1",
+      "reference": "1.4",
       "name": "Eisenstein Series $G_k(\\Lambda)$",
       "nodetype": {
         "primary": "Definition",
@@ -96,14 +132,14 @@
       "references": [
         "lattice-definition"
       ],
-      "chapter": "eisenstein-series",
+      "chapter": "foundations",
       "proof_lines": [],
       "autoslug": true,
       "slug": "eisenstein-definition"
     },
     "eisenstein-parity": {
       "id": "eisenstein-parity",
-      "reference": "2.2",
+      "reference": "1.5",
       "name": "Eisenstein Series Parity",
       "nodetype": {
         "primary": "Proposition",
@@ -113,48 +149,32 @@
       "references": [
         "eisenstein-definition"
       ],
-      "chapter": "eisenstein-series",
+      "chapter": "foundations",
       "proof_lines": [],
       "autoslug": true,
       "slug": "eisenstein-parity"
     },
     "eisenstein-polynomial-structure": {
       "id": "eisenstein-polynomial-structure",
-      "reference": "2.3",
+      "reference": "8.4",
       "name": "Polynomial Structure in $G_4, G_6$",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Theorem"
       },
-      "statement": "Every Eisenstein series of even weight can be expressed as a polynomial with rational coefficients in $G_4$ and $G_6$:\n$$G_{2k} \\in \\mathbb{Q}[G_4, G_6]$$\n\n**Examples:** \n- $7G_8 = 3G_4^2$\n- $11G_{10} = 5G_4 G_6$\n\n*Note: This provides our first glimpse of modular forms, though we haven't defined them yet.*",
+      "statement": "Every Eisenstein series of even weight can be expressed as a polynomial with rational coefficients in $G_4$ and $G_6$:\n$$G_{2k} \\in \\mathbb{Q}[G_4, G_6].$$\n\n**Examples:**\n- $7G_8 = 3G_4^2$\n- $11G_{10} = 5G_4 G_6$\n\n*Interpretation:* the higher even Eisenstein series are controlled by the two generators $G_4$ and $G_6$, anticipating the modular-form viewpoint.",
       "references": [
-        "eisenstein-definition",
-        "eisenstein-parity",
-        "eisenstein-recursion"
+        "eisenstein-recursion",
+        "eisenstein-parity"
       ],
-      "chapter": "eisenstein-series",
+      "chapter": "applications-overview",
       "proof_lines": [],
       "autoslug": true,
       "slug": "eisenstein-polynomial-structure"
     },
-    "liouville-theorems": {
-      "id": "liouville-theorems",
-      "reference": "3",
-      "name": "Liouville's Theorems",
-      "nodetype": {
-        "primary": "Group",
-        "secondary": "Chapter"
-      },
-      "statement": "Four fundamental theorems of Liouville characterize the behavior of elliptic functions. These results show that non-constant elliptic functions must have poles, establish constraints on residues, prove surjectivity properties, and lead to Abel's important relation.",
-      "references": [],
-      "chapter": "ROOT",
-      "proof_lines": [],
-      "autoslug": true,
-      "slug": "liouville-theorems"
-    },
     "liouville-first": {
       "id": "liouville-first",
-      "reference": "3.1",
+      "reference": "2.3",
       "name": "Liouville's First Theorem",
       "nodetype": {
         "primary": "Proposition",
@@ -166,7 +186,7 @@
         "elliptic-function-definition",
         "fundamental-parallelogram"
       ],
-      "chapter": "liouville-theorems",
+      "chapter": "eisenstein-series",
       "proof_lines": [
         {
           "statement": "Since $f$ is elliptic, it is determined by its values on the fundamental parallelogram $P$, which is compact.",
@@ -190,7 +210,7 @@
     },
     "liouville-second": {
       "id": "liouville-second",
-      "reference": "3.3",
+      "reference": "2.4",
       "name": "Liouville's Second Theorem",
       "nodetype": {
         "primary": "Proposition",
@@ -202,7 +222,7 @@
         "fundamental-parallelogram",
         "residue-theory"
       ],
-      "chapter": "liouville-theorems",
+      "chapter": "eisenstein-series",
       "proof_lines": [
         {
           "statement": "Apply the residue theorem to the boundary of the fundamental parallelogram $P$.",
@@ -233,7 +253,7 @@
     },
     "liouville-third": {
       "id": "liouville-third",
-      "reference": "3.4",
+      "reference": "2.5",
       "name": "Liouville's Third Theorem",
       "nodetype": {
         "primary": "Proposition",
@@ -246,7 +266,7 @@
         "log-derivative-residue-lemma",
         "torus-to-sphere-viewpoint"
       ],
-      "chapter": "liouville-theorems",
+      "chapter": "eisenstein-series",
       "proof_lines": [
         {
           "statement": "Consider the function $g(z) = \\frac{f'(z)}{f(z) - w}$, which is elliptic.",
@@ -276,7 +296,7 @@
     },
     "liouville-fourth": {
       "id": "liouville-fourth",
-      "reference": "3.5",
+      "reference": "2.6",
       "name": "Liouville's Fourth Theorem (Abel's Relation)",
       "nodetype": {
         "primary": "Proposition",
@@ -288,7 +308,7 @@
         "log-derivative-residue-lemma",
         "fundamental-parallelogram"
       ],
-      "chapter": "liouville-theorems",
+      "chapter": "eisenstein-series",
       "proof_lines": [
         {
           "statement": "Consider $g(z) = \\frac{f'(z)}{f(z)} \\cdot z$. This is not elliptic, so we compute the contour integral directly.",
@@ -312,48 +332,29 @@
     },
     "weierstrass": {
       "id": "weierstrass",
-      "reference": "4",
+      "reference": "3",
       "name": "Weierstrass ℘-function",
       "nodetype": {
         "primary": "Group",
         "secondary": "Chapter"
       },
-      "statement": "The Weierstrass ℘-function provides a canonical construction of elliptic functions and serves as a fundamental building block. We establish its existence through series construction, prove convergence, derive its differential equation, and show that it generates the field of all elliptic functions.",
+      "statement": "The general theory of elliptic functions tells us what such functions must look like, but it does not yet produce any examples. We now turn from abstract structure to explicit construction. The aim is to build a meromorphic function attached canonically to a lattice $\\Lambda$: one which is doubly periodic, has poles exactly at the lattice points, and is simple enough to analyse in detail. The Weierstrass $\\wp$-function is the fundamental answer to this problem.\n\nA natural first attempt is to place the same singularity at every lattice point and sum over the lattice. For poles of order $k$, this suggests a series of the form\n$$\\sum_{\\lambda \\in \\Lambda} \\frac{1}{(z-\\lambda)^k}.$$\nThis works well enough when $k>2$, but the most interesting case for elliptic function theory is $k=2$: double poles are the minimal poles compatible with the global constraints developed in the previous chapter, and they are exactly what one wants for the basic even elliptic function attached to a lattice. The difficulty is that the naive series no longer converges. Weierstrass's key idea is to modify it just enough to restore convergence, while preserving the essential singularity structure.\n\nFrom this corrected series emerges a function of remarkable richness. Its Laurent expansion encodes the Eisenstein series introduced earlier; its derivative satisfies a cubic differential equation; and its critical values determine the cubic form that leads directly toward elliptic curves. In this way the $\\wp$-function becomes the meeting point of the two stories developed so far: the lattice sums of Chapter 1 and the structure theory of elliptic functions from Chapter 2.",
       "references": [],
       "chapter": "ROOT",
       "proof_lines": [],
       "autoslug": true,
       "slug": "weierstrass"
     },
-    "weierstrass-construction-motivation": {
-      "id": "weierstrass-construction-motivation",
-      "reference": "4.1",
-      "name": "Construction Motivation",
-      "nodetype": {
-        "primary": "Comment",
-        "secondary": "Note"
-      },
-      "statement": "We want to construct an elliptic function $\\wp(z)$ with:\n- Order 2 (double poles)\n- Poles exactly at lattice points $\\lambda \\in \\Lambda$\n- Laurent expansion $\\wp(z) = \\frac{1}{z^2} + a_1 z + a_2 z^2 + \\cdots$\n\n**Naive approach:** Try $f_k(z) = \\sum_{\\lambda \\in \\Lambda} \\frac{1}{(z - \\lambda)^k}$. This is doubly periodic, but converges only for $k > 2$.\n\n**Problem:** We need $k = 2$ for double poles, but the series doesn't converge.\n\n**Weierstrass's solution:** Use a subtraction trick to force convergence while preserving the essential singularity structure.",
-      "references": [
-        "elliptic-function-definition",
-        "eisenstein-definition"
-      ],
-      "chapter": "weierstrass",
-      "proof_lines": [],
-      "autoslug": true,
-      "slug": "weierstrass-construction-motivation"
-    },
     "weierstrass-series-definition": {
       "id": "weierstrass-series-definition",
-      "reference": "4.2",
+      "reference": "3.2",
       "name": "Series Definition of ℘",
       "nodetype": {
         "primary": "Definition",
         "secondary": "Definition"
       },
-      "statement": "The **Weierstrass ℘-function** is defined by:\n$$\\wp(z, \\Lambda) = \\frac{1}{z^2} + \\sum_{0 \\neq \\lambda \\in \\Lambda} \\left[ \\frac{1}{(z - \\lambda)^2} - \\frac{1}{\\lambda^2} \\right]$$\n\n**Key insight:** The subtraction of $\\frac{1}{\\lambda^2}$ makes the terms small enough for convergence. The sum has zeros at all lattice points except 0, so we add $\\frac{1}{z^2}$ to get the correct pole at the origin.",
+      "statement": "The **Weierstrass $\\wp$-function** is defined by:\n$$\\wp(z, \\Lambda) = \\frac{1}{z^2} + \\sum_{0 \\neq \\lambda \\in \\Lambda} \\left[ \\frac{1}{(z - \\lambda)^2} - \\frac{1}{\\lambda^2} \\right]$$",
       "references": [
-        "weierstrass-construction-motivation",
         "lattice-definition"
       ],
       "chapter": "weierstrass",
@@ -363,7 +364,7 @@
     },
     "weierstrass-double-periodicity": {
       "id": "weierstrass-double-periodicity",
-      "reference": "4.3",
+      "reference": "3.3",
       "name": "Double Periodicity of ℘",
       "nodetype": {
         "primary": "Proposition",
@@ -401,32 +402,43 @@
     },
     "lattice-comparison-proposition": {
       "id": "lattice-comparison-proposition",
-      "reference": "4.4",
-      "name": "Lattice Comparison Proposition",
+      "reference": "3.5",
+      "name": "Uniform Lattice Comparison Proposition",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Lemma"
       },
-      "statement": "Let $C \\subseteq \\{ (\\omega_1, \\omega_2) \\in \\mathbb{C}^2 : \\omega_1 / \\omega_2 \\notin \\mathbb{R} \\}$ be a compact set. Then there exist $\\alpha, \\beta > 0$ such that:\n$$\\alpha |m_1 i + m_2| \\leq |m_1 \\omega_1 + m_2 \\omega_2| \\leq \\beta |m_1 i + m_2|$$\nfor all $(\\omega_1, \\omega_2) \\in C$ and all $(m_1, m_2) \\in \\mathbb{R}^2$.\n\n**Interpretation:** Lattices generated by $(\\omega_1, \\omega_2)$ are \"comparable\" to the standard lattice generated by $(i, 1)$ in the sense that vector lengths are comparable up to constant factors.",
+      "statement": "Let $C \\subseteq \\{ (\\omega_1, \\omega_2) \\in \\mathbb{C}^2 : \\omega_1 / \\omega_2 \\notin \\mathbb{R} \\}$ be compact. Then there exist constants $\\alpha, \\beta > 0$ such that for every basis $(\\omega_1, \\omega_2) \\in C$ and every vector $(m,n) \\in \\mathbb{R}^2$, we have\n\n$$\\alpha \\sqrt{m^2+n^2} \\leq |m\\omega_1 + n\\omega_2| \\leq \\beta \\sqrt{m^2+n^2}. $$\n\n**Interpretation:** Lemma 1.4 compares one fixed lattice with $\\mathbb{Z}^2$. Here we need a stronger, uniform version: the same comparison constants work simultaneously for every lattice basis in a compact family.",
       "references": [
-        "lattice-definition"
+        "lattice-definition",
+        "lattice-norm-comparison"
       ],
       "chapter": "weierstrass",
       "proof_lines": [
         {
-          "statement": "By homogeneity, it suffices to consider $(m_1, m_2)$ with $m_1^2 + m_2^2 = 1$.",
+          "statement": "For each fixed basis $(\\omega_1, \\omega_2)$, Lemma 1.4 gives comparison constants. We now show the constants can be chosen uniformly on the compact set $C$.",
+          "references": [
+            "lattice-norm-comparison"
+          ]
+        },
+        {
+          "statement": "By homogeneity, it suffices to consider vectors $(m,n)$ with $m^2 + n^2 = 1$.",
           "references": []
         },
         {
-          "statement": "The map $(\\omega_1, \\omega_2, m_1, m_2) \\mapsto |m_1 \\omega_1 + m_2 \\omega_2|$ is continuous on the compact set $C \\times \\{(m_1, m_2) : m_1^2 + m_2^2 = 1\\}$.",
+          "statement": "The map $((\\omega_1, \\omega_2),(m,n)) \\mapsto |m\\omega_1 + n\\omega_2|$ is continuous on the compact set $C \\times S^1$.",
           "references": []
         },
         {
-          "statement": "It attains a minimum $\\alpha > 0$ and maximum $\\beta$ on this set.",
+          "statement": "It therefore attains a minimum $\\alpha$ and maximum $\\beta$ there.",
           "references": []
         },
         {
-          "statement": "$\\alpha > 0$ follows because $|m_1 \\omega_1 + m_2 \\omega_2| = 0$ would imply linear dependence, contradicting $\\omega_1 / \\omega_2 \\notin \\mathbb{R}$.",
+          "statement": "The minimum satisfies $\\alpha > 0$, since $m\\omega_1+n\\omega_2=0$ with $(m,n) \\neq (0,0)$ would make $\\omega_1$ and $\\omega_2$ linearly dependent over $\\mathbb{R}$.",
+          "references": []
+        },
+        {
+          "statement": "Rescaling from the unit circle gives the stated inequalities for all $(m,n) \\in \\mathbb{R}^2$.",
           "references": []
         }
       ],
@@ -435,7 +447,7 @@
     },
     "weierstrass-convergence": {
       "id": "weierstrass-convergence",
-      "reference": "4.5",
+      "reference": "3.6",
       "name": "Convergence of Weierstrass Series",
       "nodetype": {
         "primary": "Proposition",
@@ -444,7 +456,8 @@
       "statement": "The series defining $\\wp(z, \\Lambda)$ converges absolutely and uniformly on compact subsets of $\\{ (z, \\omega_1, \\omega_2) \\in \\mathbb{C}^3 : z \\notin \\Lambda, \\omega_1 / \\omega_2 \\notin \\mathbb{R} \\}$.",
       "references": [
         "weierstrass-series-definition",
-        "lattice-comparison-proposition"
+        "lattice-comparison-proposition",
+        "eisenstein-convergence"
       ],
       "chapter": "weierstrass",
       "proof_lines": [
@@ -469,7 +482,8 @@
         {
           "statement": "The sum over large lattice points is bounded by $C \\sum |m_1 i + m_2|^{-3}$, which is an Eisenstein series of weight 3 and converges absolutely.",
           "references": [
-            "eisenstein-definition"
+            "eisenstein-definition",
+            "eisenstein-convergence"
           ]
         }
       ],
@@ -478,7 +492,7 @@
     },
     "weierstrass-critical-points": {
       "id": "weierstrass-critical-points",
-      "reference": "4.6",
+      "reference": "3.7",
       "name": "Critical Points of ℘",
       "nodetype": {
         "primary": "Proposition",
@@ -508,39 +522,63 @@
     },
     "weierstrass-differential-equation": {
       "id": "weierstrass-differential-equation",
-      "reference": "4.7",
+      "reference": "3.11",
       "name": "Weierstrass Differential Equation",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Theorem"
       },
-      "statement": "The Weierstrass ℘-function satisfies the differential equation:\n\n$$(\\wp'(z))^2 = 4(\\wp(z) - e_1)(\\wp(z) - e_2)(\\wp(z) - e_3)$$\n\nwhere $e_i = \\wp(\\omega_i/2)$ for $i = 1, 2, 3$ are the critical values of $\\wp$, with $\\omega_3 = \\omega_1 + \\omega_2$.\n\n**Alternative form:** $(\\wp'(z))^2 = 4(\\wp(z))^3 - g_2 \\wp(z) - g_3$ where $g_2, g_3$ depend only on the lattice.",
+      "statement": "The function $\\wp(z)$ satisfies the differential equation\n\n$$(\\wp'(z))^2 = 4(\\wp(z))^3 - g_2 \\wp(z) - g_3,$$\n\nwhere\n\n$$g_2 = 60G_4(\\Lambda), \\qquad g_3 = 140G_6(\\Lambda).$$",
       "references": [
-        "weierstrass-critical-points",
-        "elliptic-function-equality-methods"
+        "weierstrass-laurent-expansion",
+        "liouville-first"
       ],
       "chapter": "weierstrass",
       "proof_lines": [
         {
-          "statement": "Let $f(z) = 4(\\wp(z) - e_1)(\\wp(z) - e_2)(\\wp(z) - e_3)$ (the RHS). Both LHS and RHS are elliptic functions with the same poles and zeros.",
+          "statement": "Differentiating the Laurent expansion term by term gives\n$$\\wp'(z) = -\\frac{2}{z^3} + 6G_4(\\Lambda)z + 20G_6(\\Lambda)z^3 + O(z^5).$$",
           "references": [
-            "weierstrass-critical-points"
+            "weierstrass-laurent-expansion"
           ]
         },
         {
-          "statement": "Both have 6th-order poles at lattice points and double zeros at $\\omega_1/2, \\omega_2/2, \\omega_3/2$.",
+          "statement": "Squaring, we obtain\n$$(\\wp'(z))^2 = \\frac{4}{z^6} - \\frac{24G_4(\\Lambda)}{z^2} - 80G_6(\\Lambda) + O(z^2).$$",
+          "references": []
+        },
+        {
+          "statement": "From the Laurent expansion of $\\wp$ we also have\n$$\\wp(z)^3 = \\frac{1}{z^6} + \\frac{9G_4(\\Lambda)}{z^2} + 15G_6(\\Lambda) + O(z^2).$$",
           "references": [
-            "weierstrass-critical-points"
+            "weierstrass-laurent-expansion"
           ]
         },
         {
-          "statement": "By Method 2 (ratio), since $(\\wp')^2$ and $f$ have identical pole/zero structure, their ratio is constant.",
+          "statement": "Therefore\n$$(\\wp'(z))^2 - 4\\wp(z)^3 = -\\frac{60G_4(\\Lambda)}{z^2} - 140G_6(\\Lambda) + O(z^2).$$",
+          "references": []
+        },
+        {
+          "statement": "Now $\\wp(z) = z^{-2} + O(z^2)$, so if we define\n$$F(z) := (\\wp'(z))^2 - 4\\wp(z)^3 + 60G_4(\\Lambda)\\wp(z),$$\nthen $F$ has no $z^{-2}$ term, and hence no pole at $z=0$.",
+          "references": [
+            "weierstrass-laurent-expansion"
+          ]
+        },
+        {
+          "statement": "Since $F$ is rational in $\\wp$ and $\\wp'$, it is elliptic. By periodicity, the same local calculation holds at every lattice point, so $F$ has no poles anywhere on $\\mathbb{C}$.",
           "references": [
             "elliptic-function-equality-methods"
           ]
         },
         {
-          "statement": "Comparing Laurent expansions: $(\\wp')^2 = 4/z^6 + \\cdots$ and $f = 4/z^6 + \\cdots$ shows the constant is 1.",
+          "statement": "By Liouville's first theorem for elliptic functions, $F$ is constant.",
+          "references": [
+            "liouville-first"
+          ]
+        },
+        {
+          "statement": "Comparing constant terms in the Laurent expansion shows that this constant is $-140G_6(\\Lambda)$. Hence\n$$(\\wp'(z))^2 = 4\\wp(z)^3 - 60G_4(\\Lambda)\\wp(z) - 140G_6(\\Lambda).$$",
+          "references": []
+        },
+        {
+          "statement": "Defining $g_2 := 60G_4(\\Lambda)$ and $g_3 := 140G_6(\\Lambda)$ gives the standard form\n$$(\\wp'(z))^2 = 4\\wp(z)^3 - g_2 \\wp(z) - g_3.$$",
           "references": []
         }
       ],
@@ -549,7 +587,7 @@
     },
     "elliptic-function-classification": {
       "id": "elliptic-function-classification",
-      "reference": "4.8",
+      "reference": "3.9",
       "name": "Classification of Elliptic Functions",
       "nodetype": {
         "primary": "Proposition",
@@ -713,7 +751,7 @@
     },
     "torus-to-sphere-viewpoint": {
       "id": "torus-to-sphere-viewpoint",
-      "reference": "1.4",
+      "reference": "2.2A",
       "name": "Geometric Viewpoint: $\\mathbb{C}/\\Lambda \\to \\widehat{\\mathbb{C}}$",
       "nodetype": {
         "primary": "Comment",
@@ -724,14 +762,14 @@
         "fundamental-parallelogram",
         "elliptic-function-definition"
       ],
-      "chapter": "foundations",
+      "chapter": "eisenstein-series",
       "proof_lines": [],
       "autoslug": true,
       "slug": "torus-sphere-viewpoint"
     },
     "elliptic-function-equality-methods": {
       "id": "elliptic-function-equality-methods",
-      "reference": "3.1A",
+      "reference": "2.6A",
       "name": "Elliptic Function Equality Methods",
       "nodetype": {
         "primary": "Proposition",
@@ -741,7 +779,7 @@
       "references": [
         "liouville-first"
       ],
-      "chapter": "liouville-theorems",
+      "chapter": "eisenstein-series",
       "proof_lines": [
         {
           "statement": "Method 1 follows directly from Liouville I applied to $f - g$ when poles cancel.",
@@ -765,7 +803,7 @@
     },
     "weierstrass-even-property": {
       "id": "weierstrass-even-property",
-      "reference": "4.3A",
+      "reference": "3.4",
       "name": "℘ is an Even Function",
       "nodetype": {
         "primary": "Proposition",
@@ -803,60 +841,28 @@
       "autoslug": true,
       "slug": "weierstrass-even-property"
     },
-    "invariants": {
-      "id": "invariants",
-      "reference": "5",
-      "name": "Weierstrass Invariants",
-      "nodetype": {
-        "primary": "Group",
-        "secondary": "Chapter"
-      },
-      "statement": "The Weierstrass invariants $g_2$ and $g_3$ characterize elliptic curves up to scaling. The discriminant $\\Delta$ determines when the curve is smooth. These invariants connect elliptic functions to modular forms.",
-      "references": [],
-      "chapter": "ROOT",
-      "proof_lines": [],
-      "autoslug": true,
-      "slug": "invariants"
-    },
     "weierstrass-g2": {
       "id": "weierstrass-g2",
-      "reference": "5.1",
-      "name": "Weierstrass Invariant $g_2$",
+      "reference": "3.12",
+      "name": "Weierstrass Invariants",
       "nodetype": {
         "primary": "Definition",
         "secondary": "Definition"
       },
-      "statement": "Define the **Weierstrass invariant** $g_2 = g_2(\\Lambda)$ by:\n\n$$g_2 = 60 G_4(\\Lambda) = 60 \\sum_{0 \\neq \\lambda \\in \\Lambda} \\frac{1}{\\lambda^4}$$\n\nThis invariant appears in the Laurent expansion of $\\wp(z) = \\frac{1}{z^2} + \\frac{g_2}{20} z^2 + \\cdots$ and in the differential equation $(\\wp')^2 = 4\\wp^3 - g_2 \\wp - g_3$.",
+      "statement": "The constants $g_2 = g_2(\\Lambda)$ and $g_3 = g_3(\\Lambda)$ appearing in the Weierstrass differential equation are called the **Weierstrass invariants** of the lattice $\\Lambda$. Comparing coefficients in the Laurent expansion gives\n\n$$g_2 = 60G_4(\\Lambda), \\qquad g_3 = 140G_6(\\Lambda).$$",
       "references": [
-        "eisenstein-definition",
-        "weierstrass-series-definition"
+        "weierstrass-differential-equation",
+        "weierstrass-laurent-expansion",
+        "eisenstein-definition"
       ],
-      "chapter": "invariants",
+      "chapter": "weierstrass",
       "proof_lines": [],
       "autoslug": true,
       "slug": "weierstrass-g2"
     },
-    "weierstrass-g3": {
-      "id": "weierstrass-g3",
-      "reference": "5.2",
-      "name": "Weierstrass Invariant $g_3$",
-      "nodetype": {
-        "primary": "Definition",
-        "secondary": "Definition"
-      },
-      "statement": "Define the **Weierstrass invariant** $g_3 = g_3(\\Lambda)$ by:\n\n$$g_3 = 140 G_6(\\Lambda) = 140 \\sum_{0 \\neq \\lambda \\in \\Lambda} \\frac{1}{\\lambda^6}$$\n\nThis invariant appears in the Laurent expansion of $\\wp(z) = \\frac{1}{z^2} + \\frac{g_2}{20} z^2 + \\frac{g_3}{28} z^4 + \\cdots$ and in the differential equation $(\\wp')^2 = 4\\wp^3 - g_2 \\wp - g_3$.",
-      "references": [
-        "eisenstein-definition",
-        "weierstrass-series-definition"
-      ],
-      "chapter": "invariants",
-      "proof_lines": [],
-      "autoslug": true,
-      "slug": "weierstrass-g3"
-    },
     "weierstrass-discriminant": {
       "id": "weierstrass-discriminant",
-      "reference": "5.3",
+      "reference": "5.7",
       "name": "Weierstrass Discriminant $\\Delta$",
       "nodetype": {
         "primary": "Definition",
@@ -864,28 +870,12 @@
       },
       "statement": "The **Weierstrass discriminant** is:\n\n$$\\Delta = g_2^3 - 27 g_3^2$$\n\n**Significance:** $\\Delta \\neq 0$ if and only if the elliptic curve $y^2 = 4x^3 - g_2 x - g_3$ is smooth (non-singular). When $\\Delta = 0$, the curve has cusps or self-intersections.",
       "references": [
-        "weierstrass-g2",
-        "weierstrass-g3"
+        "weierstrass-g2"
       ],
-      "chapter": "invariants",
+      "chapter": "elliptic-curves",
       "proof_lines": [],
       "autoslug": true,
       "slug": "weierstrass-discriminant"
-    },
-    "addition-theorem": {
-      "id": "addition-theorem",
-      "reference": "6",
-      "name": "Addition Theorem",
-      "nodetype": {
-        "primary": "Group",
-        "secondary": "Chapter"
-      },
-      "statement": "The addition theorem provides an explicit formula for $\\wp(z+w)$ in terms of $\\wp(z)$, $\\wp(w)$, $\\wp'(z)$, and $\\wp'(w)$. This fundamental identity underlies the group law on elliptic curves and connects to algebraic addition theorems.",
-      "references": [],
-      "chapter": "ROOT",
-      "proof_lines": [],
-      "autoslug": true,
-      "slug": "addition-theorem"
     },
     "weierstrass-addition-theorem": {
       "id": "weierstrass-addition-theorem",
@@ -900,7 +890,7 @@
         "weierstrass-differential-equation",
         "elliptic-function-equality-methods"
       ],
-      "chapter": "addition-theorem",
+      "chapter": "group-structure",
       "proof_lines": [
         {
           "statement": "Define $f(z) := \\frac{1}{2} \\cdot \\frac{\\wp'(z) - \\wp'(w)}{\\wp(z) - \\wp(w)}$ and $g(z) := f(z)^2 - \\wp(z+w) - \\wp(z) - \\wp(w)$.",
@@ -940,7 +930,7 @@
         "weierstrass-addition-theorem",
         "weierstrass-differential-equation"
       ],
-      "chapter": "addition-theorem",
+      "chapter": "group-structure",
       "proof_lines": [
         {
           "statement": "Apply L'Hôpital's rule to the addition formula as $w \\to z$.",
@@ -956,33 +946,18 @@
       "autoslug": true,
       "slug": "weierstrass-duplication-formula"
     },
-    "elliptic-curves": {
-      "id": "elliptic-curves",
-      "reference": "7",
-      "name": "Elliptic Curves",
-      "nodetype": {
-        "primary": "Group",
-        "secondary": "Chapter"
-      },
-      "statement": "Elliptic curves provide the geometric interpretation of elliptic functions. The Weierstrass parametrization gives a bijection between the torus $\\mathbb{C}/\\Lambda$ and the curve $y^2 = 4x^3 - g_2 x - g_3$, with addition on the torus corresponding to the chord-and-tangent law on the curve.",
-      "references": [],
-      "chapter": "ROOT",
-      "proof_lines": [],
-      "autoslug": true,
-      "slug": "elliptic-curves"
-    },
     "elliptic-curve-definition": {
       "id": "elliptic-curve-definition",
-      "reference": "7.1",
+      "reference": "5.3",
       "name": "Elliptic Curve over $\\mathbb{C}$",
       "nodetype": {
         "primary": "Definition",
         "secondary": "Definition"
       },
-      "statement": "An **elliptic curve** over $\\mathbb{C}$ is the set:\n\n$$E(\\mathbb{C}) := \\{(x,y) \\in \\mathbb{C} \\times \\mathbb{C} : y^2 = 4x^3 - g_2 x - g_3\\} \\cup \\{\\mathcal{O}\\}$$\n\nwhere $g_2, g_3 \\in \\mathbb{C}$ satisfy $\\Delta = g_2^3 - 27g_3^2 \\neq 0$ (ensuring smoothness). The point $\\mathcal{O}$ denotes the **point at infinity** (identity element).",
+      "statement": "An **elliptic curve** over $\\mathbb{C}$ is the smooth projective cubic curve\n\n$$Y^2Z = 4X^3 - g_2XZ^2 - g_3Z^3$$\n\nwith distinguished point $\\mathcal{O}=(0:1:0)$, where the discriminant satisfies $\\Delta = g_2^3 - 27g_3^2 \\neq 0$. In affine coordinates $Z=1$, this becomes\n\n$$y^2 = 4x^3 - g_2x - g_3.$$",
       "references": [
-        "weierstrass-g2",
-        "weierstrass-g3",
+        "projective-weierstrass-cubic",
+        "point-at-infinity",
         "weierstrass-discriminant"
       ],
       "chapter": "elliptic-curves",
@@ -992,7 +967,7 @@
     },
     "weierstrass-parametrization": {
       "id": "weierstrass-parametrization",
-      "reference": "7.2",
+      "reference": "5.4",
       "name": "Weierstrass Parametrization",
       "nodetype": {
         "primary": "Proposition",
@@ -1030,7 +1005,7 @@
     },
     "j-invariant": {
       "id": "j-invariant",
-      "reference": "5.4",
+      "reference": "5.9",
       "name": "j-Invariant",
       "nodetype": {
         "primary": "Definition",
@@ -1039,18 +1014,17 @@
       "statement": "The **j-invariant** is defined by:\n\n$$j(\\Lambda) = 1728 \\frac{g_2(\\Lambda)^3}{\\Delta(\\Lambda)} = 1728 \\frac{g_2^3}{g_2^3 - 27g_3^2}$$\n\n**Significance:** The j-invariant classifies elliptic curves up to isomorphism over $\\mathbb{C}$. Two curves have the same j-invariant if and only if they are isomorphic. Every complex number is the j-invariant of some elliptic curve.",
       "references": [
         "weierstrass-g2",
-        "weierstrass-g3",
         "weierstrass-discriminant",
         "homothety-action"
       ],
-      "chapter": "invariants",
+      "chapter": "elliptic-curves",
       "proof_lines": [],
       "autoslug": true,
       "slug": "j-invariant"
     },
     "homothety-action": {
       "id": "homothety-action",
-      "reference": "5.5",
+      "reference": "5.8",
       "name": "Homothety and Scaling",
       "nodetype": {
         "primary": "Proposition",
@@ -1059,10 +1033,9 @@
       "statement": "Under scaling $\\Lambda \\mapsto c\\Lambda$ for $c \\in \\mathbb{C}^*$:\n\n$$g_2(c\\Lambda) = c^{-4} g_2(\\Lambda), \\quad g_3(c\\Lambda) = c^{-6} g_3(\\Lambda)$$\n$$\\Delta(c\\Lambda) = c^{-12} \\Delta(\\Lambda), \\quad j(c\\Lambda) = j(\\Lambda)$$\n\n**Consequence:** The j-invariant is **scale-invariant**, making it the fundamental classifying invariant for similarity classes of lattices.",
       "references": [
         "weierstrass-g2",
-        "weierstrass-g3",
         "weierstrass-discriminant"
       ],
-      "chapter": "invariants",
+      "chapter": "elliptic-curves",
       "proof_lines": [
         {
           "statement": "Scaling transforms $\\wp(z; c\\Lambda) = c^{-2} \\wp(z/c; \\Lambda)$ by direct calculation from the series definition.",
@@ -1102,7 +1075,7 @@
     },
     "half-period-relations": {
       "id": "half-period-relations",
-      "reference": "4.8",
+      "reference": "3.14",
       "name": "Half-Period Relations",
       "nodetype": {
         "primary": "Proposition",
@@ -1111,8 +1084,7 @@
       "statement": "The critical values $e_i = \\wp(\\omega_i/2)$ satisfy:\n\n$$e_1 + e_2 + e_3 = 0$$\n$$g_2 = -4(e_1 e_2 + e_2 e_3 + e_3 e_1)$$\n$$g_3 = 4e_1 e_2 e_3$$\n\nThese follow from expanding $4(x - e_1)(x - e_2)(x - e_3) = 4x^3 - g_2 x - g_3$ and comparing coefficients.",
       "references": [
         "weierstrass-critical-points",
-        "weierstrass-g2",
-        "weierstrass-g3"
+        "weierstrass-g2"
       ],
       "chapter": "weierstrass",
       "proof_lines": [
@@ -1132,7 +1104,7 @@
     },
     "eisenstein-recursion": {
       "id": "eisenstein-recursion",
-      "reference": "2.4",
+      "reference": "8.3",
       "name": "Eisenstein Series Recursion",
       "nodetype": {
         "primary": "Proposition",
@@ -1140,13 +1112,17 @@
       },
       "statement": "The Eisenstein series satisfy the recursion:\n\n$$G_{2k}(\\Lambda) = \\frac{3}{(2k-1)(2k-3)} \\sum_{j=1}^{k-2} G_{2j}(\\Lambda) G_{2(k-j-1)}(\\Lambda)$$\n\nfor $k \\geq 3$, with initial values $G_4$ and $G_6$ generating all higher series.",
       "references": [
-        "eisenstein-definition"
+        "weierstrass-differential-equation",
+        "weierstrass-laurent-expansion"
       ],
-      "chapter": "eisenstein-series",
+      "chapter": "applications-overview",
       "proof_lines": [
         {
-          "statement": "The recursion follows from comparing coefficients in the Laurent expansion of $\\wp''$ (see lecture notes 3.11).",
-          "references": []
+          "statement": "The recursion is obtained by comparing coefficients in the differential equation for $\\wp$ using its Laurent expansion.",
+          "references": [
+            "weierstrass-differential-equation",
+            "weierstrass-laurent-expansion"
+          ]
         }
       ],
       "autoslug": true,
@@ -1165,7 +1141,7 @@
         "weierstrass-addition-theorem",
         "weierstrass-duplication-formula"
       ],
-      "chapter": "addition-theorem",
+      "chapter": "group-structure",
       "proof_lines": [
         {
           "statement": "The explicit addition formula gives a polynomial relation among $\\wp(z)$, $\\wp(w)$, $\\wp'(z)$, $\\wp'(w)$, and $\\wp(z+w)$.",
@@ -1185,37 +1161,35 @@
     },
     "elliptic-curve-group-law": {
       "id": "elliptic-curve-group-law",
-      "reference": "7.3",
-      "name": "Group Law on Elliptic Curves",
+      "reference": "6.4",
+      "name": "Geometric Group Law on Elliptic Curves",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Theorem"
       },
-      "statement": "The elliptic curve $E(\\mathbb{C})$ has a natural **abelian group structure** with:\n\n- **Identity:** $\\mathcal{O}$ (point at infinity)\n- **Addition:** Chord-and-tangent construction\n- **Inverse:** $(x, y)^{-1} = (x, -y)$\n\n**Chord-and-tangent rule:** To compute $P + Q$:\n1. Draw the line through $P$ and $Q$ (tangent if $P = Q$)\n2. Find the third intersection $R$ with the curve\n3. $P + Q = R^{-1}$ (reflection of $R$ across $x$-axis)\n\n**Key fact:** This geometric law corresponds to addition in $\\mathbb{C}/\\Lambda$ under the Weierstrass parametrization.",
+      "statement": "The points of an elliptic curve carry a natural abelian group structure with identity element $\\mathcal{O}$. Geometrically, if a line meets the curve in points $P$, $Q$, and $R$ (counting multiplicity), then\n\n$$P+Q+R = \\mathcal{O}. $$\n\nEquivalently, to compute $P+Q$, draw the line through $P$ and $Q$, find the third intersection point $R$, and then reflect across the $x$-axis.",
       "references": [
         "elliptic-curve-definition",
-        "weierstrass-parametrization",
-        "weierstrass-addition-theorem"
+        "point-at-infinity",
+        "weierstrass-parametrization"
       ],
-      "chapter": "elliptic-curves",
+      "chapter": "group-structure",
       "proof_lines": [
         {
-          "statement": "Associativity and commutativity are inherited from the torus $\\mathbb{C}/\\Lambda$ via the parametrization bijection.",
+          "statement": "The identity element is the point at infinity $\\mathcal{O}$, and the inverse of $(x,y)$ is obtained by reflection across the $x$-axis.",
+          "references": [
+            "point-at-infinity"
+          ]
+        },
+        {
+          "statement": "Under the Weierstrass parametrization, this geometric law corresponds to addition on the torus $\\mathbb{C}/\\Lambda$.",
           "references": [
             "weierstrass-parametrization"
           ]
         },
         {
-          "statement": "The chord-and-tangent construction corresponds to the addition theorem when translated via $(\\wp, \\wp')$ coordinates.",
-          "references": [
-            "weierstrass-addition-theorem"
-          ]
-        },
-        {
-          "statement": "Identity and inverse properties follow from the lattice structure and the odd property of $\\wp'$.",
-          "references": [
-            "weierstrass-even-property"
-          ]
+          "statement": "Hence the chord-and-tangent construction defines an abelian group law on the curve.",
+          "references": []
         }
       ],
       "autoslug": true,
@@ -1223,7 +1197,7 @@
     },
     "modular-forms": {
       "id": "modular-forms",
-      "reference": "8",
+      "reference": "7",
       "name": "Introduction to Modular Forms",
       "nodetype": {
         "primary": "Group",
@@ -1238,7 +1212,7 @@
     },
     "sl2z-action": {
       "id": "sl2z-action",
-      "reference": "8.1",
+      "reference": "7.1",
       "name": "SL(2,ℤ) Action on Lattices",
       "nodetype": {
         "primary": "Definition",
@@ -1255,7 +1229,7 @@
     },
     "modular-function-definition": {
       "id": "modular-function-definition",
-      "reference": "8.2",
+      "reference": "7.2",
       "name": "Modular Functions",
       "nodetype": {
         "primary": "Definition",
@@ -1308,31 +1282,35 @@
     },
     "eisenstein-convergence": {
       "id": "eisenstein-convergence",
-      "reference": "2.5",
+      "reference": "1.6",
       "name": "Eisenstein Series Convergence",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Theorem"
       },
-      "statement": "The Eisenstein series $G_k(\\Lambda) = \\sum_{0 \\neq \\lambda \\in \\Lambda} \\frac{1}{\\lambda^k}$ converges absolutely for $k > 2$.\n\n**Proof idea:** Use lattice comparison to relate convergence to $\\sum_{n,m} \\frac{1}{(n^2 + m^2)^{k/2}}$, which converges for $k > 2$.",
+      "statement": "The Eisenstein series $G_k(\\Lambda) = \\sum_{0 \\neq \\lambda \\in \\Lambda} \\frac{1}{\\lambda^k}$ converges absolutely for $k > 2$.\n\n**Proof idea:** Compare the size of lattice points with the Euclidean size of their coefficient vectors, then compare the resulting sum with the standard double series over $\\mathbb{Z}^2$.",
       "references": [
         "eisenstein-definition",
-        "lattice-comparison-proposition"
+        "lattice-norm-comparison"
       ],
-      "chapter": "eisenstein-series",
+      "chapter": "foundations",
       "proof_lines": [
         {
-          "statement": "By lattice comparison, $|m\\omega_1 + n\\omega_2| \\geq \\alpha\\sqrt{m^2 + n^2}$ for some $\\alpha > 0$.",
+          "statement": "Write each nonzero lattice point as $\\lambda = m\\omega_1 + n\\omega_2$. By Lattice Norm Comparison, there exists $c > 0$ such that $|\\lambda| \\geq c\\sqrt{m^2 + n^2}$.",
           "references": [
-            "lattice-comparison-proposition"
+            "lattice-norm-comparison"
           ]
         },
         {
-          "statement": "Therefore $\\sum \\frac{1}{|\\lambda|^k} \\leq \\alpha^{-k} \\sum_{m,n} \\frac{1}{(m^2 + n^2)^{k/2}}$.",
+          "statement": "Therefore\n$$\\sum_{0 \\neq \\lambda \\in \\Lambda} \\frac{1}{|\\lambda|^k} \\leq c^{-k} \\sum_{(m,n) \\in \\mathbb{Z}^2 \\setminus \\{(0,0)\\}} \\frac{1}{(m^2+n^2)^{k/2}}.$$",
           "references": []
         },
         {
-          "statement": "The right side converges for $k > 2$ by comparison with integrals.",
+          "statement": "The series on the right converges for $k > 2$, for example by comparison with the polar-coordinate integral of $r^{1-k}$ over $[1, \\infty)$.",
+          "references": []
+        },
+        {
+          "statement": "Hence $G_k(\\Lambda)$ converges absolutely for $k > 2$.",
           "references": []
         }
       ],
@@ -1341,71 +1319,57 @@
     },
     "weierstrass-laurent-expansion": {
       "id": "weierstrass-laurent-expansion",
-      "reference": "4.9",
+      "reference": "3.8",
       "name": "Laurent Expansion of ℘",
       "nodetype": {
         "primary": "Proposition",
         "secondary": "Theorem"
       },
-      "statement": "The Weierstrass ℘-function has Laurent expansion at $z = 0$:\n\n$$\\wp(z) = \\frac{1}{z^2} + \\frac{g_2}{20} z^2 + \\frac{g_3}{28} z^4 + \\sum_{k=3}^{\\infty} \\frac{(2k+1) G_{2k+2}(\\Lambda)}{(k-1)(2k-1)} z^{2k}$$\n\n**Key observation:** No odd powers appear (℘ is even), and no linear term appears (residue is 0).",
+      "statement": "In a neighbourhood of $z = 0$, the Weierstrass function has Laurent expansion\n\n$$\\wp(z) = \\frac{1}{z^2} + \\sum_{k=1}^{\\infty} (2k+1) G_{2k+2}(\\Lambda) z^{2k}. $$\n\nEquivalently, the first few terms are\n$$\\wp(z) = \\frac{1}{z^2} + 3G_4(\\Lambda) z^2 + 5G_6(\\Lambda) z^4 + 7G_8(\\Lambda) z^6 + \\cdots.$$",
       "references": [
         "weierstrass-series-definition",
-        "weierstrass-g2",
-        "weierstrass-g3",
-        "eisenstein-definition"
+        "eisenstein-definition",
+        "eisenstein-parity"
       ],
       "chapter": "weierstrass",
       "proof_lines": [
         {
-          "statement": "Expand each term $\\frac{1}{(z-\\lambda)^2} - \\frac{1}{\\lambda^2}$ in powers of $z$ and collect coefficients.",
+          "statement": "Start from the defining series\n$$\\wp(z) = \\frac{1}{z^2} + \\sum_{0 \\neq \\lambda \\in \\Lambda} \\left(\\frac{1}{(z-\\lambda)^2} - \\frac{1}{\\lambda^2}\\right).$$",
           "references": [
             "weierstrass-series-definition"
           ]
         },
         {
-          "statement": "The coefficients involve Eisenstein series: coefficient of $z^{2k}$ contains $G_{2k+2}$.",
+          "statement": "For each nonzero lattice point $\\lambda$, rewrite the summand as\n$$\\frac{1}{(z-\\lambda)^2} - \\frac{1}{\\lambda^2} = \\frac{1}{\\lambda^2}\\left(\\frac{1}{(1-z/\\lambda)^2}-1\\right).$$",
+          "references": []
+        },
+        {
+          "statement": "Using the power series identity $\\frac{1}{(1-a)^2} = \\sum_{n=0}^{\\infty} (n+1)a^n$ for $|a|<1$, we get\n$$\\frac{1}{(z-\\lambda)^2} - \\frac{1}{\\lambda^2} = \\sum_{n=1}^{\\infty} (n+1) \\frac{z^n}{\\lambda^{n+2}}$$\nwhenever $|z|<|\\lambda|$.",
+          "references": []
+        },
+        {
+          "statement": "Substituting this into the defining series and rearranging the sums gives\n$$\\wp(z) = \\frac{1}{z^2} + \\sum_{n=1}^{\\infty} (n+1) G_{n+2}(\\Lambda) z^n,$$\nwhere $G_{n+2}(\\Lambda)=\\sum_{0 \\neq \\lambda \\in \\Lambda} \\lambda^{-(n+2)}$.",
           "references": [
             "eisenstein-definition"
           ]
+        },
+        {
+          "statement": "By the Eisenstein parity proposition, $G_m(\\Lambda)=0$ for odd $m$. Hence the terms with odd $n$ vanish, since then $n+2$ is odd.",
+          "references": [
+            "eisenstein-parity"
+          ]
+        },
+        {
+          "statement": "Writing $n=2k$ yields\n$$\\wp(z) = \\frac{1}{z^2} + \\sum_{k=1}^{\\infty} (2k+1) G_{2k+2}(\\Lambda) z^{2k},$$\nwhich is the desired Laurent expansion.",
+          "references": []
         }
       ],
       "autoslug": true,
       "slug": "weierstrass-laurent-expansion"
     },
-    "order-degree-theorem": {
-      "id": "order-degree-theorem",
-      "reference": "4.10",
-      "name": "Order and Degree of ℘",
-      "nodetype": {
-        "primary": "Proposition",
-        "secondary": "Theorem"
-      },
-      "statement": "The Weierstrass ℘-function has **order 2**: in any fundamental parallelogram, ℘ has exactly 2 poles (counting multiplicity), which are both simple poles at lattice points.\n\nFor any $w \\in \\mathbb{C}$, the equation $\\wp(z) = w$ has exactly 2 solutions in any fundamental parallelogram (counting multiplicity).",
-      "references": [
-        "weierstrass-series-definition",
-        "liouville-third"
-      ],
-      "chapter": "weierstrass",
-      "proof_lines": [
-        {
-          "statement": "By construction, ℘ has a double pole at each lattice point and is holomorphic elsewhere.",
-          "references": [
-            "weierstrass-series-definition"
-          ]
-        },
-        {
-          "statement": "The order follows from Liouville's Third Theorem applied to ℘.",
-          "references": [
-            "liouville-third"
-          ]
-        }
-      ],
-      "autoslug": true,
-      "slug": "order-degree-theorem"
-    },
     "eisenstein-modular-forms": {
       "id": "eisenstein-modular-forms",
-      "reference": "8.3",
+      "reference": "7.3",
       "name": "Eisenstein Series as Modular Forms",
       "nodetype": {
         "primary": "Proposition",
@@ -1434,7 +1398,7 @@
     },
     "j-invariant-modular-function": {
       "id": "j-invariant-modular-function",
-      "reference": "8.4",
+      "reference": "7.4",
       "name": "j-Invariant as Modular Function",
       "nodetype": {
         "primary": "Proposition",
@@ -1465,7 +1429,7 @@
     },
     "elliptic-curve-isogeny": {
       "id": "elliptic-curve-isogeny",
-      "reference": "7.4",
+      "reference": "6.12",
       "name": "Isogenies of Elliptic Curves",
       "nodetype": {
         "primary": "Definition",
@@ -1476,14 +1440,14 @@
         "elliptic-curve-definition",
         "elliptic-curve-group-law"
       ],
-      "chapter": "elliptic-curves",
+      "chapter": "group-structure",
       "proof_lines": [],
       "autoslug": true,
       "slug": "elliptic-curve-isogeny"
     },
     "complex-multiplication": {
       "id": "complex-multiplication",
-      "reference": "7.5",
+      "reference": "6.13",
       "name": "Complex Multiplication",
       "nodetype": {
         "primary": "Definition",
@@ -1494,14 +1458,14 @@
         "elliptic-curve-definition",
         "lattice-definition"
       ],
-      "chapter": "elliptic-curves",
+      "chapter": "group-structure",
       "proof_lines": [],
       "autoslug": true,
       "slug": "complex-multiplication"
     },
     "theta-functions-intro": {
       "id": "theta-functions-intro",
-      "reference": "9.1",
+      "reference": "8.1",
       "name": "Introduction to Theta Functions",
       "nodetype": {
         "primary": "Comment",
@@ -1516,28 +1480,9 @@
       "autoslug": true,
       "slug": "theta-functions-intro"
     },
-    "numerical-computation": {
-      "id": "numerical-computation",
-      "reference": "4.11",
-      "name": "Numerical Computation of ℘",
-      "nodetype": {
-        "primary": "Comment",
-        "secondary": "Comment"
-      },
-      "statement": "For computational purposes, the ℘-function series converges rapidly away from lattice points. **Practical considerations:**\n\n- Use symmetry: compute only in fundamental parallelogram\n- Near lattice points: use Laurent expansion\n- For large |z|: series converges exponentially fast\n- Alternative: theta function representations often converge faster",
-      "references": [
-        "weierstrass-series-definition",
-        "weierstrass-laurent-expansion",
-        "theta-functions-intro"
-      ],
-      "chapter": "weierstrass",
-      "proof_lines": [],
-      "autoslug": true,
-      "slug": "numerical-computation"
-    },
     "applications-overview": {
       "id": "applications-overview",
-      "reference": "9.2",
+      "reference": "8.2",
       "name": "Applications of Elliptic Functions",
       "nodetype": {
         "primary": "Comment",
@@ -1567,6 +1512,432 @@
       "proof_lines": [],
       "autoslug": true,
       "slug": "historical-development"
+    },
+    "weierstrass-root-form": {
+      "id": "weierstrass-root-form",
+      "reference": "3.13",
+      "name": "Root Form of the Differential Equation",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Lemma"
+      },
+      "statement": "If $e_i = \\wp(\\omega_i/2)$ for the three half-periods, then the Weierstrass differential equation can be written in the factored form\n\n$$(\\wp'(z))^2 = 4(\\wp(z)-e_1)(\\wp(z)-e_2)(\\wp(z)-e_3).$$\n\n**Note:** This part of the chapter still wants some reorganisation; the factorized form is best understood as a later consequence of the expanded cubic form together with the critical values.",
+      "references": [
+        "weierstrass-differential-equation",
+        "weierstrass-critical-points"
+      ],
+      "chapter": "weierstrass",
+      "proof_lines": [
+        {
+          "statement": "The values $e_i = \\wp(\\omega_i/2)$ are zeros of $\\wp'$, so the cubic polynomial on the right must vanish when $\\wp = e_i$.",
+          "references": [
+            "weierstrass-critical-points"
+          ]
+        },
+        {
+          "statement": "Thus the cubic $4x^3-g_2x-g_3$ has roots $e_1,e_2,e_3$, and therefore factors as $4(x-e_1)(x-e_2)(x-e_3)$.",
+          "references": [
+            "weierstrass-differential-equation"
+          ]
+        },
+        {
+          "statement": "Substituting $x=\\wp(z)$ gives the stated factorization.",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "weierstrass-root-form"
+    },
+    "eisenstein-scaling": {
+      "id": "eisenstein-scaling",
+      "reference": "1.7",
+      "name": "Scaling Law for Eisenstein Series",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "For $c \\in \\mathbb{C}^*$ and $k>2$, the Eisenstein series satisfies\n\n$$G_k(c\\Lambda)=c^{-k}G_k(\\Lambda).$$\n\nIn particular, $G_k$ transforms with weight $k$ under scaling of the lattice.",
+      "references": [
+        "eisenstein-definition",
+        "lattice-definition"
+      ],
+      "chapter": "foundations",
+      "proof_lines": [
+        {
+          "statement": "By definition,\n$$G_k(c\\Lambda)=\\sum_{0 \\neq \\mu \\in c\\Lambda} \\frac{1}{\\mu^k}.$$",
+          "references": [
+            "eisenstein-definition"
+          ]
+        },
+        {
+          "statement": "Every nonzero element of $c\\Lambda$ has the form $\\mu=c\\lambda$ for a unique nonzero $\\lambda \\in \\Lambda$. Therefore\n$$G_k(c\\Lambda)=\\sum_{0 \\neq \\lambda \\in \\Lambda} \\frac{1}{(c\\lambda)^k}=c^{-k}\\sum_{0 \\neq \\lambda \\in \\Lambda} \\frac{1}{\\lambda^k}.$$",
+          "references": [
+            "lattice-definition"
+          ]
+        },
+        {
+          "statement": "Hence $G_k(c\\Lambda)=c^{-k}G_k(\\Lambda)$.",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "eisenstein-scaling"
+    },
+    "projective-plane": {
+      "id": "projective-plane",
+      "reference": "4.1",
+      "name": "Projective Plane $\\mathbb{P}^2(K)$",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For a field $K$, the **projective plane** is\n\n$$\\mathbb{P}^2(K) = \\{(X:Y:Z) : (X,Y,Z) \\neq (0,0,0)\\}/\\sim,$$\n\nwhere $(X:Y:Z) \\sim (\\lambda X : \\lambda Y : \\lambda Z)$ for every $\\lambda \\in K^*$. The affine plane sits inside $\\mathbb{P}^2(K)$ as the chart $Z \\neq 0$, while the set $Z=0$ is the **line at infinity**.",
+      "references": [],
+      "chapter": "projective-geometry",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "projective-plane"
+    },
+    "homogeneous-polynomial": {
+      "id": "homogeneous-polynomial",
+      "reference": "4.2",
+      "name": "Homogeneous Polynomials and Projective Curves",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "A polynomial $F(X,Y,Z)$ is **homogeneous of degree $d$** if every monomial has total degree $d$. Equivalently,\n\n$$F(\\lambda X, \\lambda Y, \\lambda Z) = \\lambda^d F(X,Y,Z)$$\n\nfor all $\\lambda \\in K^*$. Because of this scaling property, the equation $F(X,Y,Z)=0$ is well-defined on projective points, and so determines a curve in $\\mathbb{P}^2(K)$.",
+      "references": [
+        "projective-plane"
+      ],
+      "chapter": "projective-geometry",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "homogeneous-polynomial"
+    },
+    "projective-weierstrass-cubic": {
+      "id": "projective-weierstrass-cubic",
+      "reference": "5.1",
+      "name": "Projective Model of the Weierstrass Cubic",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "The affine cubic\n\n$$y^2 = 4x^3 - g_2x - g_3$$\n\nis completed to a projective curve by homogenising the equation:\n\n$$Y^2Z = 4X^3 - g_2XZ^2 - g_3Z^3.$$\n\nThis is the projective model of the Weierstrass cubic attached to the lattice invariants $g_2$ and $g_3$.",
+      "references": [
+        "homogeneous-polynomial",
+        "weierstrass-differential-equation"
+      ],
+      "chapter": "elliptic-curves",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "projective-weierstrass-cubic"
+    },
+    "point-at-infinity": {
+      "id": "point-at-infinity",
+      "reference": "5.2",
+      "name": "The Point at Infinity",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Lemma"
+      },
+      "statement": "The projective Weierstrass cubic has a unique point with $Z=0$, namely\n\n$$\\mathcal{O} = (0:1:0).$$\n\nThis is the unique **point at infinity** on the curve.",
+      "references": [
+        "projective-weierstrass-cubic"
+      ],
+      "chapter": "elliptic-curves",
+      "proof_lines": [
+        {
+          "statement": "Setting $Z=0$ in the projective equation gives $0 = 4X^3$, so $X=0$.",
+          "references": []
+        },
+        {
+          "statement": "With $X=0$ and $Z=0$, the only remaining projective point is $(0:1:0)$ up to scaling.",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "point-at-infinity"
+    },
+    "curve-negation": {
+      "id": "curve-negation",
+      "reference": "6.6",
+      "name": "Negation on the Curve",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "For a finite point $P=(x,y)$ on the elliptic curve, its inverse in the group law is\n\n$$-P = (x,-y).$$\n\nGeometrically, the line through $P$ and $\\mathcal{O}$ is vertical, and its third intersection with the curve is $(x,-y)$.",
+      "references": [
+        "elliptic-curve-group-law",
+        "point-at-infinity"
+      ],
+      "chapter": "group-structure",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "curve-negation"
+    },
+    "elliptic-curve-n-torsion": {
+      "id": "elliptic-curve-n-torsion",
+      "reference": "6.7",
+      "name": "The $n$-Torsion Subgroup",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For an elliptic curve $E$, the **$n$-torsion subgroup** is\n\n$$E[n] := \\{P \\in E : nP = \\mathcal{O}\\}. $$\n\nMore generally, the torsion subgroup of $E$ is the set of all points of finite order.",
+      "references": [
+        "elliptic-curve-group-law"
+      ],
+      "chapter": "group-structure",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "elliptic-curve-n-torsion"
+    },
+    "elliptic-curve-2-torsion": {
+      "id": "elliptic-curve-2-torsion",
+      "reference": "6.8",
+      "name": "The 2-Torsion Points",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Proposition"
+      },
+      "statement": "The points of order dividing $2$ on the elliptic curve are precisely\n\n$$E[2] = \\{(x,0) : 4x^3-g_2x-g_3 = 0\\} \\cup \\{\\mathcal{O}\\}. $$\n\nIn particular, the non-trivial $2$-torsion points are the finite points with $y=0$.",
+      "references": [
+        "elliptic-curve-n-torsion",
+        "curve-negation",
+        "weierstrass-root-form"
+      ],
+      "chapter": "group-structure",
+      "proof_lines": [
+        {
+          "statement": "A point $P$ satisfies $2P=\\mathcal{O}$ exactly when $P=-P$.",
+          "references": [
+            "elliptic-curve-n-torsion",
+            "curve-negation"
+          ]
+        },
+        {
+          "statement": "For a finite point $(x,y)$, this means $(x,y)=(x,-y)$, so $y=0$.",
+          "references": []
+        },
+        {
+          "statement": "Substituting $y=0$ into the cubic equation gives $4x^3-g_2x-g_3=0$.",
+          "references": [
+            "weierstrass-root-form"
+          ]
+        }
+      ],
+      "autoslug": true,
+      "slug": "elliptic-curve-2-torsion"
+    },
+    "half-periods-2-torsion": {
+      "id": "half-periods-2-torsion",
+      "reference": "6.9",
+      "name": "Half-Periods and 2-Torsion",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Corollary"
+      },
+      "statement": "Under the Weierstrass parametrization, the three non-trivial half-periods map to the three non-trivial $2$-torsion points on the elliptic curve. Their $x$-coordinates are the critical values\n\n$$e_i = \\wp(\\omega_i/2).$$",
+      "references": [
+        "weierstrass-parametrization",
+        "elliptic-curve-2-torsion",
+        "half-period-relations"
+      ],
+      "chapter": "group-structure",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "half-periods-2-torsion"
+    },
+    "torsion-over-c": {
+      "id": "torsion-over-c",
+      "reference": "6.10",
+      "name": "Torsion over $\\mathbb{C}$",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "If $E(\\mathbb{C}) \\cong \\mathbb{C}/\\Lambda$, then for every $n \\ge 1$ we have\n\n$$E[n] \\cong (\\mathbb{Z}/n\\mathbb{Z})^2.$$\n\nThus there are exactly $n^2$ points of order dividing $n$ on a complex elliptic curve.",
+      "references": [
+        "elliptic-curve-n-torsion",
+        "weierstrass-parametrization",
+        "lattice-definition"
+      ],
+      "chapter": "group-structure",
+      "proof_lines": [
+        {
+          "statement": "Under the parametrization $E(\\mathbb{C}) \\cong \\mathbb{C}/\\Lambda$, the condition $nP=\\mathcal{O}$ corresponds to $nz \\in \\Lambda$.",
+          "references": [
+            "weierstrass-parametrization"
+          ]
+        },
+        {
+          "statement": "Hence the $n$-torsion points are represented by the classes of $\\frac{a}{n}\\omega_1 + \\frac{b}{n}\\omega_2$ modulo $\\Lambda$, where $0 \\le a,b < n$.",
+          "references": [
+            "lattice-definition"
+          ]
+        },
+        {
+          "statement": "These classes form a group isomorphic to $(\\mathbb{Z}/n\\mathbb{Z})^2$.",
+          "references": []
+        }
+      ],
+      "autoslug": true,
+      "slug": "torsion-over-c"
+    },
+    "analytic-geometric-addition-agreement": {
+      "id": "analytic-geometric-addition-agreement",
+      "reference": "6.5",
+      "name": "Analytic and Geometric Addition Laws Agree",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Corollary"
+      },
+      "statement": "Under the Weierstrass parametrization $\\mathbb{C}/\\Lambda \\to E(\\mathbb{C})$, addition on the torus agrees with the geometric group law on the elliptic curve. Equivalently, the addition theorem for $\\wp$ is the coordinate expression of the chord-and-tangent law on the cubic.",
+      "references": [
+        "weierstrass-parametrization",
+        "weierstrass-addition-theorem",
+        "elliptic-curve-group-law"
+      ],
+      "chapter": "group-structure",
+      "proof_lines": [
+        {
+          "statement": "The parametrization sends a class $z+\\Lambda$ to the point $(\\wp(z),\\wp'(z))$ on the cubic, with the lattice point $0+\\Lambda$ mapping to $\\mathcal{O}$.",
+          "references": [
+            "weierstrass-parametrization"
+          ]
+        },
+        {
+          "statement": "The addition theorem expresses the coordinates of $z_1+z_2$ as rational functions of the coordinates of $z_1$ and $z_2$.",
+          "references": [
+            "weierstrass-addition-theorem"
+          ]
+        },
+        {
+          "statement": "These are exactly the rational formulas encoded geometrically by the chord-and-tangent construction, so the two addition laws coincide.",
+          "references": [
+            "elliptic-curve-group-law"
+          ]
+        }
+      ],
+      "autoslug": true,
+      "slug": "analytic-geometric-addition-agreement"
+    },
+    "projective-line": {
+      "id": "projective-line",
+      "reference": "4.3",
+      "name": "Projective Line $\\mathbb{P}^1(K)$",
+      "nodetype": {
+        "primary": "Definition",
+        "secondary": "Definition"
+      },
+      "statement": "For a field $K$, the **projective line** is\n\n$$\\mathbb{P}^1(K)=\\{(X:Y) : (X,Y) \\neq (0,0)\\}/\\sim,$$\n\nwhere $(X:Y) \\sim (\\lambda X : \\lambda Y)$ for every $\\lambda \\in K^*$. It may be identified with $K \\cup \\{\\infty\\}$ by sending $(X:Y)$ to $X/Y$ when $Y \\neq 0$, and to $\\infty$ when $Y=0$.",
+      "references": [],
+      "chapter": "projective-geometry",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "projective-line"
+    },
+    "projective-closure-motivation": {
+      "id": "projective-closure-motivation",
+      "reference": "4.4",
+      "name": "Why Projective Closure Matters",
+      "nodetype": {
+        "primary": "Comment",
+        "secondary": "Note"
+      },
+      "statement": "Affine geometry can hide important intersections by sending them to infinity. Projective space repairs this by adjoining a line at infinity, so that parallel directions are recorded geometrically and cubic curves acquire their natural missing points. For elliptic curves, this is exactly what makes the point $\\mathcal{O}$ legitimate rather than ad hoc.",
+      "references": [
+        "projective-plane",
+        "projective-line",
+        "homogeneous-polynomial"
+      ],
+      "chapter": "projective-geometry",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "projective-closure-motivation"
+    },
+    "function-field-of-the-torus": {
+      "id": "function-field-of-the-torus",
+      "reference": "5.5",
+      "name": "Function Field of the Torus",
+      "nodetype": {
+        "primary": "Proposition",
+        "secondary": "Theorem"
+      },
+      "statement": "The meromorphic function field of the torus $\\mathbb{C}/\\Lambda$ is generated by $\\wp$ and $\\wp'$. Equivalently, the function field of the elliptic curve is\n\n$$\\mathbb{C}(E) \\cong \\mathbb{C}(\\wp,\\wp')$$\n\nsubject to the single relation\n\n$$(\\wp')^2 = 4\\wp^3-g_2\\wp-g_3.$$\n\nThus the torus and the elliptic curve have the same field of meromorphic functions.",
+      "references": [
+        "elliptic-function-classification",
+        "weierstrass-differential-equation",
+        "weierstrass-parametrization"
+      ],
+      "chapter": "elliptic-curves",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "function-field-of-the-torus"
+    },
+    "mordell-weil-theorem": {
+      "id": "mordell-weil-theorem",
+      "reference": "6.11",
+      "name": "Mordell–Weil Theorem",
+      "nodetype": {
+        "primary": "Comment",
+        "secondary": "Note"
+      },
+      "statement": "For an elliptic curve $E$ defined over a number field $K$, the group of $K$-rational points $E(K)$ is a finitely generated abelian group. In other words, there is a finite torsion subgroup together with finitely many generators for the free part. This deep theorem lies beyond the scope of the present development, but it shows that the group law on elliptic curves leads directly into arithmetic geometry.",
+      "references": [
+        "elliptic-curve-group-law"
+      ],
+      "chapter": "group-structure",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "mordell-weil-theorem"
+    },
+    "projective-geometry": {
+      "id": "projective-geometry",
+      "reference": "4",
+      "name": "Projective Geometry",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "This short chapter introduces the projective language needed to treat cubic curves properly. Projective space supplies the line at infinity, homogeneous equations define projective curves, and points that look artificial in affine coordinates become geometrically natural.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "projective-geometry"
+    },
+    "elliptic-curves": {
+      "id": "elliptic-curves",
+      "reference": "5",
+      "name": "Elliptic Curves",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "We now interpret the differential equation of the Weierstrass function as the equation of a cubic curve. The resulting elliptic curve is not merely associated to the torus $\\mathbb{C}/\\Lambda$; via the Weierstrass parametrization it is another presentation of the same complex surface. This chapter develops that correspondence and the basic invariants of the curve.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "elliptic-curves"
+    },
+    "group-structure": {
+      "id": "group-structure",
+      "reference": "6",
+      "name": "Group Structure",
+      "nodetype": {
+        "primary": "Group",
+        "secondary": "Chapter"
+      },
+      "statement": "Elliptic curves carry a natural group law, visible both analytically on the torus and geometrically on the cubic. This chapter develops the addition theorem for $\\wp$, the chord-and-tangent law, their compatibility, and the first consequences for torsion points.",
+      "references": [],
+      "chapter": "ROOT",
+      "proof_lines": [],
+      "autoslug": true,
+      "slug": "group-structure"
     }
   }
 }

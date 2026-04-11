@@ -209,7 +209,7 @@ export default {
 
     // References search functionality
     const referencesLoading = ref(false);
-    const filteredReferences = ref([]);
+    const filteredReferences = ref<Array<{ value: string; label: string }>>([]);
 
     // Use store method for available references - much simpler!
     const allReferences = computed(() => store.getAvailableReferences(node.id));

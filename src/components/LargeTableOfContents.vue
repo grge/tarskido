@@ -66,7 +66,7 @@
 
 <script lang="ts">
 import { computed } from 'vue';
-import { useBookStore } from '@/stores/bookStore';
+import { useBookStore, type Node } from '@/stores/bookStore';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
 /** A generic TOC node */
@@ -102,11 +102,11 @@ export default {
       ids = store.sortNodesByReference(ids) || [];
 
       return ids.map(id => {
-        const data = book.value.nodes[id];
+        const data = book.value.nodes[id] as Node;
         return {
           id: id,
           ref: data.reference,
-          slug: data.slug,
+          slug: data.slug || data.id,
           type: data.nodetype.secondary,
           name: data.name,
           children: buildToc(store.sortNodesByReference(graph.value.children(id)) || []),
@@ -121,7 +121,7 @@ export default {
         const node = nodes[id];
         return (
           !node ||
-          ((node.chapter == '' || node.chapter == rootId) && node.nodetype.primary != 'Group')
+          ((node.chapter == 'ROOT' || !node.chapter) && node.nodetype.primary != 'Group')
         );
       });
       return ids.map(id => {
@@ -130,7 +130,7 @@ export default {
           return {
             id: id,
             ref: 'Unknown',
-            slug: undefined,
+            slug: id,
             type: 'Unknown',
             name: 'Unknown Node',
             children: [],
@@ -139,7 +139,7 @@ export default {
         return {
           id: id,
           ref: data.reference,
-          slug: data.slug,
+          slug: data.slug || data.id,
           type: data.nodetype.secondary,
           name: data.name,
           children: [],

@@ -100,8 +100,10 @@ export default {
     watch(
       () => book.slug,
       (newSlug, oldSlug) => {
+        if (oldSlug) {
+          delete shelf.slugMap[oldSlug];
+        }
         if (newSlug) {
-          shelf.slugMap[oldSlug] = undefined;
           shelf.slugMap[newSlug] = book.id;
         }
       },

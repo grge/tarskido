@@ -12,10 +12,10 @@
 import ReferenceList from '@/components/ReferenceList.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 
+import type { Node } from '@/stores/bookStore';
+
 defineProps<{
-  node: {
-    proof_lines: Array<{ statement: string; references: string[] }>;
-  };
+  node: Node;
 }>();
 </script>
 

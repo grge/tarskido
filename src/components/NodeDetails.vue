@@ -76,7 +76,7 @@
   </div>
 </template>
 <script lang="ts">
-import { useBookStore } from '@/stores/bookStore';
+import { createDefaultNode, useBookStore } from '@/stores/bookStore';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { v4 as uuidv4 } from 'uuid';
@@ -118,16 +118,7 @@ export default {
 
     function createChildNode() {
       const childId = uuidv4();
-      const child = {
-        id: childId,
-        reference: '',
-        name: '',
-        nodetype: { primary: '', secondary: '' },
-        statement: '',
-        references: [],
-        chapter: node.value.id,
-        proof_lines: [],
-      };
+      const child = createDefaultNode({ id: childId, chapter: node.value.id });
       store.upsertNode(child);
       router.push({
         name: 'NodeEdit',

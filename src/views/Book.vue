@@ -1,7 +1,7 @@
 <script lang="ts">
 import LargeTableOfContents from '@/components/LargeTableOfContents.vue';
 import ContextGraph from '@/components/ContextGraph.vue';
-import { useBookStore } from '@/stores/bookStore';
+import { createDefaultNode, useBookStore } from '@/stores/bookStore';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'vue-router';
@@ -19,18 +19,7 @@ export default {
 
     function createNewNode() {
       const nodeId = uuidv4();
-      const node = {
-        id: nodeId,
-        reference: '',
-        name: '',
-        slug: '',
-        autoslug: true,
-        nodetype: { primary: '', secondary: '' },
-        statement: '',
-        references: [],
-        chapter: '',
-        proof_lines: [],
-      };
+      const node = createDefaultNode({ id: nodeId });
       store.upsertNode(node);
       router.push({ name: 'NodeEdit', params: { bookParam: store.rawBook.id, nodeParam: nodeId } });
     }

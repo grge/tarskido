@@ -72,13 +72,17 @@ export default {
         <a class="copylink" @click="copyToEdit()">📝 Copy to Edit</a>
         <p class="remote-book-notice">This is a demo book. Create a copy to edit it.</p>
       </div>
-      <ContextGraph :contextIds="['ROOT']" />
+      <div class="book-graph">
+        <ContextGraph :contextIds="['ROOT']" />
+      </div>
       <div class="book-preface">
         <MarkdownRenderer :markdown="book.preface" />
       </div>
 
       <!-- <MdEditor v-model="book.preface" previewOnly /> -->
-      <LargeTableOfContents />
+      <div class="book-toc">
+        <LargeTableOfContents />
+      </div>
     </div>
   </div>
 </template>
@@ -89,9 +93,11 @@ export default {
 
 .book-content
   text-align left
+  padding-bottom var(--sp-12)
 
-.context-graph
-  margin-top 1.5em
+.book-graph
+  margin-top var(--sp-6)
+  margin-bottom var(--sp-12)
 
 .book-front-title
   margin-bottom 0.15em
@@ -110,6 +116,9 @@ export default {
   text-align left
   max-width 40em
   margin 0 auto
+
+.book-toc
+  margin-top var(--sp-12)
 
 p
   word-break break-word

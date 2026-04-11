@@ -36,6 +36,7 @@ body
 
 .main-content
   padding-top 60px // Account for fixed header height
+  padding-bottom var(--sp-10)
 
 h2
   margin-bottom 0.15em

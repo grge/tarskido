@@ -120,8 +120,7 @@ export default {
         if (id == rootId) return false;
         const node = nodes[id];
         return (
-          !node ||
-          ((node.chapter == 'ROOT' || !node.chapter) && node.nodetype.primary != 'Group')
+          !node || ((node.chapter == 'ROOT' || !node.chapter) && node.nodetype.primary != 'Group')
         );
       });
       return ids.map(id => {

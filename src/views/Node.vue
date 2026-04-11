@@ -38,4 +38,5 @@ export default {
 .book-content
   container-type: inline-size
   container-name: book-content
+  padding-bottom var(--sp-12)
 </style>

@@ -156,6 +156,9 @@ export default {
 .node-extra-header h2
     font-weight normal
 
+.node-extra-header + .node-body
+  margin-top var(--sp-8)
+
 @container book-content (min-width: 65em)
   .node-detail
     display grid
@@ -202,7 +205,8 @@ export default {
     display block
 
   .context-graph-wrapper
-    margin-top 2em
+    margin-top var(--sp-8)
+    margin-bottom var(--sp-12)
     grid-column 1 / span 3
 
   .node-body
@@ -236,5 +240,6 @@ export default {
     padding-top 0
 
   .context-graph-wrapper
-    margin-top 2em
+    margin-top var(--sp-8)
+    margin-bottom var(--sp-12)
 </style>

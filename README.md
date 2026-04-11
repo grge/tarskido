@@ -33,9 +33,15 @@ npm run build            # Production build
 npm run test             # Run tests
 npm run type-check       # TypeScript checking
 npm run lint             # ESLint with auto-fix
-npm run deploy           # Deploy to GitHub Pages
+npm run deploy           # Manual GitHub Pages deploy via gh-pages (usually not needed)
 node scripts/check-books.js  # Validate book content
 ```
+
+### Deployment
+
+GitHub Pages deployment is handled automatically by **GitHub Actions** on pushes to `main` (`.github/workflows/deploy.yml`).
+
+In normal use, you should not need to run `npm run deploy` manually. The manual deploy script remains available as a fallback, but the primary deployment path is the Actions workflow.
 
 ## Architecture
 

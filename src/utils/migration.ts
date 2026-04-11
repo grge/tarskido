@@ -25,8 +25,8 @@ function normalizeProofLines(proofLines: unknown): ProofLine[] {
   }));
 }
 
-function normalizeNode(node: any, book: Book): Node {
-  const normalized: Node = {
+function normalizeNode(node: any): Node {
+  return {
     id: String(node.id || ''),
     reference: typeof node.reference === 'string' ? node.reference : '',
     name: typeof node.name === 'string' ? node.name : '',
@@ -48,12 +48,6 @@ function normalizeNode(node: any, book: Book): Node {
     chapter: typeof node.chapter === 'string' && node.chapter ? node.chapter : 'ROOT',
     proof_lines: normalizeProofLines(node.proof_lines),
   };
-
-  if (!normalized.slug && normalized.autoslug && normalized.reference && normalized.nodetype?.secondary) {
-    normalized.slug = slugify(normalized, book);
-  }
-
-  return normalized;
 }
 
 export function migrateBook(raw: any): Book {
@@ -73,12 +67,16 @@ export function migrateBook(raw: any): Book {
     book.slug = book.slug || book.title?.toLowerCase().replace(/\s+/g, '-');
     book.nodes = Object.fromEntries(
       Object.entries(book.nodes || {}).map(([id, node]) => {
-        const normalized = normalizeNode({ ...(node as object), id }, book as Book);
+        const normalized = normalizeNode({ ...(node as object), id });
         return [id, normalized];
       })
     );
 
+    book.slugMap = {};
     for (const typedNode of Object.values(book.nodes) as Node[]) {
+      if (!typedNode.slug && typedNode.autoslug && typedNode.reference && typedNode.nodetype?.secondary) {
+        typedNode.slug = slugify(typedNode, book as Book);
+      }
       if (typedNode.slug) {
         book.slugMap[typedNode.slug] = typedNode.id;
       }
@@ -88,16 +86,22 @@ export function migrateBook(raw: any): Book {
   }
 
   // Final normalization pass for already-migrated but drifted books
-  book.slugMap = book.slugMap || {};
+  book.slugMap = {};
   book.nodes = Object.fromEntries(
     Object.entries(book.nodes || {}).map(([id, node]) => {
-      const normalized = normalizeNode({ ...(node as object), id }, book as Book);
-      if (normalized.slug) {
-        book.slugMap[normalized.slug] = normalized.id;
-      }
+      const normalized = normalizeNode({ ...(node as object), id });
       return [id, normalized];
     })
   );
+
+  for (const normalized of Object.values(book.nodes) as Node[]) {
+    if (!normalized.slug && normalized.autoslug && normalized.reference && normalized.nodetype?.secondary) {
+      normalized.slug = slugify(normalized, book as Book);
+    }
+    if (normalized.slug) {
+      book.slugMap[normalized.slug] = normalized.id;
+    }
+  }
 
   return book as Book;
 }

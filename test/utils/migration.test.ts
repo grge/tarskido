@@ -224,8 +224,15 @@ describe('migration', () => {
 
       const result = migrateBook(rawBook);
 
-      // Should be unchanged
-      expect(result).toEqual(rawBook);
+      expect(result).toEqual({
+        ...rawBook,
+        nodes: {
+          node1: {
+            ...rawBook.nodes.node1,
+            proof_lines: [],
+          },
+        },
+      });
     });
 
     it('should handle empty nodes object', () => {

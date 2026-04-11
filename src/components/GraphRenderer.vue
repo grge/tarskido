@@ -109,7 +109,8 @@ function edgeD(v: string, w: string) {
 }
 
 function nodeTransform(nodeId: string) {
-  const n = props.graph.node(nodeId)!;
+  const n = props.graph.node(nodeId);
+  if (!n) return 'translate(0 0)';
   const x = n.x - n.width / 2;
   const y = n.y - n.height / 2;
   const t = `translate(${x} ${y})`;

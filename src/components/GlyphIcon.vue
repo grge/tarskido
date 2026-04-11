@@ -167,12 +167,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
-
-type NodeType =
-  | { primary: 'Comment'; secondary: 'Comment' | 'Note' | 'Example' }
-  | { primary: 'Definition'; secondary: 'Definition' | 'Axiom' | 'Hypothesis' }
-  | { primary: 'Group'; secondary: 'Chapter' | 'Section' | 'Subsection' | 'MultiPart' | 'Appendix' }
-  | { primary: 'Proposition'; secondary: 'Proposition' | 'Lemma' | 'Theorem' | 'Corollary' };
+import type { NodeType } from '@/stores/bookStore';
 
 export default defineComponent({
   name: 'GlyphIcon',

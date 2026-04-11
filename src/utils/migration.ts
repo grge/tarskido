@@ -17,40 +17,50 @@ function slugify(node: Node, book: Book): string {
 
 function normalizeProofLines(proofLines: unknown): ProofLine[] {
   if (!Array.isArray(proofLines)) return [];
-  return proofLines.map((line: any) => ({
-    statement: typeof line?.statement === 'string' ? line.statement : '',
-    references: Array.isArray(line?.references)
-      ? line.references.filter((ref: unknown) => typeof ref === 'string')
-      : [],
-  }));
+  return proofLines.map((line: unknown) => {
+    const candidate =
+      typeof line === 'object' && line !== null ? (line as Record<string, unknown>) : {};
+    return {
+      statement: typeof candidate.statement === 'string' ? candidate.statement : '',
+      references: Array.isArray(candidate.references)
+        ? candidate.references.filter((ref: unknown): ref is string => typeof ref === 'string')
+        : [],
+    };
+  });
 }
 
-function normalizeNode(node: any): Node {
+function normalizeNode(node: unknown): Node {
+  const candidate =
+    typeof node === 'object' && node !== null ? (node as Record<string, unknown>) : {};
   return {
-    id: String(node.id || ''),
-    reference: typeof node.reference === 'string' ? node.reference : '',
-    name: typeof node.name === 'string' ? node.name : '',
-    slug: typeof node.slug === 'string' ? node.slug : '',
+    id: String(candidate.id || ''),
+    reference: typeof candidate.reference === 'string' ? candidate.reference : '',
+    name: typeof candidate.name === 'string' ? candidate.name : '',
+    slug: typeof candidate.slug === 'string' ? candidate.slug : '',
     autoslug:
-      typeof node.autoslug === 'boolean'
-        ? node.autoslug
-        : typeof node.autoSlug === 'boolean'
-          ? node.autoSlug
-          : true,
+      typeof candidate.autoslug === 'boolean'
+        ? candidate.autoslug
+        : typeof candidate.autoSlug === 'boolean'
+        ? candidate.autoSlug
+        : true,
     nodetype:
-      node.nodetype && typeof node.nodetype.primary === 'string' && typeof node.nodetype.secondary === 'string'
-        ? node.nodetype
+      candidate.nodetype &&
+      typeof candidate.nodetype === 'object' &&
+      typeof (candidate.nodetype as Record<string, unknown>).primary === 'string' &&
+      typeof (candidate.nodetype as Record<string, unknown>).secondary === 'string'
+        ? (candidate.nodetype as Node['nodetype'])
         : { primary: 'Definition', secondary: 'Definition' },
-    statement: typeof node.statement === 'string' ? node.statement : '',
-    references: Array.isArray(node.references)
-      ? node.references.filter((ref: unknown) => typeof ref === 'string')
+    statement: typeof candidate.statement === 'string' ? candidate.statement : '',
+    references: Array.isArray(candidate.references)
+      ? candidate.references.filter((ref: unknown): ref is string => typeof ref === 'string')
       : [],
-    chapter: typeof node.chapter === 'string' && node.chapter ? node.chapter : 'ROOT',
-    proof_lines: normalizeProofLines(node.proof_lines),
+    chapter:
+      typeof candidate.chapter === 'string' && candidate.chapter ? candidate.chapter : 'ROOT',
+    proof_lines: normalizeProofLines(candidate.proof_lines),
   };
 }
 
-export function migrateBook(raw: any): Book {
+export function migrateBook(raw: unknown): Book {
   const book = { ...raw };
   const version = book.schemaVersion || 0;
 
@@ -74,7 +84,12 @@ export function migrateBook(raw: any): Book {
 
     book.slugMap = {};
     for (const typedNode of Object.values(book.nodes) as Node[]) {
-      if (!typedNode.slug && typedNode.autoslug && typedNode.reference && typedNode.nodetype?.secondary) {
+      if (
+        !typedNode.slug &&
+        typedNode.autoslug &&
+        typedNode.reference &&
+        typedNode.nodetype?.secondary
+      ) {
         typedNode.slug = slugify(typedNode, book as Book);
       }
       if (typedNode.slug) {
@@ -95,7 +110,12 @@ export function migrateBook(raw: any): Book {
   );
 
   for (const normalized of Object.values(book.nodes) as Node[]) {
-    if (!normalized.slug && normalized.autoslug && normalized.reference && normalized.nodetype?.secondary) {
+    if (
+      !normalized.slug &&
+      normalized.autoslug &&
+      normalized.reference &&
+      normalized.nodetype?.secondary
+    ) {
       normalized.slug = slugify(normalized, book as Book);
     }
     if (normalized.slug) {

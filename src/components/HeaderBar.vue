@@ -142,7 +142,12 @@ function calculateRelevance(query: string, node: Node): { score: number; matched
 }
 
 // Fetch suggestions for autocomplete
-function fetchSuggestions(query: string, callback: (suggestions: any[]) => void) {
+type SearchSuggestion = {
+  value: string;
+  node: Node;
+};
+
+function fetchSuggestions(query: string, callback: (suggestions: SearchSuggestion[]) => void) {
   const trimmedQuery = query.trim();
   if (!trimmedQuery) {
     callback([]);
@@ -188,7 +193,7 @@ function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }
 
-function onSearchSelect(item: any) {
+function onSearchSelect(item: SearchSuggestion) {
   const node = item.node;
   const bookParam = store.rawBook.slug || store.rawBook.id;
   const nodeParam = node.slug || node.id;

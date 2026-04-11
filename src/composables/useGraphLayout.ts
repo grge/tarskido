@@ -31,7 +31,9 @@ export function useGraphLayout(
       maxX = -Infinity,
       maxY = -Infinity;
     for (const id of ids) {
-      const { x, y, width, height } = g.node(id)!;
+      const node = g.node(id);
+      if (!node) continue;
+      const { x, y, width, height } = node;
       const left = x - width / 2 - padding;
       const right = x + width / 2 + padding;
       const top = y - height / 2 - padding;
@@ -52,7 +54,8 @@ export function useGraphLayout(
       if (root) {
         const sizes: Record<string, { width: number; height: number }> = {};
         root.querySelectorAll<HTMLElement>('.measure-node').forEach(el => {
-          const id = el.dataset.id!;
+          const id = el.dataset.id;
+          if (!id) return;
           const r = el.getBoundingClientRect();
           sizes[id] = { width: r.width + nodeMargin, height: r.height };
         });

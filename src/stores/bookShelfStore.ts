@@ -1,19 +1,22 @@
 import { defineStore } from 'pinia';
+import type { Book } from './bookStore';
 import { migrateBook } from '@/utils/migration.js';
 
 const REMOTE_INDEX_URL = '/tarskido/demo-books.json';
 const REMOTE_INDEX_FALLBACK = 'https://grge.github.io/tarskido/demo-books.json';
 
+type BookMeta = {
+  id: string;
+  slug: string;
+  title: string;
+  author?: string;
+  version?: string;
+  source: 'local' | 'demo' | 'remote';
+};
+
 export const useBookShelfStore = defineStore('bookShelf', {
   state: () => ({
-    available: [] as Array<{
-      id: string;
-      slug: string;
-      title: string;
-      author?: string;
-      version?: string;
-      source: 'local' | 'demo' | 'remote';
-    }>,
+    available: [] as BookMeta[],
     slugMap: {} as Record<string, string>,
     activeBook: null as string | null,
     remoteBookUrls: {} as Record<string, string>,
@@ -55,9 +58,11 @@ export const useBookShelfStore = defineStore('bookShelf', {
       this.buildSlugMap();
     },
 
-    addOrUpdateBook(bookData: object) {
-      const book = bookData as any;
-      const meta = {
+    addOrUpdateBook(
+      bookData: Pick<Book, 'id' | 'slug' | 'title' | 'author' | 'version' | 'source'>
+    ) {
+      const book = bookData;
+      const meta: BookMeta = {
         id: book.id,
         slug: book.slug,
         title: book.title,
@@ -175,7 +180,7 @@ export const useBookShelfStore = defineStore('bookShelf', {
       }
     },
 
-    async getBookData(bookId: string): Promise<object | null> {
+    async getBookData(bookId: string): Promise<Book | null> {
       const meta = this.available.find(b => b.id === bookId);
 
       if (!meta) {
@@ -237,7 +242,7 @@ export const useBookShelfStore = defineStore('bookShelf', {
       return bookStore.rawBook;
     },
 
-    async importBookFromFile(file: File): Promise<any> {
+    async importBookFromFile(file: File): Promise<Book> {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = async () => {
@@ -258,7 +263,7 @@ export const useBookShelfStore = defineStore('bookShelf', {
       });
     },
 
-    async duplicateBook(sourceBook: any) {
+    async duplicateBook(sourceBook: Pick<BookMeta, 'id'>) {
       const { useBookStore } = await import('./bookStore');
       const bookStore = useBookStore();
       const fullBookData = await this.getBookData(sourceBook.id);
